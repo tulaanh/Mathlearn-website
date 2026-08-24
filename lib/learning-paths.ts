@@ -8,15 +8,18 @@ export async function getLearningPaths(): Promise<LearningPathData[]> {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return [];
 
-  const { data: rows, error } = await supabase
-    .from("learning_paths")
-    .select("*")
-    .order("position")
-    .order("created_at");
+  // Chạy song song 2 query thay vì nối tiếp — bớt 1 vòng mạng tới Supabase
+  const [{ data: rows, error }, chapters] = await Promise.all([
+    supabase
+      .from("learning_paths")
+      .select("*")
+      .order("position")
+      .order("created_at"),
+    getChapters(),
+  ]);
 
   if (error || !rows) return [];
 
-  const chapters = await getChapters();
   const chaptersByPathId: Record<string, typeof chapters> = {};
   for (const chapter of chapters) {
     if (!chapter.pathId) continue;
@@ -43,16 +46,14 @@ export const getLearningPathById = cache(async function getLearningPathById(id: 
   const supabase = await createServerSupabaseClient();
   if (!supabase) return null;
 
-  const { data: row, error } = await supabase
-    .from("learning_paths")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle();
+  // Query row lộ trình và chương của nó song song — tránh 2 vòng mạng nối tiếp
+  const [{ data: row, error }, chapters] = await Promise.all([
+    supabase.from("learning_paths").select("*").eq("id", id).maybeSingle(),
+    // Chỉ tải chương thuộc lộ trình này thay vì toàn bộ chương trong DB rồi lọc phía JS
+    getChapters({ pathId: id }),
+  ]);
 
   if (error || !row) return null;
-
-  // Chỉ tải chương thuộc lộ trình này thay vì toàn bộ chương trong DB rồi lọc phía JS
-  const chapters = await getChapters({ pathId: id });
 
   return {
     id: row.id,
