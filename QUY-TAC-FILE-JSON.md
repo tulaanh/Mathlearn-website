@@ -3,6 +3,8 @@
 Tài liệu này mô tả cấu trúc file JSON dùng để **nhập/xuất tài liệu** trong website. Đây là quy tắc định dạng JSON, không phải quy tắc chấm điểm.
 
 > Xem thêm **Phần 8** ở cuối tài liệu: định dạng JSON riêng cho **Ngân hàng câu hỏi**.
+>
+> Xem thêm **QUY-TAC-LATEX.md**: quy tắc viết công thức Toán (`$...$`, `$$...$$`) và import file `.tex`.
 
 ## 1. Cấu trúc cấp cao
 

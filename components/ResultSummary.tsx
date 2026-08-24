@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Quiz } from "@/lib/types";
 import { useProgress } from "@/lib/progress";
+import LazyMathText from "./LazyMathText";
 
 const letters = ["A", "B", "C", "D", "E", "F"];
 
@@ -163,7 +164,7 @@ function QuestionReview({
               <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-sm font-bold text-white dark:bg-slate-700">
                 {index + 1}
               </span>
-              {isCorrect ? "✅" : "❌"} {question.text}
+              {isCorrect ? "✅" : "❌"} <LazyMathText text={question.text} inline />
             </p>
 
             <div className="grid gap-1.5 pl-9 text-sm">
@@ -178,7 +179,7 @@ function QuestionReview({
 
                 return (
                   <div key={option.id} className={`rounded-lg border px-3 py-2 ${cls}`}>
-                    <strong>{letters[i]}.</strong> {option.text}
+                    <strong>{letters[i]}.</strong> <LazyMathText text={option.text} inline />
                     {isAnswer && <span className="ml-2">← Đáp án đúng</span>}
                     {isUserChoice && !isAnswer && (
                       <span className="ml-2">(bạn chọn)</span>
@@ -190,7 +191,8 @@ function QuestionReview({
 
             {question.explanation && (
               <p className="mt-3 rounded-xl bg-indigo-50/80 px-4 py-2.5 pl-12 text-sm text-indigo-900 dark:bg-indigo-500/10 dark:text-indigo-200">
-                💡 <strong>Giải thích:</strong> {question.explanation}
+                💡 <strong>Giải thích:</strong>{" "}
+                <LazyMathText text={question.explanation} inline />
               </p>
             )}
           </div>

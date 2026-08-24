@@ -60,9 +60,9 @@ function findEnvironment(tex: string, envName: string): Array<{content: string, 
 function latexToMarkdown(tex: string): string {
   let md = tex.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   // \section{...} -> # ...
-  md = md.replace(/\\section\*?\{(.+?)\}/g, "# $1");
+  md = md.replace(/\\section\*?\{(.+?)\}/g, "# $1\n\n");
   // \subsection{...} -> ## ...
-  md = md.replace(/\\subsection\*?\{(.+?)\}/g, "## $1");
+  md = md.replace(/\\subsection\*?\{(.+?)\}/g, "## $1\n\n");
   // \textbf{...} -> **...**
   md = md.replace(/\\textbf\{(.+?)\}/g, "**$1**");
   // \textit{...} -> *...*
@@ -73,7 +73,7 @@ function latexToMarkdown(tex: string): string {
   // \item -> *
   md = md.replace(/\\item(?:\s*\[[^\]]*\])?\s+/g, "* ");
   
-  return md.split("\n").filter(line => line.trim() !== "").join("\n");
+  return md.replace(/\n{3,}/g, "\n\n").trim();
 }
 
 function generateId(): string {
@@ -287,7 +287,7 @@ function parseEssayCmds(tex: string): QuizQuestion[] {
       id: generateId(),
       type: "essay",
       text: question.trim(),
-      points: 0,
+      points: parseFloat(pointsStr) || 1,
       explanation: cleanExplanation.trim() || undefined,
       imageCaption: imageCaption || undefined,
       imageSourceName: imageSourceName || undefined,
@@ -406,7 +406,56 @@ function extractImagesAndText(tex: string): Array<{type: "text", content: string
   return result;
 }
 
-export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPreset } | { ok: false, error: string } {
+export const SAMPLE_DOCUMENT_LATEX = `\\documentclass[12pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage{amsmath, amssymb}
+
+\\doctitle{TÍNH ĐƠN ĐIỆU CỦA HÀM SỐ}
+\\docdesc{Tóm tắt lý thuyết và bài tập về tính đơn điệu của hàm số}
+\\docgrade{Lớp 12}
+\\docstatus{draft}
+\\doctype{normal}
+\\doctopics{phuong-trinh}
+
+\\begin{lesson}{PHẦN I. TÓM TẮT LÝ THUYẾT}{Định nghĩa và tính chất cơ bản}
+\\textbf{1. Định nghĩa:} Cho hàm số $y = f(x)$ xác định trên khoảng $K$.
+\\begin{itemize}
+  \\item Hàm số $y = f(x)$ \\textbf{đồng biến} trên $K$ nếu:
+  $$\\forall x_1, x_2 \\in K, x_1 < x_2 \\Rightarrow f(x_1) < f(x_2)$$
+  \\item Hàm số $y = f(x)$ \\textbf{nghịch biến} trên $K$ nếu:
+  $$\\forall x_1, x_2 \\in K, x_1 < x_2 \\Rightarrow f(x_1) > f(x_2)$$
+\\end{itemize}
+
+\\textbf{2. Dấu hiệu đạo hàm:} Cho hàm số $y = f(x)$ có đạo hàm trên $K$.
+\\begin{itemize}
+  \\item Nếu $f'(x) > 0, \\forall x \\in K$ thì hàm số \\textbf{đồng biến} trên $K$.
+  \\item Nếu $f'(x) < 0, \\forall x \\in K$ thì hàm số \\textbf{nghịch biến} trên $K$.
+\\end{itemize}
+\\end{lesson}
+
+\\begin{quiz}{PHẦN II. BÀI TẬP VẬN DỤNG}
+\\begin{mcq}{Hàm số $y = -x^3 + 3x - 2$ đồng biến trên khoảng nào dưới đây?}{0}{1}{Ta có $y' = -3x^2 + 3 = -3(x^2 - 1)$. Cho $y' > 0 \\Leftrightarrow -1 < x < 1$.}
+  \\option{$(-1; 1)$}
+  \\option{$(-\\infty; -1)$}
+  \\option{$(1; +\\infty)$}
+  \\option{$(-\\infty; 1)$}
+\\end{mcq}
+
+\\begin{truefalse}{Xét tính đúng/sai của các khẳng định sau:}{1}{Kiểm tra tính đơn điệu qua dấu đạo hàm}
+  \\statement{true}{Hàm số $y = x^3 + 3x$ luôn đồng biến trên $\\mathbb{R}$.}
+  \\statement{false}{Hàm số $y = \\frac{1}{x}$ nghịch biến trên $\\mathbb{R}$.}
+  \\statement{true}{Đạo hàm của hàm hằng bằng 0 trên tập xác định.}
+  \\statement{false}{Hàm số bậc hai luôn đơn điệu trên $\\mathbb{R}$.}
+\\end{truefalse}
+
+\\begin{shortanswer}{Tìm điểm cực trị của hàm số $y = x^2 - 4x + 3$.}{2}{1}{Ta có $y' = 2x - 4 = 0 \\Rightarrow x = 2$.}
+\\end{shortanswer}
+
+\\essay{Tìm các khoảng đơn điệu của hàm số $y = \\frac{x + 1}{x - 1}$.}{2}{Tập xác định $D = \\mathbb{R} \\setminus \\{1\\}$. Đạo hàm $y' = \\frac{-2}{(x-1)^2} < 0, \\forall x \\neq 1$. Do đó hàm số nghịch biến trên từng khoảng $(-\\infty; 1)$ và $(1; +\\infty)$.}
+\\end{quiz}
+`;
+
+export function parseLatexToPreset(texRaw: string): { ok: true; data: EditorPreset } | { ok: false; error: string } {
   try {
     const tex = stripComments(texRaw);
 
@@ -417,43 +466,46 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
       status: "draft",
       documentType: "normal",
       selectedTopics: [],
-      blocks: []
+      blocks: [],
     };
 
     // Metadata
-    const titleMatch = tex.match(/\\doctitle\{(.+?)\}/);
+    const titleMatch = tex.match(/\\doctitle\{(.+?)\}/) || tex.match(/\\title\{(.+?)\}/);
     if (titleMatch) preset.title = titleMatch[1].trim();
 
-    const descMatch = tex.match(/\\docdesc\{(.+?)\}/);
+    const descMatch = tex.match(/\\docdesc\{(.+?)\}/) || tex.match(/\\description\{(.+?)\}/);
     if (descMatch) preset.description = descMatch[1].trim();
 
-    const gradeMatch = tex.match(/\\docgrade\{(.+?)\}/);
+    const gradeMatch = tex.match(/\\docgrade\{(.+?)\}/) || tex.match(/\\grade\{(.+?)\}/);
     if (gradeMatch) preset.grade = gradeMatch[1].trim();
 
-    const statusMatch = tex.match(/\\docstatus\{(.+?)\}/);
+    const statusMatch = tex.match(/\\docstatus\{(.+?)\}/) || tex.match(/\\status\{(.+?)\}/);
     if (statusMatch && ["draft", "published"].includes(statusMatch[1].trim())) {
       preset.status = statusMatch[1].trim() as any;
     }
 
-    const typeMatch = tex.match(/\\doctype\{(.+?)\}/);
+    const typeMatch = tex.match(/\\doctype\{(.+?)\}/) || tex.match(/\\type\{(.+?)\}/);
     if (typeMatch && ["normal", "test"].includes(typeMatch[1].trim())) {
       preset.documentType = typeMatch[1].trim() as any;
     }
 
-    const topicsMatch = tex.match(/\\doctopics\{(.+?)\}/);
+    const topicsMatch = tex.match(/\\doctopics\{(.+?)\}/) || tex.match(/\\topics\{(.+?)\}/);
     if (topicsMatch) {
       const validTopics = ["hang-dang-thuc", "phan-tich-da-thuc", "phan-thuc-dai-so", "phuong-trinh", "tam-giac-vuong"];
-      preset.selectedTopics = topicsMatch[1].split(",").map(t => t.trim()).filter(t => validTopics.includes(t));
+      preset.selectedTopics = topicsMatch[1]
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => validTopics.includes(t));
     }
 
     // Blocks
-    const items: Array<{pos: number, type: string, data: any}> = [];
-    const envRanges: Array<{start: number, end: number}> = [];
+    const items: Array<{ pos: number; type: string; data: any }> = [];
+    const envRanges: Array<{ start: number; end: number }> = [];
 
-    const addEnvs = (envs: Array<{content: string, start: number, end: number}>, type: string) => {
+    const addEnvs = (envs: Array<{ content: string; start: number; end: number }>, type: string) => {
       for (const env of envs) {
-        items.push({pos: env.start, type, data: env.content});
-        envRanges.push({start: env.start, end: env.end});
+        items.push({ pos: env.start, type, data: env.content });
+        envRanges.push({ start: env.start, end: env.end });
       }
     };
 
@@ -464,14 +516,20 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
     const imgRegex = /\\image\{/g;
     let match;
     while ((match = imgRegex.exec(tex)) !== null) {
-      const isInsideEnv = envRanges.some(r => match!.index >= r.start && match!.index <= r.end);
+      const isInsideEnv = envRanges.some((r) => match!.index >= r.start && match!.index <= r.end);
       if (isInsideEnv) continue; // Bỏ qua vì sẽ được xử lý bên trong extractImagesAndText
 
       let pos = match.index + "\\image".length;
-      const [scale, p1] = extractBracedArg(tex, pos); pos = p1;
-      const [caption, p2] = extractBracedArg(tex, pos); pos = p2;
+      const [scale, p1] = extractBracedArg(tex, pos);
+      pos = p1;
+      const [caption, p2] = extractBracedArg(tex, pos);
+      pos = p2;
       const [path] = extractBracedArg(tex, pos);
-      items.push({pos: match.index, type: "image", data: {scale: scale.trim(), caption: caption.trim(), path: path.trim()}});
+      items.push({
+        pos: match.index,
+        type: "image",
+        data: { scale: scale.trim(), caption: caption.trim(), path: path.trim() },
+      });
     }
 
     items.sort((a, b) => a.pos - b.pos);
@@ -491,33 +549,47 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
               caption: part.caption,
               file: null,
               storagePath: undefined,
-              sourceName: basename(part.path) || undefined
+              sourceName: basename(part.path) || undefined,
             });
           }
         }
       } else if (item.type === "lesson") {
         let pos = 0;
         while (pos < item.data.length && /\s/.test(item.data[pos])) pos++;
-        const [title, p1] = extractBracedArg(item.data, pos); pos = p1;
-        const [desc, p2] = extractBracedArg(item.data, pos); pos = p2;
+        const [title, p1] = extractBracedArg(item.data, pos);
+        pos = p1;
+        const [desc, p2] = extractBracedArg(item.data, pos);
+        pos = p2;
         const content = item.data.slice(pos).trim();
-        
+
         if (title.trim() && content) {
           const parts = extractImagesAndText(content);
           let lessonCreated = false;
-          
+
           for (const part of parts) {
             if (part.type === "text") {
               const md = latexToMarkdown(part.content.trim());
               if (!lessonCreated) {
-                preset.blocks.push({ keyId: generateId(), type: "lesson", title: title.trim(), description: desc.trim(), content: md });
+                preset.blocks.push({
+                  keyId: generateId(),
+                  type: "lesson",
+                  title: title.trim(),
+                  description: desc.trim(),
+                  content: md,
+                });
                 lessonCreated = true;
               } else if (md) {
                 preset.blocks.push({ keyId: generateId(), type: "text", content: md });
               }
             } else if (part.type === "image") {
               if (!lessonCreated) {
-                preset.blocks.push({ keyId: generateId(), type: "lesson", title: title.trim(), description: desc.trim(), content: "" });
+                preset.blocks.push({
+                  keyId: generateId(),
+                  type: "lesson",
+                  title: title.trim(),
+                  description: desc.trim(),
+                  content: "",
+                });
                 lessonCreated = true;
               }
               preset.blocks.push({
@@ -527,7 +599,7 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
                 caption: part.caption,
                 file: null,
                 storagePath: undefined,
-                sourceName: basename(part.path) || undefined
+                sourceName: basename(part.path) || undefined,
               });
             }
           }
@@ -540,7 +612,7 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
           caption: item.data.caption,
           file: null,
           storagePath: undefined,
-          sourceName: basename(item.data.path) || undefined
+          sourceName: basename(item.data.path) || undefined,
         });
       } else if (item.type === "quiz") {
         const block = parseQuizBlock(item.data);
@@ -548,8 +620,47 @@ export function parseLatexToPreset(texRaw: string): { ok: true, data: EditorPres
       }
     }
 
-    if (!preset.title) return { ok: false, error: "Thiếu tiêu đề tài liệu (\\doctitle)" };
-    if (preset.blocks.length === 0) return { ok: false, error: "Không tìm thấy nội dung hợp lệ nào." };
+    // Dự phòng: nếu không tìm thấy khối đặc thù nào (textblock, lesson, quiz), đọc nội dung văn bản trong document
+    if (preset.blocks.length === 0) {
+      let bodyContent = tex;
+      const docEnv = findEnvironment(tex, "document");
+      if (docEnv.length > 0) {
+        bodyContent = docEnv[0].content;
+      }
+      // Lọc bỏ các dòng khai báo metadata và header
+      bodyContent = bodyContent
+        .replace(/\\(doctitle|title|docdesc|description|docgrade|grade|docstatus|status|doctype|type|doctopics|topics)\{[^}]*\}/g, "")
+        .replace(/\\(documentclass|usepackage|newenvironment|newcommand|setboolean|newboolean)\b[^\n]*/g, "")
+        .trim();
+
+      if (bodyContent) {
+        const parts = extractImagesAndText(bodyContent);
+        for (const part of parts) {
+          if (part.type === "text") {
+            const md = latexToMarkdown(part.content);
+            if (md) preset.blocks.push({ keyId: generateId(), type: "text", content: md });
+          } else if (part.type === "image") {
+            preset.blocks.push({
+              keyId: generateId(),
+              type: "image",
+              altText: part.caption || "Hình ảnh",
+              caption: part.caption,
+              file: null,
+              storagePath: undefined,
+              sourceName: basename(part.path) || undefined,
+            });
+          }
+        }
+      }
+    }
+
+    if (!preset.title) {
+      preset.title = "Tài liệu Toán (LaTeX)";
+    }
+
+    if (preset.blocks.length === 0) {
+      return { ok: false, error: "Không tìm thấy nội dung hợp lệ nào trong file hoặc mã LaTeX." };
+    }
 
     return { ok: true, data: preset };
   } catch (err: any) {

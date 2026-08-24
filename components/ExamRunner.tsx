@@ -612,7 +612,11 @@ const ExamQuestionCard = memo(function ExamQuestionCard({
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-950 dark:text-white"
             onCommit={(v) => onAnswer(question.id, v)}
           />
-          {locked && <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Đáp án: {question.correctAnswer}</p>}
+          {locked && (
+            <p className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+              <span>Đáp án:</span> {question.correctAnswer && <LazyMathText text={question.correctAnswer} inline />}
+            </p>
+          )}
         </div>
       )}
 

@@ -1,5 +1,6 @@
 import { memo } from "react";
 import type { Quiz } from "@/lib/types";
+import LazyMathText from "./LazyMathText";
 
 const letters = ["A", "B", "C", "D", "E", "F"];
 
@@ -21,7 +22,7 @@ const QuestionCard = memo(function QuestionCard({
         <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
           {index + 1}
         </span>
-        {question.text}
+        <LazyMathText text={question.text} inline />
       </p>
 
       <div className="grid gap-2.5">
@@ -47,7 +48,9 @@ const QuestionCard = memo(function QuestionCard({
               <span className={`font-semibold transition-colors ${isSelected ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400"}`}>
                 {letters[i]}.
               </span>
-              <span>{option.text}</span>
+              <span>
+                <LazyMathText text={option.text} inline />
+              </span>
             </label>
           );
         })}

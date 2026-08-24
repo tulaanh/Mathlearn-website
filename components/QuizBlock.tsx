@@ -179,7 +179,7 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
                 <span className="text-slate-500">
                   <span className="font-bold text-red-600">✗ Chưa đúng.</span> Đáp án chính xác là:{" "}
                   <span className="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-800 dark:text-slate-200">
-                    {q.correctAnswer}
+                    {q.correctAnswer && <LazyMathText text={q.correctAnswer} inline />}
                   </span>
                 </span>
               )}
