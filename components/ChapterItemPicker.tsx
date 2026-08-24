@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DocumentItem {
   id: string;
@@ -36,6 +36,13 @@ export default function ChapterItemPicker({
 }: ChapterItemPickerProps) {
   const [activeTab, setActiveTab] = useState<"document" | "quiz">("document");
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    if (open) {
+      setSearchQuery("");
+      setActiveTab("document");
+    }
+  }, [open]);
 
   if (!open) return null;
 

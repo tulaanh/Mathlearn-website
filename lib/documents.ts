@@ -233,12 +233,22 @@ async function loadDocumentCards(
 
   const result = await query(supabase, DOC_CARD_COLUMNS);
   if (!result) return { items: [], total: 0 };
+  if (!result.builder) {
+    console.error(
+      "[documents] loadDocumentCards: query factory phải trả về { builder }, không được trả PostgrestBuilder trần (await sẽ thực thi query và mất .range).",
+    );
+    return { items: [], total: 0 };
+  }
+  const { builder } = result;
 
   const rowsResponse: any = usePaging
-    ? await result.builder.range(from, from + pageSize - 1)
-    : await result.builder;
+    ? await builder.range(from, from + pageSize - 1)
+    : await builder;
   const rows: any[] = rowsResponse?.data ?? [];
-  if (rowsResponse?.error) return { items: [], total: 0 };
+  if (rowsResponse?.error) {
+    console.error("[documents] loadDocumentCards query failed:", rowsResponse.error);
+    return { items: [], total: 0 };
+  }
   const total: number = rowsResponse?.count ?? rows.length;
   if (rows.length === 0) return { items: [], total };
 
@@ -352,8 +362,9 @@ export async function getAllTeacherDocumentCards(): Promise<DocumentCardData[]> 
   const { supabase, profile } = await getCurrentUser();
   if (!supabase || profile?.role !== "teacher") return [];
   const result = await loadDocumentCards(
-    (client: any, columns: string, options?: Record<string, any>) =>
-      client.from("documents").select(columns, options).order("updated_at", { ascending: false }),
+    (client: any, columns: string): DocQueryResult => ({
+      builder: client.from("documents").select(columns).order("updated_at", { ascending: false }),
+    }),
     false,
   );
   return result.items;
