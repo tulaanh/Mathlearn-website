@@ -3,32 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useProfile } from "./ProfileProvider";
-
-const navItems = [
-  { href: "/", label: "Tổng quan", icon: "⌂" },
-  { href: "/lo-trinh", label: "Lộ trình học", icon: "▤" },
-  { href: "/quiz", label: "Bài kiểm tra", icon: "✓" },
-];
+import { getNavItems, isNavActive } from "@/lib/nav";
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { profile } = useProfile();
-  const items = profile?.role === "teacher"
-    ? [
-        ...navItems,
-        { href: "/tai-lieu", label: "Thư viện tài liệu", icon: "▧" },
-        { href: "/quan-ly/lo-trinh", label: "Quản lý lộ trình", icon: "🧭" },
-        { href: "/quan-ly/chuong", label: "Quản lý chương", icon: "📑" },
-        { href: "/quan-ly/tai-lieu", label: "Quản lý tài liệu", icon: "✎" },
-        { href: "/quan-ly/ngan-hang-cau-hoi", label: "Ngân hàng câu hỏi", icon: "🏦" },
-      ]
-    : navItems;
+  const items = getNavItems(profile?.role);
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-slate-200/80 bg-white px-4 py-6 print:!hidden md:block dark:border-slate-800/80 dark:bg-[#0d1322]">
       <nav aria-label="Điều hướng chính" className="space-y-2">
-        {items.map((item) => {
-          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+          {items.map((item) => {
+            const active = isNavActive(pathname, item.href);
           return (
             <Link
               key={item.href}
