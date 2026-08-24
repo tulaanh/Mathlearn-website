@@ -1,0 +1,169 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true} % Đổi thành false để ẩn đáp án khi in PDF cho học sinh
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1\par}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1\par}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1\par}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1\par}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1\par}
+
+\newenvironment{textblock}{\vspace{1em}}{\par}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\par\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}\par
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4\par
+	}{}
+}
+
+\newenvironment{shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4\par
+	}{}
+}{}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3\par
+	}{}
+}
+
+% =============================================================================
+
+\begin{document}
+
+	\doctitle{BÀI KIỂM TRA: TÍNH ĐƠN ĐIỆU CỦA HÀM SỐ}
+	\docdesc{Mẫu bài kiểm tra gồm đủ 4 loại câu hỏi — dùng làm khuôn khi soạn đề kiểm tra qua tính năng nhập LaTeX.}
+	\docgrade{Lớp 12}
+	\docstatus{draft}
+	\doctype{test}
+	\doctopics{tinh-don-dieu-cua-ham-so}
+
+	% ─── KHỐI HƯỚNG DẪN LÀM BÀI (text block) ────────────────────────────────────
+	\begin{textblock}
+		\textbf{Hướng dẫn làm bài:}
+		\begin{itemize}
+			\item Đề gồm 4 phần: trắc nghiệm nhiều phương án, đúng/sai, trả lời ngắn và tự luận.
+			\item Các câu trắc nghiệm, đúng/sai, trả lời ngắn được hệ thống chấm tự động theo thang điểm 10.
+			\item Câu tự luận không chấm tự động; sau khi nộp bài hệ thống chỉ hiển thị gợi ý lời giải.
+		\end{itemize}
+	\end{textblock}
+
+	% ─── KHỐI CÂU HỎI (quiz block) ──────────────────────────────────────────────
+	% Cú pháp trắc nghiệm: \begin{mcq}{Câu hỏi}{Chỉ số đáp án đúng (tính từ 0)}{Điểm}{Giải thích}
+	% Cú pháp đúng/sai:   \begin{truefalse}{Đề bài}{Điểm}{Giải thích} kèm các \statement{true/false}{Mệnh đề}
+	% Cú pháp trả lời ngắn: \begin{shortanswer}{Câu hỏi}{Đáp án}{Điểm}{Giải thích}\end{shortanswer}
+	%   (dạng lệnh \shortanswer{Câu hỏi}{Đáp án}{Điểm}{Giải thích} vẫn được chấp nhận) — đáp án nên là chuỗi ngắn, dễ gõ (VD: 12)
+	% Cú pháp tự luận:    \essay{Câu hỏi}{Điểm}{Gợi ý} — hệ thống luôn lưu câu tự luận với 0 điểm (không chấm tự động)
+	% Chèn hình vào đề:   đặt \image{0.7}{Chú thích ảnh}{ten_file.png} bên trong cặp ngoặc {Câu hỏi} (dùng cho
+	% các câu có bảng xét dấu, đồ thị kèm hình). Ảnh để dạng comment trong mẫu này để file nhập được mà
+	% không bắt buộc chọn file ảnh kèm theo.
+
+	\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+		\begin{mcq}{Cho hàm số $y = \frac{x^3}{3} - x^2 + x$. Mệnh đề nào sau đây là đúng?}{0}{1}{Ta có $y' = x^2 - 2x + 1 = (x-1)^2 \ge 0, \forall x \in \mathbb{R}$ và $y' = 0$ chỉ tại $x = 1$. Do đó hàm số đồng biến trên $\mathbb{R}$.}
+			\option{Hàm số đã cho đồng biến trên $\mathbb{R}$.}
+			\option{Hàm số đã cho nghịch biến trên $(-\infty; 1)$.}
+			\option{Hàm số đã cho đồng biến trên $(1; +\infty)$ và nghịch biến trên $(-\infty; 1)$.}
+			\option{Hàm số đã cho đồng biến trên $(-\infty; 1)$ và nghịch biến trên $(1; +\infty)$.}
+		\end{mcq}
+
+		\begin{mcq}{Hàm số nào sau đây nghịch biến trên toàn trục số?}{1}{1}{Xét hàm số $y = -x^3 + 3x^2 - 3x + 2$, có $y' = -3x^2 + 6x - 3 = -3(x-1)^2 \le 0, \forall x \in \mathbb{R}$ và $y' = 0$ chỉ tại $x = 1$. Do đó hàm số nghịch biến trên $\mathbb{R}$.}
+			\option{$y = x^3 - 3x^2$}
+			\option{$y = -x^3 + 3x^2 - 3x + 2$}
+			\option{$y = -x^3 + 3x + 1$}
+			\option{$y = x^3$}
+		\end{mcq}
+
+	\end{quiz}
+
+	\begin{quiz}{Phần 2. Câu hỏi đúng sai}
+
+		\begin{truefalse}{Cho hàm số $y = x^3 + 3x + 2$. Xét tính đúng/sai của các mệnh đề sau.}{1}{Ta có $y' = 3x^2 + 3 > 0, \forall x \in \mathbb{R}$, do đó hàm số luôn đồng biến trên $\mathbb{R}$, tức đồ thị luôn đi lên từ trái sang phải.}
+			\statement{false}{Hàm số đã cho nghịch biến trên khoảng $(-\infty; 0)$.}
+			\statement{true}{Hàm số đã cho đồng biến trên khoảng $(-\infty; +\infty)$.}
+			\statement{false}{Đạo hàm của hàm số đã cho là $y' = 3x^2$.}
+			\statement{true}{Đồ thị hàm số đã cho luôn đi lên từ trái sang phải.}
+		\end{truefalse}
+
+	\end{quiz}
+
+	\begin{quiz}{Phần 3. Câu trả lời ngắn}
+
+		\begin{shortanswer}{Cho hàm số $y = x^3$. Tính giá trị của đạo hàm tại $x = 2$.}{12}{1}{Ta có $y' = 3x^2$, suy ra $y'(2) = 3 \cdot 2^2 = 12$.}\end{shortanswer}
+
+		\shortanswer{Cho hàm số $y = \frac{x-2}{x+1}$. Tính giá trị của đạo hàm tại $x = 0$.}{3}{1}{Ta có $y' = \frac{3}{(x+1)^2}$, suy ra $y'(0) = 3$.}
+
+	\end{quiz}
+
+	\begin{quiz}{Phần 4. Câu tự luận}
+
+		\essay{Chứng minh rằng hàm số $y = 2x - \cos x - 5$ đồng biến trên $\mathbb{R}$.}{0}{Ta có $y' = 2 + \sin x$. Vì $-1 \le \sin x \le 1$ nên $y' \ge 1 > 0, \forall x \in \mathbb{R}$. Suy ra hàm số đồng biến trên $\mathbb{R}$.}
+
+	\end{quiz}
+
+\end{document}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "title": "Mẫu tài liệu: Định lí Pythagore",
+  "description": "Tài liệu mẫu gồm đủ 4 loại khối — dùng làm khuôn khi soạn tài liệu mới qua tính năng nhập JSON.",
+  "grade": "Lớp 8",
+  "status": "draft",
+  "documentType": "normal",
+  "topicIds": ["tam-giac-vuong", "phuong-trinh"],
+  "blocks": [
+    {
+      "type": "text",
+      "content": "Khởi động: Tam giác ABC vuông tại A có $AB = 3$cm, $AC = 4$cm. Hãy dự đoán độ dài cạnh $BC$.\nGợi ý: dùng định lí Pythagore $BC^2 = AB^2 + AC^2$."
+    },
+    {
+      "type": "image",
+      "altText": "Hình tam giác ABC vuông tại A minh họa định lí Pythagore",
+      "caption": "Hình 1: Tam giác vuông ABC với cạnh huyền BC"
+    },
+    {
+      "type": "lesson",
+      "title": "Phát biểu định lí Pythagore",
+      "description": "Nội dung lý thuyết trọng tâm.",
+      "content": "## Định lí\nTrong một tam giác vuông, bình phương độ dài cạnh huyền bằng tổng bình phương độ dài hai cạnh góc vuông:\n$$BC^2 = AB^2 + AC^2$$\n\n## Ví dụ\nVới $AB = 3$, $AC = 4$ ta có: $BC = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$ (cm)."
+    },
+    {
+      "type": "quiz",
+      "title": "Kiểm tra nhanh",
+      "description": "Luyện tập củng cố kiến thức với các dạng câu hỏi khác nhau.",
+      "questions": [
+        {
+          "type": "multiple_choice",
+          "text": "Tam giác ABC vuông tại A, $AB = 6$ và $AC = 8$. Độ dài cạnh $BC$ là:",
+          "options": ["10", "12", "14", "48"],
+          "correctIndex": 0,
+          "explanation": "$BC = \\sqrt{6^2 + 8^2} = \\sqrt{100} = 10$."
+        },
+        {
+          "type": "true_false",
+          "text": "Xét các phát biểu về tam giác vuông.",
+          "statements": [
+            { "text": "Trong tam giác vuông, cạnh huyền là cạnh lớn nhất.", "correct": true },
+            { "text": "Cạnh huyền luôn là cạnh ngắn nhất.", "correct": false }
+          ],
+          "explanation": "Cạnh huyền đối diện với góc vuông nên là cạnh lớn nhất trong tam giác vuông."
+        },
+        {
+          "type": "short_answer",
+          "text": "Cho tam giác vuông có hai cạnh góc vuông lần lượt là 5 cm và 12 cm. Tính độ dài cạnh huyền (cm).",
+          "correctAnswer": "13",
+          "explanation": "Độ dài cạnh huyền là $\\sqrt{5^2 + 12^2} = 13$ cm."
+        },
+        {
+          "type": "essay",
+          "text": "Chứng minh rằng nếu một tam giác có bình phương của một cạnh bằng tổng bình phương của hai cạnh kia thì tam giác đó là tam giác vuông.",
+          "explanation": "Đây chính là Định lí Pythagore đảo. Chứng minh bằng cách dựng một tam giác vuông mới có hai cạnh góc vuông bằng hai cạnh của tam giác đã cho, rồi chứng minh hai tam giác đó bằng nhau (cạnh-cạnh-cạnh) để suy ra góc tương ứng là góc vuông."
+        }
+      ]
+    }
+  ]
+}

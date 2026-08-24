@@ -1,0 +1,135 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true} % Đổi thành false để ẩn đáp án khi in PDF cho học sinh
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1\par}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1\par}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1\par}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1\par}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1\par}
+
+\newenvironment{textblock}{\vspace{1em}}{\par}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\par\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}\par
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4\par
+	}{}
+}
+
+\newenvironment{shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4\par
+	}{}
+}{}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3\par
+	}{}
+}
+
+% =============================================================================
+
+\begin{document}
+	
+	\doctitle{TÍNH ĐƠN ĐIỆU CỦA HÀM SỐ}
+	\docdesc{Tóm tắt lý thuyết về tính đơn điệu của hàm số}
+	\docgrade{Lớp 12}
+	\docstatus{draft}
+	\doctype{theory}
+	\doctopics{tinh-don-dieu-cua-ham-so}
+	
+	\begin{lesson}{PHẦN I. TÓM TẮT LÝ THUYẾT}{}
+		
+		\textbf{1. Định nghĩa:} Cho hàm số $y = f(x)$ xác định trên $K$ ($K$ là khoảng, đoạn hoặc nửa khoảng).
+		\begin{itemize}
+			\item Hàm số $y = f(x)$ được gọi là \textbf{đồng biến (tăng)} trên $K$ nếu 
+			$$\forall x_1, x_2 \in K, x_1 < x_2 \Rightarrow f(x_1) < f(x_2).$$
+			\item Hàm số $y = f(x)$ được gọi là \textbf{nghịch biến (giảm)} trên $K$ nếu 
+			$$\forall x_1, x_2 \in K, x_1 < x_2 \Rightarrow f(x_1) > f(x_2).$$
+		\end{itemize}
+		
+		\textbf{Chú ý.}
+		\begin{itemize}
+			\item Nếu hàm số \textbf{đồng biến} trên $K$ thì đồ thị của hàm số \textbf{đi lên} từ trái sang phải (Hình 1).
+			\item Nếu hàm số \textbf{nghịch biến} trên $K$ thì đồ thị của hàm số \textbf{đi xuống} từ trái sang phải (Hình 2).
+			% ─── KHỐI HÌNH ẢNH (image block) ─────────────────────────────────────────────
+			% Cú pháp: \image{tỉ lệ kích cỡ (VD: 0.5, 0.7...)}{caption}{đường dẫn file ảnh}
+			\image{0.7}{Hình 1: Đồ thị hàm số đồng biến}{do_thi_don_dieu.png}
+			\item Hàm số đồng biến hoặc nghịch biến trên $K$ gọi chung là \textbf{\textit{đơn điệu}} trên $K$. Việc tìm các khoảng đồng biến, nghịch biến của hàm số còn được gọi là tìm các khoảng đơn điệu (hay xét tính đơn điệu) của hàm số.
+			\item Khi xét tính đơn điệu của hàm số mà không chỉ rõ tập $K$ thì ta hiểu là xét trên tập xác định của hàm số đó.
+		\end{itemize}
+		
+		\textbf{2. Liên hệ giữa đạo hàm và tính đơn điệu:} Cho hàm số $y = f(x)$ có đạo hàm trên $K$.
+		\begin{itemize}
+			\item Nếu $f'(x) > 0, \forall x \in K$ thì hàm số $f(x)$ \textbf{đồng biến} trên $K$.
+			\item Nếu $f'(x) < 0, \forall x \in K$ thì hàm số $f(x)$ \textbf{nghịch biến} trên $K$.
+			\item Nếu $f'(x) = 0, \forall x \in K$ thì hàm số $f(x)$ \textbf{không đổi} trên $K$ hoặc $f(x)$ là \textbf{hàm hằng} trên $K$.
+		\end{itemize}
+	\end{lesson}
+	
+\end{document}

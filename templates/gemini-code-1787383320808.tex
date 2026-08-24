@@ -1,0 +1,355 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+
+% --- DINH NGHIA CAC LENH AO CHO CONG CU LATEX2JSON ---
+\newcommand{\doctitle}{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}{\textbf{Mo ta:} #1\par}
+\newcommand{\docgrade}{\textbf{Lop:} #1\par}
+\newcommand{\docstatus}{\textbf{Trang thai:} #1\par}
+\newcommand{\doctype}{\textbf{Loai:} #1\par}
+\newcommand{\doctopics}{\textbf{Chu de:} #1\par}
+
+\newenvironment{textblock}{\vspace{1em}}{\par}
+\newenvironment{lesson}[2]{\vspace{1em}\noindent\textbf{\Large Bai giang: #1}\\\textit{#2}\par}{}
+
+\newcommand{\image}[3]{
+    \begin{center}
+        \fbox{Hinh anh: \detokenize{#3} (Alt: #1)} \\
+        \textit{#2}
+    \end{center}
+}
+
+\newenvironment{quiz}{\vspace{1em}\noindent\textbf{\Large Kiem tra: #1}\par}{}
+
+\newenvironment{mcq}[4]{
+    \vspace{1em}\noindent\textbf{Cau hoi:} #1 \\
+    \textit{(Dap an dung: #2, Diem: #3) - Giai thich: #4}
+    \begin{itemize}
+}{
+    \end{itemize}
+}
+\newcommand{\option}{\item #1}
+
+\newenvironment{truefalse}[3]{
+    \vspace{1em}\noindent\textbf{Dung/Sai:} #1 \\
+    \textit{(Diem: #2) - Giai thich: #3}
+    \begin{itemize}
+}{
+    \end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Tra loi ngan:} #1 \\
+    \textit{Dap an: #2 (Diem: #3) - Giai thich: #4}\par
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tu luan:} #1 \\
+    \textit{Diem: #2 - Goi y: #3}\par
+}
+
+\begin{document}
+
+\doctitle{Chủ đề 01: Tính đơn điệu của hàm số}
+\docdesc{Tài liệu tóm tắt lý thuyết, phương pháp giải các dạng toán trọng tâm và hệ thống bài tập trắc nghiệm tính đơn điệu của hàm số Toán 12 chương trình mới.}
+\docgrade{Lớp 12}
+\docstatus{published}
+\doctype{lesson}
+\doctopics{tinh-don-dieu-ham-so}
+
+\begin{textblock}
+\section*{Tổng quan chủ đề}
+Chủ đề cung cấp toàn bộ kiến thức về tính đơn điệu (đồng biến, nghịch biến) của hàm số theo chương trình SGK mới Toán 12: định nghĩa, mối liên hệ giữa đạo hàm và tính đơn điệu, các bước khảo sát tính đơn điệu, phân loại 4 dạng toán trọng tâm và hệ thống bài tập trắc nghiệm kèm lời giải chi tiết.
+\end{textblock}
+
+\begin{lesson}{Tóm tắt lý thuyết trọng tâm}{Định nghĩa, định lý và quy tắc xét tính đơn điệu}
+\subsection{1. Định nghĩa}
+Cho hàm số $y = f(x)$ xác định trên $K$ ($K$ là một khoảng, đoạn hoặc nửa khoảng):
+\begin{itemize}
+    \item Hàm số $y = f(x)$ được gọi là \textbf{đồng biến (tăng)} trên $K$ nếu:
+    $$\forall x_1, x_2 \in K, x_1 < x_2 \Rightarrow f(x_1) < f(x_2).$$
+    \item Hàm số $y = f(x)$ được gọi là \textbf{nghịch biến (giảm)} trên $K$ nếu:
+    $$\forall x_1, x_2 \in K, x_1 < x_2 \Rightarrow f(x_1) > f(x_2).$$
+\end{itemize}
+
+\textbf{Chú ý:}
+\begin{itemize}
+    \item Nếu hàm số đồng biến trên $K$ thì đồ thị đi lên từ trái sang phải.
+    \item Nếu hàm số nghịch biến trên $K$ thì đồ thị đi xuống từ trái sang phải.
+    \item Hàm số đồng biến hoặc nghịch biến trên $K$ gọi chung là \textbf{đơn điệu} trên $K$.
+    \item Khi xét tính đơn điệu mà không chỉ rõ tập $K$ thì ngầm hiểu là xét trên toàn bộ tập xác định của hàm số đó.
+\end{itemize}
+
+\subsection{2. Liên hệ giữa đạo hàm và tính đơn điệu}
+Cho hàm số $y = f(x)$ có đạo hàm trên $K$:
+\begin{itemize}
+    \item Nếu $f'(x) > 0, \forall x \in K$ thì hàm số $f(x)$ đồng biến trên $K$.
+    \item Nếu $f'(x) < 0, \forall x \in K$ thì hàm số $f(x)$ nghịch biến trên $K$.
+    \item Nếu $f'(x) = 0, \forall x \in K$ thì hàm số $f(x)$ không đổi trên $K$.
+\end{itemize}
+
+\textbf{Định lý mở rộng:}
+\begin{itemize}
+    \item Nếu hàm số $y = f(x)$ có đạo hàm trên $K$, $f'(x) \ge 0, \forall x \in K$ và $f'(x) = 0$ chỉ tại một số hữu hạn điểm thuộc $K$ thì hàm số đồng biến trên $K$.
+    \item Nếu hàm số $y = f(x)$ có đạo hàm trên $K$, $f'(x) \le 0, \forall x \in K$ và $f'(x) = 0$ chỉ tại một số hữu hạn điểm thuộc $K$ thì hàm số nghịch biến trên $K$.
+\end{itemize}
+
+\subsection{3. Các bước xét tính đơn điệu của hàm số}
+\begin{itemize}
+    \item \textbf{Bước 1:} Tìm tập xác định $D$ của hàm số.
+    \item \textbf{Bước 2:} Tính đạo hàm $f'(x)$. Tìm các điểm $x_i$ ($i = 1, 2, \dots$) mà tại đó đạo hàm bằng $0$ hoặc không tồn tại.
+    \item \textbf{Bước 3:} Sắp xếp các điểm $x_i$ theo thứ tự tăng dần, xét dấu $f'(x)$ và lập bảng biến thiên.
+    \item \textbf{Bước 4:} Nêu kết luận về các khoảng đồng biến, nghịch biến của hàm số.
+\end{itemize}
+\end{lesson}
+
+\begin{lesson}{Phương pháp giải các dạng toán trọng tâm}{4 Dạng toán cốt lõi}
+\subsection{Dạng 1: Xác định khoảng đơn điệu của hàm số cho bởi công thức}
+Thực hiện đầy đủ 4 bước xét tính đơn điệu.
+\begin{itemize}
+    \item \textbf{Quy tắc xét dấu qua nghiệm bội:} $f'(x)$ không đổi dấu khi qua nghiệm kép (nghiệm bội chẵn) và đổi dấu khi qua nghiệm đơn (nghiệm bội lẻ).
+\end{itemize}
+
+\subsection{Dạng 2: Tìm khoảng đơn điệu dựa vào bảng biến thiên hoặc đồ thị}
+\begin{itemize}
+    \item \textbf{Đồ thị $y = f(x)$:} Khoảng đồ thị đi lên từ trái sang phải $\Rightarrow$ hàm số đồng biến; khoảng đồ thị đi xuống từ trái sang phải $\Rightarrow$ hàm số nghịch biến.
+    \item \textbf{Đồ thị $y = f'(x)$:} Phần đồ thị phía trên trục hoành ($f'(x) > 0$) $\Rightarrow$ hàm số đồng biến; phần đồ thị phía dưới trục hoành ($f'(x) < 0$) $\Rightarrow$ hàm số nghịch biến.
+    \item \textbf{Bảng xét dấu / Bảng biến thiên:} Dấu $+$ tương ứng với khoảng đồng biến, dấu $-$ tương ứng với khoảng nghịch biến.
+\end{itemize}
+
+\subsection{Dạng 3: Tìm khoảng đơn điệu khi biết biểu thức đạo hàm $f'(x)$}
+\begin{itemize}
+    \item Tìm nghiệm của $f'(x) = 0$, lập bảng xét dấu $f'(x)$ và rút ra kết luận.
+    \item Hoặc giải trực tiếp bất phương trình $f'(x) \ge 0$ (đồng biến) hoặc $f'(x) \le 0$ (nghịch biến).
+\end{itemize}
+
+\subsection{Dạng 4: Ứng dụng thực tế của tính đơn điệu}
+\begin{itemize}
+    \item Thiết lập hàm số mô tả đại lượng cần khảo sát theo biến thời gian hoặc đại lượng thực tế.
+    \item Lấy đạo hàm, xét dấu đạo hàm để tìm khoảng thời gian tăng/giảm hoặc xác định thời điểm đại lượng đạt tốc độ lớn nhất.
+\end{itemize}
+\end{lesson}
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có bảng xét dấu của đạo hàm: $f'(x) > 0$ trên $(-\infty; -1)$ và $(3; +\infty)$, $f'(x) < 0$ trên $(-1; 3)$. Hàm số đã cho đồng biến trên khoảng nào dưới đây?}{0}{1}{Dựa vào bảng xét dấu, $f'(x) > 0$ trên $(-\infty; -1)$ và $(3; +\infty)$ nên hàm số đồng biến trên khoảng $(-\infty; -1)$.}
+  \option{$(-\infty; -1)$}
+  \option{$(-1; +\infty)$}
+  \option{$(-1; 3)$}
+  \option{$(3; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có bảng biến thiên với $y' > 0$ trên $(-\infty; -0{,}5)$ và $(-0{,}5; 3)$; $y' < 0$ trên $(3; +\infty)$; không xác định tại $x = -0{,}5$. Hàm số đã cho đồng biến trên khoảng nào dưới đây?}{0}{1}{Trên khoảng $(-0{,}5; 3)$, đạo hàm mang dấu dương ($y' > 0$) nên hàm số đồng biến trên khoảng $(-0{,}5; 3)$.}
+  \option{$(-0{,}5; 3)$}
+  \option{$(-\infty; 3)$}
+  \option{$(-0{,}5; +\infty)$}
+  \option{$(-\infty; -0{,}5) \cup (-0{,}5; 3)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có bảng biến thiên với $f'(x) < 0$ trên $(-\infty; -2)$ và $(0; 2)$; $f'(x) > 0$ trên $(-2; 0)$ và $(2; +\infty)$. Hàm số đã cho nghịch biến trong khoảng nào dưới đây?}{2}{1}{Trên khoảng $(0; 2)$, ta có $f'(x) < 0$ nên hàm số nghịch biến trên khoảng $(0; 2)$.}
+  \option{$(-2; 0)$}
+  \option{$(2; +\infty)$}
+  \option{$(0; 2)$}
+  \option{$(0; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ xác định trên $\mathbb{R}$ và có bảng xét dấu của đạo hàm: $y' > 0$ trên $(-\infty; -2)$ và $(2; +\infty)$; $y' \le 0$ trên $(-2; 2)$ với $y'=0$ chỉ tại $x=0$. Hàm số đã cho nghịch biến trên khoảng nào dưới đây?}{0}{1}{Do hàm số liên tục trên $\mathbb{R}$ và $y' \le 0, \forall x \in (-2; 2)$ với $y'=0$ chỉ tại một điểm hữu hạn $x=0$, nên hàm số nghịch biến trên khoảng $(-2; 2)$.}
+  \option{$(-2; 2)$}
+  \option{$(-\infty; -2)$}
+  \option{$(0; +\infty)$}
+  \option{$(-1; 0)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đồ thị đi xuống trên $(-1; 1)$, đi lên trên $(1; 3)$ và đi xuống trên $(3; 4)$. Hàm số đồng biến trên khoảng nào sau đây?}{2}{1}{Đồ thị hàm số đi lên từ trái sang phải trên $(1; 3)$ nên hàm số đồng biến trên $(1; 3)$. Vì $(2; 3) \subset (1; 3)$ nên hàm số cũng đồng biến trên khoảng $(2; 3)$.}
+  \option{$(2; 4)$}
+  \option{$(0; 3)$}
+  \option{$(2; 3)$}
+  \option{$(-1; 4)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đồ thị trùng phương đạt cực tiểu tại $x = \pm 1$ và cực đại tại $x = 0$. Hàm số đã cho đồng biến trên khoảng nào trong các khoảng sau đây?}{3}{1}{Từ đồ thị, hàm số đi lên từ trái sang phải trên các khoảng $(-1; 0)$ và $(1; +\infty)$. Do đó hàm số đồng biến trên khoảng $(-1; 0)$.}
+  \option{$(0; 1)$}
+  \option{$(-\infty; 1)$}
+  \option{$(-1; 1)$}
+  \option{$(-1; 0)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ xác định, liên tục trên $\mathbb{R}$ và có đồ thị bậc ba với điểm cực đại $(-1; 1)$ và cực tiểu $(1; -3)$. Khẳng định nào sau đây sai?}{3}{1}{Quy ước kết luận tính đơn điệu không được dùng kí hiệu hợp $\cup$ giữa các khoảng. Do đó phương án D là sai.}
+  \option{Hàm số đồng biến trên $(1; +\infty)$.}
+  \option{Hàm số đồng biến trên $(-\infty; -1)$ và $(1; +\infty)$.}
+  \option{Hàm số nghịch biến trên khoảng $(-1; 1)$.}
+  \option{Hàm số đồng biến trên $(-\infty; -1) \cup (1; +\infty)$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đạo hàm $f'(x)$ liên tục trên $\mathbb{R}$ và đồ thị $f'(x)$ là một parabol cắt trục hoành tại $x = -1$ và $x = 3$, phần phía trên $Ox$ ứng với $x \in (-\infty; -1) \cup (3; +\infty)$. Khẳng định nào sau đây là đúng?}{1}{1}{Đồ thị $y = f'(x)$ nằm phía trên trục hoành khi $x \in (-\infty; -1)$ và $x \in (3; +\infty)$, tức $f'(x) > 0$. Do đó hàm số $y = f(x)$ đồng biến trên $(-\infty; -1)$ và $(3; +\infty)$.}
+  \option{Hàm số đồng biến trên $(1; +\infty)$.}
+  \option{Hàm số đồng biến trên $(-\infty; -1)$ và $(3; +\infty)$.}
+  \option{Hàm số nghịch biến trên $(-\infty; 1)$.}
+  \option{Hàm số đồng biến trên $(-1; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đạo hàm $f'(x)$ liên tục trên $\mathbb{R}$, đồ thị $f'(x)$ cắt trục hoành tại $x = -3$, tiếp xúc trục hoành tại $x = 0$. Phần đồ thị nằm dưới trục hoành ứng với $x \in (-\infty; -3)$. Hàm số $y = f(x)$ nghịch biến trên khoảng nào?}{0}{1}{Trên khoảng $(-\infty; -3)$, đồ thị $y = f'(x)$ nằm phía dưới trục hoành nên $f'(x) < 0$, suy ra hàm số $y = f(x)$ nghịch biến trên khoảng $(-\infty; -3)$.}
+  \option{$(-\infty; -3)$}
+  \option{$(-3; -2)$}
+  \option{$(-2; 0)$}
+  \option{$(0; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = \frac{x^3}{3} - x^2 + x$. Mệnh đề nào sau đây là đúng?}{0}{1}{Ta có $y' = x^2 - 2x + 1 = (x-1)^2 \ge 0, \forall x \in \mathbb{R}$ và $y'=0 \Leftrightarrow x=1$. Do đó hàm số luôn đồng biến trên $\mathbb{R}$.}
+  \option{Hàm số đã cho đồng biến trên $\mathbb{R}$.}
+  \option{Hàm số đã cho nghịch biến trên $(-\infty; 1)$.}
+  \option{Hàm số đã cho đồng biến trên $(1; +\infty)$ và nghịch biến trên $(-\infty; 1)$.}
+  \option{Hàm số đã cho đồng biến trên $(-\infty; 1)$ và nghịch biến $(1; +\infty)$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số nào sau đây nghịch biến trên toàn trục số?}{1}{1}{Xét hàm số $y = -x^3 + 3x^2 - 3x + 2$, có $y' = -3x^2 + 6x - 3 = -3(x-1)^2 \le 0, \forall x \in \mathbb{R}$ và $y'=0$ chỉ tại điểm $x=1$. Do đó hàm số nghịch biến trên $\mathbb{R}$.}
+  \option{$y = x^3 - 3x^2$}
+  \option{$y = -x^3 + 3x^2 - 3x + 2$}
+  \option{$y = -x^3 + 3x + 1$}
+  \option{$y = x^3$}
+\end{mcq}
+
+\begin{mcq}{Hàm số $y = 2x^4 + 1$ đồng biến trên khoảng nào trong các khoảng sau?}{3}{1}{Đạo hàm $y' = 8x^3$. Ta có $y' > 0 \Leftrightarrow x > 0$. Vậy hàm số đồng biến trên khoảng $(0; +\infty)$.}
+  \option{$(-\infty; -\frac{1}{2})$}
+  \option{$(-\frac{1}{2}; +\infty)$}
+  \option{$(-\infty; 0)$}
+  \option{$(0; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = 2x^4 - 4x^2$. Mệnh đề nào sau đây sai?}{2}{1}{Đạo hàm $y' = 8x^3 - 8x = 8x(x^2 - 1) = 0 \Leftrightarrow x \in \{-1; 0; 1\}$. Hàm số nghịch biến trên $(-\infty; -1)$ và $(0; 1)$, đồng biến trên $(-1; 0)$ và $(1; +\infty)$. Mệnh đề khẳng định hàm số đồng biến trên $(-2; +\infty)$ là sai.}
+  \option{Hàm số đã cho nghịch biến trên $(-\infty; -1) \cup (0; 1)$.}
+  \option{Hàm số đã cho nghịch biến trên $(-\infty; -2)$.}
+  \option{Hàm số đã cho đồng biến trên $(-2; +\infty)$.}
+  \option{Hàm số đã cho đồng biến trên $(1; +\infty)$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = \frac{x-2}{x+1}$. Khẳng định nào sau đây là đúng?}{1}{1}{Tập xác định $D = \mathbb{R} \setminus \{-1\}$. Đạo hàm $y' = \frac{3}{(x+1)^2} > 0, \forall x \ne -1$. Do đó hàm số đồng biến trên từng khoảng $(-\infty; -1)$ và $(-1; +\infty)$.}
+  \option{Hàm số nghịch biến trên khoảng $(-\infty; -1)$.}
+  \option{Hàm số đồng biến trên khoảng $(-\infty; -1)$.}
+  \option{Hàm số nghịch biến trên khoảng $(-\infty; +\infty)$.}
+  \option{Hàm số nghịch biến trên khoảng $(-1; +\infty)$.}
+\end{mcq}
+
+\begin{mcq}{Các khoảng nghịch biến của hàm số $y = \frac{2x+1}{x-1}$ là:}{2}{1}{Tập xác định $D = \mathbb{R} \setminus \{1\}$. Đạo hàm $y' = \frac{-3}{(x-1)^2} < 0, \forall x \ne 1$. Do đó hàm số nghịch biến trên các khoảng $(-\infty; 1)$ và $(1; +\infty)$.}
+  \option{$\mathbb{R} \setminus \{1\}$}
+  \option{$(-\infty; 1) \cup (1; +\infty)$}
+  \option{$(-\infty; 1)$ và $(1; +\infty)$}
+  \option{$(-\infty; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = \sqrt{2x^2+1}$. Mệnh đề nào dưới đây đúng?}{1}{1}{Tập xác định $D = \mathbb{R}$. Đạo hàm $y' = \frac{2x}{\sqrt{2x^2+1}}$. Ta có $y' > 0 \Leftrightarrow x > 0$, do đó hàm số đồng biến trên khoảng $(0; +\infty)$.}
+  \option{Hàm số nghịch biến trên khoảng $(-1; 1)$.}
+  \option{Hàm số đồng biến trên khoảng $(0; +\infty)$.}
+  \option{Hàm số đồng biến trên khoảng $(-\infty; 0)$.}
+  \option{Hàm số nghịch biến trên khoảng $(0; +\infty)$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số $y = \sqrt{2x-x^2}$ nghịch biến trên khoảng nào đã cho dưới đây?}{1}{1}{Tập xác định $D = [0; 2]$. Đạo hàm $y' = \frac{1-x}{\sqrt{2x-x^2}}$ với $x \in (0; 2)$. Ta có $y' < 0 \Leftrightarrow 1 - x < 0 \Leftrightarrow 1 < x < 2$. Vậy hàm số nghịch biến trên khoảng $(1; 2)$.}
+  \option{$(-1; 1)$}
+  \option{$(1; 2)$}
+  \option{$(0; 1)$}
+  \option{$(0; 2)$}
+\end{mcq}
+
+\begin{mcq}{Hàm số nào sau đây đồng biến trên $\mathbb{R}$?}{1}{1}{Xét hàm số $y = 2x - \cos x - 5$, có tập xác định $\mathbb{R}$ và đạo hàm $y' = 2 + \sin x$. Vì $-1 \le \sin x \le 1$ nên $y' \ge 1 > 0, \forall x \in \mathbb{R}$. Vậy hàm số đồng biến trên $\mathbb{R}$.}
+  \option{$y = \frac{2x-1}{x+1}$}
+  \option{$y = 2x - \cos x - 5$}
+  \option{$y = x^3 - 2x^2 + x + 1$}
+  \option{$y = \sqrt{x^2 - x + 1}$}
+\end{mcq}
+
+\begin{mcq}{Hàm số $y = \frac{x^2+2x+2}{x+1}$ đồng biến trên khoảng nào đã cho dưới đây?}{2}{1}{Tập xác định $D = \mathbb{R} \setminus \{-1\}$. Đạo hàm $y' = \frac{x^2+2x}{(x+1)^2}$. Cho $y' > 0 \Leftrightarrow x(x+2) > 0 \Leftrightarrow x \in (-\infty; -2) \cup (0; +\infty)$. Do đó hàm số đồng biến trên khoảng $(0; +\infty)$.}
+  \option{$(-2; -1)$}
+  \option{$(-2; 2)$}
+  \option{$(0; +\infty)$}
+  \option{$(-\infty; -1)$}
+\end{mcq}
+
+\begin{mcq}{Hàm số $y = \frac{x-x^2-1}{1-x}$ nghịch biến trên khoảng nào đã cho dưới đây?}{2}{1}{Viết lại $y = \frac{x^2-x+1}{x-1} = x + \frac{1}{x-1}$. Đạo hàm $y' = 1 - \frac{1}{(x-1)^2} = \frac{x(x-2)}{(x-1)^2}$. Ta có $y' < 0 \Leftrightarrow 0 < x < 2, x \ne 1$. Do đó hàm số nghịch biến trên khoảng $(1; 2)$.}
+  \option{$(-\infty; 0)$}
+  \option{$(-1; 0)$}
+  \option{$(1; 2)$}
+  \option{$(0; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đạo hàm trên $\mathbb{R}$ thỏa mãn $f'(x) = x^2 - 5x - 6, \forall x \in \mathbb{R}$. Hàm số đã cho nghịch biến trên khoảng nào trong các khoảng dưới đây?}{0}{1}{Xét $f'(x) \le 0 \Leftrightarrow x^2 - 5x - 6 \le 0 \Leftrightarrow -1 \le x \le 6$. Do đó hàm số nghịch biến trên khoảng $(-1; 6)$. Khoảng $(0; 3) \subset (-1; 6)$ nên hàm số cũng nghịch biến trên $(0; 3)$.}
+  \option{$(0; 3)$}
+  \option{$(-6; 1)$}
+  \option{$(-\infty; -1)$}
+  \option{$(6; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x(x-1)(x-2)$. Hỏi hàm số $f(x)$ đồng biến trên khoảng nào trong các khoảng dưới đây?}{3}{1}{Xét dấu $f'(x)$: $f'(x) > 0 \Leftrightarrow x \in (0; 1) \cup (2; +\infty)$. Do đó hàm số đồng biến trên khoảng $(2; +\infty)$.}
+  \option{$(-\infty; -1)$}
+  \option{$(-1; 0)$}
+  \option{$(0; 2)$}
+  \option{$(2; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đạo hàm liên tục trên $\mathbb{R}$ với $f'(x) = -x^2(x+2)(x-1)$. Hỏi hàm số đồng biến trên khoảng nào dưới đây?}{1}{1}{Vì $-x^2 \le 0, \forall x$, nên $f'(x) > 0 \Leftrightarrow (x+2)(x-1) < 0 \text{ và } x \ne 0 \Leftrightarrow x \in (-2; 1) \setminus \{0\}$. Do hàm số liên tục trên $\mathbb{R}$ nên hàm số đồng biến trên $(-2; 1)$, suy ra đồng biến trên khoảng $(-2; 0)$.}
+  \option{$(0; 2)$}
+  \option{$(-2; 0)$}
+  \option{$(-\infty; -1)$}
+  \option{$(1; +\infty)$}
+\end{mcq}
+
+\begin{mcq}{Trong 8 phút kể từ khi xuất phát, độ cao $h$ (tính bằng mét) của khinh khí cầu vào thời điểm $t$ phút được cho bởi công thức $h(t) = 6t^3 - 81t^2 + 324t$. Hỏi độ cao của khinh khí cầu giảm trong khoảng thời gian nào?}{1}{1}{Ta có $h'(t) = 18t^2 - 162t + 324 = 18(t-3)(t-6)$. Độ cao giảm khi $h'(t) < 0 \Leftrightarrow 3 < t < 6$. Vậy độ cao giảm từ phút thứ 3 đến phút thứ 6.}
+  \option{Từ phút thứ 2 đến phút thứ 6.}
+  \option{Từ phút thứ 3 đến phút thứ 6.}
+  \option{Từ phút thứ 4 đến phút thứ 8.}
+  \option{Từ phút thứ 6 đến phút thứ 8.}
+\end{mcq}
+
+\begin{mcq}{Đường cong ở hình bên là đồ thị hàm số $y = \frac{ax+b}{cx+d}$ ($a, b, c, d \in \mathbb{R}$), có tiệm cận đứng $x = 1$, đồ thị đi lên từ trái sang phải trên các khoảng $(-\infty; 1)$ và $(1; +\infty)$. Mệnh đề nào dưới đây là đúng?}{3}{1}{Đồ thị hàm số phân thức bậc nhất trên bậc nhất đi lên từ trái sang phải trên từng khoảng xác định, chứng tỏ đạo hàm luôn dương $y' > 0, \forall x \ne 1$.}
+  \option{$y' < 0, \forall x \ne 1$.}
+  \option{$y' < 0, \forall x \in \mathbb{R}$.}
+  \option{$y' > 0, \forall x \in \mathbb{R}$.}
+  \option{$y' > 0, \forall x \ne 1$.}
+\end{mcq}
+
+\end{quiz}
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hàm số $y = f(x)$ liên tục trên $\mathbb{R}$ có bảng biến thiên với $y' \ge 0$ trên $(-\infty; -2)$ (bằng 0 tại $x=-3$), $y' \le 0$ trên $(-2; 5)$ (bằng 0 tại $x=0$), và $y' \ge 0$ trên $(5; +\infty)$. Xét tính đúng/sai của các mệnh đề sau:}{1}{Hàm số đồng biến trên $(-\infty; -2)$ và $(5; +\infty)$; nghịch biến trên $(-2; 5)$.}
+  \statement{true}{Hàm số đã cho đồng biến trên các khoảng $(-\infty; -5)$ và $(-3; -2)$.}
+  \statement{true}{Hàm số đã cho đồng biến trên khoảng $(-\infty; -2)$.}
+  \statement{false}{Hàm số đã cho nghịch biến trên khoảng $(-2; +\infty)$.}
+  \statement{true}{Hàm số đã cho đồng biến trên khoảng $(-\infty; -2)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = f(x)$ xác định và liên tục trên $\mathbb{R}$. Biết rằng hàm số có đạo hàm và $y = f'(x)$ có đồ thị luôn nằm phía trên trục hoành, tiếp xúc trục hoành tại $x = \pm 1$. Xét tính đúng/sai của các mệnh đề sau:}{1}{Vì $f'(x) \ge 0, \forall x \in \mathbb{R}$ và $f'(x)=0$ chỉ tại 2 điểm hữu hạn $x = \pm 1$, nên hàm số luôn đồng biến trên $\mathbb{R}$.}
+  \statement{true}{Hàm số đã cho đồng biến trên khoảng $(-1; 1)$.}
+  \statement{false}{Hàm số đã cho nghịch biến trên khoảng $(0; 1)$.}
+  \statement{false}{Hàm số đã cho nghịch biến trên khoảng $(-\infty; -1)$.}
+  \statement{true}{Hàm số đã cho đồng biến trên $\mathbb{R}$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = x^3 + 3x + 2$. Xét tính đúng/sai của các mệnh đề sau:}{1}{Ta có $y' = 3x^2 + 3 > 0, \forall x \in \mathbb{R}$, do đó hàm số luôn đồng biến trên $\mathbb{R}$ (hay $(-\infty; +\infty)$).}
+  \statement{false}{Hàm số đã cho nghịch biến trên khoảng $(-\infty; 0)$ và đồng biến trên khoảng $(0; +\infty)$.}
+  \statement{false}{Hàm số đã cho đồng biến trên khoảng $(0; +\infty)$ và nghịch biến trên khoảng $(-\infty; 0)$.}
+  \statement{true}{Hàm số đã cho đồng biến trên khoảng $(-\infty; +\infty)$.}
+  \statement{false}{Hàm số đã cho nghịch biến trên khoảng $(-\infty; +\infty)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = x^2 + 2025, \forall x \in \mathbb{R}$. Xét tính đúng/sai của các mệnh đề sau:}{1}{Vì $x^2 \ge 0 \Rightarrow f'(x) \ge 2025 > 0, \forall x \in \mathbb{R}$, suy ra hàm số đồng biến trên $\mathbb{R}$ và trên mọi khoảng con của $\mathbb{R}$.}
+  \statement{true}{Hàm số đồng biến trên $\mathbb{R}$.}
+  \statement{false}{Hàm số nghịch biến trên khoảng $(-\infty; 0)$.}
+  \statement{true}{Hàm số đồng biến trên khoảng $(0; +\infty)$.}
+  \statement{true}{Hàm số đồng biến trên khoảng $(-\infty; 2025)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = \frac{-x+2}{x-1}$. Xét tính đúng/sai của các mệnh đề sau:}{1}{Tập xác định $D = \mathbb{R} \setminus \{1\}$. Đạo hàm $y' = \frac{-1}{(x-1)^2} < 0, \forall x \ne 1$, do đó hàm số nghịch biến trên mỗi khoảng $(-\infty; 1)$ và $(1; +\infty)$.}
+  \statement{true}{Hàm số có tập xác định $D = \mathbb{R} \setminus \{1\}$.}
+  \statement{false}{Hàm số đồng biến trên mỗi khoảng $(-\infty; 1)$ và $(1; +\infty)$.}
+  \statement{true}{Hàm số nghịch biến trên mỗi khoảng $(-\infty; 1)$ và $(1; +\infty)$.}
+  \statement{false}{Hàm số nghịch biến trên $\mathbb{R} \setminus \{1\}$.}
+\end{truefalse}
+
+\end{quiz}
+
+\end{document}

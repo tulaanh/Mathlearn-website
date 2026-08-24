@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* Dark mode theo class (.dark trên <html>) thay vì theo hệ điều hành,
+   để người dùng có thể tự bật/tắt bằng nút trên website */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-page: #f8fafc;
+  --text-main: #0f172a;
+}
+
+html.dark {
+  --bg-page: #090d16;
+  --text-main: #f8fafc;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Màu chọn văn bản dễ nhìn hơn trong dark mode */
+::selection {
+  background-color: rgba(99, 102, 241, 0.35);
+}
+
+/* ─── Trang in / xuất PDF (app/tai-lieu/[id]/in) ─────────────────────────── */
+
+/* Khổ giấy A4, lề 12mm cho mọi trang khi in */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+/* Bản xem trước trang in luôn nền trắng chữ đen để khớp với kết quả in,
+   kể cả khi website đang ở chế độ tối ( class .print-sheet trong DocumentPrintView ) */
+.print-sheet {
+  background: #fff;
+  color: #1e293b;
+}
+.dark .print-sheet * {
+  color: inherit;
+  background-color: transparent;
+  border-color: #cbd5e1;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    color: #1e293b !important;
+  }
+
+  /* Bản in đơn sắc: bỏ nền màu, đổ bóng; giữ đúng màu in cho toàn bộ nội dung */
+  .print-sheet,
+  .print-sheet * {
+    background: transparent !important;
+    color: #1e293b !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Công thức dài không bị cắt khi in (bỏ thanh cuộn ngang) */
+  .print-sheet * {
+    overflow: visible !important;
+  }
+}
+
+
