@@ -160,14 +160,15 @@ export const getNavigationForTestDocument = cache(async function getNavigationFo
 
   const supabase = await createServerSupabaseClient();
   if (!supabase) return null;
+  // Tìm tài liệu cha qua bảng nối document_attached_tests (một test có thể được
+  // đính kèm bởi nhiều tài liệu — lấy tài liệu đầu tiên thấy được)
   const { data } = await supabase
-    .from("documents")
-    .select("id, title")
-    .eq("attached_test_id", testDocumentId)
-    .eq("status", "published")
-    .order("updated_at", { ascending: false })
+    .from("document_attached_tests")
+    .select("documents!document_id(id, title)")
+    .eq("test_id", testDocumentId)
+    .eq("documents.status", "published")
     .limit(1);
-  const parent = (data as any[] | null)?.[0];
+  const parent = ((data as any[] | null)?.[0] as any)?.documents ?? null;
   if (!parent) return null;
 
   const navigation = await getNavigationForDocument(parent.id, preferredChapterId);

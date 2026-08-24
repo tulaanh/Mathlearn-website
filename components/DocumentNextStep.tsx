@@ -7,70 +7,78 @@ import type { ChapterNavigation } from "@/lib/chapter-types";
 import { documentProgressKey, documentTestProgressKey, useProgress } from "@/lib/progress";
 
 /**
- * Khối cuối trang tài liệu: thẻ bài kiểm tra đính kèm (nếu có) gộp chung với trạng
- * thái hoàn thành và gợi ý bài kế tiếp — luôn duy nhất MỘT thẻ hành động để tránh
- * trùng lặp CTA làm bài test.
- * - Tài liệu có test đính kèm: nộp bài = hoàn thành (tự ghi nhận khi quay lại trang này).
+ * Khối cuối trang tài liệu: các thẻ bài kiểm tra đính kèm (nếu có) gộp chung với
+ * trạng thái hoàn thành và gợi ý bài kế tiếp — mỗi bài test một thẻ hành động riêng.
+ * - Tài liệu có test đính kèm: nộp đủ TẤT CẢ các bài = hoàn thành (tự ghi nhận khi quay lại trang này).
  * - Tài liệu thường: học sinh bấm "Hoàn thành bài học".
  */
 export default function DocumentNextStep({
   document,
   navigation,
 }: {
-  document: Pick<StudyDocument, "id" | "attachedTest">;
+  document: Pick<StudyDocument, "id" | "attachedTests">;
   navigation: ChapterNavigation | null;
 }) {
   const { progress, setPercent } = useProgress();
 
-  const attachedTest = document.attachedTest ?? null;
+  const attachedTests = document.attachedTests ?? [];
   const docKey = documentProgressKey(document.id);
-  const testKey = attachedTest ? documentTestProgressKey(attachedTest.id) : null;
+  const isTestSubmitted = (testId: string) => documentTestProgressKey(testId) in progress;
+  const pendingCount = attachedTests.filter((t) => !isTestSubmitted(t.id)).length;
   // "Đã nộp" = key tồn tại trong tiến trình (điểm có thể là 0 ngay sau khi nộp)
-  const testSubmitted = !testKey || testKey in progress;
   const isDone = (progress[docKey] ?? 0) === 100;
 
-  // Nộp bài test đính kèm là coi như hoàn thành tài liệu
+  // Nộp đủ tất cả bài test đính kèm là coi như hoàn thành tài liệu
   useEffect(() => {
-    if (testKey && testSubmitted && !isDone) setPercent(docKey, 100);
-  }, [testKey, testSubmitted, isDone, docKey, setPercent]);
+    if (attachedTests.length > 0 && pendingCount === 0 && !isDone) setPercent(docKey, 100);
+  }, [attachedTests.length, pendingCount, isDone, docKey, setPercent]);
 
-  // Thẻ bài kiểm tra đính kèm: hiện khi chưa nộp, hoặc khi tài liệu không thuộc
-  // chương nào (giữ lối vào bài test sau khi nộp vì không có thẻ bài kế tiếp)
-  if (attachedTest && (!testSubmitted || !navigation)) {
+  // Thẻ các bài kiểm tra: hiện những bài chưa nộp; nếu tài liệu không thuộc chương nào
+  // (không có thẻ bài kế tiếp) thì giữ lối vào làm lại cho tất cả các bài
+  if (attachedTests.length > 0 && (pendingCount > 0 || !navigation)) {
     return (
-      <section className="mt-6 flex items-center justify-between gap-4 rounded-2xl border border-purple-300 bg-gradient-to-r from-purple-50 to-indigo-50 p-5 shadow-xs transition hover:shadow-md dark:border-purple-800/60 dark:from-purple-950/40 dark:to-indigo-950/40">
-        <div className="min-w-0">
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${
-              testSubmitted
-                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300"
-                : "bg-purple-100 text-purple-700 dark:bg-purple-950/70 dark:text-purple-300"
-            }`}
-          >
-            {testSubmitted ? "✓ Đã nộp bài" : "Bài kiểm tra đính kèm"}
-          </span>
-          <h3 className="mt-2 truncate text-lg font-bold text-slate-900 dark:text-white">{attachedTest.title}</h3>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Kiểm tra kiến thức vừa học, chấm điểm tự động thang 10.</p>
-          {navigation && !testSubmitted && (
-            <p className="mt-1 text-sm font-medium text-purple-700 dark:text-purple-300">
-              🔒 Nộp bài để hoàn thành bài học
-              {navigation.nextItem ? (
-                <>
-                  {" "}— sau đó chuyển sang <strong>{navigation.nextItem.title}</strong>
-                </>
-              ) : (
-                <> — hoàn thành luôn chương &quot;{navigation.chapterTitle}&quot;</>
-              )}
-            </p>
-          )}
-        </div>
-        <Link
-          href={`/quiz/${attachedTest.id}${navigation ? `?chuong=${navigation.chapterId}` : ""}`}
-          className="shrink-0 rounded-xl bg-purple-600 px-5 py-3 text-sm font-bold text-white hover:bg-purple-700"
-        >
-          {testSubmitted ? "Làm lại →" : "Làm bài →"}
-        </Link>
-      </section>
+      <div className="mt-6 space-y-4">
+        {attachedTests.map((attachedTest) => {
+          const testSubmitted = isTestSubmitted(attachedTest.id);
+          // Trong chương: chỉ hiện các bài chưa nộp khi còn bài chưa làm
+          if (navigation && testSubmitted) return null;
+          return (
+            <section key={attachedTest.id} className="flex items-center justify-between gap-4 rounded-2xl border border-purple-300 bg-gradient-to-r from-purple-50 to-indigo-50 p-5 shadow-xs transition hover:shadow-md dark:border-purple-800/60 dark:from-purple-950/40 dark:to-indigo-950/40">
+              <div className="min-w-0">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                    testSubmitted
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300"
+                      : "bg-purple-100 text-purple-700 dark:bg-purple-950/70 dark:text-purple-300"
+                  }`}
+                >
+                  {testSubmitted ? "✓ Đã nộp bài" : pendingCount > 1 ? `Bài kiểm tra đính kèm (${pendingCount} bài chưa nộp)` : "Bài kiểm tra đính kèm"}
+                </span>
+                <h3 className="mt-2 truncate text-lg font-bold text-slate-900 dark:text-white">{attachedTest.title}</h3>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Kiểm tra kiến thức vừa học, chấm điểm tự động thang 10.</p>
+                {navigation && !testSubmitted && (
+                  <p className="mt-1 text-sm font-medium text-purple-700 dark:text-purple-300">
+                    🔒 Nộp đủ tất cả bài kiểm tra để hoàn thành bài học
+                    {navigation.nextItem ? (
+                      <>
+                        {" "}— sau đó chuyển sang <strong>{navigation.nextItem.title}</strong>
+                      </>
+                    ) : (
+                      <> — hoàn thành luôn chương &quot;{navigation.chapterTitle}&quot;</>
+                    )}
+                  </p>
+                )}
+              </div>
+              <Link
+                href={`/quiz/${attachedTest.id}${navigation ? `?chuong=${navigation.chapterId}` : ""}`}
+                className="shrink-0 rounded-xl bg-purple-600 px-5 py-3 text-sm font-bold text-white hover:bg-purple-700"
+              >
+                {testSubmitted ? "Làm lại →" : "Làm bài →"}
+              </Link>
+            </section>
+          );
+        })}
+      </div>
     );
   }
 
@@ -155,13 +163,18 @@ export default function DocumentNextStep({
           </Link>
         )}
       </div>
-      {attachedTest && (
-        <Link
-          href={`/quiz/${attachedTest.id}?chuong=${navigation.chapterId}`}
-          className="mt-3 inline-block text-xs font-semibold text-purple-600 hover:underline dark:text-purple-400"
-        >
-          📝 Làm lại bài kiểm tra đính kèm
-        </Link>
+      {attachedTests.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+          {attachedTests.map((attachedTest) => (
+            <Link
+              key={attachedTest.id}
+              href={`/quiz/${attachedTest.id}?chuong=${navigation.chapterId}`}
+              className="text-xs font-semibold text-purple-600 hover:underline dark:text-purple-400"
+            >
+              📝 Làm lại: {attachedTest.title}
+            </Link>
+          ))}
+        </div>
       )}
     </section>
   );

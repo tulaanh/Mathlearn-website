@@ -104,9 +104,9 @@ export type StudyDocument = {
   createdBy: string;
   createdAt: string;
   updatedAt: string;
-  /** Bài kiểm tra đính kèm (chỉ dành cho tài liệu học tập), có thể không có. */
-  attachedTestId?: string | null;
-  attachedTest?: { id: string; title: string } | null;
+  /** Các bài kiểm tra đính kèm (chỉ dành cho tài liệu học tập), có thể rỗng. */
+  attachedTestIds?: string[];
+  attachedTests?: { id: string; title: string }[];
   blocks: DocumentBlock[];
   topics: {
     id: string;

@@ -38,7 +38,7 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
   const [blocks, setBlocks] = useState<DocumentFormBlock[]>(() =>
     initialData ? toFormBlocks(initialData.blocks) : [withKey({ type: "text", content: "" })],
   );
-  const [attachedTestId, setAttachedTestId] = useState<string>(initialData?.attachedTestId ?? "");
+  const [attachedTestIds, setAttachedTestIds] = useState<string[]>(initialData?.attachedTestIds ?? []);
   const [error, setError] = useState(""); 
   const [saving, setSaving] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -59,6 +59,7 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
   
   // Các callback giữ identity ổn định qua các lượt render để các block editor memo hóa không phải re-render
   const toggleTopic = useCallback((id: string) => setSelectedTopics(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id]), []);
+  const toggleAttachedTest = useCallback((id: string) => setAttachedTestIds(v => v.includes(id) ? v.filter(x => x !== id) : [...v, id]), []);
   const updateBlock = useCallback((i: number, v: Partial<DocumentFormBlock>) => setBlocks(a => a.map((b, n) => n === i ? { ...b, ...v } as DocumentFormBlock : b)), []);
   const patchBlock = useCallback((i: number, patch: (block: DocumentFormBlock) => DocumentFormBlock) => setBlocks(a => a.map((b, n) => n === i ? patch(b) : b)), []);
   const addText = useCallback(() => setBlocks(a => [...a, withKey({ type: "text", content: "" })]), []);
@@ -128,15 +129,14 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
     try {
     const { data: { user } } = await supabase.auth.getUser(); if (!user) { setError("Phiên đăng nhập đã hết. Hãy đăng nhập lại."); setSaving(false); return; }
     // Bài kiểm tra đính kèm chỉ áp dụng cho tài liệu học tập
-    const attachedTestIdValue = documentType === "normal" && attachedTestId ? attachedTestId : null;
     let targetDocId = initialData?.id;
     if (initialData) {
       const { error: updateError } = await supabase.from("documents").update({
-        title: title.trim(), description: description.trim() || null, grade, document_type: documentType, status, attached_test_id: attachedTestIdValue,
+        title: title.trim(), description: description.trim() || null, grade, document_type: documentType, status,
       }).eq("id", initialData.id);
       if (updateError) { setError(updateError.message); setSaving(false); return; }
     } else {
-      const { data: doc, error: docError } = await supabase.from("documents").insert({ title: title.trim(), description: description.trim() || null, subject: "Toán", grade, document_type: documentType, status, attached_test_id: attachedTestIdValue, created_by: user.id }).select("id").single();
+      const { data: doc, error: docError } = await supabase.from("documents").insert({ title: title.trim(), description: description.trim() || null, subject: "Toán", grade, document_type: documentType, status, created_by: user.id }).select("id").single();
       if (docError || !doc) { setError(docError?.message ?? "Không thể tạo tài liệu."); setSaving(false); return; }
       targetDocId = doc.id;
     }
@@ -147,7 +147,17 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
       const { error: delTopicsError } = await supabase.from("document_topics").delete().eq("document_id", targetDocId);
       if (delTopicsError) { setError(`Không thể cập nhật chủ đề: ${delTopicsError.message}`); setSaving(false); return; }
     }
+    // Đồng bộ bài kiểm tra đính kèm: xóa hết rồi chèn lại theo thứ tự đã chọn
     const document_id = targetDocId!;
+    const { error: delAttachedError } = await supabase.from("document_attached_tests").delete().eq("document_id", document_id);
+    if (delAttachedError) { setError(`Không thể cập nhật bài kiểm tra đính kèm: ${delAttachedError.message}`); setSaving(false); return; }
+    const attachedTestIdsValue = documentType === "normal" ? attachedTestIds : [];
+    if (attachedTestIdsValue.length) {
+      const attachResult = await supabase.from("document_attached_tests").insert(
+        attachedTestIdsValue.map((test_id, i) => ({ document_id, test_id, position: i })),
+      );
+      if (attachResult.error) { setError(`Không thể lưu bài kiểm tra đính kèm: ${attachResult.error.message}`); setSaving(false); return; }
+    }
     const rows: Record<string, unknown>[] = [];
     for (const [i, b] of blocks.entries()) {
       if (b.type === "text") {
@@ -350,8 +360,8 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
         setDocumentType={setDocumentType}
         selectedTopics={selectedTopics} 
         blocks={blocks} 
-        attachedTestId={attachedTestId}
-        setAttachedTestId={setAttachedTestId}
+        attachedTestIds={attachedTestIds}
+        toggleAttachedTest={toggleAttachedTest}
         testOptions={testOptions}
         setTitle={setTitle} 
         setDescription={setDescription} 

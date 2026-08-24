@@ -1,4 +1,6 @@
 -- Migration: Tài liệu học tập có thể (hoặc không) đính kèm một bài kiểm tra.
+-- CHÚ Ý: Đã lỗi thời — được thay thế bởi migration-attached-tests-multi.sql
+-- (một tài liệu đính kèm được NHIỀU bài kiểm tra). Không chạy file này nữa.
 -- Chạy trong Supabase SQL Editor sau schema.sql.
 
 alter table public.documents

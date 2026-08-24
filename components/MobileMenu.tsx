@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getNavItems, isNavActive } from "@/lib/nav";
@@ -10,9 +11,14 @@ import { useProfile } from "./ProfileProvider";
 
 export default function MobileMenu({ email }: { email?: string }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { profile } = useProfile();
   const items = getNavItems(profile?.role);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -43,20 +49,22 @@ export default function MobileMenu({ email }: { email?: string }) {
         {open ? "✕" : "☰"}
       </button>
 
-      <div
-        aria-hidden={!open}
-        onClick={() => setOpen(false)}
-        className={`fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200 md:hidden ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      />
+      {mounted ? createPortal(
+        <>
+          <div
+            aria-hidden={!open}
+            onClick={() => setOpen(false)}
+            className={`fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200 md:hidden ${
+              open ? "opacity-100" : "pointer-events-none opacity-0"
+            }`}
+          />
 
-      <aside
-        aria-hidden={!open}
-        className={`fixed inset-y-0 right-0 z-40 flex w-[280px] max-w-[85vw] flex-col overflow-y-auto border-l border-slate-200/80 bg-white shadow-2xl transition-transform duration-200 md:hidden dark:border-slate-800/80 dark:bg-[#0d1322] ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+          <aside
+            aria-hidden={!open}
+            className={`fixed inset-y-0 right-0 z-50 flex w-[280px] max-w-[85vw] flex-col overflow-y-auto border-l border-slate-200/80 bg-white shadow-2xl transition-transform duration-200 md:hidden dark:border-slate-800/80 dark:bg-[#0d1322] ${
+              open ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800/80">
           <p className="text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Menu</p>
           <button
@@ -111,7 +119,10 @@ export default function MobileMenu({ email }: { email?: string }) {
             </Link>
           )}
         </div>
-      </aside>
+          </aside>
+        </>,
+        document.body
+      ) : null}
     </>
   );
 }

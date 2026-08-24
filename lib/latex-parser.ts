@@ -316,10 +316,30 @@ function parseQuizBlock(content: string): DocumentFormBlock | null {
   
   let match;
   const saRegex = /\\shortanswer\{/g;
-  while ((match = saRegex.exec(rest)) !== null) items.push({pos: match.index, type: "shortanswer", content: null});
+  while ((match = saRegex.exec(rest)) !== null) {
+    const start = match.index;
+    let curr = start + "\\shortanswer".length;
+    for (let a = 0; a < 4; a++) {
+      while (curr < rest.length && /\s/.test(rest[curr])) curr++;
+      const [, p] = extractBracedArg(rest, curr);
+      curr = p;
+    }
+    items.push({pos: start, type: "shortanswer", content: null});
+    envRanges.push({start, end: curr});
+  }
   
   const esRegex = /\\essay\{/g;
-  while ((match = esRegex.exec(rest)) !== null) items.push({pos: match.index, type: "essay", content: null});
+  while ((match = esRegex.exec(rest)) !== null) {
+    const start = match.index;
+    let curr = start + "\\essay".length;
+    for (let a = 0; a < 3; a++) {
+      while (curr < rest.length && /\s/.test(rest[curr])) curr++;
+      const [, p] = extractBracedArg(rest, curr);
+      curr = p;
+    }
+    items.push({pos: start, type: "essay", content: null});
+    envRanges.push({start, end: curr});
+  }
 
   const imgRegex = /\\image\{/g;
   while ((match = imgRegex.exec(rest)) !== null) {

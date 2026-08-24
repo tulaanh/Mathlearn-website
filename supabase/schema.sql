@@ -35,7 +35,6 @@ create table if not exists public.documents (
   grade text not null,
   document_type text not null default 'normal' check (document_type in ('normal', 'test')),
   status public.document_status not null default 'draft',
-  attached_test_id uuid references public.documents(id) on delete set null,
   created_by uuid not null references public.profiles(id),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -67,11 +66,19 @@ create table if not exists public.document_topics (
   primary key (document_id, topic_id)
 );
 
+-- Một tài liệu học tập có thể đính kèm nhiều bài kiểm tra (bài kiểm tra = documents có document_type='test').
+create table if not exists public.document_attached_tests (
+  document_id uuid not null references public.documents(id) on delete cascade,
+  test_id uuid not null references public.documents(id) on delete cascade,
+  position integer not null default 0 check (position >= 0),
+  primary key (document_id, test_id)
+);
+
 create index if not exists documents_status_idx on public.documents(status);
 create index if not exists documents_grade_idx on public.documents(grade);
-create index if not exists documents_attached_test_idx on public.documents(attached_test_id);
 create index if not exists document_blocks_document_position_idx on public.document_blocks(document_id, position);
 create index if not exists document_topics_topic_idx on public.document_topics(topic_id);
+create index if not exists document_attached_tests_test_idx on public.document_attached_tests(test_id);
 
 create or replace function public.is_teacher()
 returns boolean language sql stable security definer set search_path = public
@@ -88,25 +95,44 @@ drop trigger if exists documents_touch_updated_at on public.documents;
 create trigger documents_touch_updated_at before update on public.documents
 for each row execute procedure public.touch_updated_at();
 
--- Bài kiểm tra không đính kèm bài kiểm tra: gỡ đính kèm nếu đổi loại thành test.
-create or replace function public.clear_attached_test_on_type_change()
+-- Bài kiểm tra không đính kèm bài kiểm tra: gỡ toàn bộ liên kết khi tài liệu đổi thành test.
+create or replace function public.clear_attached_tests_on_type_change()
 returns trigger language plpgsql as $$
 begin
-  if new.document_type = 'test' and new.attached_test_id is not null then
-    new.attached_test_id := null;
+  if new.document_type = 'test' then
+    delete from public.document_attached_tests where document_id = new.id;
   end if;
   return new;
 end; $$;
 
-drop trigger if exists documents_clear_attached_test on public.documents;
-create trigger documents_clear_attached_test before insert or update on public.documents
-for each row execute procedure public.clear_attached_test_on_type_change();
+drop trigger if exists documents_clear_attached_tests on public.documents;
+create trigger documents_clear_attached_tests before update on public.documents
+for each row execute procedure public.clear_attached_tests_on_type_change();
+
+-- Chỉ tài liệu học tập mới được đính kèm bài kiểm tra
+create or replace function public.validate_document_attached_test()
+returns trigger language plpgsql as $$
+begin
+  if exists (
+    select 1 from public.documents
+    where id = new.document_id and document_type = 'test'
+  ) then
+    raise exception 'Bài kiểm tra không được đính kèm bài kiểm tra khác';
+  end if;
+  return new;
+end; $$;
+
+drop trigger if exists document_attached_tests_validate on public.document_attached_tests;
+create trigger document_attached_tests_validate before insert or update
+on public.document_attached_tests
+for each row execute procedure public.validate_document_attached_test();
 
 alter table public.profiles enable row level security;
 alter table public.topics enable row level security;
 alter table public.documents enable row level security;
 alter table public.document_blocks enable row level security;
 alter table public.document_topics enable row level security;
+alter table public.document_attached_tests enable row level security;
 
 drop policy if exists profiles_read_own on public.profiles;
 create policy profiles_read_own on public.profiles for select to authenticated
@@ -145,6 +171,14 @@ using (exists (select 1 from public.documents d where d.id = document_id and
   (d.status = 'published' or d.created_by = (select auth.uid()) or public.is_teacher())));
 drop policy if exists document_topics_manage_teacher on public.document_topics;
 create policy document_topics_manage_teacher on public.document_topics for all to authenticated
+using (public.is_teacher()) with check (public.is_teacher());
+
+drop policy if exists document_attached_tests_read_visible on public.document_attached_tests;
+create policy document_attached_tests_read_visible on public.document_attached_tests for select to authenticated
+using (exists (select 1 from public.documents d where d.id = document_id and
+  (d.status = 'published' or d.created_by = (select auth.uid()) or public.is_teacher())));
+drop policy if exists document_attached_tests_manage_teacher on public.document_attached_tests;
+create policy document_attached_tests_manage_teacher on public.document_attached_tests for all to authenticated
 using (public.is_teacher()) with check (public.is_teacher());
 
 insert into public.topics (id, name, description) values

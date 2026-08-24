@@ -2,7 +2,9 @@ import { cache } from "react";
 import type { DocumentBlock, DocumentStatus, StudyDocument } from "@/lib/document-types";
 import { createServerSupabaseClient, getCurrentUser } from "@/lib/supabase/server";
 
-function mapDocument(row: any, blocks: any[], topicRows: any[], attachedTest?: { id: string; title: string } | null): StudyDocument {
+type AttachedTestMeta = { id: string; title: string };
+
+function mapDocument(row: any, blocks: any[], topicRows: any[], attachedTests: AttachedTestMeta[] = []): StudyDocument {
   const topics = topicRows
     .map((item) => item.topics)
     .filter(Boolean)
@@ -64,8 +66,8 @@ function mapDocument(row: any, blocks: any[], topicRows: any[], attachedTest?: {
     createdBy: row.created_by,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    attachedTestId: row.attached_test_id ?? null,
-    attachedTest: attachedTest ?? null,
+    attachedTestIds: attachedTests.map((t) => t.id),
+    attachedTests,
     blocks: mappedBlocks,
     topics,
   };
@@ -80,7 +82,7 @@ async function loadDocuments(query: (supabase: any) => any): Promise<StudyDocume
 
   const docIds = rows.map((r: any) => r.id);
 
-  const [{ data: allBlocksMeta }, { data: allQuizContents }, { data: allTopicRows }] = await Promise.all([
+  const [{ data: allBlocksMeta }, { data: allQuizContents }, { data: allTopicRows }, { data: allAttachedRows }] = await Promise.all([
     supabase
       .from("document_blocks")
       .select("id, document_id, block_type, position, title, description, storage_path, alt_text, caption")
@@ -95,6 +97,12 @@ async function loadDocuments(query: (supabase: any) => any): Promise<StudyDocume
       .from("document_topics")
       .select("document_id, topic_id, topics(id, name, description)")
       .in("document_id", docIds),
+    // Tải bài kiểm tra đính kèm của tất cả tài liệu trong một truy vấn duy nhất (tránh N+1)
+    supabase
+      .from("document_attached_tests")
+      .select("document_id, position, tests:documents!test_id(id, title)")
+      .in("document_id", docIds)
+      .order("position"),
   ]);
 
   const quizContentsById: Record<string, string> = {};
@@ -111,6 +119,7 @@ async function loadDocuments(query: (supabase: any) => any): Promise<StudyDocume
 
   const blocksByDocId: Record<string, any[]> = {};
   const topicsByDocId: Record<string, any[]> = {};
+  const attachedByDocId: Record<string, AttachedTestMeta[]> = {};
 
   for (const block of allBlocks) {
     if (!blocksByDocId[block.document_id]) blocksByDocId[block.document_id] = [];
@@ -122,7 +131,12 @@ async function loadDocuments(query: (supabase: any) => any): Promise<StudyDocume
     topicsByDocId[topicRow.document_id].push(topicRow);
   }
 
-  return rows.map((row: any) => mapDocument(row, blocksByDocId[row.id] ?? [], topicsByDocId[row.id] ?? []));
+  // Supabase-js suy kiểu nhúng một-nhiều nên phải ép về dạng mong muốn
+  for (const attachedRow of (allAttachedRows ?? []) as unknown as { document_id: string; tests: AttachedTestMeta | null }[]) {
+    if (attachedRow.tests) (attachedByDocId[attachedRow.document_id] ??= []).push(attachedRow.tests);
+  }
+
+  return rows.map((row: any) => mapDocument(row, blocksByDocId[row.id] ?? [], topicsByDocId[row.id] ?? [], attachedByDocId[row.id] ?? []));
 }
 
 export async function getPublishedDocuments(topicId?: string): Promise<StudyDocument[]> {
@@ -157,22 +171,22 @@ export const getDocumentById = cache(async function getDocumentById(id: string):
   if (!supabase) return null;
   const { data: row, error } = await supabase.from("documents").select("*").eq("id", id).maybeSingle();
   if (error || !row) return null;
-  const [{ data: blocks }, { data: topicRows }, attachedTest] = await Promise.all([
+  const [{ data: blocks }, { data: topicRows }, { data: attachedRows }] = await Promise.all([
     supabase.from("document_blocks").select("*").eq("document_id", id).order("position"),
     supabase.from("document_topics").select("topic_id, topics(id, name, description)").eq("document_id", id),
-    loadAttachedTest(supabase, row.attached_test_id),
+    supabase
+      .from("document_attached_tests")
+      .select("position, tests:documents!test_id(id, title)")
+      .eq("document_id", id)
+      .order("position"),
   ]);
-  return mapDocument(row, blocks ?? [], topicRows ?? [], attachedTest);
+  const attachedTests = ((attachedRows as any[] | null) ?? [])
+    .map((row) => row.tests)
+    .filter(Boolean) as AttachedTestMeta[];
+  return mapDocument(row, blocks ?? [], topicRows ?? [], attachedTests);
 });
 
-/** Lấy thông tin rút gọn của bài kiểm tra được đính kèm (nếu còn xem được). */
-async function loadAttachedTest(supabase: any, testId: string | null | undefined): Promise<{ id: string; title: string } | null> {
-  if (!testId) return null;
-  const { data } = await supabase.from("documents").select("id, title").eq("id", testId).maybeSingle();
-  return data ? { id: data.id, title: data.title } : null;
-}
-
-/** Danh sách bài kiểm tra đã xuất bản (rút gọn) cho dropdown đính kèm trong trình soạn thảo. */
+/** Danh sách bài kiểm tra đã xuất bản (rút gọn) cho phần chọn đính kèm trong trình soạn thảo. */
 export async function getPublishedTestOptions(): Promise<{ id: string; title: string; grade: string }[]> {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return [];

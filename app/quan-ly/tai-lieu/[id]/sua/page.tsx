@@ -25,10 +25,12 @@ export default async function EditDocumentPage({ params }: Props) {
   if (!document) notFound();
 
   const options = await getPublishedTestOptions();
-  // Đảm bảo bài kiểm tra đang đính kèm (kể cả khi chưa xuất bản) vẫn xuất hiện trong danh sách
+  // Đảm bảo các bài kiểm tra đang đính kèm (kể cả khi chưa xuất bản) vẫn xuất hiện trong danh sách
   const testOptions: TestOption[] = [...options];
-  if (document.attachedTest && !testOptions.some((t) => t.id === document.attachedTest!.id)) {
-    testOptions.unshift({ id: document.attachedTest.id, title: document.attachedTest.title, grade: document.grade });
+  for (const attached of document.attachedTests ?? []) {
+    if (!testOptions.some((t) => t.id === attached.id)) {
+      testOptions.unshift({ ...attached, grade: document.grade });
+    }
   }
 
   return <div className="mx-auto max-w-4xl"><Link href="/quan-ly/tai-lieu" className="mb-4 inline-block text-sm font-semibold text-indigo-600 hover:underline">← Về quản lý tài liệu</Link><div className="mb-7"><p className="mb-2 text-sm font-medium text-indigo-600">CHỈNH SỬA NỘI DUNG</p><h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">Sửa tài liệu</h1><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Cập nhật thông tin, nội dung hoặc thay đổi bài kiểm tra đính kèm của tài liệu.</p></div><DocumentEditor initialData={document} testOptions={testOptions} /></div>;
