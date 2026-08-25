@@ -1,0 +1,256 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ 02 - Chinh Phục Hàm Số từ A - Z}
+\docdesc{Tài Liệu Ôn Thi Group - FLASH STUDY}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hàm số}
+
+\begin{quiz}{Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Bảng biến thiên dưới đây là của một trong bốn hàm số sau. Hỏi đó là hàm số nào?\image{0.6}{}{lt_1.png}}{2}{1}{}
+	\option{$y = x^3 - 3x^2 + x + 3$.}
+	\option{$y = x^3 - 3x + 4$.}
+	\option{$y = x^3 - 3x^2 + 3x + 1$.}
+	\option{$y = x^3 + 3x^2 + 5$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số nào có đồ thị như hình vẽ bên dưới?\image{0.6}{}{lt_2.png}}{2}{1}{}
+	\option{$y = -x^3 + 3x - 2$.}
+	\option{$y = \frac{x^2 - 2}{x + 1}$.}
+	\option{$y = -x^3 + 3x^2 - 2$.}
+	\option{$y = x^3 + 3x^2 + 5$.}
+\end{mcq}
+
+\begin{mcq}{Đường cong bên dưới là của đồ thị hàm số:\image{0.6}{}{lt_3.png}}{3}{1}{}
+	\option{$y = x - \frac{1}{x+1}$.}
+	\option{$y = \frac{2x+1}{x+1}$.}
+	\option{$y = \frac{x^2 - x + 1}{x+1}$.}
+	\option{$y = \frac{x^2 + x + 1}{x+1}$.}
+\end{mcq}
+
+\begin{mcq}{Hãy xác định $a, b$ để hàm số $y = \frac{2 - ax}{x + b}$ có đồ thị như hình vẽ?\image{0.6}{}{lt_4.png}}{2}{1}{}
+	\option{$a = 1; b = -2$.}
+	\option{$a = b = 2$.}
+	\option{$a = -1; b = -2$.}
+	\option{$a = b = -2$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đồ thị như hình vẽ. Mệnh đề nào sau đây là đúng?\image{0.6}{}{lt_5.png}}{1}{1}{}
+	\option{$f(1{,}5) < 0, f(2{,}5) < 0$.}
+	\option{$f(1{,}5) > 0 > f(2{,}5)$.}
+	\option{$f(1{,}5) > 0, f(2{,}5) > 0$.}
+	\option{$f(1{,}5) < 0 < f(2{,}5)$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = ax^3 + bx^2 + cx + d$ có đồ thị như hình vẽ, điểm cực tiểu của đồ thị nằm trên trục tung. Mệnh đề nào sau đây là đúng?\image{0.6}{}{lt_6.png}}{0}{1}{}
+	\option{$a < 0, b < 0, c = 0, d > 0$.}
+	\option{$a > 0, b < 0, c > 0, d > 0$.}
+	\option{$a < 0, b > 0, c > 0, d > 0$.}
+	\option{$a < 0, b > 0, c = 0, d > 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = \frac{ax+b}{x+c}$ có đồ thị như hình vẽ, với $a,b,c$ là các số nguyên. Tính giá trị biểu thức $T = a - 3b + 2c$.\image{0.6}{}{lt_7.png}}{3}{1}{}
+	\option{$T = 12$.}
+	\option{$T = -7$.}
+	\option{$T = 10$.}
+	\option{$T = -9$.}
+\end{mcq}
+
+\begin{mcq}{Bảng biến thiên bên dưới là của đồ thị hàm số:\image{0.6}{}{lt_8.png}}{0}{1}{}
+	\option{$y = \frac{x^2 - 2x + 1}{x + 4}$.}
+	\option{$y = \frac{x^2 - 4x + 2}{x + 4}$.}
+	\option{$y = \frac{x^2 - x + 2}{-x - 4}$.}
+	\option{$y = \frac{x^2 - 3x + 4}{-x - 4}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = (a - x)(b - x)^2$ với $a < b$ có đồ thị là một trong những hình vẽ bên dưới. Hỏi đó là hàm số nào?\image{0.8}{}{lt_9.png}}{0}{1}{}
+	\option{Đồ thị A.}
+	\option{Đồ thị B.}
+	\option{Đồ thị C.}
+	\option{Đồ thị D.}
+\end{mcq}
+
+\begin{mcq}{Đường cong bên dưới là của đồ thị hàm số:\image{0.6}{}{lt_10.png}}{1}{1}{}
+	\option{$y = \frac{x^2 + 3}{x - 1}$.}
+	\option{$y = \frac{x^2 + x - 3}{x - 1}$.}
+	\option{$y = x^3 - 3x + 1$.}
+	\option{$y = \frac{x^2 + 3}{-x + 1}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = \frac{ax + 4}{bx + c} \, (a,b,c \in \mathbb{R})$ có bảng biến thiên như hình vẽ. Trong các số $a, b, c$ có bao nhiêu số dương?\image{0.6}{}{lt_11.png}}{1}{1}{}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$2$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Đường cong bên dưới là của đồ thị hàm số:\image{0.6}{}{lt_12.png}}{0}{1}{}
+	\option{$y = x^3 - 1$.}
+	\option{$y = (x+1)^3$.}
+	\option{$y = (x-1)^3$.}
+	\option{$y = x^3 + 1$.}
+\end{mcq}
+
+\end{quiz}
+
+\begin{quiz}{Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hàm số $y = ax^3 + bx^2 + cx + d$ có đồ thị như hình vẽ. Xét tính đúng sai của các mệnh đề dưới đây.\image{0.6}{}{lt_13.png}}{1}{}
+	\statement{false}{Đồ thị hàm số cắt trục tung tại điểm $(1; 0)$.}
+	\statement{false}{Đồ thị hàm số nhận điểm $I(0; 2)$ làm tâm đối xứng.}
+	\statement{false}{Hàm số nghịch biến trên $(-2; 2)$.}
+	\statement{false}{$a + c = -1$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = ax^3 + bx^2 + cx + d$ bảng biến thiên như hình vẽ. Xét tính đúng sai của các mệnh đề dưới đây.\image{0.6}{}{lt_14.png}}{1}{}
+	\statement{false}{Hàm số nghịch biến trên khoảng $(-1; 5)$.}
+	\statement{true}{Hàm số đạt giá trị lớn nhất trong đoạn $[-2; 0]$ tại $x = -1$.}
+	\statement{true}{$a = b^2$.}
+	\statement{true}{Đồ thị hàm số đi qua điểm $(5; 29)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = \frac{x+a}{bx+c} \, (a,b,c \in \mathbb{Z})$ có đồ thị như hình vẽ. Xét tính đúng sai của các mệnh đề dưới đây.\image{0.6}{}{lt_15.png}}{1}{}
+	\statement{true}{Đồ thị hàm số có tiệm cận đứng $x = 1$.}
+	\statement{true}{Đồ thị hàm số có tiệm cận ngang $y = 1$.}
+	\statement{false}{Hàm số đồng biến trên $\mathbb{R}$.}
+	\statement{false}{$a - 3b - 2c = 2$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = \frac{ax^2 + bx + c}{mx + n}$ có đồ thị như hình vẽ. Xét tính đúng sai của các mệnh đề dưới đây.\image{0.6}{}{lt_16.png}}{1}{}
+	\statement{true}{Tập xác định của hàm số là $\mathbb{R} \setminus \{1\}$.}
+	\statement{false}{Điểm $I(1; 2)$ là tâm đối xứng của đồ thị hàm số.}
+	\statement{false}{$a + 2b = 4$.}
+	\statement{true}{Đồ thị hàm số đi qua điểm $(2; 10)$ khi $c = 4$.}
+\end{truefalse}
+
+\end{quiz}
+
+\begin{quiz}{Bài tập tự luận}
+
+\essay{Khảo sát sự biến thiên và vẽ đồ thị của các hàm số sau:
+
+a) $y = \frac{1}{3} x^3 + x^2 + 2x + 1$.
+
+b) $y = \frac{x^2 - 2x - 3}{2 - x}$.}{1}{}
+
+\essay{Cho hàm số $y = \frac{3 - 2x}{x - 2}$.
+
+a) Khảo sát và vẽ đồ thị hàm số đã cho.
+
+b) Tính diện tích tam giác $IAB$ với $A(2; 2), B(0; 4)$ và $I$ là tâm đối xứng của đồ thị hàm số đã cho.}{1}{}
+
+\essay{Cho hàm số $y = \frac{x^2 + 4x - 1}{x - 1}$.
+
+a) Khảo sát và vẽ đồ thị hàm số.
+
+b) Tìm giá trị lớn nhất và giá trị nhỏ nhất của hàm số đã cho trên đoạn $[2; 4]$.}{1}{}
+
+\essay{Một trang sách có dạng hình chữ nhật với diện tích $384 \text{ cm}^2$. Sau khi để lề trên và lề dưới đều là $3 \text{ cm}$, để lề trái và lề phải đều là $2 \text{ cm}$. Phần còn lại của trang sách được in chữ. Kích thước tối ưu của trang sách là bao nhiêu để phần in chữ trên trang sách có diện tích lớn nhất?}{1}{}
+
+\essay{Một tàu đổ bộ tiếp cận Mặt Trăng theo cách tiếp cận thẳng đứng và đốt cháy các tên lửa hãm ở độ cao $250 \text{ km}$ so với bề mặt của Mặt Trăng.
+Trong khoảng $50$ giây đầu tiên kể từ khi đốt cháy các tên lửa hãm, độ cao $h$ của con tàu so với bề mặt của Mặt Trăng được tính (gần đúng) bởi hàm $h(t) = -0{,}01t^3 + 1{,}1t^2 - 30t + 250$, trong đó $t$ là thời gian tính bằng giây và $h$ là độ cao tính bằng kilômét.
+
+a) Vẽ đồ thị của hàm số $y = h(t)$ với $0 \le t \le 50$ (đơn vị trên trục hoành là $10$ giây, đơn vị trên trục tung là $10 \text{ km}$).
+
+b) Gọi $v(t)$ là vận tốc tức thời của con tàu ở thời điểm $t$ (giây) kể từ khi đốt cháy các tên lửa hãm với $0 \le t \le 50$. Xác định hàm số $v(t)$.
+
+c) Tìm thời điểm $t \, (0 \le t \le 50)$ sao cho con tàu đạt khoảng cách nhỏ nhất so với bề mặt của Mặt Trăng. Khoảng cách nhỏ nhất này là bao nhiêu?}{1}{}
+
+\essay{Số dân của một thị trấn sau $t$ năm kể từ năm 1970 được ước tính bởi công thức $f(t) = \frac{26t + 10}{t + 5}$ ($f(t)$ được tính bằng nghìn người).
+
+a) Tính số dân của thị trấn vào năm 2024 (làm tròn đến chữ số thập phân thứ hai).
+
+b) Xem $y = f(t)$ là một hàm số xác định trên nửa khoảng $[0; +\infty)$. Khảo sát và vẽ đồ thị hàm số $f(t)$.
+
+c) Đạo hàm của hàm số $y = f(t)$ biểu thị tốc độ tăng dân số của thị trấn (tính bằng nghìn người/năm).
+- Tính tốc độ tăng dân số vào năm 2024 của thị trấn đó.
+
+- Vào năm nào thì tốc độ tăng dân số là $0{,}192$ (nghìn người/năm)?}{1}{}
+
+\end{quiz}
+
+\end{document}

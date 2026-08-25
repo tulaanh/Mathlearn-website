@@ -1,0 +1,426 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 01: VECTƠ TRONG KHÔNG GIAN}
+\docdesc{Tóm tắt lý thuyết và các dạng toán vectơ trong không gian - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hình học không gian, Vectơ trong không gian}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Các khái niệm và quy tắc cơ bản về vectơ trong không gian}
+
+- Vectơ trong không gian là một đoạn thẳng có hướng.
+
+\image{0.6}{}{lt_1.png}
+
+- Độ dài của vectơ trong không gian là khoảng cách giữa điểm đầu và điểm cuối của vectơ đó.
+
+- Tương tự như trong mặt phẳng, đối với vectơ trong không gian ta cũng có các kí hiệu và khái niệm sau:
+- Vectơ có điểm đầu là $A$ và điểm cuối là $B$ được kí hiệu là $\vec{AB}$.
+- Khi không cần chỉ rõ điểm đầu và điểm cuối của vectơ thì vectơ còn được kí hiệu là $\vec{a}, \vec{b}, \vec{x}, \vec{y}\dots$
+- Độ dài của vectơ $\vec{AB}$ được kí hiệu là $|\vec{AB}|$, độ dài của vectơ $\vec{a}$ được kí hiệu là $|\vec{a}|$.
+- Đường thẳng đi qua điểm đầu và điểm cuối của một vectơ được gọi là giá của vectơ đó.
+
+\image{0.6}{}{lt_2.png}
+
+- Hai vectơ được gọi là cùng phương nếu chúng có giá song song hoặc trùng nhau.
+
+- Nếu hai vectơ cùng phương thì chúng cùng hướng hoặc ngược hướng.
+
+- Hai vectơ $\vec{a}$ và $\vec{b}$ được gọi là bằng nhau, kí hiệu $\vec{a} = \vec{b}$, nếu chúng có cùng độ dài và cùng hướng.
+
+\vspace{1em}
+\textbf{1. Các quy tắc tính toán với vectơ}
+
+- Quy tắc ba điểm (với phép cộng): $\vec{AB} + \vec{BC} = \vec{AC}$.
+
+- Quy tắc ba điểm (với phép trừ): $\vec{OB} - \vec{OA} = \vec{AB}$.
+
+- Quy tắc ba điểm (mở rộng): $\vec{AX_1} + \vec{X_1X_2} + \dots + \vec{X_{n-1}X_n} + \vec{X_nB} = \vec{AB}$.
+
+- Quy tắc hình bình hành: Cho $ABCD$ là hình bình hành, ta có:
+- $\vec{AB} + \vec{AD} = \vec{AC}$.
+- $\vec{AB} + \vec{AD} = 2\vec{AI}$ (với $I$ là giao điểm của hai đường chéo).
+
+\image{0.6}{}{lt_3.png}
+
+- Quy tắc hình hộp: Cho hình hộp $ABCD.A'B'C'D'$. Ta có $\vec{AB} + \vec{AD} + \vec{AA'} = \vec{AC'}$.
+
+Hệ thức tương tự:
+$$\vec{BA} + \vec{BC} + \vec{BB'} = \vec{BD'}$$
+$$\vec{A'A} + \vec{A'B'} + \vec{A'D'} = \vec{A'C}$$
+$$\vec{B'D} = \vec{B'A'} + \vec{B'C'} + \vec{B'B}$$
+
+\image{0.6}{}{lt_4.png}
+
+- Tích của một số với một vectơ trong không gian:
+Cho số thực $k \ne 0$ và vectơ $\vec{a} \ne \vec{0}$. Tích của số $k$ với vectơ $\vec{a}$ là một vectơ, kí hiệu là $k\vec{a}$, được xác định như sau:
+- Cùng hướng với vectơ $\vec{a}$ nếu $k > 0$, ngược hướng với vectơ $\vec{a}$ nếu $k < 0$.
+- Có độ dài bằng $|k| \cdot |\vec{a}|$.
+
+\textbf{2. Một số hệ thức vectơ cần nhớ}
+
+- $I$ là trung điểm của đoạn thẳng $AB \Leftrightarrow \vec{IA} + \vec{IB} = \vec{0}$.
+
+\image{0.6}{}{lt_5.png}
+
+- $G$ là trọng tâm của tam giác $ABC$:
+- $\vec{GA} + \vec{GB} + \vec{GC} = \vec{0}$.
+- $\vec{GA} = -\frac{2}{3}\vec{AK}$ (với $K$ là trung điểm $BC$).
+- $\vec{GA} = -2\vec{GK}$.
+
+\image{0.6}{}{lt_6.png}
+
+- $G$ là trọng tâm của tứ diện $ABCD \Leftrightarrow \vec{GA} + \vec{GB} + \vec{GC} + \vec{GD} = \vec{0}$.
+($G$ là trung điểm đoạn $MN$, với $M, N$ là trung điểm một cặp cạnh đối diện).
+
+\image{0.6}{}{lt_7.png}
+
+\textbf{3. Phân tích một vectơ theo các vectơ cho trước}
+
+- Định nghĩa: Trong không gian, ba vectơ được gọi là đồng phẳng nếu giá của chúng cùng song song với một mặt phẳng nào đó.
+
+- Cho ba vectơ $\vec{a}, \vec{b}$ và $\vec{c}$ không đồng phẳng. Với mọi vectơ $\vec{x}$, ta đều tìm được bộ số $(m; n; p)$ sao cho:
+$$\vec{x} = m\vec{a} + n\vec{b} + p\vec{c}$$
+
+\image{0.6}{}{lt_8.png}
+
+\textbf{4. Tích vô hướng của hai vectơ}
+
+- Các định nghĩa:
+- Nếu $\vec{a} \ne \vec{0}$ và $\vec{b} \ne \vec{0}$ thì $\vec{a} \cdot \vec{b} = |\vec{a}| \cdot |\vec{b}| \cdot \cos(\vec{a}, \vec{b})$.
+- Nếu $\vec{a} = \vec{0}$ hoặc $\vec{b} = \vec{0}$ thì $\vec{a} \cdot \vec{b} = 0$.
+- Bình phương vô hướng của một vectơ: $\vec{a}^2 = |\vec{a}|^2$.
+
+- Một số ứng dụng của tích vô hướng:
+Với các vectơ bất kì $\vec{a}, \vec{b}, \vec{c}$ và số thực $k$ tùy ý, ta có:
+- $\vec{a} \cdot \vec{b} = \vec{b} \cdot \vec{a}$ (tính chất giao hoán).
+- $\vec{a} \cdot (\vec{b} + \vec{c}) = \vec{a} \cdot \vec{b} + \vec{a} \cdot \vec{c}$ (tính chất phân phối).
+- $(k\vec{a}) \cdot \vec{b} = k(\vec{a} \cdot \vec{b}) = \vec{a} \cdot (k\vec{b})$.
+- $\vec{a}^2 \ge 0$, $\vec{a}^2 = 0 \Leftrightarrow \vec{a} = \vec{0}$.
+- Nếu $\vec{a} \ne \vec{0}$ và $\vec{b} \ne \vec{0}$ thì $\vec{a} \perp \vec{b} \Leftrightarrow \vec{a} \cdot \vec{b} = 0$.
+- Công thức tính cô-sin của góc hợp bởi hai vectơ khác $\vec{0}$: $\cos(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|}$.
+- Công thức tính độ dài của một đoạn thẳng: $AB = |\vec{AB}| = \sqrt{\vec{AB}^2}$.
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Xác định vectơ (Bằng, đối, cùng phương)}{Phương pháp xác định quan hệ giữa các vectơ}
+
+\textbf{Phương pháp giải:}
+- Dựa vào định nghĩa của các khái niệm liên quan đến vectơ.
+- Dựa vào tính chất hình học của các hình hình học cụ thể.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1: Các ví dụ minh họa}
+
+\essay{Cho hình hộp $ABCD.A'B'C'D'$. Hãy xác định các vectơ (khác $\vec{0}$) có điểm đầu, điểm cuối là các đỉnh của hình hộp $ABCD.A'B'C'D'$ và:
+
+a) Cùng phương với $\vec{AB}$.
+
+b) Đối với $\vec{CD'}$.\image{0.6}{}{lt_9.png}}{1}{a) Các vectơ có điểm đầu, điểm cuối là các đỉnh của hình hộp $ABCD.A'B'C'D'$ và cùng phương với $\vec{AB}$ là $\vec{BA}, \vec{CD}, \vec{DC}, \vec{C'D'}, \vec{D'C'}, \vec{A'B'}, \vec{B'A'}$.
+
+b) Các vectơ có điểm đầu, điểm cuối là các đỉnh của hình hộp $ABCD.A'B'C'D'$ và đối với $\vec{CD'}$ là $\vec{D'C}, \vec{A'B}$.}
+
+\essay{Cho hình lập phương $ABCD.A'B'C'D'$. Gọi $O, O'$ lần lượt là giao điểm của hai đường chéo của hai đáy. Hãy xác định các vectơ (khác $\vec{0}$) có điểm đầu, điểm cuối là các đỉnh của hình lập phương $ABCD.A'B'C'D'$ và:
+
+a) Bằng $\vec{OO'}$.
+
+b) Bằng $\vec{AO}$.\image{0.6}{}{lt_10.png}}{1}{a) Ta có $\vec{OO'} = \vec{AA'} = \vec{BB'} = \vec{CC'} = \vec{DD'}$.
+
+b) Ta có $\vec{AO} = \vec{A'O'} = \vec{OC} = \vec{O'C'}$.}
+
+\begin{mcq}{Cho hình hộp $ABCD.A'B'C'D'$. Các vectơ (khác $\vec{0}$) có điểm đầu, điểm cuối là các đỉnh của hình hộp $ABCD.A'B'C'D'$ và bằng vectơ $\vec{AB}$ là các vectơ nào sau đây?\image{0.6}{}{lt_11.png}}{1}{1}{Ta có $\vec{AB} = \vec{DC} = \vec{EF} = \vec{HG}$. Chọn B.}
+	\option{$\vec{CD}, \vec{HG}, \vec{EF}$.}
+	\option{$\vec{DC}, \vec{HG}, \vec{EF}$.}
+	\option{$\vec{DC}, \vec{HG}, \vec{FE}$.}
+	\option{$\vec{DC}, \vec{GH}, \vec{EF}$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2: Chứng minh đẳng thức vectơ}{Phương pháp biến đổi và chứng minh đẳng thức vectơ}
+
+\textbf{Phương pháp giải:}
+Để chứng minh đẳng thức vectơ, ta thường sử dụng:
+- Qui tắc cộng, qui tắc trừ ba điểm, qui tắc hình bình hành, qui tắc hình hộp.
+- Tính chất trung điểm, trọng tâm tam giác, tích một số với một vectơ... để biến đổi từng vế.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2: Các ví dụ minh họa}
+
+\essay{Cho bốn điểm $A, B, C, D$ bất kì trong không gian. Chứng minh $\vec{AB} + \vec{CD} = \vec{AD} + \vec{CB}$.}{1}{Ta có:
+$$\vec{AB} + \vec{CD} = \vec{AD} + \vec{DB} + \vec{CB} + \vec{BD}$$
+$$= \vec{AD} + \vec{CB} - \vec{BD} + \vec{BD} = \vec{AD} + \vec{CB}.$$}
+
+\essay{Cho tứ diện $ABCD$. Gọi $I, J$ lần lượt là trung điểm của $AB, CD$.
+
+a) Chứng minh rằng $\vec{IJ} = \frac{1}{2}(\vec{AD} + \vec{BC})$. Cho $G$ là trung điểm của $IJ$.
+
+b) Chứng minh rằng $4\vec{MG} = \vec{MA} + \vec{MB} + \vec{MC} + \vec{MD}$, với mọi điểm $M$ trong không gian.\image{0.6}{}{lt_12.png}}{1}{a) Ta có:
+$$\vec{IJ} = \frac{1}{2}(\vec{IC} + \vec{ID}) = \frac{1}{2}\left(\frac{1}{2}(\vec{BC} + \vec{AC}) + \frac{1}{2}(\vec{BD} + \vec{AD})\right)$$
+$$= \frac{1}{2}\left(\frac{1}{2}\vec{BC} + \frac{1}{2}(\vec{AB} + \vec{BC}) + \frac{1}{2}(\vec{BA} + \vec{AD}) + \frac{1}{2}\vec{AD}\right)$$
+$$= \frac{1}{2}\left(\vec{AD} + \vec{BC} + \frac{1}{2}\vec{AB} + \frac{1}{2}\vec{BA}\right) = \frac{1}{2}(\vec{AD} + \vec{BC}).$$
+
+b) Ta có:
+$$\vec{MA} + \vec{MB} + \vec{MC} + \vec{MD} = 4\vec{MG} + \vec{GA} + \vec{GB} + \vec{GC} + \vec{GD} = 4\vec{MG} + 2\vec{GI} + 2\vec{GJ} = 4\vec{MG}.$$}
+
+\begin{mcq}{Cho tứ diện $ABCD$. Mệnh đề nào sau đây là đúng?\image{0.6}{}{lt_13.png}}{0}{1}{Ta có $\vec{AB} - \vec{AC} = \vec{CB} = \vec{DB} - \vec{DC}$. Chọn A.}
+	\option{$\vec{AB} - \vec{AC} = \vec{DB} - \vec{DC}$.}
+	\option{$\vec{AC} - \vec{AD} = \vec{BD} - \vec{BC}$.}
+	\option{$\vec{AB} - \vec{AD} = \vec{CD} + \vec{BC}$.}
+	\option{$\vec{BC} + \vec{AB} = \vec{DA} - \vec{DC}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình hộp $ABCD.A'B'C'D'$. Mệnh đề nào sau đây là đúng?\image{0.6}{}{lt_14.png}}{2}{1}{Ta có $\vec{AC'} = \vec{AA'} + \vec{AB} + \vec{AD} = \vec{AA'} + \vec{D'C'} + \vec{BC}$. Chọn C.}
+	\option{$\vec{AA'} + \vec{D'C'} - \vec{BC} = \vec{AC'}$.}
+	\option{$\vec{CC'} + \vec{D'C'} + \vec{BC} = \vec{AD'}$.}
+	\option{$\vec{AA'} + \vec{D'C'} + \vec{BC} = \vec{AC'}$.}
+	\option{$\vec{CC'} + \vec{C'D'} + \vec{BC} = \vec{AC'}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình hộp $ABCD.A'B'C'D'$. Mệnh đề nào sau đây là sai?\image{0.6}{}{lt_15.png}}{2}{1}{A đúng vì theo qui tắc hình hộp, ta có $\vec{AC'} = \vec{AB} + \vec{AD} + \vec{AA'}$.
+
+B đúng vì $\vec{AB} + \vec{BC'} + \vec{CD} + \vec{D'A} = \vec{AC'} + \vec{CD} + \vec{D'A} = \vec{D'A} + \vec{AC'} + \vec{CD} = \vec{D'C'} + \vec{CD} = -\vec{CD} + \vec{CD} = \vec{0}$.
+
+C sai vì $\vec{AB} + \vec{AA'} = \vec{AB'} \ne \vec{AD'} = \vec{AD} + \vec{DD'}$.
+
+D đúng vì $\vec{AB} + \vec{BC} + \vec{CC'} = \vec{AC} + \vec{CC'} = \vec{AC'}$ và $\vec{AD'} + \vec{D'O} + \vec{OC'} = \vec{AO} + \vec{OC'} = \vec{AC'}$.
+
+Chọn C.}
+	\option{$\vec{AC'} = \vec{AB} + \vec{AD} + \vec{AA'}$.}
+	\option{$\vec{AB} + \vec{BC'} + \vec{CD} + \vec{D'A} = \vec{0}$.}
+	\option{$\vec{AB} + \vec{AA'} = \vec{AD} + \vec{DD'}$.}
+	\option{$\vec{AB} + \vec{BC} + \vec{CC'} = \vec{AD'} + \vec{D'O} + \vec{OC'}$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3: Phân tích một vectơ theo các vectơ cho trước}{Phương pháp biểu diễn vectơ trong không gian}
+
+\textbf{Phương pháp giải:}
+Để phân tích một vectơ theo ba vectơ $\vec{a}, \vec{b}, \vec{c}$ không đồng phẳng, ta tìm các số $m, n, p$ sao cho:
+$$\vec{x} = m\vec{a} + n\vec{b} + p\vec{c}$$
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3: Các ví dụ minh họa}
+
+\essay{Cho hình hộp $ABCD.EFGH$. Gọi $I$ là trung điểm $BG$. Hãy biểu diễn vectơ $\vec{AI}$ theo 3 vectơ $\vec{AB}, \vec{AD}, \vec{AE}$.\image{0.6}{}{lt_16.png}}{1}{Ta có:
+$$\vec{AI} = \frac{1}{2}(\vec{AB} + \vec{AG}) = \frac{1}{2}\vec{AB} + \frac{1}{2}(\vec{AB} + \vec{AD} + \vec{AE}) = \vec{AB} + \frac{1}{2}\vec{AD} + \frac{1}{2}\vec{AE}.$$}
+
+\essay{Cho tứ diện $ABCD$. Gọi $M$ là trung điểm của $CD$, $I$ là trung điểm của $BM$. Hãy biểu diễn vectơ $\vec{AI}$ theo $\vec{AB}, \vec{AC}, \vec{AD}$.\image{0.6}{}{lt_17.png}}{1}{Ta có:
+$$\vec{AI} = \frac{1}{2}(\vec{AB} + \vec{AM}) = \frac{1}{2}\vec{AB} + \frac{1}{2} \cdot \frac{1}{2}(\vec{AC} + \vec{AD}) = \frac{1}{2}\vec{AB} + \frac{1}{4}\vec{AC} + \frac{1}{4}\vec{AD}.$$}
+
+\essay{Cho tứ diện $ABCD$. Gọi $G$ là trọng tâm tam giác $BCD$. Hãy biểu diễn vectơ $\vec{AG}$ theo $\vec{AB}, \vec{AC}, \vec{AD}$.\image{0.6}{}{lt_18.png}}{1}{Ta có:
+$$\vec{AG} = \vec{AB} + \vec{BG} = \vec{AB} + \frac{2}{3}\vec{BI} = \vec{AB} + \frac{2}{3} \cdot \frac{1}{2}(\vec{BC} + \vec{BD}) = \vec{AB} + \frac{1}{3}(\vec{BA} + \vec{AC}) + \frac{1}{3}(\vec{BA} + \vec{AD})$$
+$$= \vec{AB} - \frac{1}{3}\vec{BA} - \frac{1}{3}\vec{BA} + \frac{1}{3}\vec{AC} + \frac{1}{3}\vec{AD} = \frac{1}{3}\vec{AB} + \frac{1}{3}\vec{AC} + \frac{1}{3}\vec{AD}.$$}
+
+\essay{Cho hình lăng trụ $ABC.A'B'C'$. Gọi $G'$ là trọng tâm tam giác $A'B'C'$. Hãy biểu diễn vectơ $\vec{AG'}$ theo 3 vectơ $\vec{AA'}, \vec{AB}, \vec{AC}$.\image{0.6}{}{lt_19.png}}{1}{Ta có:
+$$\vec{AG'} = \vec{AA'} + \vec{A'G'} = \vec{AA'} + \frac{2}{3}\vec{A'I} = \vec{AA'} + \frac{2}{3} \cdot \frac{1}{2}(\vec{A'B'} + \vec{A'C'}) = \vec{AA'} + \frac{1}{3}\vec{AB} + \frac{1}{3}\vec{AC}.$$}
+
+\essay{Cho hình lăng trụ $ABC.A'B'C'$. Gọi $I$ là trung điểm $B'C'$. Hãy biểu diễn vectơ $\vec{A'I}$ theo $\vec{AA'}, \vec{AB'}, \vec{AC}$.\image{0.6}{}{lt_20.png}}{1}{Ta có:
+$$\vec{A'I} = \frac{1}{2}(\vec{A'B'} + \vec{A'C'}) = \frac{1}{2}(\vec{AB'} - \vec{AA'}) + \frac{1}{2}\vec{AC} = -\frac{1}{2}\vec{AA'} + \frac{1}{2}\vec{AB'} + \frac{1}{2}\vec{AC}.$$}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4: Tích vô hướng của hai vectơ}{Phương pháp tính toán và ứng dụng tích vô hướng}
+
+\textbf{Phương pháp giải:}
+- Sử dụng định nghĩa: $\vec{a} \cdot \vec{b} = |\vec{a}| \cdot |\vec{b}| \cdot \cos(\vec{a}, \vec{b})$.
+- Áp dụng các tính chất giao hoán, phân phối, nhân với một số.
+- Vận dụng vào việc tính góc giữa hai vectơ, chứng minh hai đường thẳng vuông góc, tính khoảng cách, độ dài đoạn thẳng.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4: Các ví dụ minh họa}
+
+\essay{Cho hai vectơ $\vec{a}$ và $\vec{b}$. Chứng minh rằng $\vec{a} \cdot \vec{b} = \frac{1}{4}\left(|\vec{a} + \vec{b}|^2 - |\vec{a} - \vec{b}|^2\right)$.}{1}{Ta có:
+$$\frac{1}{4}\left(|\vec{a} + \vec{b}|^2 - |\vec{a} - \vec{b}|^2\right) = \frac{1}{4}\left((\vec{a} + \vec{b})^2 - (\vec{a} - \vec{b})^2\right)$$
+$$= \frac{1}{4}\left(\vec{a}^2 + \vec{b}^2 + 2\vec{a}\cdot\vec{b} - (\vec{a}^2 + \vec{b}^2 - 2\vec{a}\cdot\vec{b})\right) = \vec{a}\cdot\vec{b}.$$}
+
+\essay{Cho hình lập phương $ABCD.A'B'C'D'$ có cạnh bằng $a$. Tính $(\vec{AB} + \vec{AD}) \cdot \vec{B'D}$.\image{0.6}{}{lt_21.png}}{1}{Ta có:
+$$(\vec{AB} + \vec{AD}) \cdot \vec{B'D} = \vec{AC} \cdot \vec{B'D} = 0.$$}
+
+\essay{Cho $|\vec{a}| = 2, |\vec{b}| = 3$ và $(\vec{a}, \vec{b}) = 120^\circ$. Tính $|\vec{a} + \vec{b}|$ và $|\vec{a} - \vec{b}|$.}{1}{Ta có:
+$$|\vec{a} + \vec{b}|^2 = (\vec{a} + \vec{b})^2 = \vec{a}^2 + \vec{b}^2 + 2\vec{a}\cdot\vec{b} = |\vec{a}|^2 + |\vec{b}|^2 + 2|\vec{a}|\cdot|\vec{b}|\cos(\vec{a}, \vec{b})$$
+$$= 2^2 + 3^2 + 2\cdot 2\cdot 3\cdot\cos 120^\circ = 7 \Rightarrow |\vec{a} + \vec{b}| = \sqrt{7}.$$
+
+Ta có:
+$$|\vec{a} - \vec{b}|^2 = (\vec{a} - \vec{b})^2 = \vec{a}^2 + \vec{b}^2 - 2\vec{a}\cdot\vec{b} = |\vec{a}|^2 + |\vec{b}|^2 - 2|\vec{a}|\cdot|\vec{b}|\cos(\vec{a}, \vec{b})$$
+$$= 2^2 + 3^2 - 2\cdot 2\cdot 3\cdot\cos 120^\circ = 19 \Rightarrow |\vec{a} - \vec{b}| = \sqrt{19}.$$}
+
+\essay{Cho $|\vec{a}| = 3, |\vec{b}| = 4$ và $\vec{a}\cdot\vec{b} = -6$. Tính góc hợp bởi hai vectơ $\vec{a}$ và $\vec{b}$.}{1}{Ta có:
+$$\vec{a}\cdot\vec{b} = |\vec{a}|\cdot|\vec{b}|\cos(\vec{a}, \vec{b}) \Leftrightarrow \cos(\vec{a}, \vec{b}) = \frac{\vec{a}\cdot\vec{b}}{|\vec{a}|\cdot|\vec{b}|} = \frac{-6}{3 \cdot 4} = -\frac{1}{2}.$$
+
+Vậy góc hợp bởi hai vectơ $\vec{a}$ và $\vec{b}$ là $120^\circ$.}
+
+\essay{Cho hình lập phương $ABCD.A'B'C'D'$. Tính góc giữa hai vectơ $\vec{BD}, \vec{B'C}$.\image{0.6}{}{lt_22.png}}{1}{Ta có $(\vec{BD}, \vec{B'C}) = (\vec{B'D'}, \vec{B'C}) = \widehat{CB'D'}$.
+
+Vì $ABCD.A'B'C'D'$ là hình lập phương nên tam giác $CB'D'$ đều.
+
+Do đó góc $\widehat{CB'D'} = 60^\circ$.
+
+Vậy $(\vec{BD}, \vec{B'C}) = 60^\circ$.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 5
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 5: Bài toán thực tế}{Ứng dụng vectơ và tích vô hướng vào giải quyết các bài toán vật lý, thực tế}
+
+\textbf{Phương pháp giải:}
+- Mô hình hóa bài toán thực tế bằng các đối tượng hình học và vectơ (vận tốc, gia tốc, lực, công sinh ra...).
+- Sử dụng các quy tắc cộng vectơ (quy tắc hình bình hành, hình hộp) khi các lực cùng tác dụng lên một vật.
+- Sử dụng công thức công cơ học $A = \vec{F} \cdot \vec{d} = |\vec{F}| \cdot |\vec{d}| \cdot \cos(\vec{F}, \vec{d})$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 5: Các ví dụ minh họa}
+
+\essay{Theo định luật II Newton: Gia tốc của một vật có cùng hướng với lực tác dụng lên vật. Độ lớn của gia tốc tỉ lệ thuận với độ lớn của lực và tỉ lệ nghịch với khối lượng của vật: $\vec{F} = m\vec{a}$, trong đó $\vec{a}$ là vectơ gia tốc ($\text{m/s}^2$), $\vec{F}$ là vectơ lực ($\text{N}$) tác dụng lên vật, $m$ ($\text{kg}$) là khối lượng của vật. Muốn truyền cho quả bóng có khối lượng $0{,}5\text{ kg}$ một gia tốc $50\text{ m/s}^2$ thì cần một lực đá có độ lớn bao nhiêu?}{1}{Ta có $\vec{F} = m\vec{a}$, suy ra:
+$$|\vec{F}| = m|\vec{a}| = 0{,}5 \cdot 50 = 25\text{ (N)}.$$
+
+Vậy muốn truyền cho quả bóng khối lượng $0{,}5\text{ kg}$ một gia tốc $50\text{ m/s}^2$ thì cần một lực đá có độ lớn là $25\text{ (N)}.$}
+
+\essay{Cho ba lực $\vec{F_1} = \vec{MA}, \vec{F_2} = \vec{MB}, \vec{F_3} = \vec{MC}$ cùng tác động vào một vật tại điểm $M$ và vật đứng yên. Biết độ lớn của $\vec{F_1}, \vec{F_2}$ đều là $100\text{ (N)}$ và $\widehat{AMB} = 60^\circ$. Tìm độ lớn của lực $\vec{F_3}$.\image{0.6}{}{lt_23.png}}{1}{Vì $M$ đứng yên nên $\vec{F_1} + \vec{F_2} + \vec{F_3} = \vec{0}$, suy ra $\vec{F_3} = -(\vec{F_1} + \vec{F_2})$.
+
+Cường độ của $\vec{F_1}, \vec{F_2}$ đều là $100\text{ (N)}$ nên $|\vec{F_1}| = |\vec{F_2}| = 100\text{ (N)}$.
+
+Gọi $I$ là giao điểm của $AB$ và $MD$, khi đó $I$ là trung điểm của $AB$ và $MD$.
+
+Mặt khác, ta có $\widehat{AMB} = 60^\circ$ nên tam giác $ABM$ đều.
+
+Khi đó $MI \perp AB \Rightarrow \Delta AIM$ vuông tại $I$.
+
+$\Rightarrow MI = AM \cdot \sin(\widehat{IAM}) = 100 \cdot \sin 60^\circ = 50\sqrt{3} \Rightarrow MD = 2MI = 100\sqrt{3}\text{ (N)}$.
+
+Mà $\vec{F_3} = -(\vec{F_1} + \vec{F_2}) = -(\vec{MA} + \vec{MB}) = -\vec{MD}$, do đó $\vec{F_3}$ có hướng ngược với hướng của $\vec{MD}$ và có độ lớn:
+$$|\vec{F_3}| = |-\vec{MD}| = 100\sqrt{3}\text{ (N)}.$$}
+
+\essay{Khi máy bay nghiêng cánh một góc $\alpha$, lực $\vec{F}$ của không khí tác động vuông góc với cánh và bằng tổng của lực nâng $\vec{F_1}$ và lực cản $\vec{F_2}$. Cho biết $\alpha = 30^\circ$ và $|\vec{F}| = a$. Tính $|\vec{F_1}|$ và $|\vec{F_2}|$ theo $a$.\image{0.6}{}{lt_24.png}}{1}{\image{0.6}{}{lt_25.png}}
+
+\essay{Cho biết công $A$ (đơn vị: $\text{J}$) sinh bởi lực $\vec{F}$ tác dụng lên một vật được tính bằng công thức $A = \vec{F} \cdot \vec{d}$, trong đó $\vec{d}$ là vectơ biểu thị độ dịch chuyển của vật (đơn vị của $|\vec{d}|$ là $\text{m}$) khi chịu tác dụng của lực $\vec{F}$. Một chiếc xe có khối lượng $1{,}5$ tấn đang đi xuống trên một đoạn đường dốc có góc nghiêng $5^\circ$ so với phương ngang. Tính công sinh bởi trọng lực $\vec{P}$ khi xe đi hết đoạn đường dốc dài $30\text{ m}$ (làm tròn kết quả đến hàng đơn vị), biết rằng trọng lực $\vec{P}$ được xác định bởi công thức $\vec{P} = m\vec{g}$, với $m$ (đơn vị: $\text{kg}$) là khối lượng của vật và $\vec{g}$ là gia tốc rơi tự do có độ lớn $g = 9{,}8\text{ m/s}^2$.\image{0.6}{}{lt_26.png}}{1}{Ta có $1{,}5\text{ tấn} = 1500\text{ kg}$.
+
+Độ lớn của trọng lực tác dụng lên chiếc xe là:
+$$|\vec{P}| = m|\vec{g}| = 1500 \cdot 9{,}8 = 14700\text{ (N)}.$$
+
+Vectơ $\vec{d}$ biểu thị độ dịch chuyển của xe có độ dài là $|\vec{d}| = 30\text{ (m)}$ và $(\vec{P}, \vec{d}) = 90^\circ - 5^\circ = 85^\circ$.
+
+Công sinh ra bởi trọng lực $\vec{P}$ khi xe đi hết đoạn đường dốc dài $30\text{ m}$ là:
+$$A = \vec{P} \cdot \vec{d} = |\vec{P}| \cdot |\vec{d}| \cdot \cos(\vec{P}, \vec{d}) = 14700 \cdot 30 \cdot \cos 85^\circ \approx 38436\text{ (J)}.$$}
+
+\essay{Một chiếc đèn tròn được treo song song với mặt phẳng nằm ngang bởi ba sợi dây không dãn xuất phát từ điểm $O$ trên trần nhà và lần lượt buộc vào ba điểm $A, B, C$ trên đèn sao cho các lực căng $\vec{F_1}, \vec{F_2}, \vec{F_3}$ lần lượt trên mỗi dây $OA, OB, OC$ đôi một vuông góc với nhau và $|\vec{F_1}| = |\vec{F_2}| = |\vec{F_3}| = 15\text{ (N)}$ như hình vẽ. Tính trọng lượng của chiếc đèn tròn đó.\image{0.6}{}{lt_27.png}}{1}{\image{0.6}{}{lt_28.png}}
+
+\end{quiz}
+
+\end{document}

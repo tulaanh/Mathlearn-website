@@ -128,12 +128,14 @@ function parseMcq(content: string): QuizQuestion {
 
   const rest = content.slice(pos);
   const options: Array<{id: string, text: string}> = [];
+  const OPTION_IDS = ["a", "b", "c", "d", "e", "f"];
   
   const optionRegex = /\\option\{/g;
   let match;
   while ((match = optionRegex.exec(rest)) !== null) {
+    const idx = options.length;
     const [optText] = extractBracedArg(rest, match.index + "\\option".length);
-    options.push({ id: generateId(), text: optText.trim() });
+    options.push({ id: OPTION_IDS[idx] ?? generateId(), text: optText.trim() });
   }
 
   const correctIndex = parseInt(correctIdxStr.trim(), 10) || 0;

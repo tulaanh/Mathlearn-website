@@ -15,13 +15,42 @@ function withKey(block: DocumentFormBlock): DocumentFormBlock {
   return { ...block, keyId: block.keyId ?? crypto.randomUUID() };
 }
 
+const STANDARD_OPTION_IDS = ["a", "b", "c", "d", "e", "f"];
+
+/** Chuẩn hóa option ID của câu trắc nghiệm: chuyển UUID → "a","b","c","d"
+ *  để nhất quán với QuizEditor và các component khác. */
+function normalizeMcqQuestions(questions: import("@/lib/document-types").QuizQuestion[]): import("@/lib/document-types").QuizQuestion[] {
+  return questions.map((q) => {
+    if (q.type !== "multiple_choice" || !q.options || q.options.length === 0) return q;
+
+    // Nếu options đã dùng ID chuẩn thì bỏ qua
+    const alreadyStandard = q.options.every((o, i) => o.id === STANDARD_OPTION_IDS[i]);
+    if (alreadyStandard) return q;
+
+    // Tìm vị trí đáp án đúng trước khi đổi ID
+    const oldCorrectIdx = q.options.findIndex((o) => o.id === q.correctOptionId);
+
+    const newOptions = q.options.map((o, i) => ({
+      ...o,
+      id: STANDARD_OPTION_IDS[i] ?? o.id,
+    }));
+
+    const newCorrectOptionId =
+      oldCorrectIdx >= 0 && oldCorrectIdx < newOptions.length
+        ? newOptions[oldCorrectIdx].id
+        : newOptions[0]?.id ?? "a";
+
+    return { ...q, options: newOptions, correctOptionId: newCorrectOptionId };
+  });
+}
+
 /** Chuyển blocks đã lưu trong DB về dạng form để sửa */
 function toFormBlocks(blocks: DocumentBlock[]): DocumentFormBlock[] {
   return blocks.map((b) => {
     if (b.type === "text") return withKey({ type: "text", content: b.content });
     if (b.type === "image") return withKey({ type: "image", file: null, altText: b.altText, caption: b.caption ?? "", storagePath: b.storagePath });
     if (b.type === "lesson") return withKey({ type: "lesson", title: b.title, description: b.description ?? "", content: b.content });
-    return withKey({ type: "quiz", title: b.title, description: b.description ?? "", questions: b.questions });
+    return withKey({ type: "quiz", title: b.title, description: b.description ?? "", questions: normalizeMcqQuestions(b.questions) });
   });
 }
 
@@ -51,7 +80,11 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
     setStatus(preset.status);
     setDocumentType(preset.documentType ?? "normal");
     setSelectedTopics(preset.selectedTopics);
-    setBlocks(preset.blocks.length ? preset.blocks.map(withKey) : [withKey({ type: "text", content: "" })]);
+    setBlocks(preset.blocks.length ? preset.blocks.map((b) => {
+      const keyed = withKey(b);
+      if (keyed.type === "quiz") return { ...keyed, questions: normalizeMcqQuestions(keyed.questions) };
+      return keyed;
+    }) : [withKey({ type: "text", content: "" })]);
   };
 
   const currentPreset: EditorPreset = { title, description, grade, status, documentType, selectedTopics, blocks };

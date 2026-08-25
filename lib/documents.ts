@@ -37,6 +37,17 @@ function mapDocument(row: any, blocks: any[], topicRows: any[], attachedTests: A
         } catch {
           questions = [];
         }
+        // Chuẩn hóa option ID của câu trắc nghiệm: UUID → "a","b","c","d"
+        const OPTION_IDS = ["a", "b", "c", "d", "e", "f"];
+        questions = questions.map((q: any) => {
+          if (q.type !== "multiple_choice" || !Array.isArray(q.options) || q.options.length === 0) return q;
+          const alreadyStandard = q.options.every((o: any, i: number) => o.id === OPTION_IDS[i]);
+          if (alreadyStandard) return q;
+          const oldCorrectIdx = q.options.findIndex((o: any) => o.id === q.correctOptionId);
+          const newOptions = q.options.map((o: any, i: number) => ({ ...o, id: OPTION_IDS[i] ?? o.id }));
+          const newCorrectOptionId = oldCorrectIdx >= 0 && oldCorrectIdx < newOptions.length ? newOptions[oldCorrectIdx].id : newOptions[0]?.id ?? "a";
+          return { ...q, options: newOptions, correctOptionId: newCorrectOptionId };
+        });
         return {
           id: block.id,
           type: "quiz",
