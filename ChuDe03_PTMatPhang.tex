@@ -1,0 +1,744 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 03: PHƯƠNG TRÌNH MẶT PHẲNG}
+\docdesc{Tóm tắt lý thuyết và các dạng toán Phương trình mặt phẳng trong không gian Oxyz - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hình học không gian, Phương trình mặt phẳng}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Vectơ pháp tuyến, cặp vectơ chỉ phương, tích có hướng, phương trình tổng quát, điều kiện song song - vuông góc và khoảng cách}
+
+\textbf{1. Vectơ pháp tuyến và cặp vectơ chỉ phương của mặt phẳng:}
+
+Cho mặt phẳng $(\alpha)$.
+- Nếu vectơ $\vec{n} \neq \vec{0}$ có giá vuông góc với $(\alpha)$ thì $\vec{n}$ được gọi là \textbf{vectơ pháp tuyến} của $(\alpha)$.
+\image{0.5}{Vectơ pháp tuyến của mặt phẳng}{images_ChuDe03_PTMatPhang/lt_vtpt.png}
+
+- Nếu hai vectơ $\vec{a}, \vec{b}$ không cùng phương, có giá song song hoặc nằm trong $(\alpha)$ thì $\vec{a}, \vec{b}$ được gọi là \textbf{cặp vectơ chỉ phương} của $(\alpha)$.
+\image{0.5}{Cặp vectơ chỉ phương của mặt phẳng}{images_ChuDe03_PTMatPhang/lt_vtcp.png}
+
+\textbf{Chú ý:}
+- Một mặt phẳng hoàn toàn được xác định khi biết một điểm và một vectơ pháp tuyến hoặc một điểm và một cặp vectơ chỉ phương của mặt phẳng đó.
+- Nếu $\vec{n}$ là một vectơ pháp tuyến của mặt phẳng $(\alpha)$ thì $k\vec{n}$ (với $k \neq 0$) cũng là một vectơ pháp tuyến của $(\alpha)$.
+
+\textbf{2. Xác định vectơ pháp tuyến của mặt phẳng khi biết cặp vectơ chỉ phương:}
+
+Trong không gian $Oxyz$, cho hai vectơ $\vec{a} = (a_1; a_2; a_3)$ và $\vec{b} = (b_1; b_2; b_3)$.
+- Vectơ $\vec{n} = (a_2 b_3 - a_3 b_2; a_3 b_1 - a_1 b_3; a_1 b_2 - a_2 b_1)$ vuông góc với cả hai vectơ $\vec{a}$ và $\vec{b}$ được gọi là \textbf{tích có hướng} của $\vec{a}$ và $\vec{b}$, kí hiệu là $[\vec{a}, \vec{b}]$.
+- Nếu $\vec{a}, \vec{b}$ là cặp vectơ chỉ phương của mặt phẳng $(\alpha)$ thì $[\vec{a}, \vec{b}]$ là một vectơ pháp tuyến của mặt phẳng $(\alpha)$.
+\image{0.55}{Tích có hướng của hai vectơ chỉ phương}{images_ChuDe03_PTMatPhang/lt_tichcohuong.png}
+
+\textbf{Chú ý:}
+- Kí hiệu $\begin{vmatrix} x & x' \\ y & y' \end{vmatrix} = x y' - x' y$, khi đó $\vec{n} = [\vec{a}, \vec{b}] = \left( \begin{vmatrix} a_2 & a_3 \\ b_2 & b_3 \end{vmatrix}; \begin{vmatrix} a_3 & a_1 \\ b_3 & b_1 \end{vmatrix}; \begin{vmatrix} a_1 & a_2 \\ b_1 & b_2 \end{vmatrix} \right)$.
+- $\vec{a}$ và $\vec{b}$ cùng phương $\Leftrightarrow [\vec{a}, \vec{b}] = \vec{0}$.
+- $\vec{n} = [\vec{a}, \vec{b}] \perp \vec{a}$ và $\vec{n} = [\vec{a}, \vec{b}] \perp \vec{b}$.
+
+\textbf{3. Phương trình tổng quát của mặt phẳng:}
+
+Trong không gian $Oxyz$, phương trình có dạng $Ax + By + Cz + D = 0$, trong đó $A, B, C$ không đồng thời bằng $0$ ($A^2 + B^2 + C^2 > 0$) được gọi là \textbf{phương trình tổng quát của mặt phẳng}.
+
+\textbf{Chú ý:}
+- Mỗi phương trình $Ax + By + Cz + D = 0$, trong đó $A, B, C$ không đồng thời bằng $0$, đều xác định một mặt phẳng nhận $\vec{n} = (A; B; C)$ là vectơ pháp tuyến.
+- Cho mặt phẳng $(\alpha): Ax + By + Cz + D = 0$. Khi đó:
+$$M(x_0; y_0; z_0) \in (\alpha) \Leftrightarrow A x_0 + B y_0 + C z_0 + D = 0.$$
+
+\textbf{4. Lập phương trình tổng quát của mặt phẳng:}
+
+a) \textbf{Mặt phẳng đi qua điểm $M(x_0; y_0; z_0)$ và có VTPT $\vec{n} = (A; B; C)$:}
+$$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0 \Leftrightarrow Ax + By + Cz + D = 0 \quad \text{với } D = -(A x_0 + B y_0 + C z_0).$$
+
+b) \textbf{Mặt phẳng đi qua điểm $M$ và có cặp vectơ chỉ phương $\vec{a}, \vec{b}$:}
+- Bước 1: Tìm $\vec{n} = [\vec{a}, \vec{b}]$.
+- Bước 2: Viết phương trình tổng quát của mặt phẳng đi qua $M$, có VTPT $\vec{n}$.
+
+c) \textbf{Mặt phẳng đi qua ba điểm không thẳng hàng $A, B, C$:}
+- Bước 1: Tìm tọa độ cặp vectơ chỉ phương $\vec{AB}, \vec{AC}$.
+- Bước 2: Tìm $\vec{n} = [\vec{AB}, \vec{AC}]$.
+- Bước 3: Viết phương trình mặt phẳng đi qua $A$ và nhận $\vec{n}$ làm VTPT.
+
+\textbf{Chú ý (Phương trình đoạn chắn):} Mặt phẳng $(\alpha)$ đi qua ba điểm $A(a; 0; 0), B(0; b; 0), C(0; 0; c)$ (với $a b c \neq 0$) có phương trình là:
+$$\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1.$$
+\image{0.5}{Phương trình mặt phẳng theo đoạn chắn}{images_ChuDe03_PTMatPhang/lt_doanchan.png}
+
+\textbf{5. Điều kiện để hai mặt phẳng song song, vuông góc:}
+
+Cho hai mặt phẳng $(\alpha_1): A_1 x + B_1 y + C_1 z + D_1 = 0$ và $(\alpha_2): A_2 x + B_2 y + C_2 z + D_2 = 0$.
+- $(\alpha_1) // (\alpha_2) \Leftrightarrow \begin{cases} \vec{n}_1 = k\vec{n}_2 \\ D_1 \neq k D_2 \end{cases}$ hay $\frac{A_1}{A_2} = \frac{B_1}{B_2} = \frac{C_1}{C_2} \neq \frac{D_1}{D_2}$ ($A_2 B_2 C_2 D_2 \neq 0$).
+- $(\alpha_1) \perp (\alpha_2) \Leftrightarrow \vec{n}_1 \cdot \vec{n}_2 = 0 \Leftrightarrow A_1 A_2 + B_1 B_2 + C_1 C_2 = 0$.
+- $(\alpha_1) \equiv (\alpha_2) \Leftrightarrow \begin{cases} \vec{n}_1 = k\vec{n}_2 \\ D_1 = k D_2 \end{cases}$ hay $\frac{A_1}{A_2} = \frac{B_1}{B_2} = \frac{C_1}{C_2} = \frac{D_1}{D_2}$ ($A_2 B_2 C_2 D_2 \neq 0$).
+- $(\alpha_1)$ cắt $(\alpha_2) \Leftrightarrow \vec{n}_1$ và $\vec{n}_2$ không cùng phương.
+
+\textbf{6. Khoảng cách từ một điểm đến một mặt phẳng:}
+
+Khoảng cách từ điểm $M(x_0; y_0; z_0)$ đến mặt phẳng $(\alpha): Ax + By + Cz + D = 0$ là:
+$$d(M, (\alpha)) = \frac{|A x_0 + B y_0 + C z_0 + D|}{\sqrt{A^2 + B^2 + C^2}}.$$
+
+Khoảng cách giữa hai mặt phẳng song song $(\alpha): Ax + By + Cz + D = 0$ và $(\beta): Ax + By + Cz + D' = 0$ ($D \neq D'$):
+$$d((\alpha), (\beta)) = \frac{|D - D'|}{\sqrt{A^2 + B^2 + C^2}}.$$
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN VÀ VÍ DỤ MINH HỌA
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1: XÁC ĐỊNH VTPT VÀ CẶP VTCP CỦA MẶT PHẲNG
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Xác định vectơ pháp tuyến và cặp vectơ chỉ phương của mặt phẳng}{Phương pháp xác định VTPT, cặp VTCP và tính tích có hướng}
+
+\textbf{Phương pháp giải:}
+- Nếu $\vec{n} \neq \vec{0}$ có giá vuông góc với $(\alpha)$ thì $\vec{n}$ là vectơ pháp tuyến của $(\alpha)$.
+- Nếu $\vec{n}$ là một VTPT của $(\alpha)$ thì $k\vec{n}$ ($k \neq 0$) cũng là một VTPT của $(\alpha)$.
+- Nếu hai vectơ $\vec{a}, \vec{b}$ không cùng phương, có giá song song hoặc nằm trong $(\alpha)$ thì $\vec{a}, \vec{b}$ là cặp VTCP của $(\alpha)$.
+- Tích có hướng $[\vec{a}, \vec{b}] = (a_2 b_3 - a_3 b_2; a_3 b_1 - a_1 b_3; a_1 b_2 - a_2 b_1)$ là một VTPT của $(\alpha)$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1: Các ví dụ minh họa}
+
+\essay{Cho hình hộp chữ nhật $ABCD.A'B'C'D'$. Hãy tìm bốn vectơ pháp tuyến và hai cặp vectơ chỉ phương của hai mặt phẳng $(ABCD)$ và $(CC'D'D)$.
+\image{0.45}{Hình hộp chữ nhật}{images_ChuDe03_PTMatPhang/bt1_vd1.png}
+}{1}{
+- Vì các đường thẳng $AA', BB', CC', DD'$ vuông góc với mặt phẳng $(ABCD)$ nên bốn vectơ pháp tuyến của mặt phẳng $(ABCD)$ là $\vec{AA'}, \vec{BB'}, \vec{CC'}, \vec{DD'}$.
+- Vì các đường thẳng $B'C', BC, AD, A'D'$ vuông góc với mặt phẳng $(CC'D'D)$ nên bốn vectơ pháp tuyến của mặt phẳng $(CC'D'D)$ là $\vec{B'C'}, \vec{BC}, \vec{AD}, \vec{A'D'}$.
+- Vì $\vec{AB}$ và $\vec{AD}$ không cùng phương và có giá cùng nằm trong mặt phẳng $(ABCD)$ nên $\vec{AB}, \vec{AD}$ là một cặp vectơ chỉ phương của $(ABCD)$.
+- Vì $\vec{B'C'}$ và $\vec{A'C'}$ không cùng phương và có giá cùng song song với mặt phẳng $(ABCD)$ nên $\vec{B'C'}, \vec{A'C'}$ là một cặp vectơ chỉ phương của $(ABCD)$.
+- Vì $\vec{DC}$ và $\vec{DD'}$ không cùng phương và có giá cùng nằm trong mặt phẳng $(CC'D'D)$ nên $\vec{DC}, \vec{DD'}$ là một cặp vectơ chỉ phương của mặt phẳng $(CC'D'D)$.
+- Vì $\vec{BA'}$ có giá song song với mặt phẳng $(CC'D'D)$, $\vec{C'D'}$ có giá nằm trong mặt phẳng $(CC'D'D)$ đồng thời $\vec{BA'}$ và $\vec{C'D'}$ không cùng phương nên $\vec{BA'}, \vec{C'D'}$ là một cặp vectơ chỉ phương của mặt phẳng $(CC'D'D)$.
+}
+
+\begin{truefalse}{Cho hình chóp $S.ABCD$ với $ABCD$ là hình vuông và $SA$ vuông góc với $(ABCD)$. Xét tính đúng, sai của các khẳng định sau:
+\image{0.45}{Hình chóp S.ABCD}{images_ChuDe03_PTMatPhang/bt1_vd2.png}
+}{1}{
+- Vì $SA \perp (ABCD) \equiv (ABD)$ nên $\vec{SA}$ là vectơ pháp tuyến của mặt phẳng $(ABD)$.
+- Đường thẳng $AD$ vuông góc với hai đường thẳng $SA$ và $AB$ nên vuông góc với mặt phẳng $(SAB)$. Đồng thời $BC // AD$ nên $BC$ cũng vuông góc với mặt phẳng $(SAB)$. Suy ra $\vec{AD}$ và $-2\vec{BC}$ đều là vectơ pháp tuyến của mặt phẳng $(SAB)$.
+- Vì $AB // CD$ nên $AB // (SCD)$ hay $\vec{AB}$ có giá song song với mặt phẳng $(SCD)$. $\vec{SC}$ có giá nằm trong mặt phẳng $(SCD)$ và $\vec{AB}, \vec{SC}$ không cùng phương. Suy ra $\vec{AB}$ và $\vec{SC}$ là một cặp vectơ chỉ phương của mặt phẳng $(SCD)$.
+- Đường thẳng $BD$ vuông góc với hai đường thẳng $SA$ và $AC$ nên vuông góc với mặt phẳng $(SAC)$. Suy ra $\vec{DB}$ là một vectơ pháp tuyến của mặt phẳng $(SAC)$.
+- Vậy các khẳng định a, b, c là đúng, khẳng định d là sai.
+}
+	\statement{true}{$\vec{SA}$ là vectơ pháp tuyến của mặt phẳng $(ABD)$.}
+	\statement{true}{$\vec{AD}$ và $-2\vec{BC}$ đều là vectơ pháp tuyến của mặt phẳng $(SAB)$.}
+	\statement{true}{$\vec{AB}$ và $\vec{SC}$ là một cặp vectơ chỉ phương của mặt phẳng $(SCD)$.}
+	\statement{false}{$\vec{DB}$ không là vectơ pháp tuyến của mặt phẳng $(SAC)$.}
+\end{truefalse}
+
+\essay{Trong không gian $Oxyz$, cho $\vec{u} = (2; 1; 1)$ và $\vec{v} = (1; -2; 0)$. Tính $[\vec{u}, \vec{v}]$.}{1}{
+Ta có:
+$$[\vec{u}, \vec{v}] = \left( \begin{vmatrix} 1 & 1 \\ -2 & 0 \end{vmatrix}; \begin{vmatrix} 1 & 2 \\ 0 & 1 \end{vmatrix}; \begin{vmatrix} 2 & 1 \\ 1 & -2 \end{vmatrix} \right) = (2; 1; -5).$$
+}
+
+\essay{Trong không gian $Oxyz$, cho mặt phẳng $(P)$ nhận $\vec{a} = (1; 3; 5), \vec{b} = (-3; -1; 1)$ làm cặp vectơ chỉ phương. Tìm một vectơ pháp tuyến của $(P)$.}{1}{
+Một vectơ pháp tuyến của mặt phẳng $(P)$ là:
+$$\vec{n} = [\vec{a}, \vec{b}] = \left( \begin{vmatrix} 3 & 5 \\ -1 & 1 \end{vmatrix}; \begin{vmatrix} 5 & 1 \\ 1 & -3 \end{vmatrix}; \begin{vmatrix} 1 & 3 \\ -3 & -1 \end{vmatrix} \right) = (8; -16; 8).$$
+Chú ý: Ta cũng có thể chọn vectơ $\vec{n}' = \frac{1}{8}\vec{n} = (1; -2; 1)$ là một vectơ pháp tuyến của $(P)$.
+}
+
+\essay{Trong không gian $Oxyz$, cho hai vectơ $\vec{x} = (1; 2; 3)$ và $\vec{y} = (4; 1; 5)$. Gọi $(\alpha)$ là một mặt phẳng song song với các giá của $\vec{x}$ và $\vec{y}$. Hãy tìm một vectơ pháp tuyến của $(\alpha)$.}{1}{
+Vì $(\alpha)$ song song với các giá của $\vec{x}$ và $\vec{y}$ nên $\vec{x}, \vec{y}$ là cặp vectơ chỉ phương của $(\alpha)$.
+Tích có hướng của hai vectơ $\vec{x}, \vec{y}$ là:
+$$[\vec{x}, \vec{y}] = \left( \begin{vmatrix} 2 & 3 \\ 1 & 5 \end{vmatrix}; \begin{vmatrix} 3 & 1 \\ 5 & 4 \end{vmatrix}; \begin{vmatrix} 1 & 2 \\ 4 & 1 \end{vmatrix} \right) = (7; 7; -7).$$
+Do đó, mặt phẳng $(\alpha)$ nhận $\vec{n} = \frac{1}{7}[\vec{x}, \vec{y}] = (1; 1; -1)$ làm một vectơ pháp tuyến.
+}
+
+\essay{Trong không gian $Oxyz$, tìm một vectơ pháp tuyến của mặt phẳng qua ba điểm $A(2; -1; 3), B(4; 0; 1), C(-10; 5; 3)$.}{1}{
+Ta có $\vec{AB} = (2; 1; -2), \vec{AC} = (-12; 6; 0)$ nên $\vec{AB}, \vec{AC}$ không cùng phương. Mà chúng có giá nằm trong mặt phẳng $(ABC)$ nên $\vec{AB}, \vec{AC}$ là một cặp vectơ chỉ phương của mặt phẳng $(ABC)$.
+Vậy một VTPT của $(ABC)$ là:
+$$\vec{n} = [\vec{AB}, \vec{AC}] = \left( \begin{vmatrix} 1 & -2 \\ 6 & 0 \end{vmatrix}; \begin{vmatrix} -2 & 2 \\ 0 & -12 \end{vmatrix}; \begin{vmatrix} 2 & 1 \\ -12 & 6 \end{vmatrix} \right) = (12; 24; 24).$$
+Chú ý: Ta cũng có thể chọn vectơ $\vec{n}' = \frac{1}{12}\vec{n} = (1; 2; 2)$ là một vectơ pháp tuyến của $(ABC)$.
+}
+
+\essay{Trong không gian $Oxyz$, cho tứ diện $ABCD$ có các đỉnh là $A(5; 1; 3), B(1; 6; 2), C(5; 0; 4)$ và $D(4; 0; 6)$. Tìm một vectơ pháp tuyến của mặt phẳng $(\alpha)$ chứa cạnh $AB$ và song song với cạnh $CD$.}{1}{
+Ta có $\vec{AB} = (-4; 5; -1), \vec{CD} = (-1; 0; 2)$ nên $\vec{AB}, \vec{CD}$ không cùng phương.
+$(\alpha)$ chứa cạnh $AB$ nên $\vec{AB}$ có giá nằm trong mặt phẳng $(\alpha)$, đồng thời $(\alpha)$ song song với cạnh $CD$ nên $\vec{CD}$ có giá song song với mặt phẳng $(\alpha)$.
+Suy ra $\vec{AB}, \vec{CD}$ là một cặp vectơ chỉ phương của mặt phẳng $(\alpha)$.
+Vậy một vectơ pháp tuyến của $(\alpha)$ là:
+$$\vec{n} = [\vec{AB}, \vec{CD}] = \left( \begin{vmatrix} 5 & -1 \\ 0 & 2 \end{vmatrix}; \begin{vmatrix} -1 & -4 \\ 2 & -1 \end{vmatrix}; \begin{vmatrix} -4 & 5 \\ -1 & 0 \end{vmatrix} \right) = (10; 9; 5).$$
+}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2: NHẬN DẠNG PHƯƠNG TRÌNH TỔNG QUÁT, VTPT VÀ ĐIỂM THUỘC MP
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2: Nhận dạng phương trình tổng quát, vectơ pháp tuyến và điểm thuộc mặt phẳng}{Nhận diện phương trình bậc nhất ba ẩn, toạ độ VTPT và kiểm tra điểm thuộc mặt phẳng}
+
+\textbf{Phương pháp giải:}
+- Phương trình có dạng $Ax + By + Cz + D = 0$ ($A^2 + B^2 + C^2 > 0$) là phương trình tổng quát của mặt phẳng.
+- Mặt phẳng có một vectơ pháp tuyến là $\vec{n} = (A; B; C)$.
+- Điểm $M(x_0; y_0; z_0) \in (\alpha) \Leftrightarrow A x_0 + B y_0 + C z_0 + D = 0$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2: Các ví dụ minh họa}
+
+\begin{mcq}{Phương trình nào sau đây là phương trình tổng quát của mặt phẳng?}{3}{1}{Phương trình tổng quát của mặt phẳng có dạng $Ax + By + Cz + D = 0$, với $A, B, C$ không đồng thời bằng $0$ nên chỉ có đáp án D đúng. Chọn D.}
+	\option{$-x^2 + 2y + 3z + 4 = 0$.}
+	\option{$2x - y^2 + z + 5 = 0$.}
+	\option{$x + y - z^2 + 6 = 0$.}
+	\option{$3x - 4y - 5z + 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - 3y + 4z + 5 = 0$. Vectơ nào sau đây là một vectơ pháp tuyến của mặt phẳng $(P)$?}{3}{1}{Mặt phẳng $(P): 2x - 3y + 4z + 5 = 0$ có một VTPT là $\vec{n} = (2; -3; 4)$. Chọn D.}
+	\option{$\vec{n} = (-3; 4; 5)$.}
+	\option{$\vec{n} = (-4; -3; 2)$.}
+	\option{$\vec{n} = (2; -3; 5)$.}
+	\option{$\vec{n} = (2; -3; 4)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(\alpha): 2x - y + 3 = 0$. Một vectơ pháp tuyến của $(\alpha)$ có tọa độ là:}{2}{1}{Mặt phẳng $(\alpha): 2x - y + 3 = 0$ có một VTPT là $\vec{n} = (2; -1; 0)$. Chọn C.}
+	\option{$(2; 1; 0)$.}
+	\option{$(2; -1; 3)$.}
+	\option{$(2; -1; 0)$.}
+	\option{$(2; 1; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, một vectơ pháp tuyến của mặt phẳng $\frac{x}{-2} + \frac{y}{-1} + \frac{z}{3} = 1$ là:}{3}{1}{Mặt phẳng $\frac{x}{-2} + \frac{y}{-1} + \frac{z}{3} = 1$ có một vectơ pháp tuyến $\vec{a} = \left(-\frac{1}{2}; -1; \frac{1}{3}\right)$. Suy ra một vectơ pháp tuyến của mặt phẳng đã cho là $\vec{n} = -6\vec{a} = (3; 6; -2)$. Chọn D.}
+	\option{$\vec{n} = (-2; -1; 3)$.}
+	\option{$\vec{n} = (2; -1; 3)$.}
+	\option{$\vec{n} = (-3; -6; -2)$.}
+	\option{$\vec{n} = (3; 6; -2)$.}
+\end{mcq}
+
+\begin{mcq}{Vectơ nào sau đây không phải là một vectơ pháp tuyến của mặt phẳng $(R): x + 3y - 5z + 2 = 0$?}{1}{1}{Mặt phẳng $(R)$ nhận vectơ $\vec{a} = (1; 3; -5)$ làm vectơ pháp tuyến. Xét $\vec{n}_2 = (-2; -6; -10)$ có $\frac{-2}{1} = \frac{-6}{3} \neq \frac{-10}{-5}$ nên $\vec{n}_2$ không cùng phương với $\vec{a}$. Suy ra $\vec{n}_2$ không là vectơ pháp tuyến của $(R)$. Chọn B.}
+	\option{$\vec{n}_1 = (-1; -3; 5)$.}
+	\option{$\vec{n}_2 = (-2; -6; -10)$.}
+	\option{$\vec{n}_3 = (-3; -9; 15)$.}
+	\option{$\vec{n}_4 = (2; 6; -10)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(\alpha): x - 2y + 2z - 3 = 0$. Điểm nào sau đây nằm trên mặt phẳng $(\alpha)$?}{3}{1}{Thay tọa độ điểm $N(1; 0; 1)$ vào phương trình mặt phẳng $(\alpha)$ ta được $1 - 2 \cdot 0 + 2 \cdot 1 - 3 = 0$ (luôn đúng) nên điểm $N$ nằm trên $(\alpha)$. Chọn D.}
+	\option{$M(2; 0; 1)$.}
+	\option{$Q(1; -2; 2)$.}
+	\option{$P(2; -1; 1)$.}
+	\option{$N(1; 0; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(Q): x + y + z - 6 = 0$. Điểm nào dưới đây không thuộc mặt phẳng $(Q)$?}{0}{1}{Thay tọa độ điểm $A(1; -1; 1)$ vào phương trình mặt phẳng $(Q)$ ta được $1 + (-1) + 1 - 6 = -5 \neq 0$ (vô lý) nên điểm $A$ không thuộc $(Q)$. Chọn A.}
+	\option{$A(1; -1; 1)$.}
+	\option{$B(3; 3; 0)$.}
+	\option{$C(2; 2; 2)$.}
+	\option{$D(1; 2; 3)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3: VIẾT PHƯƠNG TRÌNH MẶT PHẲNG
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3: Viết phương trình mặt phẳng khi biết các yếu tố liên quan}{Phương pháp viết phương trình mặt phẳng qua điểm và biết VTPT hoặc cặp VTCP}
+
+\textbf{Phương pháp giải:}
+- Phương trình mặt phẳng $(P)$ qua $M(x_0; y_0; z_0)$ có VTPT $\vec{n} = (A; B; C)$ là:
+$$A(x - x_0) + B(y - y_0) + C(z - z_0) = 0 \Leftrightarrow Ax + By + Cz + D = 0.$$
+- Nếu $(P) \perp AB$ thì $\vec{n}_{(P)} = \vec{AB}$.
+- Nếu $(P)$ là mặt phẳng trung trực của $AB$ thì $(P)$ qua trung điểm $I$ của $AB$ và $\vec{n}_{(P)} = \vec{AB}$.
+- Nếu $(P) // (Q)$ thì $\vec{n}_{(P)} = \vec{n}_{(Q)}$.
+- Nếu $(P)$ qua 3 điểm $A, B, C$ không thẳng hàng thì $\vec{n}_{(P)} = [\vec{AB}, \vec{AC}]$.
+- Nếu $(P) \perp (Q)$ và $(P) \perp (R)$ thì $\vec{n}_{(P)} = [\vec{n}_{(Q)}, \vec{n}_{(R)}]$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3: Các ví dụ minh họa}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình mặt phẳng đi qua điểm $A(1; 2; 3)$ và có vectơ pháp tuyến $\vec{n} = (-2; 0; 1)$ là:}{2}{1}{Phương trình mặt phẳng đi qua điểm $A(1; 2; 3)$ và có vectơ pháp tuyến $\vec{n} = (-2; 0; 1)$ là $-2(x - 1) + 0(y - 2) + 1(z - 3) = 0 \Leftrightarrow -2x + z - 1 = 0$. Chọn C.}
+	\option{$-2x + z + 1 = 0$.}
+	\option{$-2y + z - 1 = 0$.}
+	\option{$-2x + z - 1 = 0$.}
+	\option{$-2x + y - 1 = 0$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, viết phương trình mặt phẳng $(\alpha)$ đi qua điểm $M(1; 2; -1)$ và vuông góc với trục $Ox$.}{1}{
+Trên trục $Ox$ có vectơ đơn vị $\vec{i} = (1; 0; 0)$.
+Vì mặt phẳng $(\alpha)$ vuông góc với trục $Ox$ nên $(\alpha)$ có một VTPT $\vec{n} = (1; 0; 0)$.
+Mà $(\alpha)$ đi qua điểm $M(1; 2; -1)$ nên có phương trình là:
+$$(\alpha): 1(x - 1) + 0(y - 2) + 0(z + 1) = 0 \Leftrightarrow (\alpha): x - 1 = 0.$$
+}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho các điểm $A(0; 1; 2), B(2; -1; 1), C(-2; 0; 1)$. Phương trình mặt phẳng đi qua $A$ và vuông góc với $BC$ là:}{2}{1}{Ta có $\vec{BC} = (-4; 1; 0)$. Vì mặt phẳng vuông góc với $BC$ nên có một VTPT $\vec{n} = \vec{BC} = (-4; 1; 0)$. Suy ra phương trình mặt phẳng cần tìm là $-4(x - 0) + 1(y - 1) + 0(z - 2) = 0 \Leftrightarrow 4x - y + 1 = 0$. Chọn C.}
+	\option{$2x - y - 1 = 0$.}
+	\option{$-y + 2z - 3 = 0$.}
+	\option{$4x - y + 1 = 0$.}
+	\option{$y + 2z - 5 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(4; 0; 1)$ và $B(-2; 2; 3)$. Phương trình nào dưới đây là phương trình mặt phẳng trung trực của đoạn thẳng $AB$?}{2}{1}{Mặt phẳng trung trực đi qua trung điểm $M(1; 1; 2)$ và nhận $\vec{AB} = (-6; 2; 2) = -2(3; -1; -1)$ làm VTPT. Phương trình: $3(x - 1) - 1(y - 1) - 1(z - 2) = 0 \Leftrightarrow 3x - y - z = 0$. Chọn C.}
+	\option{$3x - y - z + 1 = 0$.}
+	\option{$3x + y + z - 6 = 0$.}
+	\option{$3x - y - z = 0$.}
+	\option{$6x - 2y - 2z - 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình nào được cho dưới đây là phương trình mặt phẳng $(Oyz)$?}{3}{1}{Vì $Ox \perp (Oyz)$ nên mặt phẳng $(Oyz)$ đi qua điểm $O$ và nhận vectơ $\vec{i} = (1; 0; 0)$ là VTPT. Suy ra phương trình mặt phẳng $(Oyz)$ là $x = 0$. Chọn D.}
+	\option{$x = y + z$.}
+	\option{$y - z = 0$.}
+	\option{$y + z = 0$.}
+	\option{$x = 0$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, viết phương trình mặt phẳng $(P)$ đi qua điểm $K(-1; 2; 3)$ và nhận hai vectơ $\vec{u} = (1; 2; 3)$ và $\vec{v} = (4; 5; 6)$ làm cặp vectơ chỉ phương.}{1}{
+Vì mặt phẳng $(P)$ nhận hai vectơ $\vec{u}, \vec{v}$ làm cặp vectơ chỉ phương nên $(P)$ có VTPT $\vec{n} = [\vec{u}, \vec{v}] = (-3; 6; -3) = -3(1; -2; 1)$.
+Mặt phẳng $(P)$ đi qua điểm $K(-1; 2; 3)$ và nhận $\vec{n}' = (1; -2; 1)$ làm VTPT có phương trình là:
+$$(P): 1(x + 1) - 2(y - 2) + 1(z - 3) = 0 \Leftrightarrow (P): x - 2y + z + 2 = 0.$$
+}
+
+\essay{Trong không gian $Oxyz$, cho ba vectơ $\vec{a} = (1; -2; 3), \vec{b} = (3; 2; -1), \vec{c} = (-2; 4; -6)$ và điểm $A(4; 1; 0)$. Viết phương trình tổng quát của các mặt phẳng đi qua $A$ và nhận hai trong ba vectơ $\vec{a}, \vec{b}, \vec{c}$ làm cặp vectơ chỉ phương.}{1}{
+- Xét cặp vectơ $\vec{a}, \vec{b}$ không cùng phương. Mặt phẳng $(\alpha)$ qua $A$ nhận $\vec{a}, \vec{b}$ làm cặp VTCP có VTPT $\vec{n}_{(\alpha)} = [\vec{a}, \vec{b}] = (-4; 10; 8) = -2(2; -5; -4)$.
+Phương trình $(\alpha): 2(x - 4) - 5(y - 1) - 4(z - 0) = 0 \Leftrightarrow 2x - 5y - 4z - 3 = 0$.
+- Xét cặp $\vec{a}, \vec{c}$ cùng phương nên không xác định được mặt phẳng.
+- Xét cặp $\vec{b}, \vec{c}$ không cùng phương, mặt phẳng qua $A$ nhận $\vec{b}, \vec{c}$ làm cặp VTCP trùng với $(\alpha)$.
+}
+
+\begin{mcq}{Trong không gian $Oxyz$, viết phương trình mặt phẳng đi qua ba điểm $A(1; 1; 4), B(2; 7; 9)$ và $C(0; 9; 13)$.}{1}{1}{Ta có $\vec{AB} = (1; 6; 5), \vec{AC} = (-1; 8; 9)$ suy ra $[\vec{AB}, \vec{AC}] = (14; -14; 14) = 14(1; -1; 1)$. Phương trình mặt phẳng $(ABC)$ qua $A(1; 1; 4)$ có VTPT $(1; -1; 1)$ là $1(x - 1) - 1(y - 1) + 1(z - 4) = 0 \Leftrightarrow x - y + z - 4 = 0$. Chọn B.}
+	\option{$2x + y + z + 1 = 0$.}
+	\option{$x - y + z - 4 = 0$.}
+	\option{$7x - 2y + z - 9 = 0$.}
+	\option{$2x + y - z - 2 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, mặt phẳng $(P)$ song song với $(Oxy)$ và đi qua điểm $A(1; -2; 1)$ có phương trình là phương trình nào sau đây?}{0}{1}{Mặt phẳng $(Oxy): z = 0$ nên $(P) // (Oxy)$ có dạng $z + m = 0$ ($m \neq 0$). Vì $A(1; -2; 1) \in (P)$ nên $1 + m = 0 \Leftrightarrow m = -1$. Suy ra $(P): z - 1 = 0$. Chọn A.}
+	\option{$z - 1 = 0$.}
+	\option{$2x + y = 0$.}
+	\option{$x - 1 = 0$.}
+	\option{$y + 2 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(2; 3; 2)$ và $(\alpha): 2x - 3y + 2z - 4 = 0$. Phương trình mặt phẳng $(\beta)$ đi qua $M$ và song song với mặt phẳng $(\alpha)$ là:}{1}{1}{Vì $(\beta) // (\alpha)$ nên $(\beta): 2x - 3y + 2z + d = 0$ ($d \neq -4$). Thay $M(2; 3; 2)$ vào ta được $2(2) - 3(3) + 2(2) + d = 0 \Leftrightarrow d = 1$. Suy ra $(\beta): 2x - 3y + 2z + 1 = 0$. Chọn B.}
+	\option{$(\beta): 2x - 3y + 2z - 4 = 0$.}
+	\option{$(\beta): 2x - 3y + 2z + 1 = 0$.}
+	\option{$(\beta): 2x - 3y + z - 1 = 0$.}
+	\option{$(\beta): 2x - 3y + 2z - 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, viết phương trình mặt phẳng $(P)$ biết $(P)$ đi qua hai điểm $M(0; -1; 0), N(-1; 1; 1)$ và vuông góc với mặt phẳng $(Oxz)$.}{3}{1}{Ta có $\vec{MN} = (-1; 2; 1)$ và $(Oxz)$ có VTPT $\vec{j} = (0; 1; 0)$. VTPT của $(P)$ là $\vec{n} = [\vec{MN}, \vec{j}] = (-1; 0; -1) = -(1; 0; 1)$. Phương trình: $1(x - 0) + 0(y + 1) + 1(z - 0) = 0 \Leftrightarrow x + z = 0$. Chọn D.}
+	\option{$(P): x + z + 1 = 0$.}
+	\option{$(P): x - z = 0$.}
+	\option{$(P): z = 0$.}
+	\option{$(P): x + z = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $A(1; 1; 1)$ và hai mặt phẳng $(Q): y = 0, (P): 2x - y + 3z - 1 = 0$. Viết phương trình mặt phẳng $(R)$ chứa $A$ và vuông góc với cả hai mặt phẳng $(P), (Q)$.}{3}{1}{VTPT của $(R)$ là $\vec{n} = [\vec{n}_{(Q)}, \vec{n}_{(P)}] = [(0; 1; 0), (2; -1; 3)] = (3; 0; -2)$. Phương trình: $3(x - 1) + 0(y - 1) - 2(z - 1) = 0 \Leftrightarrow 3x - 2z - 1 = 0$. Chọn D.}
+	\option{$3x - y + 2z - 4 = 0$.}
+	\option{$3x + y - 2z - 2 = 0$.}
+	\option{$3x - 2y = 0$.}
+	\option{$3x - 2z - 1 = 0$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, cho tứ diện $ABCD$ có các đỉnh là $A(4; 0; 2), B(0; 5; 1), C(4; -1; 3)$ và $D(3; -1; 5)$. Viết phương trình mặt phẳng $(\alpha)$ chứa cạnh $BC$ và song song với cạnh $AD$.}{1}{
+Ta có $\vec{BC} = (4; -6; 2)$ và $\vec{AD} = (-1; -1; 3)$.
+VTPT của $(\alpha)$ là $\vec{n} = [\vec{BC}, \vec{AD}] = (-16; -14; -10) = -2(8; 7; 5)$.
+Phương trình $(\alpha)$ qua $B(0; 5; 1)$ là:
+$$8(x - 0) + 7(y - 5) + 5(z - 1) = 0 \Leftrightarrow 8x + 7y + 5z - 40 = 0.$$
+}
+
+\begin{mcq}{Trong không gian $Oxyz$, viết phương trình mặt phẳng $(P)$ chứa $Oz$ và đi qua điểm $B(3; -4; 7)$.}{2}{1}{Mặt phẳng $(P)$ có cặp VTCP là $\vec{k} = (0; 0; 1)$ và $\vec{OB} = (3; -4; 7)$. VTPT $\vec{n} = [\vec{k}, \vec{OB}] = (-4; -3; 0) = -(4; 3; 0)$. Phương trình $(P): 4x + 3y = 0$. Chọn C.}
+	\option{$4x - 3y = 0$.}
+	\option{$3x + 4y = 0$.}
+	\option{$4x + 3y = 0$.}
+	\option{$-3x + 4y = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, gọi $(P)$ là mặt phẳng chứa trục $Ox$ và vuông góc với mặt phẳng $(Q): x + y + z - 3 = 0$. Phương trình mặt phẳng $(P)$ là:}{3}{1}{Mặt phẳng chứa $Ox$ có dạng $by + cz = 0$ ($b^2 + c^2 > 0$). Do $(P) \perp (Q) \Rightarrow 0(1) + b(1) + c(1) = 0 \Leftrightarrow b = -c$. Chọn $c = -1 \Rightarrow b = 1 \Rightarrow (P): y - z = 0$. Chọn D.}
+	\option{$y - z - 1 = 0$.}
+	\option{$y - 2z = 0$.}
+	\option{$y + z = 0$.}
+	\option{$y - z = 0$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, viết phương trình mặt phẳng $(S)$ đi qua $M(2; 3; -1)$, song song với trục $Oy$ và vuông góc với mặt phẳng $(Q): x + 2y - 3z + 1 = 0$.}{1}{
+Mặt phẳng $(S)$ nhận $\vec{j} = (0; 1; 0)$ và $\vec{n}_{(Q)} = (1; 2; -3)$ làm cặp VTCP.
+VTPT của $(S)$ là $\vec{n} = [\vec{j}, \vec{n}_{(Q)}] = (-3; 0; -1) = -(3; 0; 1)$.
+Phương trình $(S)$ đi qua $M(2; 3; -1)$ là:
+$$3(x - 2) + 0(y - 3) + 1(z + 1) = 0 \Leftrightarrow 3x + z - 5 = 0.$$
+}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4: PHƯƠNG TRÌNH MẶT PHẲNG THEO ĐOẠN CHẮN
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4: Phương trình mặt phẳng theo đoạn chắn}{Phương pháp viết phương trình đoạn chắn và các bài toán liên quan trực tâm, trọng tâm}
+
+\textbf{Phương pháp giải:}
+- Mặt phẳng cắt ba trục $Ox, Oy, Oz$ lần lượt tại $A(a; 0; 0), B(0; b; 0), C(0; 0; c)$ ($a b c \neq 0$) có phương trình theo đoạn chắn là:
+$$\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1.$$
+\image{0.5}{Phương trình mặt phẳng theo đoạn chắn}{images_ChuDe03_PTMatPhang/bt4_pp.png}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4: Các ví dụ minh họa}
+
+\begin{mcq}{Trong không gian $Oxyz$, mặt phẳng đi qua $A(2; 0; 0), B(0; 4; 0), C(0; 0; 4)$ có phương trình là:}{0}{1}{Phương trình mặt phẳng đi qua $A(2; 0; 0), B(0; 4; 0), C(0; 0; 4)$ là $\frac{x}{2} + \frac{y}{4} + \frac{z}{4} = 1 \Leftrightarrow \frac{x}{1} + \frac{y}{2} + \frac{z}{2} = 2$. Chọn A.}
+	\option{$\frac{x}{1} + \frac{y}{2} + \frac{z}{2} = 2$.}
+	\option{$2x + 4y + 4z = 0$.}
+	\option{$\frac{x}{2} + \frac{y}{4} + \frac{z}{4} = 0$.}
+	\option{$\frac{x}{1} + \frac{y}{2} + \frac{z}{2} = 1$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(1; 2; -3)$. Gọi $M_1, M_2, M_3$ lần lượt là hình chiếu vuông góc của $M$ lên trục $Ox, Oy, Oz$. Phương trình mặt phẳng đi qua ba điểm $M_1, M_2, M_3$ là:}{0}{1}{Ta có $M_1(1; 0; 0), M_2(0; 2; 0), M_3(0; 0; -3)$. Phương trình mặt phẳng $(M_1 M_2 M_3)$ là $\frac{x}{1} + \frac{y}{2} + \frac{z}{-3} = 1 \Leftrightarrow x + \frac{y}{2} - \frac{z}{3} = 1$. Chọn A.}
+	\option{$x + \frac{y}{2} - \frac{z}{3} = 1$.}
+	\option{$\frac{x}{3} + \frac{y}{2} + \frac{z}{1} = 1$.}
+	\option{$x + \frac{y}{2} + \frac{z}{3} = 1$.}
+	\option{$x + \frac{y}{2} + \frac{z}{3} = -1$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, mặt phẳng nào sau đây cắt trục $Ox, Oy, Oz$ lần lượt tại các điểm $A, B, C$ sao cho tam giác $ABC$ nhận điểm $G(1; 2; 1)$ là trọng tâm?}{1}{1}{Vì $G(1; 2; 1)$ là trọng tâm $\Delta ABC$ nên $a = 3, b = 6, c = 3$. Phương trình mặt phẳng $(ABC)$ là $\frac{x}{3} + \frac{y}{6} + \frac{z}{3} = 1 \Leftrightarrow 2x + y + 2z - 6 = 0$. Chọn B.}
+	\option{$x + 2y + 2z - 6 = 0$.}
+	\option{$2x + y + 2z - 6 = 0$.}
+	\option{$2x + 2y + z - 6 = 0$.}
+	\option{$2x + 2y + 6z - 6 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $H(1; 2; -3)$. Viết phương trình mặt phẳng $(\alpha)$ đi qua $H$ và cắt các trục tọa độ $Ox, Oy, Oz$ tại $A, B, C$ sao cho $H$ là trực tâm của tam giác $ABC$.
+\image{0.45}{Trực tâm tam giác ABC trong không gian Oxyz}{images_ChuDe03_PTMatPhang/bt4_vd4.png}
+}{2}{1}{Vì tứ diện $OABC$ có $OA, OB, OC$ đôi một vuông góc nên trực tâm $H$ của tam giác $ABC$ là hình chiếu của $O$ lên $(ABC)$, tức là $OH \perp (ABC)$. Mặt phẳng $(\alpha)$ đi qua $H(1; 2; -3)$ nhận $\vec{OH} = (1; 2; -3)$ làm VTPT: $1(x - 1) + 2(y - 2) - 3(z + 3) = 0 \Leftrightarrow x + 2y - 3z - 14 = 0$. Chọn C.}
+	\option{$\frac{x}{1} + \frac{y}{2} + \frac{z}{-3} = 1$.}
+	\option{$x + 2y + 3z + 14 = 0$.}
+	\option{$x + 2y - 3z - 14 = 0$.}
+	\option{$x + y + z = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P)$ đi qua điểm $M(2; -4; 1)$ và chắn trên các trục tọa độ $Ox, Oy, Oz$ theo ba đoạn có độ dài đại số lần lượt là $a, b, c$. Phương trình tổng quát của mặt phẳng $(P)$ khi $a, b, c$ theo thứ tự tạo thành một cấp số nhân có công bội bằng $2$ là:}{3}{1}{Ta có $b = 2a, c = 4a$. Do $M(2; -4; 1) \in (P) \Rightarrow \frac{2}{a} - \frac{4}{2a} + \frac{1}{4a} = 1 \Leftrightarrow a = \frac{1}{4} \Rightarrow b = \frac{1}{2}, c = 1$. Phương trình $(P): 4x + 2y + z - 1 = 0$. Chọn D.}
+	\option{$4x + 2y - z - 1 = 0$.}
+	\option{$4x - 2y + z + 1 = 0$.}
+	\option{$16x + 4y - 4z - 1 = 0$.}
+	\option{$4x + 2y + z - 1 = 0$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, cho điểm $M(2; 4; 1)$. Viết phương trình mặt phẳng $(P)$ qua $M$ và cắt các tia $Ox, Oy, Oz$ tại $A, B, C$ sao cho $4OA = 2OB = OC$.}{1}{
+Giả sử $A(a; 0; 0), B(0; b; 0), C(0; 0; c)$ với $a, b, c > 0$.
+$4OA = 2OB = OC \Leftrightarrow 4a = 2b = c \Rightarrow b = 2a, c = 4a$.
+Phương trình $(P): \frac{x}{a} + \frac{y}{2a} + \frac{z}{4a} = 1$.
+Thay $M(2; 4; 1)$ vào: $\frac{2}{a} + \frac{4}{2a} + \frac{1}{4a} = 1 \Leftrightarrow a = \frac{17}{4} \Rightarrow b = \frac{17}{2}, c = 17$.
+Vậy $(P): 4x + 2y + z - 17 = 0$.
+}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 5: VỊ TRÍ TƯƠNG ĐỐI CỦA HAI MẶT PHẲNG
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 5: Vị trí tương đối của hai mặt phẳng}{Xét vị trí song song, trùng nhau, cắt nhau và vuông góc giữa hai mặt phẳng}
+
+\textbf{Phương pháp giải:}
+Cho $(\alpha_1): A_1 x + B_1 y + C_1 z + D_1 = 0$ và $(\alpha_2): A_2 x + B_2 y + C_2 z + D_2 = 0$.
+- $(\alpha_1) // (\alpha_2) \Leftrightarrow \vec{n}_1 = k\vec{n}_2$ và $D_1 \neq k D_2$.
+- $(\alpha_1) \perp (\alpha_2) \Leftrightarrow \vec{n}_1 \cdot \vec{n}_2 = 0 \Leftrightarrow A_1 A_2 + B_1 B_2 + C_1 C_2 = 0$.
+- $(\alpha_1) \equiv (\alpha_2) \Leftrightarrow \vec{n}_1 = k\vec{n}_2$ và $D_1 = k D_2$.
+- $(\alpha_1)$ cắt $(\alpha_2) \Leftrightarrow \vec{n}_1$ và $\vec{n}_2$ không cùng phương.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 5: Các ví dụ minh họa}
+
+\essay{Trong không gian $Oxyz$, xét vị trí tương đối giữa hai mặt phẳng sau:
+a) $(\alpha_1): x + 2y - 3z + 2 = 0$ và $(\alpha_2): -2x - 4y + 6z - 5 = 0$.
+b) $(\beta_1): x + 2z - 5 = 0$ và $(\beta_2): 4x - 3y - 2z + 1 = 0$.
+c) $(\gamma_1): x - 2y + z + 3 = 0$ và $(\gamma_2): 2x - 4y + 3z + 2 = 0$.
+d) $(\delta_1): 2x - y + 3z - 4 = 0$ và $(\delta_2): x - \frac{y}{2} + \frac{3}{2}z - 2 = 0$.}{1}{
+a) $(\alpha_1) // (\alpha_2)$ vì $\vec{n}_1 = -\frac{1}{2}\vec{n}_2$ và $2 \neq -\frac{1}{2}(-5)$.
+b) $(\beta_1) \perp (\beta_2)$ vì $\vec{n}_3 \cdot \vec{n}_4 = 1(4) + 0(-3) + 2(-2) = 0$.
+c) $(\gamma_1)$ cắt $(\gamma_2)$ vì $\vec{n}_5$ và $\vec{n}_6$ không cùng phương.
+d) $(\delta_1) \equiv (\delta_2)$ vì $\vec{n}_7 = 2\vec{n}_8$ và $-4 = 2(-2)$.
+}
+
+\essay{Trong không gian $Oxyz$, mặt phẳng $(P): 2x - y + 8z + 1 = 0$ song song với mặt phẳng nào sau đây?
+a) $(Q): 8x - 4y + 32z + 7 = 0$.
+b) $(R): -6x + 3y - 24z - 3 = 0$.
+c) $(S): x - \frac{y}{2} + 2z + \frac{1}{2} = 0$.}{1}{
+a) $(P) // (Q)$ vì $\vec{n}_2 = 4\vec{n}_1$ và $7 \neq 4(1)$.
+b) $(P) \equiv (R)$ vì $\vec{n}_3 = -3\vec{n}_1$ và $-3 = -3(1)$.
+c) $(P)$ cắt $(S)$ vì $\vec{n}_1$ và $\vec{n}_4$ không cùng phương.
+}
+
+\essay{Trong không gian $Oxyz$, tìm các cặp mặt phẳng vuông góc với nhau trong ba mặt phẳng sau: $(\alpha_1): 3x - 2y - z - 1 = 0, (\alpha_2): 2x + 4y - 2z + 3 = 0, (\alpha_3): x + 2y - z = 0$.}{1}{
+Ta có:
+- $\vec{n}_1 \cdot \vec{n}_2 = 3(2) + (-2)(4) + (-1)(-2) = 0 \Rightarrow (\alpha_1) \perp (\alpha_2)$.
+- $\vec{n}_1 \cdot \vec{n}_3 = 3(1) + (-2)(2) + (-1)(-1) = 0 \Rightarrow (\alpha_1) \perp (\alpha_3)$.
+- $\vec{n}_2 \cdot \vec{n}_3 = 2(1) + 4(2) + (-2)(-1) = 12 \neq 0 \Rightarrow (\alpha_2), (\alpha_3)$ không vuông góc.
+}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai mặt phẳng $(P): 2x - 3y + 4z + 20 = 0$ và $(Q): 4x - 13y - 6z + 40 = 0$. Vị trí tương đối của $(P)$ và $(Q)$ là:}{2}{1}{Hai vectơ pháp tuyến $\vec{n}_1 = (2; -3; 4)$ và $\vec{n}_2 = (4; -13; -6)$ không cùng phương và $\vec{n}_1 \cdot \vec{n}_2 = 23 \neq 0$. Suy ra $(P)$ cắt $(Q)$ nhưng không vuông góc. Chọn C.}
+	\option{Song song với nhau.}
+	\option{Trùng nhau.}
+	\option{Cắt nhau.}
+	\option{Vuông góc nhau.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, cho hình lăng trụ $ABC.A'B'C'$ với $A'(3; 2; -5), A(3; 1; -1), B(2; -1; 4)$ và $C(0; 2; 1)$.
+a) Chứng minh rằng mặt phẳng $(ABC)$ song song với mặt phẳng $(\alpha): 9x + 13y + 7z = 0$.
+b) Viết phương trình mặt phẳng $(A'B'C')$.}{1}{
+a) Mặt phẳng $(ABC)$ qua $C(0; 2; 1)$ có VTPT $\vec{n}_1 = [\vec{AB}, \vec{AC}] = -(9; 13; 7)$ nên có phương trình $(ABC): 9x + 13y + 7z - 33 = 0$. Suy ra $(ABC) // (\alpha)$.
+b) $(A'B'C') // (ABC)$ và đi qua $A'(3; 2; -5)$ nên $(A'B'C'): 9x + 13y + 7z - 18 = 0$.
+}
+
+\essay{Trong không gian $Oxyz$, cho hình chóp $S.ABC$ có $S(2; -1; 7), A(2; -1; 3), B(5; 2; 3), C(8; -1; 3)$. Chứng minh rằng mặt phẳng $(SAB)$ vuông góc với hai mặt phẳng $(ABC)$ và $(SBC)$.}{1}{
+Ta có:
+- VTPT của $(SAB)$ là $\vec{n}_1 = (1; -1; 0)$.
+- VTPT của $(ABC)$ là $\vec{n}_2 = (0; 0; 1)$.
+- VTPT của $(SBC)$ là $\vec{n}_3 = (2; 2; 3)$.
+Vì $\vec{n}_1 \cdot \vec{n}_2 = 0$ và $\vec{n}_1 \cdot \vec{n}_3 = 0$ nên $(SAB) \perp (ABC)$ và $(SAB) \perp (SBC)$.
+}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 6: KHOẢNG CÁCH TỪ MỘT ĐIỂM ĐẾN MẶT PHẲNG
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 6: Khoảng cách từ một điểm đến một mặt phẳng}{Tính khoảng cách từ điểm đến mặt phẳng, khoảng cách giữa hai mặt phẳng song song}
+
+\textbf{Phương pháp giải:}
+- Khoảng cách từ $M(x_0; y_0; z_0)$ đến $(\alpha): Ax + By + Cz + D = 0$ là:
+$$d(M, (\alpha)) = \frac{|A x_0 + B y_0 + C z_0 + D|}{\sqrt{A^2 + B^2 + C^2}}.$$
+- Khoảng cách giữa 2 mặt phẳng song song $Ax+By+Cz+D=0$ và $Ax+By+Cz+D'=0$ là:
+$$d = \frac{|D - D'|}{\sqrt{A^2 + B^2 + C^2}}.$$
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 6: Các ví dụ minh họa}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x + 2y - z + 16 = 0$ và điểm $M(0; 1; -3)$. Khoảng cách từ điểm $M$ đến mặt phẳng $(P)$ bằng:}{2}{1}{Khoảng cách là $d(M, (P)) = \frac{|2(0) + 2(1) - (-3) + 16|}{\sqrt{2^2 + 2^2 + (-1)^2}} = \frac{21}{3} = 7$. Chọn C.}
+	\option{$\frac{21}{9}$.}
+	\option{$\sqrt{10}$.}
+	\option{$7$.}
+	\option{$5$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, khoảng cách từ $A(-2; 1; -6)$ đến mặt phẳng $(Oxy)$ bằng:}{0}{1}{Mặt phẳng $(Oxy): z = 0$ nên $d(A, (Oxy)) = |z_A| = |-6| = 6$. Chọn A.}
+	\option{$6$.}
+	\option{$2$.}
+	\option{$1$.}
+	\option{$\frac{7}{\sqrt{41}}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(2; 2; -2)$ và $B(3; -1; 0)$. Đường thẳng $AB$ cắt mặt phẳng $(P): x + y - z + 2 = 0$ tại điểm $I$. Tỉ số $\frac{IA}{IB}$ bằng:
+\image{0.45}{Hình chiếu của A và B lên mặt phẳng}{images_ChuDe03_PTMatPhang/bt6_vd3.png}
+}{0}{1}{Ta có $d(A, (P)) = \frac{8\sqrt{3}}{3}$ và $d(B, (P)) = \frac{4\sqrt{3}}{3}$. Suy ra $\frac{IA}{IB} = \frac{d(A, (P))}{d(B, (P))} = 2$. Chọn A.}
+	\option{$2$.}
+	\option{$4$.}
+	\option{$6$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai mặt phẳng $(P): x + 2y - 2z + 3 = 0$ và $(Q): x + 2y - 2z - 1 = 0$. Khoảng cách giữa hai mặt phẳng $(P)$ và $(Q)$ là:}{2}{1}{Khoảng cách giữa hai mặt phẳng song song $(P)$ và $(Q)$ là $d = \frac{|3 - (-1)|}{\sqrt{1^2 + 2^2 + (-2)^2}} = \frac{4}{3}$. Chọn C.}
+	\option{$\frac{4}{9}$.}
+	\option{$\frac{2}{3}$.}
+	\option{$\frac{4}{3}$.}
+	\option{$-\frac{4}{3}$.}
+\end{mcq}
+
+\essay{Trong không gian $Oxyz$, cho hai mặt phẳng $(P_1): 4x - y - z + 1 = 0$ và $(P_2): 8x - 2y - 2z + 1 = 0$.
+a) Chứng minh rằng $(P_1) // (P_2)$.
+b) Tính khoảng cách giữa hai mặt phẳng song song $(P_1), (P_2)$.}{1}{
+a) Ta có $\vec{n}_1 = (4; -1; -1) = \frac{1}{2}(8; -2; -2) = \frac{1}{2}\vec{n}_2$ và $1 \neq \frac{1}{2}(1)$ nên $(P_1) // (P_2)$.
+b) Viết lại $(P_2): 4x - y - z + \frac{1}{2} = 0$. Khoảng cách là $d((P_1), (P_2)) = \frac{\left| 1 - \frac{1}{2} \right|}{\sqrt{4^2 + (-1)^2 + (-1)^2}} = \frac{\sqrt{2}}{12}$.
+}
+
+\essay{Trong không gian $Oxyz$, cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình bình hành, $S(-3; 2; 6), A(1; 1; 1), B(2; 3; 4), C(7; 7; 5)$.
+a) Viết phương trình mặt phẳng $(ABCD)$ và mặt phẳng $(SBD)$.
+b) Tính chiều cao của hình chóp $S.ABCD$ và khoảng cách từ điểm $A$ đến mặt phẳng $(SBD)$.}{1}{
+a) Mặt phẳng $(ABCD)$ đi qua $A(1; 1; 1)$ có VTPT $\vec{n}_1 = (5; -7; 3)$ nên $(ABCD): 5x - 7y + 3z - 1 = 0$.
+Điểm $D(6; 5; 2)$. Mặt phẳng $(SBD)$ đi qua $B(2; 3; 4)$ có VTPT $\vec{n}_2 = (1; 1; 3)$ nên $(SBD): x + y + 3z - 17 = 0$.
+b) Chiều cao $h = d(S, (ABCD)) = \frac{12\sqrt{83}}{83}$. Khoảng cách $d(A, (SBD)) = \frac{12\sqrt{11}}{11}$.
+}
+
+\begin{mcq}{Cho hình chóp tứ giác đều $S.ABCD$ có cạnh đáy bằng $a\sqrt{2}$, chiều cao bằng $2a$ và $O$ là tâm của đáy. Bằng cách thiết lập hệ trục tọa độ $Oxyz$ như hình vẽ bên dưới, khoảng cách từ điểm $C$ đến mặt phẳng $(SAB)$ bằng:
+\image{0.45}{Hình chóp tứ giác đều S.ABCD}{images_ChuDe03_PTMatPhang/bt6_vd7.png}
+}{3}{1}{Ta có $C(a; 0; 0), B(0; a; 0), A(-a; 0; 0), S(0; 0; 2a)$. Mặt phẳng $(SAB): 2x - 2y - z + 2a = 0$. Khoảng cách $d(C, (SAB)) = \frac{|2a + 2a|}{\sqrt{2^2 + (-2)^2 + (-1)^2}} = \frac{4a}{3}$. Chọn D.}
+	\option{$\frac{2a}{3}$.}
+	\option{$\frac{2a}{\sqrt{17}}$.}
+	\option{$\frac{4a}{\sqrt{17}}$.}
+	\option{$\frac{4a}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P): x + y - z + 1 = 0$ và $(Q): x - y + z - 5 = 0$. Có bao nhiêu điểm $M$ trên trục $Oy$ thỏa mãn $M$ cách đều hai mặt phẳng $(P)$ và $(Q)$?}{1}{1}{Điểm $M(0; b; 0) \in Oy$. $d(M, (P)) = d(M, (Q)) \Leftrightarrow |b + 1| = |-b - 5| \Rightarrow b = -3$. Có duy nhất $1$ điểm $M(0; -3; 0)$. Chọn B.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$2$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $A(1; 2; 3)$ và mặt phẳng $(P): x + y + z - 2 = 0$. Mặt phẳng $(Q)$ song song với mặt phẳng $(P)$ và $(Q)$ cách điểm $A$ một khoảng bằng $3\sqrt{3}$. Phương trình mặt phẳng $(Q)$ là:}{2}{1}{$(Q) // (P) \Rightarrow (Q): x + y + z + d = 0$ ($d \neq -2$). $d(A, (Q)) = 3\sqrt{3} \Leftrightarrow \frac{|6 + d|}{\sqrt{3}} = 3\sqrt{3} \Leftrightarrow |d + 6| = 9 \Leftrightarrow d = 3$ hoặc $d = -15$. Chọn C.}
+	\option{$x + y + z + 3 = 0$ hoặc $x + y + z - 3 = 0$.}
+	\option{$x + y + z + 3 = 0$ hoặc $x + y + z + 15 = 0$.}
+	\option{$x + y + z + 3 = 0$ hoặc $x + y + z - 15 = 0$.}
+	\option{$x + y + z + 3 = 0$ hoặc $x + y - z - 15 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, lập phương trình của các mặt phẳng song song với mặt phẳng $(\alpha): x + y - z + 3 = 0$ và cách $(\alpha)$ một khoảng bằng $\sqrt{3}$.}{0}{1}{Mặt phẳng $(P): x + y - z + c = 0$ ($c \neq 3$). Khoảng cách $d((\alpha), (P)) = \frac{|c - 3|}{\sqrt{3}} = \sqrt{3} \Leftrightarrow |c - 3| = 3 \Leftrightarrow c = 6$ hoặc $c = 0$. Chọn A.}
+	\option{$x + y - z + 6 = 0; x + y - z = 0$.}
+	\option{$x + y - z + 6 = 0$.}
+	\option{$x - y - z + 6 = 0; x - y - z = 0$.}
+	\option{$x + y + z + 6 = 0; x + y + z = 0$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 7: BÀI TOÁN THỰC TẾ
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 7: Bài toán thực tế}{Ứng dụng phương trình mặt phẳng vào các mô hình thực tế}
+
+\textbf{Phương pháp giải:}
+- Chọn hệ trục tọa độ $Oxyz$ thích hợp gắn với mô hình thực tế.
+- Xác định tọa độ các điểm và viết phương trình mặt phẳng tương ứng.
+- Sử dụng điều kiện đồng phẳng, khoảng cách hoặc góc để giải quyết yêu cầu bài toán.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 7: Các ví dụ minh họa}
+
+\essay{Cho biết hai vectơ $\vec{a} = (2; 1; 1), \vec{b} = (1; -2; 0)$ có giá lần lượt song song với ngón trỏ và ngón giữa của bàn tay như hình vẽ bên dưới. Tìm vectơ $\vec{n}$ có giá song song với ngón cái (Xem như ba ngón tay nói trên tạo thành ba đường thẳng đôi một vuông góc).
+\image{0.35}{Quy tắc bàn tay}{images_ChuDe03_PTMatPhang/bt7_vd1.png}
+}{1}{
+Vì ba ngón tay tạo thành ba đường thẳng đôi một vuông góc nên $\vec{n} = [\vec{a}, \vec{b}] = (2; 1; -5)$.
+}
+
+\essay{Khối rubik được gắn với hệ tọa độ $Oxyz$ có đơn vị bằng độ dài cạnh hình lập phương nhỏ như hình vẽ bên dưới. Xét bốn điểm $A(3; 0; 0), B(0; 3; 0), C(0; 0; 2)$ và $D(1; 1; 1)$.
+\image{0.35}{Khối rubik trong hệ trục Oxyz}{images_ChuDe03_PTMatPhang/bt7_vd2.png}
+a) Lập phương trình mặt phẳng đi qua ba điểm $A, B, C$.
+b) Bốn điểm $A, B, C, D$ có đồng phẳng hay không?}{1}{
+a) Phương trình mặt phẳng $(ABC): \frac{x}{3} + \frac{y}{3} + \frac{z}{2} = 1$.
+b) Thay tọa độ điểm $D(1; 1; 1)$ vào phương trình $(ABC)$ ta được $\frac{1}{3} + \frac{1}{3} + \frac{1}{2} \neq 1$. Do đó bốn điểm $A, B, C, D$ không đồng phẳng.
+}
+
+\essay{Một phần sân nhà bác An có dạng hình thang $ABCD$ vuông tại $A$ và $B$ với độ dài $AB = 9\text{ m}, AD = 5\text{ m}$ và $BC = 6\text{ m}$ như hình vẽ bên dưới. Theo thiết kế ban đầu thì mặt sân bằng phẳng và $A, B, C, D$ có độ cao như nhau. Sau đó bác An thay đổi thiết kế để nước có thể thoát về phía góc sân ở vị trí $C$ bằng cách giữ nguyên độ cao ở $A$, giảm độ cao của sân ở vị trí $B$ và $D$ xuống thấp hơn độ cao ở $A$ lần lượt là $6\text{ cm}$ và $3{,}6\text{ cm}$. Để mặt sân sau khi lát gạch vẫn là bề mặt phẳng thì bác An cần phải giảm độ cao ở $C$ xuống bao nhiêu centimét so với độ cao ở $A$?
+\image{0.8}{Sân nhà bác An}{images_ChuDe03_PTMatPhang/bt7_vd3_debai.png}
+}{1}{
+\image{0.55}{Hệ trục tọa độ mô hình sân nhà bác An}{images_ChuDe03_PTMatPhang/bt7_vd3_loigiai.png}
+Chọn hệ trục tọa độ với gốc $O$ tại $A(0; 0; 0), B'(9; 0; 0{,}06), D'(0; 5; 0{,}036), C'(9; 6; a)$.
+Mặt phẳng $(AB'D')$ có phương trình $-\frac{3}{10}x - \frac{81}{250}y + 45z = 0$.
+Để $C' \in (AB'D')$ thì $-\frac{3}{10}(9) - \frac{81}{250}(6) + 45a = 0 \Leftrightarrow a = 0{,}1032\text{ m} = 10{,}32\text{ cm}$.
+Vậy bác An cần phải giảm độ cao ở $C$ xuống $10{,}32\text{ cm}$.
+}
+
+\essay{Trên bản thiết kế đồ họa 3D của một cánh đồng điện mặt trời trong không gian $Oxyz$, một tấm pin nằm trên mặt phẳng $(P): 6x + 5y + z + 2 = 0$; một tấm pin khác nằm trên mặt phẳng $(Q)$ đi qua điểm $M(1; 1; 1)$ và song song với $(P)$. Viết phương trình mặt phẳng $(Q)$.
+\image{0.7}{Cánh đồng điện mặt trời}{images_ChuDe03_PTMatPhang/bt7_vd4.png}
+}{1}{
+Vì $(Q) // (P)$ nên $(Q): 6x + 5y + z + d = 0$ ($d \neq 2$).
+Mà $M(1; 1; 1) \in (Q) \Rightarrow 6(1) + 5(1) + 1 + d = 0 \Leftrightarrow d = -12$.
+Vậy $(Q): 6x + 5y + z - 12 = 0$.
+}
+
+\essay{Một vật thể chuyển động trong không gian $Oxyz$. Tại mỗi thời điểm $t$, vật thể ở vị trí $M(\cos t - \sin t; \cos t + \sin t; \cos t)$.
+a) Xác định tọa độ của vị trí $M_1, M_2, M_3$ của vật tương ứng với các thời điểm $t = 0, t = \frac{\pi}{2}, t = \pi$.
+b) Chứng minh rằng $M_1, M_2, M_3$ không thẳng hàng và viết phương trình mặt phẳng $(M_1 M_2 M_3)$.
+c) Hỏi vật thể có chuyển động trong một mặt phẳng cố định hay không?}{1}{
+a) Tọa độ: $M_1(1; 1; 1), M_2(-1; 1; 0), M_3(-1; -1; -1)$.
+b) Mặt phẳng $(M_1 M_2 M_3): x + y - 2z = 0$.
+c) Thay tọa độ $M$ vào: $\cos t - \sin t + \cos t + \sin t - 2\cos t = 0$ (luôn đúng). Vậy vật thể luôn chuyển động trong mặt phẳng cố định $x + y - 2z = 0$.
+}
+
+\essay{Hai học sinh đang chuyền bóng. Bạn nữ ném bóng cho bạn nam. Quả bóng bay trên không, lệch sang phải và rơi xuống tại vị trí cách bạn nam $3\text{ m}$, cách bạn nữ $5\text{ m}$ như hình vẽ bên dưới. Cho biết quỹ đạo của quả bóng nằm trong mặt phẳng $(P)$ vuông góc với mặt đất. Hãy viết phương trình của $(P)$ trong không gian $Oxyz$ được mô tả như trong hình vẽ.
+\image{0.65}{Mô hình chuyền bóng trong không gian}{images_ChuDe03_PTMatPhang/bt7_vd6.png}
+}{1}{
+Mặt phẳng $(P)$ vuông góc với $(Oxy)$ và đi qua $O(0; 0; 0), M(3; 4; 0)$ nên nhận $\vec{k} = (0; 0; 1)$ và $\vec{OM} = (3; 4; 0)$ làm cặp VTCP.
+VTPT $\vec{n} = [\vec{k}, \vec{OM}] = -(4; -3; 0)$.
+Phương trình mặt phẳng $(P): 4x - 3y = 0$.
+}
+
+\essay{Góc quan sát ngang của một camera là $115^\circ$. Trong không gian $Oxyz$, camera được đặt tại điểm $C(1; 2; 4)$ và chiếu thẳng về phía mặt phẳng $(P): x + 2y + 2z + 3 = 0$ như hình vẽ bên dưới. Hỏi vùng quan sát được trên mặt phẳng $(P)$ của camera là hình tròn có bán kính bằng bao nhiêu? (Làm tròn kết quả đến chữ số thập phân thứ nhất).
+\image{0.35}{Góc quan sát của camera}{images_ChuDe03_PTMatPhang/bt7_vd7_debai.png}
+}{1}{
+\image{0.4}{Mô hình hình nón quan sát camera}{images_ChuDe03_PTMatPhang/bt7_vd7_loigiai.png}
+Khoảng cách từ $C(1; 2; 4)$ đến $(P)$ là $h = d(C, (P)) = \frac{|1 + 4 + 8 + 3|}{\sqrt{1 + 4 + 4}} = \frac{16}{3}$.
+Bán kính hình tròn là $R = h \cdot \tan \frac{115^\circ}{2} = \frac{16}{3} \cdot \tan 57{,}5^\circ \approx 8{,}4\text{ m}$.
+}
+
+\end{quiz}
+
+\end{document}

@@ -1,0 +1,294 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ THI RÈN LUYỆN NGUYÊN HÀM - ĐỀ 01}
+\docdesc{Đề kiểm tra rèn luyện chuyên đề Nguyên hàm - Đề số 1}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Nguyên hàm}
+
+% =========================================================================
+% PHẦN I: CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Khẳng định nào sau đây sai?}{0}{1}{Chọn A.}
+	\option{$\int \cos x\,\mathrm{d}x = -\sin x + C$.}
+	\option{$\int 2^x\,\mathrm{d}x = \frac{2^x}{\ln 2} + C$.}
+	\option{$\int e^x\,\mathrm{d}x = e^x + C$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Khẳng định nào sai trong các khẳng định sau?}{3}{1}{Chọn D.}
+	\option{$\int x^3\,\mathrm{d}x = \frac{x^4+C}{4}$, $C$ là hằng số.}
+	\option{$\int \sin x\,\mathrm{d}x = C - \cos x$.}
+	\option{$\int 2e^x\,\mathrm{d}x = 2(e^x+C)$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln x + C$.}
+\end{mcq}
+
+\begin{mcq}{Khẳng định nào sau đây sai?}{1}{1}{Chọn B.}
+	\option{$\int \mathrm{d}x = x + 2C$.}
+	\option{$\int x^n\,\mathrm{d}x = \frac{x^{n+1}}{n+1} + C, n \in \mathbb{R}$.}
+	\option{$\int e^x\,\mathrm{d}x = e^x - C$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm $F(x) = \int \pi^2\,\mathrm{d}x$ là.}{0}{1}{Chọn A.}
+	\option{$F(x) = \pi^2 x + C$.}
+	\option{$F(x) = \frac{\pi^3}{3} + C$.}
+	\option{$F(x) = 2\pi x + C$.}
+	\option{$F(x) = \frac{\pi^2 x^2}{2} + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = e^x + \cos x + 2018$.}{0}{1}{Chọn A.}
+	\option{$F(x) = e^x + \sin x + 2018x + C$.}
+	\option{$F(x) = e^x - \sin x + 2018x + C$.}
+	\option{$F(x) = e^x + \sin x + 2018x$.}
+	\option{$F(x) = e^x + \sin x + 2018 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = 2x^3 - 9$ là}{0}{1}{Chọn A.}
+	\option{$\frac{1}{2}x^4 - 9x + C$.}
+	\option{$4x^4 - 9x + C$.}
+	\option{$\frac{1}{4}x^4 + C$.}
+	\option{$4x^3 - 9x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = x^2 - 3x + \frac{1}{x}$. Khẳng định nào sau đây đúng?}{3}{1}{Chọn D.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{3x^2}{2} + \ln|x| + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{3x^2}{2} + \ln x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{3x^2}{2} - \frac{1}{x^2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{3x^2}{2} + \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 2x + 5$.}{2}{1}{Chọn C.}
+	\option{$F(x) = x^3 + x^2 + 5$.}
+	\option{$F(x) = x^3 + x^2 + C$.}
+	\option{$F(x) = x^3 + x^2 + 5x + C$.}
+	\option{$F(x) = x^3 + x + C$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số nào sau đây không phải là nguyên hàm của hàm số $f(x) = (3x+1)^5$}{3}{1}{Chọn D.}
+	\option{$F(x) = \frac{(3x+1)^6}{18} + 8$.}
+	\option{$F(x) = \frac{(3x+1)^6}{18} - 2$.}
+	\option{$F(x) = \frac{(3x+1)^6}{18}$.}
+	\option{$F(x) = \frac{(3x+1)^6}{6}$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3\sqrt{x} + x^{2018}$ là:}{2}{1}{Chọn C.}
+	\option{$F(x) = \sqrt{x} + \frac{x^{2019}}{673} + C$.}
+	\option{$F(x) = \frac{1}{\sqrt{x}} + \frac{x^{2019}}{673} + C$.}
+	\option{$F(x) = 2\sqrt{x^3} + \frac{x^{2019}}{2019} + C$.}
+	\option{$F(x) = \frac{1}{2\sqrt{x}} + 6054x^{2017} + C$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số $F(x) = e^x + \tan x + C$ là họ nguyên hàm của hàm số nào sau đây?}{2}{1}{Chọn C.}
+	\option{$f(x) = e^x - \frac{1}{\sin^2 x}$.}
+	\option{$f(x) = e^x + \frac{1}{\sin^2 x}$.}
+	\option{$f(x) = e^x\left(1 + \frac{e^{-x}}{\cos^2 x}\right)$.}
+	\option{$f(x) = e^x + \tan^2 x$.}
+\end{mcq}
+
+\begin{mcq}{$G(x)$ là họ nguyên hàm của hàm số $g(x) = 3x^2 + 8\sin x$. Khẳng định nào sau đây là đúng?}{2}{1}{Chọn C.}
+	\option{$G(x) = 6x - 8\cos x + C$.}
+	\option{$G(x) = 6x + 8\cos x + C$.}
+	\option{$G(x) = x^3 - 8\cos x + C$.}
+	\option{$G(x) = x^3 + 8\cos x + C$.}
+\end{mcq}
+
+\begin{mcq}{Một hàm số $F(x)$ là nguyên hàm của hàm số $f(x) = 2x + \frac{1}{\sin^2 x}$ thỏa mãn $F\left(\frac{\pi}{4}\right) = -1$. Chọn khẳng định đúng trong các khẳng định sau?}{0}{1}{Chọn A.}
+	\option{$F(x) = -\cot x + x^2 - \frac{\pi^2}{16}$.}
+	\option{$F(x) = -\cot x + x^2 + \frac{\pi^2}{16}$.}
+	\option{$F(x) = -\cot x + x$.}
+	\option{$F(x) = -\cot x + x - \frac{\pi}{16}$.}
+\end{mcq}
+
+\begin{mcq}{Một hàm số $F(x)$ là nguyên hàm của hàm số $f(x) = \frac{x^3+1}{x^2}$ thỏa mãn $F(1) = 0$. Khẳng định nào sau đây đúng?}{0}{1}{Chọn A.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} + \frac{1}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} + \frac{3}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} - \frac{1}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} - \frac{3}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ liên tục trên $\mathbb{R}$ có $f'(x) = |x-1|$ và thỏa mãn $f(0) = 3$. Tính $T = f(2) + f(4)$?}{1}{1}{Chọn B.}
+	\option{$15$.}
+	\option{$12$.}
+	\option{$11$.}
+	\option{$7$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ đồng thời thỏa mãn các điều kiện $f'(x) = x + \sin x$ và $f(0) = 1$. Khẳng định nào sau đây đúng?}{0}{1}{Chọn A.}
+	\option{$f(x) = \frac{x^2}{2} - \cos x + 2$.}
+	\option{$f(x) = \frac{x^2}{2} - \cos x - 2$.}
+	\option{$f(x) = \frac{x^2}{2} + \cos x$.}
+	\option{$f(x) = \frac{x^2}{2} + \cos x + \frac{1}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x)$ là nguyên hàm của hàm số $f(x) = \sin x$ và đồ thị hàm số $y = F(x)$ đi qua điểm $M(0;1)$. Tính $F\left(\frac{\pi}{2}\right)$.}{0}{1}{Chọn A.}
+	\option{$2$.}
+	\option{$-1$.}
+	\option{$0$.}
+	\option{$1$.}
+\end{mcq}
+
+\begin{mcq}{Cho $\int f(x)\,\mathrm{d}x = 3x^2 - 4x + C$. Tìm $\int f(e^x)\,\mathrm{d}x$.}{3}{1}{Chọn D.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 3e^x \cdot 2x - 4x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = \frac{3}{2}e^{2x} - 4e^x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 6e^x + 4x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 6e^x - 4x + C$.}
+\end{mcq}
+
+\begin{mcq}{Giá trị của $m$ để hàm số $F(x) = mx^3 + (3m+2)x^2 - 4x + 3$ là nguyên hàm của hàm số $f(x) = 3x^2 + 10x - 4$?}{2}{1}{Chọn C.}
+	\option{$m = 0$.}
+	\option{$m = 2$.}
+	\option{$m = 1$.}
+	\option{$m = 3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đạo hàm $f'(x) = ax^2 + \frac{b}{x^3}$ và đồng thời thỏa mãn $f(-1) = 2, f(1) = 3, f'(1) = 0$. Tính $T = a + 2b$.}{1}{1}{Chọn B.}
+	\option{$1$.}
+	\option{$-\frac{3}{2}$.}
+	\option{$0$.}
+	\option{$\frac{3}{2}$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hàm số $f(x)$ thỏa mãn $f'(x) = 3 - 5\sin x$ và $f(0) = 10$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Sai, b) Đúng, c) Sai, d) Đúng.}
+	\statement{false}{Một nguyên hàm của $f'(x)$ là $3x - 5\cos x$.}
+	\statement{true}{$f(\pi) = 3\pi$.}
+	\statement{false}{$f\left(\frac{\pi}{2}\right) = \frac{3\pi+4}{2}$.}
+	\statement{true}{Đạo hàm của hàm số $f'(x)$ có nghiệm thuộc đoạn $\left[0; \frac{\pi}{2}\right]$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hai hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Đúng, b) Sai, c) Sai, d) Sai.}
+	\statement{true}{$\int [f(x) - g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x - \int g(x)\,\mathrm{d}x$.}
+	\statement{false}{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x, \forall k \in \mathbb{R}$.}
+	\statement{false}{$\int [f(x)g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x \cdot \int g(x)\,\mathrm{d}x$.}
+	\statement{false}{$\int g(x)\,\mathrm{d}x = f(x) + C$, với $C$ là hằng số.}
+\end{truefalse}
+
+\begin{truefalse}{Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Sai, b) Đúng, c) Đúng, d) Sai.}
+	\statement{false}{$\int a^x\,\mathrm{d}x = \frac{a^x}{\ln a} + C, a \ne 1$.}
+	\statement{true}{$\int \frac{\mathrm{d}x}{x} = \ln|3x| + C, x \ne 0$.}
+	\statement{true}{$\int \tan^2 x\,\mathrm{d}x = \tan x - x + C$.}
+	\statement{false}{Nếu $F(x), G(x)$ lần lượt là nguyên hàm của hàm số $f(x)$ thì $F(x) = G(x)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $F(x) = 3x(x+1)$ là một nguyên hàm của hàm số $y = f(x)e^x$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Đúng.}
+	\statement{true}{Hàm số $f(x) = 3e^{-x}(2x+1)$.}
+	\statement{true}{$f(x) \ge 0, \forall x \in \left[-\frac{1}{2}; +\infty\right)$.}
+	\statement{false}{$f(2) = 15e^2$.}
+	\statement{true}{Hàm số $f(x)$ đạt cực trị tại $x = \frac{1}{2}$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Hàm số $f(x) = \frac{1}{\cos^2 x}$ có một nguyên hàm $F(x)$ thỏa $F\left(\frac{\pi}{4}\right) = 2$. Tính $F\left(\frac{\pi}{3}\right)$ (làm tròn kết quả đến chữ số thứ 2 sau phần thập phân).}{$2{,}73$}{1}{Đáp án: 2,73.}
+
+\shortanswer{Để hàm số $F(x) = mx^3 + (3m+2)x^2 - 4x + 3$ là một nguyên hàm của hàm số $f(x) = 3x^2 + 10x - 4$ thì giá trị của tham số $m$ là}{$1$}{1}{Đáp án: 1.}
+
+\shortanswer{Biết $F(x)$ là nguyên hàm của hàm số $f(x) = \frac{1}{2\sqrt{x}} + m - 1$ thỏa mãn $F(0) = 1$ và $F(4) = 7$. Khi đó giá trị của tham số $m$ bằng bao nhiêu?}{$2$}{1}{Đáp án: 2.}
+
+\shortanswer{Biết $F(x)$ là một nguyên hàm của hàm số $f(x) = (x^2 - 2x + 1)^{50}$ thỏa mãn $F(1) = 0$. Tập nghiệm của phương trình $F(x) - 1 = 0$ có bao nhiêu phần tử?}{$1$}{1}{Đáp án: 1.}
+
+\shortanswer{Cho $F(x) = \left(1 - \frac{x^2}{2}\right)\cos x + x\sin x$ là một nguyên hàm của hàm số $f(x)$ trên khoảng $(0; \pi)$. Giá trị của $f(2)$ bằng bao nhiêu? (làm tròn đến chữ số thập phân thứ 2)}{$1{,}82$}{1}{Đáp án: 1,82.}
+
+\end{quiz}
+
+\end{document}

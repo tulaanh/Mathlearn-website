@@ -1,0 +1,282 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 04: ỨNG DỤNG TÍCH PHÂN TÍNH THỂ TÍCH}
+\docdesc{Tóm tắt lý thuyết trọng tâm, các dạng toán cơ bản - nâng cao và bài tập rèn luyện chuyên đề Ứng dụng tích phân tính thể tích}
+\docgrade{12}
+\docstatus{draft}
+\doctype{lesson}
+\doctopics{Giải tích, Tích phân, Thể tích khối tròn xoay}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I. Tóm tắt lý thuyết}{Kiến thức trọng tâm về thể tích vật thể và thể tích khối tròn xoay}
+
+\textbf{1. Thể tích vật thể:}
+
+Trong không gian, cho một vật thể nằm trong khoảng không gian giữa hai mặt phẳng $(P)$ và $(Q)$ cùng vuông góc với trục $Ox$ tại các điểm $a$ và $b$.
+
+Mặt phẳng vuông góc với trục $Ox$ tại điểm có hoành độ $x$ ($a \le x \le b$) cắt vật thể theo mặt cắt có diện tích $S(x)$.
+
+\image{0.45}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_1.png}
+\image{0.6}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_2.png}
+
+Khi đó, nếu $S(x)$ là hàm số liên tục trên đoạn $[a; b]$ thì thể tích của vật thể được tính bằng công thức:
+$$V = \int_a^b S(x)\,\mathrm{d}x.$$
+
+\textbf{2. Thể tích khối tròn xoay:}
+
+Cho $y = f(x)$ là hàm số liên tục và không âm trên đoạn $[a; b]$. Gọi $D$ là hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$.
+
+Quay hình phẳng $D$ xung quanh trục $Ox$ ta được một hình khối gọi là \textbf{khối tròn xoay}.
+
+Cắt khối tròn xoay trên bởi mặt phẳng vuông góc với trục $Ox$ tại điểm có hoành độ $x$ với $x \in [a; b]$, ta được mặt cắt là hình tròn có bán kính bằng $f(x)$ và diện tích là $S(x) = \pi f^2(x)$.
+
+\image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_3.png}
+
+Khi đó, khối tròn xoay có thể tích là:
+$$V = \pi \int_a^b f^2(x)\,\mathrm{d}x.$$
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1. Tính thể tích vật thể khi biết hàm diện tích mặt cắt vuông góc với trục hoành}{Phương pháp xác định cận, diện tích mặt cắt và thiết lập tích phân tính thể tích}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- \textbf{Bước 1:} Xác định cận giới hạn $x = a, x = b$.
+- \textbf{Bước 2:} Xác định và tính diện tích $S(x)$ của mặt cắt của vật thể.
+- \textbf{Bước 3:} Tính thể tích theo công thức $V = \int_a^b S(x)\,\mathrm{d}x$.
+
+\textbf{* Lưu ý:} Công thức tính thể tích vật thể tổng quát không có hệ số $\pi$ phía trước.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1 - Ví dụ mẫu}
+
+\begin{mcq}{Tính thể tích $V$ của vật thể nằm giữa hai mặt phẳng $x = 0, x = 3$, biết thiết diện của vật thể bị cắt bởi mặt phẳng vuông góc với trục hoành tại điểm có hoành độ $x$ ($0 \le x \le 3$) là một hình chữ nhật có hai kích thước $x$ và $2\sqrt{9-x^2}$.}{2}{1}{Diện tích hình chữ nhật có hai kích thước là $x$ và $2\sqrt{9-x^2}$ là $S(x) = x \cdot 2\sqrt{9-x^2}$. Vậy thể tích là $V = \int_0^3 x \cdot 2\sqrt{9-x^2}\,\mathrm{d}x = 18$. Chọn C.}
+	\option{$V = 16$.}
+	\option{$V = 17$.}
+	\option{$V = 18$.}
+	\option{$V = 19$.}
+\end{mcq}
+
+\begin{mcq}{Tính thể tích $V$ của phần vật thể giới hạn bởi hai mặt phẳng $x = 0, x = 3$, biết rằng thiết diện của vật thể bị cắt bởi mặt phẳng vuông góc với trục $Ox$ tại điểm có hoành độ $x$ ($0 \le x \le 3$) là một hình tròn có đường kính bằng $\sqrt{36-3x^2}$.}{0}{1}{Diện tích của thiết diện đó là $S(x) = \pi \left(\frac{\sqrt{36-3x^2}}{2}\right)^2 = \frac{\pi}{4}(36-3x^2)$. Thể tích vật thể là $V = \int_0^3 \frac{\pi}{4}(36-3x^2)\,\mathrm{d}x = \frac{\pi}{4}\int_0^3 (36-3x^2)\,\mathrm{d}x = \frac{\pi}{4}\left(36x - x^3\right)\Big|_0^3 = \frac{81\pi}{4}$. Chọn A.}
+	\option{$V = \frac{81\pi}{4}$.}
+	\option{$V = \frac{81}{4}$.}
+	\option{$V = 81\pi$.}
+	\option{$V = 81$.}
+\end{mcq}
+
+\begin{mcq}{Tính thể tích của phần vật thể giới hạn bởi hai mặt phẳng $x = 0, x = \pi$, biết rằng thiết diện của vật thể bị cắt bởi mặt phẳng vuông góc với trục $Ox$ tại điểm có hoành độ $x$ ($0 \le x \le \pi$) là một tam giác đều cạnh là $2\sqrt{\sin x}$.}{2}{1}{Diện tích thiết diện là $S(x) = \frac{(2\sqrt{\sin x})^2\sqrt{3}}{4} = \sqrt{3}\sin x$. Suy ra thể tích vật thể tạo thành là $V = \int_0^\pi S(x)\,\mathrm{d}x = \int_0^\pi \sqrt{3}\sin x\,\mathrm{d}x = -\sqrt{3}\cos x\Big|_0^\pi = 2\sqrt{3}$. Chọn C.}
+	\option{$V = 2\pi\sqrt{3}$.}
+	\option{$V = \pi\sqrt{3}$.}
+	\option{$V = 2\sqrt{3}$.}
+	\option{$V = \sqrt{3}$.}
+\end{mcq}
+
+\begin{mcq}{Một cái trống trường có bán kính các đáy là $30\text{ cm}$, thiết diện vuông góc với trục và cách đều hai đáy có bán kính $40\text{ cm}$, chiều dài của trống là $1\text{ m}$. Biết rằng mặt phẳng chứa trục cắt mặt xung quanh của trống là các đường parabol. Thể tích của cái trống gần nhất với giá trị nào sau đây? \image{0.5}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_4.png}}{1}{1}{Mặt phẳng đi qua trục của trống ta được hình. Chọn hệ trục tọa độ như hình vẽ: \image{0.5}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_5.png} Parabol đi qua 3 điểm $A(-5;3), (0;4), B(5;3)$ là $y = -0{,}04x^2 + 4$. Thiết diện vuông góc với trục của cái trống là một hình tròn. Diện tích của thiết diện là $S(x) = \pi R^2 = \pi(-0{,}04x^2 + 4)^2 = \pi\left(\frac{1}{625}x^4 - \frac{8}{25}x^2 + 16\right)$. Vậy thể tích của cái trống là $V = \int_{-5}^5 \pi\left(\frac{1}{625}x^4 - \frac{8}{25}x^2 + 16\right)\mathrm{d}x = \pi\left(\frac{1}{625}\frac{x^5}{5} - \frac{8}{25}\frac{x^3}{3} + 16x\right)\Bigg|_{-5}^5 \approx 425\text{ lít}$. Chọn B.}
+	\option{$V = 424\text{ lít}$.}
+	\option{$V = 425\text{ lít}$.}
+	\option{$V = 426\text{ lít}$.}
+	\option{$V = 427\text{ lít}$.}
+\end{mcq}
+
+\begin{mcq}{Một vật thể bằng gỗ có dạng khối trụ với bán kính đáy bằng $10\text{ cm}$. Cắt khối trụ bởi một mặt phẳng có giao tuyến với đáy là một đường kính của đáy và tạo với đáy góc $45^\circ$ (như hình vẽ). Tính thể tích $V$ của khối gỗ bé. \image{0.6}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_6.png}}{3}{1}{Chọn trục tọa độ như hình vẽ, thiết diện vuông góc với $Ox$ là tam giác vuông cân tại $B$. \image{0.45}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_7.png} Ta có $AB = \sqrt{OB^2 - OA^2} = \sqrt{10^2 - x^2} \Rightarrow S(x) = S_{\triangle ABC} = \frac{1}{2}(100-x^2)$. Vậy thể tích vật thể tạo thành là $V = \int_{-10}^{10} S(x)\,\mathrm{d}x = \int_{-10}^{10} \frac{1}{2}(100-x^2)\,\mathrm{d}x = \frac{1}{2}\left(100x - \frac{x^3}{3}\right)\Bigg|_{-10}^{10} = \frac{2000}{3}\text{ cm}^3$. Chọn D.}
+	\option{$V = \frac{250}{3}\text{ cm}^3$.}
+	\option{$V = \frac{500}{3}\text{ cm}^3$.}
+	\option{$V = \frac{1000}{3}\text{ cm}^3$.}
+	\option{$V = \frac{2000}{3}\text{ cm}^3$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2. Tính thể tích khối tròn xoay khi quay hình phẳng quanh trục Ox}{Phương pháp tính thể tích hình phẳng giới hạn bởi đồ thị $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- \textbf{Bước 1:} Xác định cận giới hạn $x = a, x = b$.
+- \textbf{Bước 2:} Tính thể tích khối tròn xoay theo công thức:
+$$V = \pi \int_a^b [f(x)]^2\,\mathrm{d}x.$$
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2 - Ví dụ mẫu}
+
+\begin{mcq}{Thể tích khối tròn xoay sinh ra khi quay hình phẳng giới hạn bởi đồ thị các hàm số $y = x^2 - 2x$, $y = 0$, $x = -1, x = 2$ quanh trục $Ox$ bằng}{2}{1}{Thể tích của khối tròn xoay đã cho bằng $V = \pi \int_{-1}^2 (x^2 - 2x)^2\,\mathrm{d}x = \pi \int_{-1}^2 (x^4 - 4x^3 + 4x^2)\,\mathrm{d}x = \pi \left(\frac{x^5}{5} - x^4 + \frac{4}{3}x^3\right)\Bigg|_{-1}^2 = \frac{18\pi}{5}$. Chọn C.}
+	\option{$\frac{16\pi}{5}$.}
+	\option{$\frac{17\pi}{5}$.}
+	\option{$\frac{18\pi}{5}$.}
+	\option{$\frac{5\pi}{18}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình phẳng $(H)$ giới hạn bởi đồ thị $y = 2x - x^2$ và trục hoành. Thể tích $V$ vật thể tròn xoay sinh ra khi cho $(H)$ quay quanh trục $Ox$ bằng}{0}{1}{Phương trình hoành độ giao điểm của đồ thị $y = 2x - x^2$ và trục hoành là $2x - x^2 = 0 \Leftrightarrow \begin{cases} x = 0 \\ x = 2 \end{cases}$. Khi đó thể tích $V$ vật thể tròn xoay sinh ra khi cho $(H)$ quay quanh trục $Ox$ là $V = \pi \int_0^2 (2x - x^2)^2\,\mathrm{d}x$. Chọn A.}
+	\option{$\pi \int_0^2 (2x - x^2)^2\,\mathrm{d}x$.}
+	\option{$\int_0^2 (2x - x^2)\,\mathrm{d}x$.}
+	\option{$\pi \int_2^0 (2x - x^2)^2\,\mathrm{d}x$.}
+	\option{$\int_0^2 (2x - x^2)^2\,\mathrm{d}x$.}
+\end{mcq}
+
+\begin{mcq}{Cho $(H)$ là hình phẳng giới hạn bởi $\frac{1}{4}$ cung tròn có bán kính $R = 2$, đường cong $y = \sqrt{4-x}$ và trục hoành, $x = 3$ (miền tô đậm như hình). Tính thể tích $V$ khối tạo thành khi cho $(H)$ quay quanh trục $Ox$. \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_8.png}}{2}{1}{Thể tích của khối tròn xoay cần tính là $V = \pi \int_{-2}^0 (\sqrt{4-x^2})^2\,\mathrm{d}x + \pi \int_0^3 (\sqrt{4-x})^2\,\mathrm{d}x = \pi \int_{-2}^0 (4-x^2)\,\mathrm{d}x + \pi \int_0^3 (4-x)\,\mathrm{d}x = \pi \left(4x - \frac{x^3}{3}\right)\Bigg|_{-2}^0 + \pi \left(4x - \frac{x^2}{2}\right)\Bigg|_0^3 = \frac{77\pi}{6}$. Chọn C.}
+	\option{$V = \frac{75\pi}{6}$.}
+	\option{$V = \frac{81\pi}{6}$.}
+	\option{$V = \frac{77\pi}{6}$.}
+	\option{$V = \frac{101\pi}{6}$.}
+\end{mcq}
+
+\begin{mcq}{Cho nửa đường tròn đường kính $AB = 4\sqrt{5}$. Trên đó người ta vẽ parabol có đỉnh trùng với tâm của nửa hình tròn, trục đối xứng là đường kính vuông góc với $AB$. Parabol cắt nửa đường tròn tại hai điểm cách nhau $4\text{ cm}$ và khoảng cách từ hai điểm đó đến $AB$ bằng nhau và bằng $4\text{ cm}$. Sau đó người ta cắt bỏ phần hình phẳng giới hạn bởi đường tròn và parabol (phần gạch sọc trong hình vẽ). Đem phần còn lại quay xung quanh trục $AB$. Thể tích của khối tròn xoay thu được bằng \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_9.png}}{3}{1}{Chọn hệ trục tọa độ như hình vẽ: \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_10.png} Theo đề bài ta có phương trình đường tròn là $y = \sqrt{20 - x^2}$ và phương trình của parabol là $y = x^2$. Phương trình hoành độ giao điểm là $\sqrt{20 - x^2} = x^2 \Leftrightarrow \begin{cases} x = -2 \\ x = 2 \end{cases}$. Do tính chất đối xứng của hình vẽ nên ta có thể tích vật thể tròn xoay được tính theo công thức: $V = 2\left[\pi \int_0^{2\sqrt{5}} (20-x^2)\,\mathrm{d}x - \pi \int_0^2 (20-x^2 - x^4)\,\mathrm{d}x\right] = \frac{1}{15}\pi(800\sqrt{5} - 928)\text{ cm}^3$. Chọn D.}
+	\option{$V = \frac{\pi}{15}(800\sqrt{5} - 464)\text{ cm}^3$.}
+	\option{$V = \frac{\pi}{3}(800\sqrt{5} - 928)\text{ cm}^3$.}
+	\option{$V = \frac{\pi}{5}(800\sqrt{5} - 464)\text{ cm}^3$.}
+	\option{$V = \frac{\pi}{15}(800\sqrt{5} - 928)\text{ cm}^3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình $(H)$ giới hạn bởi đồ thị hàm số $y = \frac{\sqrt{3}}{9}x^3$, cung tròn có phương trình $y = \sqrt{4-x^2}$ (với $0 \le x \le 2$) và trục hoành (phần đồ thị trong hình vẽ). Biết thể tích của khối tròn xoay tạo thành khi quay $(H)$ quay trục hoành là $V = \left(-\frac{a}{b}\sqrt{3} + \frac{c}{d}\right)\pi$, trong đó $a, b, c, d \in \mathbb{N}^*$ và $\frac{a}{b}, \frac{c}{d}$ là các phân số tối giản. Tính $P = a + b + c + d$. \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_11.png}}{0}{1}{Phương trình hoành độ giao điểm: $\frac{\sqrt{3}}{9}x^3 = \sqrt{4-x^2} \Leftrightarrow x = \sqrt{3}$. Khi đó: $V = \pi \left[\int_0^{\sqrt{3}} \left(\frac{\sqrt{3}}{9}x^3\right)^2\mathrm{d}x + \int_{\sqrt{3}}^2 (\sqrt{4-x^2})^2\mathrm{d}x\right] = \pi \left[\int_0^{\sqrt{3}} \frac{1}{27}x^6\,\mathrm{d}x + \int_{\sqrt{3}}^2 (4-x^2)\,\mathrm{d}x\right] = \left(-\frac{20\sqrt{3}}{7} + \frac{16}{3}\right)\pi$. Suy ra $a = 20, b = 7, c = 16, d = 3 \Rightarrow P = 20 + 7 + 16 + 3 = 46$. Chọn A.}
+	\option{$P = 46$.}
+	\option{$P = 40$.}
+	\option{$P = 34$.}
+	\option{$P = 52$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3. Bài toán thực tế ứng dụng tích phân tính thể tích}{Mô hình hóa hình học và áp dụng tích phân giải quyết các bài toán thực tiễn}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- Sử dụng các kiến thức đã học ở các dạng trước để mô hình hóa và áp dụng vào thực tiễn.
+- Chọn hệ trục tọa độ phù hợp, xác định phương trình các đường biên, cận tích phân và thiết lập công thức tính thể tích.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3 - Ví dụ mẫu}
+
+\begin{mcq}{Một bác thợ gốm làm một cái lọ có dáng khối tròn xoay được tạo thành khi quay hình phẳng giới hạn bởi các đường $y = \sqrt{x+1}$ (đồ thị như hình bên dưới) và trục $Ox$ quay quanh trục $Ox$. Biết đáy lọ và miệng lọ có đường kính lần lượt là $2\text{ dm}$ và $4\text{ dm}$. Tính thể tích $V$ của lọ. \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_12.png}}{1}{1}{\image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_13.png} Đáy lọ có đường kính bằng $2\text{ dm}$ (bán kính bằng $1\text{ dm}$) ứng với $x = 0$, miệng lọ có đường kính bằng $4\text{ dm}$ (bán kính bằng $2\text{ dm}$) ứng với $x = 3$. Từ đó suy ra thể tích của khối tròn xoay cần tính là $V = \pi \int_0^3 (x+1)\,\mathrm{d}x = \pi \left(\frac{x^2}{2} + x\right)\Bigg|_0^3 = \frac{15\pi}{2}\text{ dm}^3$. Chọn B.}
+	\option{$V = \frac{15}{2}\text{ dm}^3$.}
+	\option{$V = \frac{15\pi}{2}\text{ dm}^3$.}
+	\option{$V = \frac{17}{2}\text{ dm}^3$.}
+	\option{$V = \frac{17\pi}{2}\text{ dm}^3$.}
+\end{mcq}
+
+\begin{mcq}{Để chuẩn bị cho hội trại do Đoàn trường tổ chức, lớp 12A dự định dựng một cái lều trại có dạng hình parabol như hình vẽ. Nền của lều trại là một hình chữ nhật có kích thước bề ngang $3\text{ m}$, chiều dài $6\text{ m}$, đỉnh trại cách nền $3\text{ m}$. Tính thể tích phần không gian bên trong lều trại. \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_14.png}}{1}{1}{\textbf{Cách 1:} Ta chọn hệ trục tọa độ như hình vẽ, suy ra hình dạng khung trại là parabol có phương trình $y = ax^2 + c$. \image{0.45}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_15.png} Vì đỉnh trại cao $3\text{ m}$ và bề ngang trại rộng $3\text{ m}$ nên parabol qua điểm $A(0;3)$ và $B\left(\frac{3}{2}; 0\right)$, suy ra $y = -\frac{4}{3}x^2 + 3$. Thiết diện vuông góc với trục của trại là một hình phẳng giới hạn bởi parabol có diện tích $S(x) = \int_{-\frac{3}{2}}^{\frac{3}{2}} \left(-\frac{4}{3}x^2 + 3\right)\mathrm{d}x = 6$. Do trại dài $6\text{ m}$ nên thể tích không gian trong trại là $V = \int_0^6 S(x)\,\mathrm{d}x = \int_0^6 6\,\mathrm{d}x = 36\text{ m}^3$.\\ \textbf{Cách 2:} Thiết diện dọc theo trại và vuông góc với mặt đất là hình chữ nhật có diện tích $S(x) = 6|f(x)|$ với $-\frac{3}{2} \le x \le \frac{3}{2}$. \image{0.45}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_16.png} Vậy thể tích không gian trong trại là $V = \int_{-\frac{3}{2}}^{\frac{3}{2}} 6\left(-\frac{4}{3}x^2 + 3\right)\mathrm{d}x = 36\text{ m}^3$. Chọn B.}
+	\option{$72\text{ m}^3$.}
+	\option{$36\text{ m}^3$.}
+	\option{$72\pi\text{ m}^3$.}
+	\option{$36\pi\text{ m}^3$.}
+\end{mcq}
+
+\begin{mcq}{Một thùng đựng rượu làm bằng gỗ là một hình tròn xoay (tham khảo hình bên). Bán kính các đáy là $30\text{ cm}$, khoảng cách giữa hai đáy là $1\text{ m}$, thiết diện qua trục vuông góc với trục và cách đều hai đáy có chu vi là $80\pi\text{ cm}$. Biết rằng mặt phẳng qua trục cắt mặt xung quanh của bình là các đường parabol. Thể tích của thùng gần với số nào sau đây? \image{0.45}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_17.png}}{0}{1}{Ta có: bán kính đáy $30\text{ cm} = 3\text{ dm}$, khoảng cách giữa hai đáy là $10\text{ dm} = 1\text{ m}$, thiết diện qua trục vuông góc với trục và cách đều hai đáy có chu vi là $80\pi\text{ cm} = 8\pi\text{ dm}$ suy ra bán kính $r = 4\text{ dm}$. Mặt phẳng qua trục cắt mặt xung quanh của bình là các đường parabol có đồ thị như hình bên dưới: \image{0.55}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_18.png} Vì đỉnh cao $4\text{ dm}$ và bề ngang rộng $10\text{ dm}$ nên khi đó parabol qua điểm $A(0;4)$ và $B(5;3)$, suy ra phương trình $y = -\frac{1}{25}x^2 + 4$. Vậy thể tích của thùng là $V = \pi \int_{-5}^5 \left(-\frac{1}{25}x^2 + 4\right)^2\mathrm{d}x \approx 425{,}2\text{ lít}$. Chọn A.}
+	\option{$425{,}2\text{ lít}$.}
+	\option{$284\text{ lít}$.}
+	\option{$212{,}6\text{ lít}$.}
+	\option{$142{,}2\text{ lít}$.}
+\end{mcq}
+
+\begin{mcq}{Người ta cắt hai hình cầu có bán kính lần lượt là $R = 13\text{ cm}$ và $r = \sqrt{41}\text{ cm}$ để làm hồ lô đựng rượu như hình vẽ bên. Biết đường tròn giao của hình cầu có bán kính $r' = 5\text{ cm}$ và nút đựng rượu là một hình trụ có bán kính đáy bằng $5\text{ cm}$, chiều cao bằng $4\text{ cm}$. Giả sử độ dày vỏ hồ lô không đáng kể. Hỏi hồ lô đựng được bao nhiêu lít rượu? (kết quả làm tròn đến một chữ số thập phân sau dấu phẩy). \image{0.35}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_19.png}}{1}{1}{Xét hệ trục tọa độ $Oxy$ như hình vẽ. \image{0.6}{}{images_ChuDe04_UngDungTichPhanTinhTheTich/lt_20.png} Có thể coi hồ lô được tạo thành bằng cách cho đường cong, gấp khúc quay quanh trục $Ox$. Phương trình cung cong lớn là $x^2 + y^2 = 169 \Rightarrow y = \sqrt{169 - x^2}$. Phương trình cung cong nhỏ là $(x-16)^2 + y^2 = 41 \Rightarrow y = \sqrt{41 - (x-16)^2}$. Thể tích hồ lô là $V = \pi \int_{-13}^{12} (169-x^2)\,\mathrm{d}x + \pi \int_{12}^{22} [41 - (x-16)^2]\,\mathrm{d}x + \pi \int_{22}^{26} 5^2\,\mathrm{d}x = \pi\left(\frac{8750}{3} + \frac{950}{3} + 100\right) = \frac{10000\pi}{3}\text{ cm}^3 \approx 10472\text{ cm}^3 \approx 10{,}2\text{ lít}$ (theo tính toán quy tròn). Chọn B.}
+	\option{$9{,}5\text{ lít}$.}
+	\option{$10{,}2\text{ lít}$.}
+	\option{$8{,}2\text{ lít}$.}
+	\option{$11{,}4\text{ lít}$.}
+\end{mcq}
+
+\end{quiz}
+
+\end{document}

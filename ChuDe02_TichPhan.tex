@@ -1,0 +1,466 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 02: TÍCH PHÂN}
+\docdesc{Lý thuyết trọng tâm, các dạng toán cơ bản và nâng cao chuyên đề Tích phân}
+\docgrade{12}
+\docstatus{draft}
+\doctype{lesson}
+\doctopics{Giải tích, Tích phân}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I. Tóm tắt lý thuyết}{Kiến thức trọng tâm về diện tích hình thang cong, định nghĩa và tính chất của tích phân}
+
+\textbf{1. Diện tích hình thang cong:}
+
+- Cho hàm số $y = f(x)$ liên tục, không âm trên đoạn $[a; b]$. Hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$ được gọi là hình thang cong.
+
+\image{0.5}{Hình thang cong giới hạn bởi đồ thị hàm số y = f(x)}{images_ChuDe02_TichPhan/lt_1.png}
+
+- Nếu hàm số $y = f(x)$ liên tục và không âm trên đoạn $[a; b]$ thì diện tích $S$ của hình thang cong giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$ được tính bởi:
+$$S = F(b) - F(a),$$
+trong đó $F(x)$ là một nguyên hàm của hàm số $f(x)$.
+
+\textbf{2. Khái niệm tích phân:}
+
+Cho $f(x)$ là một hàm số liên tục trên $[a; b]$ và $F(x)$ là một nguyên hàm của $f(x)$ trên $[a; b]$. Hiệu số $F(b) - F(a)$ được gọi là tích phân của $f(x)$ từ $a$ đến $b$ (hay tích phân của $f(x)$ trên đoạn $[a; b]$), kí hiệu là $\int_a^b f(x)\,\mathrm{d}x$.
+
+\textbf{Chú ý:}
+- Ta còn dùng kí hiệu $F(x)\Big|_a^b$ để chỉ hiệu số $F(b) - F(a)$. Vậy $\int_a^b f(x)\,\mathrm{d}x = F(x)\Big|_a^b = F(b) - F(a)$.
+- Ta gọi $\int_a^b$ là dấu tích phân, $a$ là cận dưới, $b$ là cận trên, $f(x)\,\mathrm{d}x$ là biểu thức dưới dấu tích phân và $f(x)$ là hàm số dưới dấu tích phân.
+
+\textbf{3. Tính chất của tích phân:}
+
+- $\int_a^a f(x)\,\mathrm{d}x = 0$.
+
+- $\int_a^b k f(x)\,\mathrm{d}x = k \int_a^b f(x)\,\mathrm{d}x$ ($k$ là hằng số).
+
+- $\int_a^b f(x)\,\mathrm{d}x = -\int_b^a f(x)\,\mathrm{d}x$.
+
+- $\int_a^b f(x)\,\mathrm{d}x + \int_b^c f(x)\,\mathrm{d}x = \int_a^c f(x)\,\mathrm{d}x$.
+
+- $\int_a^b [f(x) \pm g(x)]\,\mathrm{d}x = \int_a^b f(x)\,\mathrm{d}x \pm \int_a^b g(x)\,\mathrm{d}x$.
+
+- $\int_a^b f(x)\,\mathrm{d}x = \int_a^b f(t)\,\mathrm{d}t$.
+
+\textbf{4. Ý nghĩa hình học của tích phân:}
+
+Nếu hàm số $f(x)$ liên tục và không âm trên $[a; b]$ thì $\int_a^b f(x)\,\mathrm{d}x$ là diện tích hình phẳng giới hạn bởi đồ thị $y = f(x)$, trục hoành, hai đường thẳng $x = a$ và $x = b$ hay $S = \int_a^b f(x)\,\mathrm{d}x$.
+
+\image{0.5}{Ý nghĩa hình học của tích phân}{images_ChuDe02_TichPhan/lt_2.png}
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+\begin{lesson}{Phần II. Các dạng toán}{Phương pháp giải và các ví dụ mẫu chi tiết}
+
+\textbf{\Large Bài toán 1. Diện tích hình thang cong, ý nghĩa hình học của tích phân}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- Diện tích hình thang cong giới hạn bởi đồ thị $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$ ($f(x) \ge 0$ trên $[a; b]$) là:
+$$S = F(b) - F(a) = \int_a^b f(x)\,\mathrm{d}x.$$
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1 - Ví dụ mẫu}
+
+\begin{mcq}{Tính diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = f(x) = 2 - x^2$, trục hoành và hai đường thẳng $x = -1, x = 1$. \image{0.45}{}{images_ChuDe02_TichPhan/vd1_p4.png}}{0}{1}{Hàm số $y = f(x) = 2 - x^2$ liên tục, dương trên đoạn $[-1; 1]$ và có nguyên hàm là $F(x) = 2x - \frac{x^3}{3}$. Do đó, diện tích hình thang cong cần tìm là $S = F(1) - F(-1) = \frac{10}{3}$.}
+	\option{$S = \frac{10}{3}$.}
+	\option{$S = \frac{8}{3}$.}
+	\option{$S = 4$.}
+	\option{$S = \frac{11}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = f(x) = e^x$, trục hoành, trục tung và đường thẳng $x = 1$. \image{0.45}{}{images_ChuDe02_TichPhan/vd2_p4.png}}{0}{1}{Hàm số $y = f(x) = e^x$ liên tục, dương trên đoạn $[0; 1]$ và có nguyên hàm là $F(x) = e^x$. Do đó, diện tích hình thang cong cần tìm là $S = F(1) - F(0) = e - 1$.}
+	\option{$S = e - 1$.}
+	\option{$S = e$.}
+	\option{$S = e + 1$.}
+	\option{$S = 1$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = f(x) = \frac{1}{x}$, trục hoành và hai đường thẳng $x = 1, x = 3$. \image{0.45}{}{images_ChuDe02_TichPhan/vd3_p5.png}}{0}{1}{Hàm số $y = f(x) = \frac{1}{x}$ liên tục, dương trên đoạn $[1; 3]$ và có nguyên hàm là $F(x) = \ln x$. Do đó, diện tích hình thang cong cần tìm là $S = F(3) - F(1) = \ln 3$.}
+	\option{$S = \ln 3$.}
+	\option{$S = \ln 2$.}
+	\option{$S = \frac{1}{3}$.}
+	\option{$S = 2\ln 3$.}
+\end{mcq}
+
+\begin{mcq}{Sử dụng ý nghĩa hình học của tích phân, tính $\int_0^1 (x+1)\,\mathrm{d}x$.}{0}{1}{Tích phân cần tính là diện tích của hình thang vuông $OABC$, có đáy nhỏ $OC = 1$, đáy lớn $AB = 2$ và đường cao $OA = 1$. Vậy $\int_0^1 (x+1)\,\mathrm{d}x = S_{OABC} = \frac{1}{2}(OC + AB) \cdot OA = \frac{1}{2}(1 + 2) \cdot 1 = \frac{3}{2}$. \image{0.45}{}{images_ChuDe02_TichPhan/vd4_p5.png}}
+	\option{$\frac{3}{2}$.}
+	\option{$2$.}
+	\option{$1$.}
+	\option{$\frac{5}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Sử dụng ý nghĩa hình học của tích phân, tính $\int_{-1}^1 \sqrt{1-x^2}\,\mathrm{d}x$.}{0}{1}{Ta có $y = \sqrt{1-x^2}$ là phương trình nửa phía trên trục hoành của đường tròn $(C)$ có tâm tại gốc tọa độ $O$ và bán kính $1$. Do đó, tích phân cần tính là diện tích nửa phía trên trục hoành của hình tròn $(C)$ tương ứng: $\int_{-1}^1 \sqrt{1-x^2}\,\mathrm{d}x = \frac{1}{2}S_{(C)} = \frac{1}{2}\pi R^2 = \frac{\pi}{2}$. \image{0.45}{}{images_ChuDe02_TichPhan/vd5_p6.png}}
+	\option{$\frac{\pi}{2}$.}
+	\option{$\pi$.}
+	\option{$\frac{\pi}{4}$.}
+	\option{$2\pi$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = f(x) = x^2 + 1$, trục hoành và hai đường thẳng $x = -1, x = 2$. \image{0.45}{}{images_ChuDe02_TichPhan/vd6_p6.png}}{0}{1}{Hàm số $y = f(x) = x^2 + 1$ liên tục, dương trên đoạn $[-1; 2]$ và có nguyên hàm là $F(x) = \frac{1}{3}x^3 + x + C$. Do đó, diện tích hình thang cong cần tìm là $S = F(2) - F(-1) = 6$.}
+	\option{$S = 6$.}
+	\option{$S = 5$.}
+	\option{$S = 7$.}
+	\option{$S = \frac{14}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = f(x) = \sqrt{x}$, trục hoành và hai đường thẳng $x = 1, x = 3$. \image{0.45}{}{images_ChuDe02_TichPhan/vd7_p7.png}}{0}{1}{Hàm số $y = f(x) = \sqrt{x}$ liên tục, dương trên đoạn $[1; 3]$ và có nguyên hàm là $F(x) = \frac{2}{3}x^{\frac{3}{2}} + C$. Do đó, diện tích hình thang cong cần tìm là $S = F(3) - F(1) = \frac{2}{3}(3\sqrt{3} - 1)$.}
+	\option{$S = \frac{2}{3}(3\sqrt{3} - 1)$.}
+	\option{$S = \frac{2}{3}(3\sqrt{3} + 1)$.}
+	\option{$S = 2\sqrt{3} - \frac{2}{3}$.}
+	\option{$S = 3\sqrt{3} - 1$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 2
+% =========================================================================
+
+\begin{lesson}{Bài toán 2. Sử dụng định nghĩa, tính chất tích phân}{Các bước tính tích phân và áp dụng tính chất tách cận, tách tổng}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Các bước tính $\int_a^b f(x)\,\mathrm{d}x$:
+- Tìm một nguyên hàm $F(x)$ của $f(x)$ (thường chọn $C = 0$).
+- Ráp công thức $\int_a^b f(x)\,\mathrm{d}x = F(x)\Big|_a^b = F(b) - F(a)$.
+- Chú ý các tính chất của tích phân như tách tổng, tách cận,...
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2 - Ví dụ mẫu}
+
+\begin{mcq}{Tích phân $\int_{-2}^1 x^3\,\mathrm{d}x$ bằng}{3}{1}{Ta có $\int_{-2}^1 x^3\,\mathrm{d}x = \frac{x^4}{4}\Big|_{-2}^1 = -\frac{15}{4}$. Chọn D.}
+	\option{$-\frac{9}{4}$.}
+	\option{$\frac{17}{4}$.}
+	\option{$17$.}
+	\option{$-\frac{15}{4}$.}
+\end{mcq}
+
+\begin{mcq}{Tích phân $\int_0^{2018} 2^x\,\mathrm{d}x$ bằng}{1}{1}{Ta có $\int_0^{2018} 2^x\,\mathrm{d}x = \frac{2^x}{\ln 2}\Big|_0^{2018} = \frac{2^{2018}-1}{\ln 2}$. Chọn B.}
+	\option{$2^{2018} - 1$.}
+	\option{$\frac{2^{2018}-1}{\ln 2}$.}
+	\option{$\frac{2^{2018}}{\ln 2}$.}
+	\option{$2^{2018}$.}
+\end{mcq}
+
+\begin{mcq}{Tích phân $\int_0^2 (x^2 - 3x)\,\mathrm{d}x$ bằng}{1}{1}{Ta có $\int_0^2 (x^2 - 3x)\,\mathrm{d}x = \left(\frac{2}{3}x^3 - \frac{3}{2}x^2\right)\Big|_0^2 = -\frac{10}{3}$. Chọn B.}
+	\option{$\frac{10}{3}$.}
+	\option{$-\frac{10}{3}$.}
+	\option{$\frac{7}{3}$.}
+	\option{$12$.}
+\end{mcq}
+
+\begin{mcq}{Tích phân $\int_0^{\frac{\pi}{4}} \sin 3x\,\mathrm{d}x$ bằng}{0}{1}{Ta có $\int_0^{\frac{\pi}{4}} \sin 3x\,\mathrm{d}x = -\frac{1}{3}\cos 3x\Big|_0^{\frac{\pi}{4}} = \frac{2+\sqrt{2}}{6}$. Chọn A.}
+	\option{$\frac{2+\sqrt{2}}{6}$.}
+	\option{$\frac{-2+\sqrt{2}}{6}$.}
+	\option{$\frac{-2-\sqrt{2}}{6}$.}
+	\option{$\frac{2-\sqrt{2}}{6}$.}
+\end{mcq}
+
+\begin{mcq}{Tích phân $\int_0^1 \frac{1}{2x+5}\,\mathrm{d}x$ bằng}{0}{1}{Ta có $\int_0^1 \frac{1}{2x+5}\,\mathrm{d}x = \frac{1}{2}\ln|2x+5|\Big|_0^1 = \frac{1}{2}\ln\frac{7}{5}$. Chọn A.}
+	\option{$\frac{1}{2}\ln\frac{7}{5}$.}
+	\option{$\frac{1}{2}\ln\frac{5}{7}$.}
+	\option{$-\frac{4}{35}$.}
+	\option{$\frac{1}{2}\log\frac{7}{5}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ liên tục trên $\mathbb{R}$ và $F(x)$ là một nguyên hàm của $f(x)$, biết $\int_0^9 f(x)\,\mathrm{d}x = 9$ và $F(0) = 3$. Tính $F(9)$.}{2}{1}{Ta có $\int_0^9 f(x)\,\mathrm{d}x = F(x)\Big|_0^9 = F(9) - F(0) = 9 \Leftrightarrow F(9) = 12$. Chọn C.}
+	\option{$-6$.}
+	\option{$6$.}
+	\option{$12$.}
+	\option{$-12$.}
+\end{mcq}
+
+\begin{mcq}{Nếu $\int_1^2 f(x)\,\mathrm{d}x = 3, \int_2^5 f(x)\,\mathrm{d}x = -1$ thì $\int_1^5 f(x)\,\mathrm{d}x$ bằng}{1}{1}{Ta có $\int_1^5 f(x)\,\mathrm{d}x = \int_1^2 f(x)\,\mathrm{d}x + \int_2^5 f(x)\,\mathrm{d}x = 3 - 1 = 2$. Chọn B.}
+	\option{$-2$.}
+	\option{$2$.}
+	\option{$3$.}
+	\option{$4$.}
+\end{mcq}
+
+\begin{mcq}{Cho $f(x)$ và $g(x)$ liên tục trên đoạn $[1; 3]$, thỏa mãn $\int_1^3 [f(x)+3g(x)]\,\mathrm{d}x = 10$ và $\int_1^3 [2f(x)-g(x)]\,\mathrm{d}x = 6$. Tính $I = \int_1^3 [f(x)+g(x)]\,\mathrm{d}x$.}{0}{1}{Ta có hệ phương trình:
+$$\begin{cases} \int_1^3 f(x)\,\mathrm{d}x + 3\int_1^3 g(x)\,\mathrm{d}x = 10 \\ 2\int_1^3 f(x)\,\mathrm{d}x - \int_1^3 g(x)\,\mathrm{d}x = 6 \end{cases} \Leftrightarrow \begin{cases} \int_1^3 f(x)\,\mathrm{d}x = 4 \\ \int_1^3 g(x)\,\mathrm{d}x = 2 \end{cases}$$
+Vậy $I = \int_1^3 [f(x)+g(x)]\,\mathrm{d}x = 6$. Chọn A.}
+	\option{$I = 6$.}
+	\option{$I = 7$.}
+	\option{$I = 9$.}
+	\option{$I = 8$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ xác định và liên tục trên $\mathbb{R}$. Biết $f(x)$ là hàm số lẻ thỏa $\int_{-3}^0 f(x)\,\mathrm{d}x = 4$ và $\int_3^5 f(x)\,\mathrm{d}x = 7$. Tính $\int_{-3}^5 f(x)\,\mathrm{d}x$.}{1}{1}{Vì $f(x)$ là hàm số lẻ nên đồ thị đối xứng qua gốc $O$. Khi đó tích phân phần bên trái $Ox$ và phần bên phải $Ox$ (cận đối xứng) sẽ trái dấu.
+Suy ra $\int_{-3}^0 f(x)\,\mathrm{d}x = 4 \Rightarrow \int_0^3 f(x)\,\mathrm{d}x = -4$.
+Vậy $\int_{-3}^5 f(x)\,\mathrm{d}x = \int_{-3}^0 f(x)\,\mathrm{d}x + \int_0^3 f(x)\,\mathrm{d}x + \int_3^5 f(x)\,\mathrm{d}x = 4 + (-4) + 7 = 7$. Chọn B.}
+	\option{$15$.}
+	\option{$7$.}
+	\option{$4$.}
+	\option{$-1$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đạo hàm liên tục trên đoạn $[0; 1]$ và $f(1) - f(0) = 2$. Tích phân $I = \int_0^1 [f'(x) - e^x]\,\mathrm{d}x$ bằng}{2}{1}{Ta có $I = \int_0^1 f'(x)\,\mathrm{d}x - \int_0^1 e^x\,\mathrm{d}x = f(x)\Big|_0^1 - e^x\Big|_0^1 = f(1) - f(0) - (e - e^0) = 2 - e + 1 = 3 - e$. Chọn C.}
+	\option{$I = 1 - e$.}
+	\option{$I = 1 + e$.}
+	\option{$I = 3 - e$.}
+	\option{$I = 3 + e$.}
+\end{mcq}
+
+\begin{mcq}{Tích phân $\int_{-1}^3 |x-2|\,\mathrm{d}x$ bằng}{2}{1}{Ta có $\int_{-1}^3 |x-2|\,\mathrm{d}x = -\int_{-1}^2 (x-2)\,\mathrm{d}x + \int_2^3 (x-2)\,\mathrm{d}x = \frac{9}{2} + \frac{1}{2} = 5$. Chọn C.}
+	\option{$-4$.}
+	\option{$4$.}
+	\option{$5$.}
+	\option{$-5$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = \begin{cases} 1 - 2x, & x > 0 \\ \cos x, & x \le 0 \end{cases}$. Tính giá trị biểu thức $I = \int_{-\frac{\pi}{2}}^1 f(x)\,\mathrm{d}x$.}{2}{1}{Ta có $I = \int_{-\frac{\pi}{2}}^0 \cos x\,\mathrm{d}x + \int_0^1 (1-2x)\,\mathrm{d}x = 1 + 0 = 1$. Chọn C.}
+	\option{$I = -2$.}
+	\option{$I = \frac{1}{2}$.}
+	\option{$I = 1$.}
+	\option{$I = 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ xác định trên $\mathbb{R} \setminus \{1\}$ thỏa mãn $f'(x) = \frac{1}{x-1}, f(0) = 2018, f(2) = 2019$. Tính $S = f(3) - f(-1)$.}{3}{1}{Dùng nguyên hàm: $f(x) = \int \frac{1}{x-1}\,\mathrm{d}x = \begin{cases} \ln(x-1) + C_1, & x > 1 \\ \ln(1-x) + C_2, & x < 1 \end{cases}$.
+Với $f(0) = 2018 \Rightarrow C_2 = 2018$. Với $f(2) = 2019 \Rightarrow C_1 = 2019$.
+Vậy $S = f(3) - f(-1) = \ln 2 + 2019 - (\ln 2 + 2018) = 1$. Chọn D.}
+	\option{$S = \ln 4035$.}
+	\option{$S = 4$.}
+	\option{$S = \ln 2$.}
+	\option{$S = 1$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ liên tục trên $[-2; 3]$ và có đồ thị như hình vẽ. Tính $\int_{-2}^3 f(x)\,\mathrm{d}x$. \image{0.45}{}{images_ChuDe02_TichPhan/vd14_p12.png}}{2}{1}{Dựa vào đồ thị, ta tìm được $f(x) = \begin{cases} 2 & \text{khi } -2 \le x \le 0 \\ -x + 2 & \text{khi } 0 < x \le 3 \end{cases}$.
+Suy ra $\int_{-2}^3 f(x)\,\mathrm{d}x = \int_{-2}^0 2\,\mathrm{d}x + \int_0^3 (-x+2)\,\mathrm{d}x = 4 + \frac{3}{2} = \frac{11}{2}$. Chọn C.}
+	\option{$2$.}
+	\option{$4$.}
+	\option{$\frac{11}{2}$.}
+	\option{$\frac{5}{2}$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 3
+% =========================================================================
+
+\begin{lesson}{Bài toán 3. Tách hàm dạng tích thành tổng các hàm cơ bản}{Sử dụng hằng đẳng thức, công thức lượng giác và công thức lũy thừa để khai triển tích phân}
+\end{lesson}
+
+\begin{quiz}{Bài toán 3 - Ví dụ mẫu}
+
+\begin{mcq}{Tính tích phân $\int_0^1 (x^2+1)^2\,\mathrm{d}x$.}{1}{1}{Ta có $\int_0^1 (x^2+1)^2\,\mathrm{d}x = \int_0^1 (x^4 + 2x^2 + 1)\,\mathrm{d}x = \left(\frac{x^5}{5} + \frac{2}{3}x^3 + x\right)\Big|_0^1 = \frac{28}{15}$. Chọn B.}
+	\option{$\frac{96}{35}$.}
+	\option{$\frac{28}{15}$.}
+	\option{$\frac{7}{3}$.}
+	\option{$\frac{23}{14}$.}
+\end{mcq}
+
+\begin{mcq}{Biết $\int_0^{\frac{\pi}{8}} \sin^2 x\,\mathrm{d}x = \frac{\pi}{a} - \frac{b}{c\sqrt{2}}$, với $a, b, c \in \mathbb{Z}$ và $\frac{b}{c}$ tối giản. Tính $a+b+c$.}{1}{1}{Ta có $\int_0^{\frac{\pi}{8}} \sin^2 x\,\mathrm{d}x = \int_0^{\frac{\pi}{8}} \left(\frac{1-\cos 2x}{2}\right)\mathrm{d}x = \left(\frac{1}{2}x - \frac{1}{4}\sin 2x\right)\Big|_0^{\frac{\pi}{8}} = \frac{\pi}{16} - \frac{1}{4\sqrt{2}}$.
+Suy ra $a = 16, b = 1, c = 4$. Khi đó $a+b+c = 21$. Chọn B.}
+	\option{$40$.}
+	\option{$21$.}
+	\option{$12$.}
+	\option{$8$.}
+\end{mcq}
+
+\begin{mcq}{Biết $\int_0^{\ln\sqrt{2}} (e^x+1)^3\,\mathrm{d}x = a\sqrt{2} + b\ln\sqrt{2} + c$, với $a, b, c \in \mathbb{Q}$. Tính $a+b+c$.}{2}{1}{Ta có $\int_0^{\ln\sqrt{2}} (e^x+1)^3\,\mathrm{d}x = \int_0^{\ln\sqrt{2}} (e^{3x} + 3e^{2x} + 3e^x + 1)\,\mathrm{d}x = \left(\frac{1}{3}e^{3x} + \frac{3}{2}e^{2x} + 3e^x + x\right)\Big|_0^{\ln\sqrt{2}} = \frac{11}{3}\sqrt{2} - \frac{11}{6} + \frac{1}{2}\ln 2$.
+Suy ra $a = \frac{11}{3}, b = \frac{1}{2}, c = -\frac{11}{6}$. Khi đó $a+b+c = \frac{7}{3}$. Chọn C.}
+	\option{$6$.}
+	\option{$32$.}
+	\option{$\frac{7}{3}$.}
+	\option{$\frac{17}{6}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đồ thị là một parabol như hình vẽ bên dưới. Tính $\int_0^3 (x-1)f(x)\,\mathrm{d}x$. \image{0.45}{}{images_ChuDe02_TichPhan/vd4_p13.png}}{1}{1}{Dựa vào hình vẽ, ta viết được phương trình parabol là $f(x) = (x-1)(x-3)$.
+Khi đó, ta có:
+$$\int_0^3 (x-1)f(x)\,\mathrm{d}x = \int_0^3 (x-1)^2(x-3)\,\mathrm{d}x = \int_0^3 (x^3 - 5x^2 + 7x - 3)\,\mathrm{d}x = \left(\frac{1}{4}x^4 - \frac{5}{3}x^3 + \frac{7}{2}x^2 - 3x\right)\Big|_0^3 = -\frac{9}{4}.$$
+Chọn B.}
+	\option{$\frac{9}{4}$.}
+	\option{$-\frac{9}{4}$.}
+	\option{$\frac{135}{4}$.}
+	\option{$-\frac{135}{4}$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 4
+% =========================================================================
+
+\begin{lesson}{Bài toán 4. Tách hàm dạng phân thức thành tổng các hàm cơ bản}{Chia đa thức và đồng nhất hệ số để đưa về các nguyên hàm cơ bản}
+\end{lesson}
+
+\begin{quiz}{Bài toán 4 - Ví dụ mẫu}
+
+\begin{mcq}{Biết $\int_1^4 \frac{4x^2+3}{x}\,\mathrm{d}x = \frac{a}{b} + c\ln 2, (a, b, c \in \mathbb{Z})$. Gọi $S = a+b-2c$, giá trị của $S$ thuộc khoảng nào sau đây?}{0}{1}{Ta có $\int_1^4 \frac{4x^2+3}{x}\,\mathrm{d}x = \int_1^4 \left(4x + \frac{3}{x}\right)\mathrm{d}x = \left(2x^2 + 3\ln|x|\right)\Big|_1^4 = 30 + 6\ln 2 = \frac{15}{2} \cdot 4\dots$ hay viết $\left(\frac{x^2}{2} + 3\ln|x|\right)\Big|_1^4 = \frac{15}{2} + 6\ln 2$.
+Suy ra $a = 15, b = 2, c = 6$. Khi đó $S = 5 \in (4; 6)$. Chọn A.}
+	\option{$(4; 6)$.}
+	\option{$(8; 10)$.}
+	\option{$(2; 4)$.}
+	\option{$(6; 8)$.}
+\end{mcq}
+
+\begin{mcq}{Biết $\int_0^1 \frac{2x+3}{x+2}\,\mathrm{d}x = a\ln\frac{3}{2} + b (a, b \in \mathbb{Q})$. Khi đó $a+2b$ bằng}{2}{1}{Ta có $\int_0^1 \frac{2x+3}{x+2}\,\mathrm{d}x = \int_0^1 \left(2 - \frac{1}{x+2}\right)\mathrm{d}x = 2x\Big|_0^1 - \ln|x+2|\Big|_0^1 = 2 - \ln\frac{3}{2}$.
+Suy ra $a = -1, b = 2$. Khi đó $a+2b = 3$. Chọn C.}
+	\option{$0$.}
+	\option{$2$.}
+	\option{$3$.}
+	\option{$7$.}
+\end{mcq}
+
+\begin{mcq}{Cho tích phân $\int_1^2 \frac{x^3-3x^2+2x}{x+1}\,\mathrm{d}x = a + b\ln 2 + c\ln 3 (a, b, c \in \mathbb{R})$. Mệnh đề nào dưới đây là đúng?}{3}{1}{Ta có $\int_1^2 \frac{x^3-3x^2+2x}{x+1}\,\mathrm{d}x = \int_1^2 \left(x^2 - 4x + 6 - \frac{6}{x+1}\right)\mathrm{d}x = \left(\frac{1}{3}x^3 - 2x^2 + 6x - 6\ln|x+1|\right)\Big|_1^2 = \frac{7}{3} + 6\ln 2 - 6\ln 3$.
+Suy ra $a = \frac{7}{3}, b = 6, c = -6$. Khi đó $a+b+c = \frac{7}{3} > 0$. Chọn D.}
+	\option{$b < 0$.}
+	\option{$c > 0$.}
+	\option{$a < 0$.}
+	\option{$a+b+c > 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho tích phân $\int_1^2 \frac{x\,\mathrm{d}x}{(x+1)(2x+1)} = a\ln 2 + b\ln 3 + c\ln 5 (a, b, c \in \mathbb{Q})$. Tính $S = a+b+c$.}{1}{1}{Ta có $\int_1^2 \frac{x\,\mathrm{d}x}{(x+1)(2x+1)} = \int_1^2 \left(\frac{1}{x+1} - \frac{1}{2x+1}\right)\mathrm{d}x = \left(\ln|x+1| - \frac{1}{2}\ln|2x+1|\right)\Big|_1^2 = \ln 3 - \ln 2 - \frac{1}{2}\ln 5 + \frac{1}{2}\ln 3 = \frac{3}{2}\ln 3 - \ln 2 - \frac{1}{2}\ln 5$.
+Suy ra $a = -1, b = \frac{3}{2}, c = -\frac{1}{2}$. Khi đó $S = 0$. Chọn B.}
+	\option{$S = 1$.}
+	\option{$S = 0$.}
+	\option{$S = -1$.}
+	\option{$S = 2$.}
+\end{mcq}
+
+\begin{mcq}{Cho tích phân $\int_1^2 \frac{1}{x^2+5x+6}\,\mathrm{d}x = a\ln 2 + b\ln 3 + c\ln 5 (a, b, c \in \mathbb{Z})$. Mệnh đề nào dưới đây là đúng?}{2}{1}{Ta có $\int_1^2 \frac{1}{x^2+5x+6}\,\mathrm{d}x = \int_1^2 \left(\frac{1}{x+2} - \frac{1}{x+3}\right)\mathrm{d}x = (\ln|x+2| - \ln|x+3|)\Big|_1^2 = \ln 4 - \ln 5 - \ln 3 + \ln 4 = 4\ln 2 - \ln 3 - \ln 5$.
+Suy ra $a = 4, b = -1, c = -1$. Khi đó $a+b+c = 2$. Chọn C.}
+	\option{$a+b+c = 4$.}
+	\option{$a+b+c = -3$.}
+	\option{$a+b+c = 2$.}
+	\option{$a+b+c = 6$.}
+\end{mcq}
+
+\begin{mcq}{Cho tích phân $\int_0^1 \frac{x^2+2x}{x^2+6x+9}\,\mathrm{d}x = \frac{a}{b} - \ln\frac{c}{d} (a, b, c, d \in \mathbb{Z}^+)$ và $\frac{a}{b}, \frac{c}{d}$ là các phân số tối giản. Giá trị của biểu thức $T = \frac{a}{b} + \frac{c}{d}$ bằng}{3}{1}{Ta có $\int_0^1 \frac{x^2+2x}{x^2+6x+9}\,\mathrm{d}x = \int_0^1 \frac{(x+3)^2 - 4(x+3) + 3}{(x+3)^2}\,\mathrm{d}x = \int_0^1 \left(1 - \frac{4}{x+3} + \frac{3}{(x+3)^2}\right)\mathrm{d}x = \left(x - 4\ln|x+3| - \frac{3}{x+3}\right)\Big|_0^1 = \frac{5}{4} - \ln\frac{256}{3}$.
+Suy ra $\frac{a}{b} = \frac{5}{4}, \frac{c}{d} = \frac{256}{3}$. Khi đó $T = \frac{1039}{12}$. Chọn D.}
+	\option{$\frac{79}{12}$.}
+	\option{$41$.}
+	\option{$20$.}
+	\option{$\frac{1039}{12}$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 5: TOÁN THỰC TẾ
+% =========================================================================
+
+\begin{lesson}{Bài toán 5. Bài toán thực tế về tích phân}{Ứng dụng tích phân vào bài toán chuyển động, kinh tế và kỹ thuật}
+\end{lesson}
+
+\begin{quiz}{Bài toán 5 - Bài toán thực tế}
+
+\essay{Một ô tô đang di chuyển với tốc độ $20\text{ m/s}$ thì hãm phanh nên tốc độ $(\text{m/s})$ của xe thay đổi theo thời gian $t$ (giây) được tính theo công thức:
+$$v(t) = 20 - 5t \quad (0 \le t \le 4).$$
+a) Tính quãng đường xe di chuyển từ khi hãm phanh đến khi dừng lại.
+b) Tính tốc độ trung bình của xe trong khoảng thời gian đó.}{1}{a) Xe dừng khi $v(t) = 20 - 5t = 0 \Leftrightarrow t = 4$ ($v(t) = 20 - 5t \ge 0$ với mọi $t \in [0; 4]$).
+Từ đó, quãng đường xe di chuyển từ khi bắt đầu hãm phanh đến khi dừng là:
+$$s = \int_0^4 v(t)\,\mathrm{d}t = \int_0^4 (20 - 5t)\,\mathrm{d}t = 40\text{ (m)}.$$
+b) Tốc độ trung bình của xe trong khoảng thời gian đó là:
+$$v_{tb} = \frac{s}{4} = \frac{40}{4} = 10\text{ (m/s)}.$$}
+
+\essay{Tại một nhà máy, gọi $C(x)$ là tổng chi phí (tính theo triệu đồng) để sản xuất $x$ tấn sản phẩm A trong một tháng. Khi đó đạo hàm $C'(x)$, gọi là chi phí cận biên, cho biết tốc độ gia tăng chi phí theo lượng gia tăng sản phẩm được sản xuất. Giả sử chi phí cận biên (tính theo triệu đồng trên tấn) của nhà máy được ước lượng bởi công thức:
+$$C'(x) = 5 - 0{,}06x + 0{,}00072x^2 \quad \text{với } 0 \le x \le 150.$$
+Biết rằng $C(0) = 30$ triệu đồng, gọi là chi phí cố định. Tính tổng chi phí khi nhà máy sản xuất $100$ tấn sản phẩm A trong tháng.}{1}{Ta có:
+$$C(100) - C(0) = \int_0^{100} C'(x)\,\mathrm{d}x = \int_0^{100} (5 - 0{,}06x + 0{,}00072x^2)\,\mathrm{d}x = (5x - 0{,}03x^2 + 0{,}00024x^3)\Big|_0^{100} = 440.$$
+Suy ra $C(100) = C(0) + 440 = 30 + 440 = 470$ (triệu đồng).
+Vậy khi nhà máy sản xuất $100$ tấn sản phẩm A trong tháng thì tổng chi phí là $470$ triệu đồng.}
+
+\essay{Năng lượng gió trên đất liền là một trong những công nghệ năng lượng tái tạo đang được phát triển ở quy mô toàn cầu. Năng lượng gió không trực tiếp phát thải khí nhà kính, không thải ra môi trường các chất ô nhiễm khác, cũng như không tiêu thụ nước để làm mát cho các nhà máy. Các turbine gió thường có ba cánh quay trên một trục ngang, lấy động năng từ quá trình di chuyển dòng không khí (gió) để chuyển đổi thành điện năng thông qua một máy phát điện được kết nối với lưới điện. Hình thang cong (gạch sọc) bên dưới mô tả một phần mặt cắt đứng của cánh turbine, được giới hạn bởi các đường thẳng $x = 2, x = 25$, trục $Ox$ và đồ thị hàm số:
+$$y = f(x) = -\frac{1}{800}(x^3 - 33x^2 + 120x - 400).$$
+Hãy tính diện tích hình thang cong đó. \image{0.7}{}{images_ChuDe02_TichPhan/vd3_p17.png}}{1}{Diện tích của hình thang cong được gạch sọc là:
+$$S = \int_2^{25} -\frac{1}{800}(x^3 - 33x^2 + 120x - 400)\,\mathrm{d}x = -\frac{1}{800}\int_2^{25} (x^3 - 33x^2 + 120x - 400)\,\mathrm{d}x$$
+$$= -\frac{1}{800}\left(\frac{x^4}{4} - 11x^3 + 60x^2 - 400x\right)\Big|_2^{25} = \frac{184299}{3200}\text{ (m}^2\text{)}.$$}
+
+\end{quiz}
+
+\end{document}

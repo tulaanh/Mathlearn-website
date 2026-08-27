@@ -1,0 +1,209 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ LUYỆN TẬP SỐ 01: PHƯƠNG TRÌNH MẶT PHẲNG}
+\docdesc{Bộ đề trắc nghiệm rèn luyện phương trình mặt phẳng trong không gian Oxyz - Đề số 01}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Hình học không gian, Phương trình mặt phẳng}
+
+% =========================================================================
+% PHẦN 1. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình nào sau đây là phương trình tổng quát của mặt phẳng?}{3}{1}{Chọn D.}
+	\option{$2x - y + z^2 - 1 = 0$.}
+	\option{$x - y^2 + z - 1 = 0$.}
+	\option{$x^2 - y + z - 1 = 0$.}
+	\option{$2x + 3y + z - 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P)$ có phương trình $-2x + 4y + 9z + 1 = 0$. Vectơ nào sau đây là vectơ pháp tuyến của mặt phẳng $(P)$?}{1}{1}{Chọn B.}
+	\option{$\vec{n}_1 = (2; 4; 9)$.}
+	\option{$\vec{n}_2 = (-2; 4; 9)$.}
+	\option{$\vec{n}_3 = (4; 9; 1)$.}
+	\option{$\vec{n}_4 = (-2; 4; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P): -x + 2y + 3 = 0$. Vectơ nào sau đây là vectơ pháp tuyến của mặt phẳng $(P)$?}{2}{1}{Chọn C.}
+	\option{$\vec{n}_1 = (-1; 2; 3)$.}
+	\option{$\vec{n}_2 = (1; 2; 3)$.}
+	\option{$\vec{n}_3 = (-1; 2; 0)$.}
+	\option{$\vec{n}_4 = (-x; 2y; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(2; -1; 1)$ và vectơ $\vec{n} = (1; 3; 4)$. Viết phương trình mặt phẳng $(P)$ đi qua điểm $M$ và có vectơ pháp tuyến $\vec{n}$.}{3}{1}{Chọn D.}
+	\option{$2x - y + z + 3 = 0$.}
+	\option{$2x - y + z - 3 = 0$.}
+	\option{$x + 3y + 4z + 3 = 0$.}
+	\option{$x + 3y + 4z - 3 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình nào sau đây là phương trình của mặt phẳng $(Oxz)$?}{0}{1}{Chọn A.}
+	\option{$y = 0$.}
+	\option{$x = 0$.}
+	\option{$z = 0$.}
+	\option{$y - 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(1; 3; 0)$ và $B(5; 1; -2)$. Mặt phẳng trung trực của đoạn thẳng $AB$ có phương trình là:}{1}{1}{Chọn B.}
+	\option{$2x - y - z + 5 = 0$.}
+	\option{$2x - y - z - 5 = 0$.}
+	\option{$x + y + 2z - 3 = 0$.}
+	\option{$3x + 2y - z - 14 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(\alpha)$ đi qua điểm $M(0; 0; -1)$, có cặp vectơ chỉ phương là $\vec{a} = (-1; 2; -3)$ và $\vec{b} = (3; 0; 5)$. Phương trình của mặt phẳng $(\alpha)$ là:}{1}{1}{Chọn B.}
+	\option{$5x - 2y - 3z - 21 = 0$.}
+	\option{$-5x + 2y + 3z + 3 = 0$.}
+	\option{$10x - 4y - 6z + 21 = 0$.}
+	\option{$5x - 2y - 3z + 21 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho ba điểm $A(3; 0; 1), B(0; 2; 1), C(1; 0; 0)$. Phương trình của mặt phẳng $(ABC)$ là:}{1}{1}{Chọn B.}
+	\option{$2x - 3y - 4z + 2 = 0$.}
+	\option{$2x + 3y - 4z - 2 = 0$.}
+	\option{$4x + 6y - 8z + 2 = 0$.}
+	\option{$2x - 3y - 4z + 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(3; -1; -2)$ và mặt phẳng $(\alpha): 3x - y + 2z + 4 = 0$. Mặt phẳng đi qua $M$ và song song với $(\alpha)$ có phương trình là:}{2}{1}{Chọn C.}
+	\option{$3x + y - 2z - 14 = 0$.}
+	\option{$3x - y + 2z + 6 = 0$.}
+	\option{$3x - y + 2z - 6 = 0$.}
+	\option{$3x - y - 2z + 6 = 0$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN 2. CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Trong không gian $Oxyz$, cho mặt phẳng $(P): -3x + y - 2z + 5 = 0$. Xét tính đúng sai của các khẳng định sau:}{1}{
+- Mọi vectơ cùng phương với $\vec{n} = (-3; 1; -2)$ (khác $\vec{0}$) đều là VTPT của $(P)$.
+- Hai VTPT của cùng một mặt phẳng luôn cùng phương với nhau.
+- $\vec{n} = (-3; 1; -2)$ chính là một VTPT của $(P)$.
+- Tọa độ tổng quát của các VTPT là $k(-3; 1; -2) = (-3k; k; -2k)$ với $k \neq 0$.
+}
+	\statement{true}{Nếu $\vec{n}$ là một vectơ pháp tuyến của $(P)$ thì $k\vec{n}$ cũng là một vectơ pháp tuyến của $(P)$ với $k \neq 0$.}
+	\statement{false}{Nếu $\vec{n}$ và $\vec{n}'$ đều là vectơ pháp tuyến của $(P)$ thì $\vec{n}$ và $\vec{n}'$ không cùng phương.}
+	\statement{false}{Vectơ $\vec{n} = (-3; 1; -2)$ không là một vectơ pháp tuyến của mặt phẳng $(P)$.}
+	\statement{true}{Mọi vectơ pháp tuyến của mặt phẳng $(P)$ có tọa độ $(-3k; k; -2k)$ với $k \neq 0$.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian $Oxyz$, cho điểm $I(-3; 0; 1)$ và mặt phẳng $(P): x - 3y - 4z + 1 = 0$. Xét tính đúng sai của các khẳng định sau:}{1}{
+- Thay $I(-3; 0; 1)$ vào phương trình $(P)$: $-3 - 3(0) - 4(1) + 1 = -6 \neq 0$ nên $I \notin (P)$. Khẳng định a đúng.
+- Mặt phẳng $(P)$ có một VTPT là $(1; -3; -4) \neq (1; -3; 4)$. Khẳng định b sai.
+- Vì $(Q) // (P)$ nên VTPT của $(Q)$ cùng phương với $(1; -3; -4)$, không thể là $(1; -3; 4)$. Khẳng định c sai.
+- Mặt phẳng $(R)$ đi qua $I(-3; 0; 1)$ và song song với $(P)$ có phương trình $x - 3y - 4z + 7 = 0 \neq x - 3y - 4z - 7 = 0$. Khẳng định d sai.
+}
+	\statement{true}{Điểm $I(-3; 0; 1)$ không thuộc mặt phẳng $(P)$.}
+	\statement{false}{Vectơ $\vec{n} = (1; -3; 4)$ là một vectơ pháp tuyến của mặt phẳng $(P)$.}
+	\statement{false}{Nếu mặt phẳng $(Q)$ song song với mặt phẳng $(P)$ thì vectơ $\vec{n} = (1; -3; 4)$ là một vectơ pháp tuyến của mặt phẳng $(Q)$.}
+	\statement{false}{Mặt phẳng $(R)$ đi qua điểm $I$ và song song với $(P)$ có phương trình là $x - 3y - 4z - 7 = 0$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN 3. CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Trong không gian $Oxyz$, khoảng cách từ điểm $M(-1; 2; -3)$ đến mặt phẳng $(Oxy)$ bằng bao nhiêu?}{3}{1}{Khoảng cách từ điểm $M(-1; 2; -3)$ đến mặt phẳng $(Oxy)$ là $d(M, (Oxy)) = |z_M| = |-3| = 3$. Đáp án: 3.}
+
+\shortanswer{Trong không gian $Oxyz$, gọi $p$ và $q$ lần lượt là khoảng cách từ điểm $M(5; -2; 0)$ đến mặt phẳng $(Oxz)$ và mặt phẳng $(P): 3x - 4z + 5 = 0$. Tổng $p + q$ bằng bao nhiêu?}{6}{1}{Ta có $p = d(M, (Oxz)) = |-2| = 2$ và $q = d(M, (P)) = \frac{|3(5) - 4(0) + 5|}{\sqrt{3^2 + (-4)^2}} = 4$. Suy ra $p + q = 2 + 4 = 6$. Đáp án: 6.}
+
+\shortanswer{Trong không gian $Oxyz$, cho hai mặt phẳng $(P), (Q)$ lần lượt có phương trình là $x + y - z = 0, x - 2y + 3z = 4$ và cho điểm $M(1; -2; 5)$. Gọi $(\alpha)$ là mặt phẳng đi qua điểm $M$ và đồng thời vuông góc với hai mặt phẳng $(P), (Q)$. Mặt phẳng $(\alpha)$ cắt trục hoành tại điểm có hoành độ bằng bao nhiêu?}{-6}{1}{VTPT của $(\alpha)$ là $\vec{n} = [\vec{n}_{(P)}, \vec{n}_{(Q)}] = (1; -4; -3)$. Phương trình $(\alpha)$ qua $M(1; -2; 5)$ là $x - 4y - 3z + 6 = 0$. Cho $y = 0, z = 0 \Rightarrow x = -6$. Đáp án: -6.}
+
+\end{quiz}
+
+\end{document}

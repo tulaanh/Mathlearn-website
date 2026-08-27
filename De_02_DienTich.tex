@@ -1,0 +1,203 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ THI RÈN LUYỆN ỨNG DỤNG TÍCH PHÂN TÍNH DIỆN TÍCH - ĐỀ 02}
+\docdesc{Đề kiểm tra rèn luyện chuyên đề Ứng dụng tích phân tính diện tích - Đề số 2}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Tích phân, Diện tích hình phẳng}
+
+% =========================================================================
+% PHẦN I: CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ có đạo hàm liên tục trên $[1; 3]$. Gọi $(H)$ là hình phẳng giới hạn bởi đồ thị hàm số $y = f'(x)$ và đường thẳng $y = x$ (Phần gạch chéo trong hình vẽ bên dưới). Diện tích hình $(H)$ là \image{0.35}{}{images_ChuDe03_DienTich/p3_c10.png}}{0}{1}{Chọn A.}
+	\option{$2f(2) - f(1) - f(3) + 1$.}
+	\option{$f(3) - f(1) + 4$.}
+	\option{$2f(3) - f(2) - f(1) + 1$.}
+	\option{$f(1) - f(3) + 4$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích $S$ của hình phẳng giới hạn bởi đồ thị $(C): y = x^3 - 3x^2$ và tiếp tuyến của $(C)$ tại điểm có hoành độ bằng $-1$.}{2}{1}{Chọn C.}
+	\option{$S = \frac{5}{4}$.}
+	\option{$S = \frac{81}{4}$.}
+	\option{$S = 108$.}
+	\option{$S = \frac{43}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Biết diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = 3x^2 + 2mx + m^2 + 1$, trục hoành, trục tung và đường thẳng $x = \sqrt{2}$ đạt giá trị nhỏ nhất. Mệnh đề nào sau đây đúng?}{3}{1}{Chọn D.}
+	\option{$m \in (-4; -1)$.}
+	\option{$m \in (3; 5)$.}
+	\option{$m \in (0; 3)$.}
+	\option{$m \in (-2; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình phẳng $(H)$ giới hạn bởi các đường $y = x^2, y = 0, x = 0, x = 4$. Đường thẳng $y = k \ (0 < k < 16)$ chia hình $(H)$ thành hai phần có diện tích $S_1, S_2$ (hình vẽ). Tìm $k$ để $S_1 = S_2$. \image{0.35}{}{images_ChuDe03_DienTich/p3_c13.png}}{1}{1}{Chọn B.}
+	\option{$k = 8$.}
+	\option{$k = 4$.}
+	\option{$k = 5$.}
+	\option{$k = 3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ liên tục trên $\mathbb{R}$. Đồ thị hàm số $y = f'(x)$ được cho như hình vẽ bên dưới. Diện tích hình phẳng $(K), (H)$ lần lượt là $\frac{5}{12}, \frac{8}{3}$. Biết $f(-1) = \frac{19}{12}$, tính $f(2)$. \image{0.35}{}{images_ChuDe03_DienTich/p3_c14.png}}{1}{1}{Chọn B.}
+	\option{$f(2) = \frac{11}{6}$.}
+	\option{$f(2) = -\frac{2}{3}$.}
+	\option{$f(2) = 3$.}
+	\option{$f(2) = 0$.}
+\end{mcq}
+
+\begin{mcq}{Diện tích hình phẳng giới hạn bởi đồ thị $(H): y = \frac{x-1}{x+1}$ và các trục tọa độ là}{2}{1}{Chọn C.}
+	\option{$\ln 2 - 1$.}
+	\option{$\ln 2 + 1$.}
+	\option{$2\ln 2 - 1$.}
+	\option{$2\ln 2 + 1$.}
+\end{mcq}
+
+\begin{mcq}{Để chào mừng xã đạt chuẩn nông thôn mới. Ủy ban nhân dân xã X tiến hành ốp gạch trang trí hai bên bề mặt cổng chào vào xã. Cổng chào được thiết kế như hình bên với các đường viền cong là dạng đường parabol. Biết rằng tiền vật liệu cho một mét vuông bề mặt cổng bằng $1.000.000$ đồng và tiền công thợ cho một mét vuông là $200.000$ đồng. Tổng kinh phí trang trí cổng chào bằng \image{0.35}{}{images_ChuDe03_DienTich/p3_c16.png}}{3}{1}{Chọn D.}
+	\option{$40.500.000$ đồng.}
+	\option{$81.000.000$ đồng.}
+	\option{$22.400.000$ đồng.}
+	\option{$44.800.000$ đồng.}
+\end{mcq}
+
+\begin{mcq}{Một cái cổng có dạng như hình vẽ, với chiều cao $6\text{ m}$ và chiều rộng là $8\text{ m}$. Mái vòm của cổng có hình bán elip với chiều rộng là $6\text{ m}$, điểm cao nhất của mái vòm là $5\text{ m}$ (tham khảo hình vẽ). Người ta muốn lát gạch hoa để trang trí cho cổng với chi phí là $250.000\text{ đồng/m}^2$. Hỏi số tiền cần chi trả gần nhất với số nào sau đây? \image{0.35}{}{images_ChuDe03_DienTich/p3_c17.png}}{0}{1}{Chọn A.}
+	\option{$6.110.000$ đồng.}
+	\option{$6.100.000$ đồng.}
+	\option{$6.210.000$ đồng.}
+	\option{$6.145.000$ đồng.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Biết rằng đường parabol chia đường tròn $(C): x^2 + y^2 = 8$ thành hai phần lần lượt có diện tích là $S_1, S_2$ (hình vẽ bên dưới). Xét tính đúng sai của các khẳng định sau: \image{0.35}{}{images_ChuDe03_DienTich/tf_c4.png}}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Đúng.}
+	\statement{true}{$S_1 = \int_0^2 \sqrt{2x}\,\mathrm{d}x + \int_2^{2\sqrt{2}} \sqrt{8-x^2}\,\mathrm{d}x$.}
+	\statement{true}{$S_1 = \frac{a}{b} + c\pi$ với $\frac{a}{b}$ là phân số tối giản và $abc$ chia hết cho 12.}
+	\statement{false}{$S_2 = k\pi - \frac{m}{n}$ với $(m, n) = 1$ và $\overline{kmn}$ là một hợp số.}
+	\statement{true}{$S_2 \ge 2{,}3S_1$.}
+\end{truefalse}
+
+\begin{truefalse}{Ông B đã cải tạo một miếng đất thành hình elip. Elip này có độ dài trục lớn là $12\text{ mét}$. Trong elip có một đường tròn đi qua các đỉnh trên trục nhỏ và các tiêu điểm $F_1, F_2$ (đường tròn và elip có chung tâm đối xứng, xem hình vẽ). Ông B muốn trồng cỏ Nhật Bản cho mảnh đất là bên trong elip và bên ngoài đường tròn. Biết rằng chi phí cho việc trồng cỏ Nhật Bản là $60$ nghìn đồng/$\text{m}^2$. Xét tính đúng sai của các khẳng định sau: \image{0.4}{}{images_ChuDe03_DienTich/tf_c5.png}}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Đúng.}
+	\statement{true}{Phương trình đường Elip ở hình trên là $(E): \frac{x^2}{36} + \frac{y^2}{18} = 1$.}
+	\statement{true}{Phương trình đường tròn ở hình trên là $(C): x = \sqrt{18-y^2}$.}
+	\statement{false}{Diện tích phần không được trồng cỏ là $S = 10\pi$.}
+	\statement{true}{Tổng kinh phí để ông B trồng cỏ Nhật Bản là $1.405$ nghìn đồng.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hình phẳng $(H)$ được giới hạn bởi các đường $y = f(x), y = 0, x = 0, x = 4$ như hình vẽ bên dưới. Biết $f(x)$ là hàm đa thức bậc 2. Đường thẳng $y = k \ (0 < k < 16)$ chia hình phẳng $(H)$ thành phần có diện tích $S_1, S_2$. Xét tính đúng sai của các khẳng định sau: \image{0.35}{}{images_ChuDe03_DienTich/tf_c6.png}}{1}{Đáp án: a) Đúng, b) Sai, c) Đúng, d) Đúng.}
+	\statement{true}{Đường cong $y = f(x) = x^2$.}
+	\statement{false}{Diện tích $S_1$ được biểu diễn theo $k$ là $\frac{1}{3}k\sqrt{k} - 4k + \frac{64}{3}$.}
+	\statement{true}{Diện tích $S_2$ được biểu diễn theo $k$ là $-\frac{2}{3}k\sqrt{k} + 4k$.}
+	\statement{true}{Nếu $S_1 = S_2$ thì $k = 4$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Cho hàm số $y = x^2 - mx \ (0 < m < 4)$ có đồ thị $(C)$. Gọi $S_1 + S_2$ là diện tích của hình phẳng giới hạn bởi $(C)$, trục hoành, trục tung và đường thẳng $x = 4$ (phần tô đậm trong hình vẽ bên dưới). Tìm $m$ sao cho $S_1 = S_2$. \image{0.35}{}{images_ChuDe03_DienTich/sa_c6.png}}{$2{,}67$}{1}{Đáp án: 2,67 (hoặc 8/3).}
+
+\shortanswer{Cho hình thang $(H)$ giới hạn bởi các đường $y = \frac{1}{x}, x = \frac{1}{2}, x = 2$ và trục hoành, đường thẳng $x = k \ \left(\frac{1}{2} < k < 2\right)$ chia $(H)$ thành hai phần lần lượt có diện tích là $S_1$ và $S_2$ như hình vẽ. Tìm tất cả giá trị thực của $k$ để $S_1 = 3S_2$. Viết kết quả làm tròn đến hàng phần trăm. \image{0.35}{}{images_ChuDe03_DienTich/sa_c7.png}}{$1{,}41$}{1}{Đáp án: 1,41.}
+
+\shortanswer{Cho hình thang cong $(H)$ được giới hạn bởi các đường $y = e^x, y = 0, x = 0, x = \ln 4$. Đường thẳng $x = k \ (0 < k < \ln 4)$ chia $(H)$ thành hai phần có diện tích lần lượt là $S_1$ và $S_2$ như hình vẽ. Tìm $k$ để $S_1 = 2S_2$. Viết kết quả làm tròn đến hàng phần trăm. \image{0.35}{}{images_ChuDe03_DienTich/sa_c8.png}}{$1{,}10$}{1}{Đáp án: 1,10.}
+
+\shortanswer{Một ô tô đang chạy đều với vận tốc $a\text{ m/s}$ thì người lái đạp phanh. Từ thời điểm đó, ô tô chuyển động chậm dần đều với vận tốc $v(t) = -5t + a$ trong đó thời gian tính bằng giây kể từ lúc đạp phanh. Hỏi vận tốc ban đầu $a$ của ô tô bằng bao nhiêu, biết từ lúc đạp phanh đến khi xe dừng hẳn ô tô đi được $40\text{ m}$.}{$20$}{1}{Đáp án: 20.}
+
+\shortanswer{Một người lái xe ô tô đang chạy với vận tốc $20\text{ m/s}$ thì người lái xe phát hiện có hàng rào ngăn đường ở phía trước cách $45\text{ m}$ (tính từ vị trí đầu xe đến hàng rào) vì vậy, người lái xe đạp phanh. Từ thời điểm đó xe chuyển động chậm dần đều với vận tốc $v(t) = -5t + 20\text{ (m/s)}$, trong đó $t$ là khoảng thời gian tính bằng giây, kể từ lúc bắt đầu đạp phanh. Hỏi từ lúc đạp phanh đến khi dừng hẳn, xe ô tô còn cách hàng rào ngăn cách bao nhiêu mét (tính từ vị trí đầu xe đến hàng rào)?}{$5$}{1}{Đáp án: 5.}
+
+\end{quiz}
+
+\end{document}

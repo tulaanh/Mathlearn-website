@@ -1,0 +1,747 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 01: CÁC SỐ ĐẶC TRƯNG ĐO MỨC ĐỘ PHÂN TÁN CHO MẪU SỐ LIỆU GHÉP NHÓM}
+\docdesc{Tóm tắt lý thuyết và các dạng toán Xác suất thống kê - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Xác suất - Thống kê, Mẫu số liệu ghép nhóm}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Khoảng biến thiên, khoảng tứ phân vị, phương sai và độ lệch chuẩn}
+
+\textbf{1. Khoảng biến thiên và ý nghĩa}
+
+a) Định nghĩa: Khoảng biến thiên, kí hiệu $R$, của mẫu số liệu ghép nhóm là hiệu số giữa đầu mút phải của nhóm cuối cùng và đầu mút trái của nhóm đầu tiên có chứa dữ liệu của mẫu số liệu.
+
+\textbf{Chú ý:} Xét mẫu số liệu ghép nhóm được cho ở bảng sau:
+
+\image{0.6}{}{lt_1.png}
+
+- Nếu $n_1$ và $n_k$ cùng khác $0$ thì $R = u_{k+1} - u_1$.
+- Khoảng biến thiên của mẫu số liệu ghép nhóm phải lớn hơn hoặc bằng khoảng biến thiên của mẫu số liệu gốc.
+
+b) Ý nghĩa:
+- Khoảng biến thiên của mẫu số liệu ghép nhóm là giá trị xấp xỉ của mẫu số liệu gốc và có thể dùng để đo mức độ phân tán của mẫu số liệu.
+- Khoảng biến thiên của mẫu số liệu ghép nhóm luôn lớn hơn hoặc bằng khoảng biến thiên của mẫu số liệu gốc.
+- Khoảng biến thiên càng lớn thì mẫu số liệu càng phân tán.
+- Trong các đại lượng đo mức độ phân tán của mẫu số liệu ghép nhóm, khoảng biến thiên là đại lượng dễ hiểu, dễ tính toán. Tuy nhiên, do khoảng biến thiên chỉ sử dụng hai giá trị $u_1$ và $u_{k+1}$ của mẫu số liệu nên đại lượng đó dễ bị ảnh hưởng bởi các giá trị bất thường. Do đó, để phản ánh mức độ phân tán của số liệu, người ta còn dùng các số đặc trưng khác.
+
+\textbf{2. Khoảng tứ phân vị và ý nghĩa}
+
+a) Định nghĩa: Khoảng tứ phân vị của mẫu số liệu ghép nhóm, kí hiệu $\Delta_Q$, là hiệu giữa tứ phân vị thứ ba $Q_3$ và tứ phân vị thứ nhất $Q_1$ của mẫu số liệu ghép nhóm đó, tức là:
+$$\Delta_Q = Q_3 - Q_1$$
+
+\textbf{Chú ý:} Xét mẫu số liệu ghép nhóm được cho ở bảng sau:
+
+\image{0.6}{}{lt_2.png}
+
+Tứ phân vị thứ $i$, kí hiệu $Q_i$, với $i = 1, 2, 3$ của mẫu số liệu ghép nhóm được xác định như sau:
+$$Q_i = u_m + \frac{\frac{i \cdot n}{4} - C}{n_m}(u_{m+1} - u_m)$$
+Trong đó:
+- $n = n_1 + n_2 + \dots + n_k$ là cỡ mẫu.
+- $[u_m; u_{m+1})$ là nhóm chứa tứ phân vị thứ $i$.
+- $n_m$ là tần số của nhóm chứa tứ phân vị thứ $i$.
+- $C = n_1 + n_2 + \dots + n_{m-1}$.
+
+b) Ý nghĩa:
+- Khoảng tứ phân vị của mẫu số liệu ghép nhóm là giá trị xấp xỉ cho khoảng tứ phân vị của mẫu số liệu gốc và có thể dùng để đo mức độ phân tán của nửa giữa của mẫu số liệu (tập hợp gồm $50\%$ số liệu nằm chính giữa của mẫu số liệu).
+- Khoảng tứ phân vị của mẫu số liệu ghép nhóm càng nhỏ thì dữ liệu càng tập trung xung quanh trung vị.
+- Khoảng tứ phân vị được dùng để xác định giá trị ngoại lệ trong mẫu số liệu. Giá trị $x$ trong mẫu số liệu là giá trị ngoại lệ nếu:
+$$x > Q_3 + 1{,}5\Delta_Q \quad \text{hoặc} \quad x < Q_1 - 1{,}5\Delta_Q$$
+- Khoảng tứ phân vị thường được dùng để thay thế cho khoảng biến thiên vì nó loại trừ gần hết giá trị bất thường của mẫu số liệu và không bị ảnh hưởng bởi các giá trị bất thường đó.
+
+\textbf{3. Phương sai, độ lệch chuẩn và ý nghĩa}
+
+a) Định nghĩa: Xét mẫu số liệu ghép nhóm cho bởi bảng sau:
+
+\image{0.6}{}{lt_3.png}
+
+- Phương sai của mẫu số liệu ghép nhóm, kí hiệu $S^2$, được tính bởi công thức:
+$$S^2 = \frac{1}{n}\left[n_1(c_1 - \bar{x})^2 + n_2(c_2 - \bar{x})^2 + \dots + n_k(c_k - \bar{x})^2\right]$$
+Trong đó: $n = n_1 + n_2 + \dots + n_k$ là cỡ mẫu và $\bar{x} = \frac{1}{n}(n_1 c_1 + n_2 c_2 + \dots + n_k c_k)$ là số trung bình.
+- Độ lệch chuẩn của mẫu số liệu ghép nhóm, kí hiệu $S$, là căn bậc hai số học của phương sai, nghĩa là $S = \sqrt{S^2}$.
+
+\textbf{Chú ý:}
+- Giá trị đại diện của nhóm $[a; b)$ là $c = \frac{1}{2}(a+b)$.
+- Phương sai của mẫu số liệu ghép nhóm có thể được tính theo công thức:
+$$S^2 = \frac{1}{n}(n_1 c_1^2 + n_2 c_2^2 + \dots + n_k c_k^2) - \bar{x}^2$$
+- Trong thống kê, người ta còn dùng đại lượng sau để đo mức độ phân tán của mẫu số liệu ghép nhóm:
+$$\hat{S}^2 = \frac{1}{n-1}\left[n_1(c_1 - \bar{x})^2 + n_2(c_2 - \bar{x})^2 + \dots + n_k(c_k - \bar{x})^2\right]$$
+
+b) Ý nghĩa:
+- Phương sai (độ lệch chuẩn) của mẫu số liệu ghép nhóm là giá trị xấp xỉ cho phương sai (độ lệch chuẩn) của mẫu số liệu gốc. Chúng được dùng để đo mức độ phân tán của mẫu số liệu ghép nhóm xung quanh số trung bình của mẫu số liệu. Phương sai và độ lệch chuẩn càng lớn thì dữ liệu càng phân tán.
+- Độ lệch chuẩn có cùng đơn vị với mẫu số liệu.
+- Khi hai mẫu số liệu ghép nhóm có cùng đơn vị đo và có số trung bình cộng bằng nhau (hoặc xấp xỉ bằng nhau), mẫu số liệu nào có độ lệch chuẩn nhỏ hơn thì mức độ phân tán (so với số trung bình cộng) của các số liệu trong mẫu sẽ thấp hơn.
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Tìm khoảng biến thiên của mẫu số liệu ghép nhóm}{Phương pháp xác định khoảng biến thiên}
+
+\textbf{Phương pháp giải:}
+- Từ bảng mẫu số liệu ghép nhóm hoặc số liệu ở các dạng biểu đồ khác nhau ta đưa tất cả về mẫu số liệu ghép nhóm.
+- Xác định $u_1$ là giá trị đầu mút trái của nhóm đầu tiên và $u_{k+1}$ là giá trị đầu mút phải của nhóm cuối cùng có chứa dữ liệu (tần số khác $0$).
+- Khoảng biến thiên: $R = u_{k+1} - u_1$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1: Các ví dụ minh họa}
+
+\begin{mcq}{Cô Hà thống kê lại đường kính thân gỗ của một cây xoan đào 6 năm tuổi được trồng ở một lâm trường ở bảng sau:\image{0.6}{}{lt_4.png}
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm trên là:}{1}{1}{Khoảng biến thiên của mẫu số liệu ghép nhóm trên là $R = u_{k+1} - u_1 = 65 - 40 = 25\text{ (cm)}$. Chọn B.}
+	\option{$20$.}
+	\option{$25$.}
+	\option{$30$.}
+	\option{$35$.}
+\end{mcq}
+
+\begin{mcq}{Điểm kiểm tra cuối khóa môn Tiếng Anh (thang 100 điểm) của hai lớp ở một trung tâm ngoại ngữ được thống kê trong bảng sau:\image{0.6}{}{lt_5.png}
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm ứng với lớp A và lớp B lần lượt là:}{0}{1}{Khoảng biến thiên của mẫu số liệu ghép nhóm ứng với lớp A là $R_A = 100 - 50 = 50\text{ (điểm)}$.
+
+Trong bảng thống kê của lớp B, khoảng đầu tiên chứa dữ liệu là $[60; 70)$ và khoảng cuối cùng chứa dữ liệu là $[80; 90)$. Do đó khoảng biến thiên của lớp B là $R_B = 90 - 60 = 30\text{ (điểm)}$. Chọn A.}
+	\option{$50; 30$.}
+	\option{$60; 20$.}
+	\option{$50; 20$.}
+	\option{$60; 30$.}
+\end{mcq}
+
+\begin{mcq}{Biểu đồ dưới đây biểu diễn số lượt khách hàng đặt bàn qua hình thức trực tuyến mỗi ngày trong quý III năm 2022 của một nhà hàng. Cột thứ nhất biểu diễn số ngày có từ 1 đến dưới 6 lượt đặt bàn; cột thứ hai biểu diễn số ngày có từ 6 đến dưới 11 lượt đặt bàn; …\image{0.6}{}{lt_6.png}
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm từ biểu đồ trên là:}{1}{1}{Từ biểu đồ, nhóm đầu tiên là $[1; 6)$ và nhóm cuối cùng chứa dữ liệu là $[21; 26)$. Khoảng biến thiên là $R = 26 - 1 = 25\text{ (số lượt đặt bàn)}$. Chọn B.}
+	\option{$24$.}
+	\option{$25$.}
+	\option{$23$.}
+	\option{$22$.}
+\end{mcq}
+
+\begin{mcq}{Mỗi ngày bác Thành đều đi bộ để rèn luyện sức khỏe. Quãng đường đi bộ mỗi ngày (đơn vị: km) của bác Thành trong 20 ngày được thống kê lại ở bảng sau:\image{0.6}{}{lt_7.png}
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm là:}{0}{1}{Khoảng biến thiên của mẫu ghép nhóm trên là $R = 4{,}2 - 2{,}7 = 1{,}5\text{ (km)}$. Chọn A.}
+	\option{$1{,}5$.}
+	\option{$0{,}9$.}
+	\option{$0{,}6$.}
+	\option{$0{,}3$.}
+\end{mcq}
+
+\begin{mcq}{Bạn Duy rất thích nhảy hiện đại. Thời gian tập nhảy mỗi ngày trong thời gian gần đây của bạn Duy được thống kê lại ở bảng sau:\image{0.6}{}{lt_8.png}
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm là:}{2}{1}{Khoảng biến thiên của mẫu ghép nhóm trên là $R = 45 - 20 = 25\text{ (phút)}$. Chọn C.}
+	\option{$15$.}
+	\option{$20$.}
+	\option{$25$.}
+	\option{$30$.}
+\end{mcq}
+
+\essay{Thống kê thời gian sử dụng mạng xã hội trong ngày của các bạn Tổ 1, Tổ 2 lớp 12A được kết quả như bảng sau:\image{0.6}{}{lt_9.png}
+
+Tìm khoảng biến thiên cho thời gian sử dụng mạng xã hội của học sinh mỗi tổ và giải thích ý nghĩa.}{1}{Gọi $R_1, R_2$ tương ứng là khoảng biến thiên của mẫu số liệu ghép nhóm về thời gian sử dụng mạng xã hội trong ngày của các bạn Tổ 1 và Tổ 2.
+
+Ta có $R_1 = 90 - 0 = 90$ và $R_2 = 60 - 0 = 60$.
+
+Do $R_1 > R_2$ nên nếu dựa vào khoảng biến thiên, ta kết luận rằng thời gian sử dụng mạng xã hội trong ngày của các bạn Tổ 1 phân tán hơn thời gian sử dụng mạng xã hội của các bạn Tổ 2.}
+
+\essay{Dưới đây là bảng số liệu ghép nhóm về khối lượng 100 quả dứa mà người ta lấy ngẫu nhiên trong số dứa đã thu hoạch:\image{0.6}{}{lt_10.png}
+
+Khối lượng của quả nặng nhất và quả nhẹ nhất có thể chênh lệch nhau nhiều nhất là bao nhiêu?}{1}{Khoảng biến thiên của mẫu số liệu ghép nhóm về khối lượng (gam) của quả dứa là:
+$$1500 - 700 = 800\text{ (gam)}.$$
+
+Do đó khối lượng của quả nặng nhất và quả nhẹ nhất có thể chênh lệch nhau nhiều nhất là $800\text{ (gam)}$.}
+
+\essay{Thời gian hoàn thành bài kiểm tra môn Toán của các bạn trong lớp 12C được cho trong bảng sau:\image{0.6}{}{lt_11.png}
+
+a) Tính khoảng biến thiên $R$ cho mẫu số liệu ghép nhóm trên.
+
+b) Nếu biết học sinh hoàn thành bài kiểm tra sớm nhất mất 27 phút và muộn nhất mất 43 phút thì khoảng biến thiên của mẫu số liệu gốc là bao nhiêu?}{1}{a) Khoảng biến thiên của mẫu số liệu ghép nhóm về thời gian hoàn thành bài kiểm tra môn Toán của các bạn trong lớp 12C là:
+$$R = 45 - 25 = 20\text{ (phút)}.$$
+
+b) Khoảng biến thiên của mẫu số liệu gốc là:
+$$R_{\text{gốc}} = 43 - 27 = 16\text{ (phút)}.$$}
+
+\essay{Để chuẩn bị mở một trung tâm thể dục thể thao, anh Dũng đã tiến hành điều tra tuổi thọ của máy chạy bộ do hai hãng X, Y sản xuất. Bảng dưới đây biểu thị hai mẫu số liệu mà anh thu thập được qua Internet:\image{0.6}{}{lt_12.png}
+
+Khoảng biến thiên của mẫu số liệu nào lớn hơn? Từ đó có thể nói là máy chạy bộ do hãng nào sản xuất có tuổi thọ phân tán hơn?}{1}{Khoảng biến thiên của tuổi thọ máy chạy bộ do hãng X sản xuất là:
+$$R_X = 12 - 2 = 10.$$
+
+Trong mẫu số liệu ghép nhóm về tuổi thọ máy chạy bộ do hãng Y sản xuất, khoảng đầu tiên chứa dữ liệu là $[4; 6)$ và khoảng cuối cùng chứa dữ liệu là $[10; 12)$. Do đó khoảng biến thiên của tuổi thọ máy do hãng Y sản xuất là:
+$$R_Y = 12 - 4 = 8.$$
+
+Vì $R_X > R_Y$ nên có thể nói máy do hãng X sản xuất có tuổi thọ phân tán hơn so với máy của hãng Y.}
+
+\essay{Cân nặng của 28 học sinh nam lớp 12 được cho như sau:
+55,4; 62,6; 54,2; 56,8; 58,8; 59,4; 60,7; 58; 59,5; 63,6; 61,8; 52,3; 63,4; 57,9; 49,7; 45,1; 56,2; 63,2; 46,1; 49,6; 59,1; 55,3; 55,8; 45,5; 46,8; 54; 49,2; 52,6.
+
+a) Hãy chuyển mẫu số liệu trên sang mẫu số liệu ghép nhóm gồm 5 nhóm có độ dài bằng nhau với nhóm đầu tiên là $[45; 49)$.
+
+b) Tìm khoảng biến thiên của mẫu số liệu gốc và khoảng biến thiên của mẫu số liệu ghép nhóm tương ứng.}{1}{a) Các nhóm ghép nhóm gồm: $[45; 49), [49; 53), [53; 57), [57; 61), [61; 65)$.
+Bảng tần số tương ứng:
+- $[45; 49)$: 4 học sinh
+- $[49; 53)$: 5 học sinh
+- $[53; 57)$: 7 học sinh
+- $[57; 61)$: 7 học sinh
+- $[61; 65)$: 5 học sinh
+
+b) Khoảng biến thiên của mẫu số liệu gốc là:
+$$R_{\text{gốc}} = 63{,}6 - 45{,}1 = 18{,}5.$$
+
+Khoảng biến thiên của mẫu số liệu ghép nhóm là:
+$$R = 65 - 45 = 20.$$}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2: Tìm khoảng tứ phân vị của mẫu số liệu ghép nhóm}{Phương pháp xác định tứ phân vị và khoảng tứ phân vị}
+
+\textbf{Phương pháp giải:}
+Xét mẫu số liệu ghép nhóm được cho ở bảng sau:
+
+\image{0.6}{}{lt_13.png}
+
+- Tìm tứ phân vị $Q_1$ và $Q_3$ theo công thức:
+$$Q_i = u_m + \frac{\frac{i \cdot n}{4} - C}{n_m}(u_{m+1} - u_m), \quad i \in \{1, 3\}$$
+- Khoảng tứ phân vị của mẫu số liệu ghép nhóm là $\Delta_Q = Q_3 - Q_1$.
+- Xác định giá trị ngoại lệ: giá trị $x$ là ngoại lệ nếu $x > Q_3 + 1{,}5\Delta_Q$ hoặc $x < Q_1 - 1{,}5\Delta_Q$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2: Các ví dụ minh họa}
+
+\essay{Hằng ngày ông Thắng đều đi xe buýt từ nhà đến cơ quan. Dưới đây là bảng thống kê thời gian của 100 lần ông Thắng đi xe buýt từ nhà tới cơ quan:\image{0.6}{}{lt_14.png}
+
+a) Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm trên (làm tròn kết quả đến hàng phần trăm).
+
+b) Biết rằng trong 100 lần đi trên, chỉ có đúng một lần ông Thắng đi hết 32 phút. Thời gian của lần đi đó có phải là giá trị ngoại lệ không?}{1}{a) Cỡ mẫu $n = 100$.
+
+Tứ phân vị thứ nhất của mẫu số liệu ghép nhóm là:
+$$Q_1 = 18 + \frac{\frac{100}{4} - 22}{38}(21 - 18) = \frac{693}{38}.$$
+
+Tứ phân vị thứ ba của mẫu số liệu ghép nhóm là:
+$$Q_3 = 21 + \frac{\frac{3 \cdot 100}{4} - (22 + 38)}{27}(24 - 21) = \frac{68}{3}.$$
+
+Khoảng tứ phân vị của mẫu số liệu ghép nhóm là:
+$$\Delta_Q = Q_3 - Q_1 = \frac{68}{3} - \frac{693}{38} = \frac{505}{114} \approx 4{,}43.$$
+
+b) Trong lần duy nhất ông Thắng đi hết 32 phút, thời gian đi của ông thuộc nhóm $[30; 33)$.
+
+Vì $Q_3 + 1{,}5\Delta_Q = \frac{6683}{228} \approx 29{,}31 < 32$ nên thời gian 32 phút của lần đi đó là giá trị ngoại lệ của mẫu số liệu ghép nhóm.}
+
+\begin{mcq}{Giả sử kết quả khảo sát ở khu vực A và B về độ tuổi kết hôn của một số phụ nữ lập gia đình được cho ở bảng sau:\image{0.6}{}{lt_15.png}
+
+Khoảng tứ phân vị của từng mẫu số liệu ghép nhóm tương ứng với mỗi khu vực A và B lần lượt là:}{0}{1}{Khu vực A: $Q_1 = \frac{71}{3}, Q_3 = \frac{721}{25} \Rightarrow \Delta_Q = \frac{388}{75} \approx 5{,}17$.
+
+Khu vực B: $Q_1' = \frac{968}{47}, Q_3' = \frac{241}{10} \Rightarrow \Delta_Q' = \frac{1647}{470} \approx 3{,}5$. Chọn A.}
+	\option{$5{,}17$ và $3{,}5$.}
+	\option{$5{,}18$ và $3{,}5$.}
+	\option{$5{,}17$ và $3{,}4$.}
+	\option{$5{,}18$ và $3{,}4$.}
+\end{mcq}
+
+\begin{mcq}{Biểu đồ dưới đây thống kê thời gian tập thể dục buổi sáng mỗi ngày trong tháng 9/2022 của bác Bình và bác An.\image{0.6}{}{lt_16.png}
+
+Khoảng tứ phân vị của từng mẫu số liệu ghép nhóm ứng với bác Bình và bác An lần lượt là:}{1}{1}{Bác Bình: $Q_1 = \frac{504}{24}, Q_3 = \frac{455}{16} \Rightarrow \Delta_Q = \frac{119}{16} \approx 7{,}4$.
+
+Bác An: $Q_1' = \frac{43}{2}, Q_3' = \frac{49}{2} \Rightarrow \Delta_Q' = 3$. Chọn B.}
+	\option{$7{,}5$ và $3{,}1$.}
+	\option{$7{,}4$ và $3$.}
+	\option{$7{,}5$ và $3$.}
+	\option{$7{,}4$ và $3{,}1$.}
+\end{mcq}
+
+\begin{mcq}{Một vườn thú ghi lại tuổi thọ (đơn vị: năm) của 20 con hổ thu được kết quả như sau:\image{0.6}{}{lt_17.png}
+
+Nhóm chứa tứ phân vị thứ ba là:}{2}{1}{Ta có $\frac{3 \cdot 20}{4} = 15$ và $1 + 3 + 8 = 12 < 15 \le 1 + 3 + 8 + 6 = 18$ nên tứ phân vị thứ ba thuộc nhóm $[17; 18)$. Chọn C.}
+	\option{$[15; 16)$.}
+	\option{$[16; 17)$.}
+	\option{$[17; 18)$.}
+	\option{$[18; 19)$.}
+\end{mcq}
+
+\begin{mcq}{Một người ghi lại thời gian đàm thoại của một số cuộc gọi cho kết quả như bảng sau:\image{0.6}{}{lt_18.png}
+
+Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm trên:}{0}{1}{Cỡ mẫu $n = 80$.
+
+Tứ phân vị thứ nhất: $Q_1 = 1 + \frac{20 - 8}{17} \cdot 1 = \frac{29}{17}$.
+
+Tứ phân vị thứ ba: $Q_3 = 3 + \frac{60 - (8+17+25)}{20} \cdot 1 = 3{,}5$.
+
+Khoảng tứ phân vị là $\Delta_Q = 3{,}5 - \frac{29}{17} = \frac{61}{34}$. Chọn A.}
+	\option{$\frac{61}{34}$.}
+	\option{$16$.}
+	\option{$3$.}
+	\option{$\frac{16}{43}$.}
+\end{mcq}
+
+\begin{mcq}{Thời gian chờ khám bệnh của các bệnh nhân tại phòng khám X được cho trong bảng sau:\image{0.6}{}{lt_19.png}
+
+Khoảng tứ phân vị của mẫu số liệu ghép nhóm này gần nhất với giá trị nào sau đây?}{3}{1}{Cỡ mẫu $n = 38$.
+
+$Q_1 = 5 + \frac{\frac{38}{4} - 3}{12} \cdot 5 \approx 7{,}71$.
+
+$Q_3 = 10 + \frac{\frac{3 \cdot 38}{4} - 15}{15} \cdot 5 = 14{,}5$.
+
+Khoảng tứ phân vị: $\Delta_Q = 14{,}5 - 7{,}71 = 6{,}79 \approx 6{,}8$. Chọn D.}
+	\option{$6{,}7$.}
+	\option{$6{,}6$.}
+	\option{$6$.}
+	\option{$6{,}8$.}
+\end{mcq}
+
+\essay{Hình bên dưới là biểu đồ biểu diễn lượng mưa trung bình của các tháng trong năm ở thành phố A.\image{0.6}{}{lt_20.png}
+
+Xác định khoảng tứ phân vị của mẫu số liệu (làm tròn kết quả đến hàng đơn vị). Nêu ý nghĩa của kết quả tìm được.}{1}{Quy về bảng ghép nhóm có cỡ mẫu $n = 12$:
+- $[0; 50)$: 2
+- $[50; 100)$: 3
+- $[100; 150)$: 1
+- $[150; 200)$: 1
+- $[200; 250)$: 1
+- $[250; 300)$: 2
+- $[300; 350)$: 2
+
+Ta có $Q_1 = 50 + \frac{\frac{12}{4} - 2}{3}(100 - 50) = \frac{200}{3}$.
+
+$Q_3 = 250 + \frac{\frac{3 \cdot 12}{4} - 8}{2}(300 - 250) = 275$.
+
+Khoảng tứ phân vị: $\Delta_Q = 275 - \frac{200}{3} = \frac{625}{3} \approx 208{,}3 \approx 208\text{ mm}$.
+
+\textbf{Ý nghĩa:} Hằng năm, ở thành phố A có 3 tháng có lượng mưa trung bình không vượt quá 67 mm và 3 tháng có lượng mưa trung bình ít nhất là 275 mm. Trong 6 tháng còn lại, lượng mưa trung bình đạt từ 67 mm đến 275 mm và có thể chênh lệch nhau đến 208 mm.}
+
+\essay{Kết quả điều tra về số giờ làm thêm trong một tuần của 100 sinh viên được cho ở biểu đồ bên.\image{0.6}{}{lt_21.png}
+
+Tìm khoảng tứ phân vị của số liệu đó.}{1}{Lập bảng tần số ghép nhóm ($n = 100$):
+- $[2; 4)$: 12 sinh viên
+- $[4; 6)$: 20 sinh viên
+- $[6; 8)$: 37 sinh viên
+- $[8; 10)$: 21 sinh viên
+- $[10; 12)$: 10 sinh viên
+
+Tứ phân vị thứ nhất: $Q_1 = 4 + \frac{\frac{100}{4} - 12}{20}(6 - 4) = 5{,}3$.
+
+Tứ phân vị thứ ba: $Q_3 = 8 + \frac{\frac{3 \cdot 100}{4} - 69}{12}(10 - 8) \approx 8{,}57$.
+
+Khoảng tứ phân vị: $\Delta_Q = Q_3 - Q_1 \approx 3{,}27$.}
+
+\essay{Hình bên dưới là biểu đồ biểu diễn nhiệt độ trung bình hằng tháng của hai địa phương Y, Z.\image{0.6}{}{lt_22.png}
+
+Tìm khoảng tứ phân vị của nhiệt độ mỗi địa phương và cho biết nhiệt độ của địa phương nào ít biến động hơn.}{1}{Khu vực Y ($n = 12$):
+$Q_1 = \frac{35}{2}, Q_3 = \frac{100}{3} \Rightarrow \Delta_Q = \frac{95}{6} \approx 15{,}83$.
+
+Khu vực Z ($n = 12$):
+$Q_1' = \frac{105}{4}, Q_3' = \frac{115}{4} \Rightarrow \Delta_Q' = \frac{5}{2} = 2{,}5$.
+
+Vì $\Delta_Q > \Delta_Q'$ nên nhiệt độ của khu vực Y phân tán hơn nhiệt độ của khu vực Z. Tức là nhiệt độ của khu vực Z sẽ ít biến động hơn nhiệt độ của khu vực Y.}
+
+\essay{Bảng sau đây cho biết chiều cao của các học sinh lớp 12A và 12B:\image{0.6}{}{lt_23.png}
+
+a) Tính khoảng biến thiên, khoảng tứ phân vị cho các mẫu số liệu ghép nhóm của học sinh lớp 12A, 12B.
+
+b) Để so sánh độ phân tán về chiều cao của học sinh hai lớp này ta nên dùng khoảng biến thiên hay khoảng tứ phân vị? Vì sao?}{1}{a) Lớp 12A ($n = 43$):
+- Khoảng biến thiên: $R = 175 - 145 = 30$.
+- $Q_1 = 158{,}25, Q_3 = 167{,}125 \Rightarrow \Delta_Q = 8{,}875$.
+
+Lớp 12B ($n = 42$):
+- Khoảng biến thiên: $R = 175 - 155 = 20$.
+- $Q_1 \approx 158{,}09, Q_3 = 167{,}5 \Rightarrow \Delta_Q \approx 9{,}41$.
+
+b) Ta nên dùng khoảng tứ phân vị vì khoảng tứ phân vị không bị ảnh hưởng bởi các giá trị quá lớn, quá bé.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3: Tính phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm}{Công thức và quy trình tính phương sai, độ lệch chuẩn}
+
+\textbf{Phương pháp giải:}
+Xét mẫu số liệu ghép nhóm cho bởi bảng sau:
+
+\image{0.6}{}{lt_24.png}
+
+- Xác định giá trị đại diện $c_i = \frac{u_i + u_{i+1}}{2}$ cho mỗi nhóm.
+- Tính số trung bình: $\bar{x} = \frac{1}{n}\sum_{i=1}^k n_i c_i$.
+- Tính phương sai: $S^2 = \frac{1}{n}\sum_{i=1}^k n_i c_i^2 - \bar{x}^2$.
+- Tính độ lệch chuẩn: $S = \sqrt{S^2}$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3: Các ví dụ minh họa}
+
+\begin{mcq}{Doanh thu bán hàng trong 20 ngày được lựa chọn ngẫu nhiên của một cửa hàng được ghi lại ở bảng sau (đơn vị: triệu đồng):\image{0.6}{}{lt_25.png}
+
+Số trung bình của mẫu số liệu trên thuộc khoảng nào trong các khoảng dưới đây?}{1}{1}{Số trung bình của mẫu số liệu trên là:
+$$\bar{x} = \frac{2 \cdot 6 + 7 \cdot 8 + 7 \cdot 10 + 3 \cdot 12 + 1 \cdot 14}{20} = \frac{188}{20} = 9{,}4 \in [9; 11).$$
+
+Chọn B.}
+	\option{$[7; 9)$.}
+	\option{$[9; 11)$.}
+	\option{$[11; 13)$.}
+	\option{$[13; 15)$.}
+\end{mcq}
+
+\begin{mcq}{Cân nặng của một số quả mít trong một khu vườn được thống kê ở bảng sau:\image{0.6}{}{lt_26.png}
+
+Phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm trên lần lượt là (làm tròn kết quả đến hàng phần chục):}{1}{1}{Cỡ mẫu $n = 50$.
+
+Số trung bình: $\bar{x} = \frac{6 \cdot 5 + 12 \cdot 7 + 19 \cdot 9 + 9 \cdot 11 + 4 \cdot 13}{50} = 8{,}72$.
+
+Phương sai: $S^2 = \frac{1}{50}(6 \cdot 5^2 + 12 \cdot 7^2 + 19 \cdot 9^2 + 9 \cdot 11^2 + 4 \cdot 13^2) - 8{,}72^2 \approx 4{,}80 \approx 4{,}8$.
+
+Độ lệch chuẩn: $S = \sqrt{4{,}80} \approx 2{,}19 \approx 2{,}2$. Chọn B.}
+	\option{$4{,}9$ và $2{,}1$.}
+	\option{$4{,}8$ và $2{,}2$.}
+	\option{$4{,}9$ và $2{,}2$.}
+	\option{$4{,}8$ và $2{,}1$.}
+\end{mcq}
+
+\begin{mcq}{Kết quả khảo sát thời gian sử dụng liên tục (đơn vị: giờ) từ lúc sạc đầy cho đến khi hết pin của một số máy vi tính cùng loại được mô tả bằng biểu đồ sau:\image{0.6}{}{lt_27.png}
+
+Phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm từ biểu đồ trên là:}{2}{1}{Cỡ mẫu $n = 18$.
+
+Số trung bình: $\bar{x} = \frac{2 \cdot 7{,}3 + 4 \cdot 7{,}5 + 7 \cdot 7{,}7 + 5 \cdot 7{,}9}{18} = \frac{23}{3}$.
+
+Phương sai: $S^2 \approx 0{,}037$.
+
+Độ lệch chuẩn: $S \approx \sqrt{0{,}037} \approx 0{,}192$. Chọn C.}
+	\option{$0{,}037$ và $0{,}193$.}
+	\option{$0{,}039$ và $0{,}191$.}
+	\option{$0{,}037$ và $0{,}192$.}
+	\option{$0{,}038$ và $0{,}192$.}
+\end{mcq}
+
+\essay{Thống kê tổng số giờ nắng trong tháng 9 tại một trạm quan trắc đặt ở Cà Mau trong các năm từ 2002 đến 2021 được thống kê như sau:
+111,6; 134,9; 130,3; 134,2; 140,9; 109,3; 154,4; 156,3; 116,1; 96,7; 105,2; 80,8; 80,8; 110; 109; 139; 145; 161; 126; 114.
+
+a) Hãy tính phương sai và độ lệch chuẩn của mẫu số liệu trên.
+
+b) Hãy lập bảng tần số ghép nhóm với nhóm đầu tiên là $[80; 98)$ và độ dài mỗi nhóm bằng 18. Tính phương sai, độ lệch chuẩn của mẫu số liệu ghép nhóm.
+
+c) Hãy tính sai số tương đối của độ lệch chuẩn của mẫu số liệu ghép nhóm so với độ lệch chuẩn của mẫu số liệu gốc.}{1}{a) Cỡ mẫu $n = 20$.
+- Số trung bình: $\bar{x}_1 = 122{,}755$.
+- Phương sai mẫu gốc: $S_1^2 \approx 515{,}453$.
+- Độ lệch chuẩn mẫu gốc: $S_1 \approx 22{,}704$.
+
+b) Bảng tần số ghép nhóm:
+- $[80; 98)$ (đại diện 89): 3
+- $[98; 116)$ (đại diện 107): 6
+- $[116; 134)$ (đại diện 125): 3
+- $[134; 152)$ (đại diện 143): 5
+- $[152; 170)$ (đại diện 161): 3
+
+Số trung bình ghép nhóm: $\bar{x}_2 = 124{,}1$.
+Phương sai ghép nhóm: $S_2^2 = 566{,}19$.
+Độ lệch chuẩn ghép nhóm: $S_2 = \sqrt{566{,}19} \approx 23{,}795$.
+
+c) Sai số tương đối của độ lệch chuẩn:
+$$\frac{|S_2 - S_1|}{S_1} \cdot 100\% = \frac{|23{,}795 - 22{,}704|}{22{,}704} \cdot 100\% \approx 4{,}805\%.$$}
+
+\begin{mcq}{Anh Duy rất thích chơi cầu lông. Thời gian chơi cầu lông mỗi ngày trong thời gian gần đây của anh Duy được thống kê lại trong bảng sau:\image{0.6}{}{lt_28.png}
+
+Phương sai của mẫu số liệu ghép nhóm có giá trị gần nhất với giá trị nào sau đây?}{3}{1}{Cỡ mẫu $n = 18$.
+
+Số trung bình: $\bar{x} = \frac{6 \cdot 22{,}5 + 6 \cdot 27{,}5 + 4 \cdot 32{,}5 + 1 \cdot 37{,}5 + 1 \cdot 42{,}5}{18} = \frac{85}{3}$.
+
+Phương sai: $S^2 = 31{,}25$. Giá trị này gần nhất với $31{,}44$. Chọn D.}
+	\option{$31{,}77$.}
+	\option{$32$.}
+	\option{$31$.}
+	\option{$31{,}44$.}
+\end{mcq}
+
+\begin{mcq}{Nhật Minh và Lý Nguyễn cùng sử dụng vòng đeo tay thông minh để ghi lại số bước chân hai bạn đi mỗi ngày trong một tháng. Kết quả ghi được ở bảng sau:\image{0.6}{}{lt_29.png}
+
+Độ lệch chuẩn của mẫu số liệu ghép nhóm trên của Nhật Minh và Lý Nguyễn lần lượt là:}{2}{1}{Nhật Minh: $\bar{x}_H = 7{,}8 \Rightarrow S_H^2 = 7{,}56 \Rightarrow S_H \approx 2{,}75$.
+
+Lý Nguyễn: $\bar{x}_N = 8{,}2 \Rightarrow S_N^2 = 3{,}83 \Rightarrow S_N \approx 1{,}96$. Chọn C.}
+	\option{$2{,}95; 1{,}76$.}
+	\option{$2{,}75; 1{,}69$.}
+	\option{$2{,}75; 1{,}96$.}
+	\option{$2{,}97; 1{,}56$.}
+\end{mcq}
+
+\essay{Chiều dài của 40 bé trai sơ sinh 12 ngày tuổi chọn ngẫu nhiên ở một bệnh viện được nhà nghiên cứu thống kê trong bảng dưới đây:\image{0.6}{}{lt_30.png}
+
+Tính số trung bình và độ lệch chuẩn của chiều dài nhóm 40 bé trai sơ sinh (làm tròn kết quả đến hàng phần nghìn).}{1}{Bảng giá trị đại diện:
+- $[44; 46)$ (đại diện 45): 3
+- $[46; 48)$ (đại diện 47): 3
+- $[48; 50)$ (đại diện 49): 10
+- $[50; 52)$ (đại diện 51): 15
+- $[52; 54)$ (đại diện 53): 7
+- $[54; 56)$ (đại diện 55): 2
+
+Số trung bình: $\bar{x} = \frac{3 \cdot 45 + 3 \cdot 47 + 10 \cdot 49 + 15 \cdot 51 + 7 \cdot 53 + 2 \cdot 55}{40} = 50{,}3\text{ cm}$.
+
+Phương sai: $S^2 = 5{,}91$.
+
+Độ lệch chuẩn: $S = \sqrt{5{,}91} \approx 2{,}431\text{ cm}$.}
+
+\essay{Bảng 1, Bảng 2 lần lượt biểu diễn mẫu số liệu ghép nhóm thống kê mức lương của hai công ty A, B (đơn vị: triệu đồng):\image{0.6}{}{lt_31.png}
+
+Tính phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm lần lượt biểu diễn mức lương của hai công ty A, B.}{1}{Công ty A ($n = 60$):
+- Số trung bình: $\bar{x}_A \approx 20{,}67\text{ (triệu đồng)}$.
+- Phương sai: $S_A^2 \approx 49{,}14$.
+- Độ lệch chuẩn: $S_A \approx 7{,}01\text{ (triệu đồng)}$.
+
+Công ty B ($n = 60$):
+- Số trung bình: $\bar{x}_B \approx 17{,}46\text{ (triệu đồng)}$.
+- Phương sai: $S_B^2 \approx 60{,}54$.
+- Độ lệch chuẩn: $S_B \approx 7{,}78\text{ (triệu đồng)}$.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4: Tổng hợp các số đặc trưng đo mức độ phân tán}{Vận dụng tổng hợp khoảng biến thiên, khoảng tứ phân vị, phương sai và độ lệch chuẩn}
+
+\textbf{Phương pháp giải:}
+- Phối hợp xác định đầy đủ các số đặc trưng: Khoảng biến thiên $R$, khoảng tứ phân vị $\Delta_Q$, phương sai $S^2$, độ lệch chuẩn $S$.
+- So sánh mức độ phân tán giữa hai mẫu số liệu và phân tích ý nghĩa thực tiễn của các số đặc trưng.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4: Các ví dụ minh họa}
+
+\essay{Bảng dưới đây thống kê cự li ném tạ của một vận động viên:\image{0.6}{}{lt_32.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm là bao nhiêu?
+
+b) Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm.
+
+c) Tính phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm.}{1}{a) Khoảng biến thiên: $R = 21{,}5 - 19 = 2{,}5\text{ (m)}$.
+
+b) Cỡ mẫu $n = 100$.
+- $Q_1 = 19{,}5 + \frac{25-13}{45} \cdot 0{,}5 = \frac{589}{30}$.
+- $Q_3 = 20 + \frac{75 - 58}{24} \cdot 0{,}5 = \frac{977}{48}$.
+- Khoảng tứ phân vị: $\Delta_Q = \frac{977}{48} - \frac{589}{30} = \frac{173}{240} \approx 0{,}72$.
+
+c) Số trung bình: $\bar{x} = 20{,}015$.
+- Phương sai: $S^2 \approx 0{,}278$.
+- Độ lệch chuẩn: $S = \sqrt{0{,}278} \approx 0{,}53$.}
+
+\essay{Kết quả khảo sát năng suất (đơn vị: tấn/ha) của một thửa ruộng được minh họa ở biểu đồ sau:\image{0.6}{}{lt_33.png}
+
+a) Tính khoảng biến thiên của mẫu số liệu ghép nhóm.
+
+b) Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm.
+
+c) Tính phương sai và độ lệch chuẩn của mẫu số liệu ghép nhóm.}{1}{Quy về bảng ghép nhóm có cỡ mẫu $n = 25$:
+- $[5{,}5; 5{,}7)$: 3
+- $[5{,}7; 5{,}9)$: 4
+- $[5{,}9; 6{,}1)$: 6
+- $[6{,}1; 6{,}3)$: 5
+- $[6{,}3; 6{,}5)$: 5
+- $[6{,}5; 6{,}7)$: 2
+
+a) Khoảng biến thiên: $R = 6{,}7 - 5{,}5 = 1{,}2\text{ (tấn/ha)}$.
+
+b) Tứ phân vị: $Q_1 = \frac{469}{80}, Q_3 = \frac{633}{100} \Rightarrow \Delta_Q = \frac{187}{400} \approx 0{,}47$.
+
+c) Số trung bình: $\bar{x} = 6{,}088$.
+- Phương sai: $S^2 \approx 0{,}087$.
+- Độ lệch chuẩn: $S \approx 0{,}295$.}
+
+\begin{mcq}{Tốc độ của 20 xe hơi khi qua một trạm kiểm tra tốc độ (đơn vị: km/h) được thống kê lại như sau:\image{0.6}{}{lt_34.png}
+
+Khoảng biến thiên, khoảng tứ phân vị, phương sai, độ lệch chuẩn của mẫu số liệu ghép nhóm với nhóm đầu tiên là $[42; 46)$ và độ dài mỗi nhóm bằng 4 lần lượt là:}{0}{1}{Ta lập bảng ghép nhóm 5 nhóm: $[42; 46): 3; [46; 50): 7; [50; 54): 4; [54; 58): 3; [58; 62): 3$.
+- $R = 61{,}1 - 42 = 19{,}1$.
+- $Q_1 = \frac{330}{7}, Q_3 = \frac{166}{3} \Rightarrow \Delta_Q \approx 8{,}2$.
+- $\bar{x} = 51{,}2 \Rightarrow S^2 \approx 26{,}6 \Rightarrow S \approx 5{,}15$. Chọn A.}
+	\option{$19{,}1; 8{,}2; 26{,}6; 5{,}15$.}
+	\option{$19{,}1; 8{,}3; 26{,}5; 5{,}16$.}
+	\option{$19{,}2; 8{,}2; 26{,}5; 5{,}15$.}
+	\option{$19{,}2; 8{,}3; 26{,}6; 5{,}16$.}
+\end{mcq}
+
+\essay{Một vườn thú ghi lại tuổi thọ (đơn vị: năm) của 20 con hổ và thu được kết quả như sau:\image{0.6}{}{lt_35.png}
+
+a) Tính khoảng biến thiên của mẫu số liệu ghép nhóm này.
+
+b) Xác định nhóm chứa tứ phân vị thứ nhất và nhóm chứa tứ phân vị thứ ba.
+
+c) Số đặc trưng nào không sử dụng thông tin của nhóm số liệu đầu tiên và nhóm số liệu cuối cùng?}{1}{a) Khoảng biến thiên: $R = 19 - 14 = 5\text{ (năm)}$.
+
+b) Nhóm chứa tứ phân vị thứ nhất là $[16; 17)$ (vì $\frac{20}{4} = 5$).
+Nhóm chứa tứ phân vị thứ ba là $[17; 18)$ (vì $\frac{3 \cdot 20}{4} = 15$).
+
+c) Số đặc trưng không sử dụng thông tin của nhóm số liệu đầu tiên và nhóm số liệu cuối cùng là khoảng tứ phân vị.}
+
+\essay{Khôi là học sinh rất giỏi chơi rubik. Bạn Khôi đã tự thống kê lại thời gian giải rubik trong 25 lần giải liên tiếp ở bảng sau:\image{0.6}{}{lt_36.png}
+
+a) Tính khoảng biến thiên của mẫu số liệu ghép nhóm.
+
+b) Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm.
+
+c) Tính độ lệch chuẩn của mẫu số liệu ghép nhóm.}{1}{a) Khoảng biến thiên: $R = 18 - 8 = 10\text{ (giây)}$.
+
+b) Cỡ mẫu $n = 25$.
+- $Q_1 = 10{,}75$.
+- $Q_3 = 14{,}375$.
+- Khoảng tứ phân vị: $\Delta_Q = 14{,}375 - 10{,}75 = 3{,}625$.
+
+c) Số trung bình: $\bar{x} = 12{,}68$.
+- Phương sai: $S^2 \approx 5{,}98$.
+- Độ lệch chuẩn: $S = \sqrt{5{,}98} \approx 2{,}44$.}
+
+\essay{Để đánh giá chất lượng một loại pin điện thoại mới, người ta ghi lại thời gian nghe nhạc liên tục của điện thoại được sạc đầy pin cho đến khi hết pin cho kết quả như sau:\image{0.6}{}{lt_37.png}
+
+a) Tính khoảng biến thiên của mẫu số liệu ghép nhóm.
+
+b) Tính khoảng tứ phân vị của mẫu số liệu ghép nhóm.
+
+c) Tính độ lệch chuẩn của mẫu số liệu ghép nhóm.}{1}{a) Khoảng biến thiên: $R = 7{,}5 - 5 = 2{,}5\text{ (giờ)}$.
+
+b) Cỡ mẫu $n = 40$.
+- $Q_1 = 6$.
+- $Q_3 = 6{,}75$.
+- Khoảng tứ phân vị: $\Delta_Q = 6{,}75 - 6 = 0{,}75$.
+
+c) Số trung bình: $\bar{x} = 6{,}35$.
+- Phương sai: $S^2 = 0{,}2775$.
+- Độ lệch chuẩn: $S = \sqrt{0{,}2775} \approx 0{,}53$.}
+
+\essay{Bộ phận kiểm tra chất lượng sản phẩm dùng máy để đo (chính xác đến 0,001 mm) độ dày của một chi tiết máy. Kết quả đo một số sản phẩm được thống kê trong bảng sau:\image{0.6}{}{lt_38.png}
+
+a) Tính khoảng biến thiên của mẫu số liệu ghép nhóm về độ dày của một chi tiết máy.
+
+b) Tính phương sai, độ lệch chuẩn của độ dày chi tiết máy.
+
+c) Giải thích tầm quan trọng của việc có độ lệch chuẩn nhỏ trong trường hợp này.}{1}{a) Khoảng biến thiên: $R = 23 - 18 = 5\text{ (mm)}$.
+
+b) Cỡ mẫu $n = 70$.
+- Số trung bình: $\bar{x} \approx 20{,}77\text{ (mm)}$.
+- Phương sai: $S^2 \approx 0{,}682$.
+- Độ lệch chuẩn: $S \approx 0{,}826\text{ (mm)}$.
+
+c) Độ lệch chuẩn nhỏ trong khi đo độ dày của một chi tiết máy chứng tỏ độ chính xác rất cao và chất lượng của sản phẩm cao, tạo độ tin cậy lớn trong sản xuất.}
+
+\essay{Nhà máy đường kiểm tra khối lượng các gói đường do một máy đóng gói tự động thực hiện. Kết quả kiểm tra được biểu diễn trong bảng dưới đây:\image{0.6}{}{lt_39.png}
+
+a) Tìm khoảng tứ phân vị của khối lượng các gói đường.
+
+b) Tính trung bình và độ lệch chuẩn của khối lượng các gói đường.
+
+c) Có thể nói là máy vận hành tốt hay không nếu như tiêu chuẩn mong muốn của nhà máy là khối lượng trung bình nằm trong khoảng 500 – 504 gam và độ lệch chuẩn nhỏ hơn 3 gam?}{1}{a) Cỡ mẫu $n = 100$.
+- $Q_1 = 500{,}5625$.
+- $Q_3 = \frac{7055}{14}$.
+- Khoảng tứ phân vị: $\Delta_Q = \frac{377}{112} \approx 3{,}366$.
+
+b) Số trung bình: $\bar{x} = 502{,}22\text{ (g)}$.
+- Phương sai: $S^2 = 7{,}8316$.
+- Độ lệch chuẩn: $S = \sqrt{7{,}8316} \approx 2{,}8\text{ (g)}$.
+
+c) Vì $\bar{x} = 502{,}22 \in [500; 504)$ và $S \approx 2{,}8 < 3\text{ (g)}$ nên máy vận hành tốt và đạt tiêu chuẩn mong muốn của nhà máy.}
+
+\essay{Một trang trại phân 1 000 quả trứng thành 5 loại, tuỳ theo khối lượng (đã được làm tròn) của chúng:\image{0.6}{}{lt_40.png}
+
+a) Ước tính khoảng biến thiên, khoảng tứ phân vị, phương sai và độ lệch chuẩn của khối lượng những quả trứng này (làm tròn kết quả đến hàng phần trăm).
+
+b) Hãy phân tích sự đồng đều về khối lượng các quả trứng của trang trại.}{1}{a) Cỡ mẫu $n = 1000$.
+- Khoảng biến thiên: $R = 60 - 30 = 30\text{ (g)}$.
+- $Q_1 = 42{,}18\text{ (g)}, Q_3 = 48{,}36\text{ (g)} \Rightarrow \Delta_Q = 6{,}18\text{ (g)}$.
+- Số trung bình: $\bar{x} = 45\text{ (g)}$.
+- Phương sai: $S^2 = 24{,}48$.
+- Độ lệch chuẩn: $S = \sqrt{24{,}48} \approx 4{,}948\text{ (g)} \approx 4{,}95\text{ (g)}$.
+
+b) Độ lệch chuẩn $S \approx 4{,}95\text{ (g)}$ cho thấy khối lượng các quả trứng trong trang trại có độ phân tán nhất định và không đồng đều xung quanh số trung bình.}
+
+\end{quiz}
+
+\end{document}

@@ -1,0 +1,370 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{BẤT PHƯƠNG TRÌNH VÀ HỆ BẤT PHƯƠNG TRÌNH BẬC NHẤT HAI ẨN}
+\docdesc{Tóm tắt lý thuyết, ví dụ minh họa và bài tập rèn luyện Bất phương trình bậc nhất hai ẩn, Hệ bất phương trình bậc nhất hai ẩn, Quy hoạch tuyến tính}
+\docgrade{Lớp 10}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{phuong-trinh}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Khái niệm và phương pháp biểu diễn miền nghiệm của BPT và Hệ BPT bậc nhất hai ẩn}
+
+\textbf{Đặt vấn đề:}
+
+Nhân ngày Quốc tế Thiếu nhi 1-6, một rạp chiếu phim phục vụ các khán giả một bộ phim hoạt hình. Vé được bán ra có hai loại:
+- Loại 1 (dành cho trẻ từ 6-13 tuổi): $50\,000$ đồng/vé;
+- Loại 2 (dành cho người trên 13 tuổi): $100\,000$ đồng/vé.
+
+Người ta tính toán rằng, để không phải bù lỗ thì số tiền vé thu được ở rạp chiếu phim này phải đạt tối thiểu $20$ triệu đồng. Hỏi số lượng vé bán được trong những trường hợp nào thì rạp chiếu phim phải bù lỗ?
+
+\textbf{1. Bất phương trình bậc nhất hai ẩn}
+
+\textbf{Khái niệm:}
+Bất phương trình bậc nhất hai ẩn $x, y$ có dạng tổng quát là:
+$$ax + by \le c \quad (ax + by \ge c, ax + by < c, ax + by > c)$$
+Trong đó $a, b, c$ là các số thực đã cho, $a$ và $b$ không đồng thời bằng $0$, $x$ và $y$ là các ẩn số.
+
+Cặp số $(x_0, y_0)$ được gọi là \textbf{nghiệm} của bất phương trình bậc nhất hai ẩn $ax + by \le c$ nếu bất đẳng thức $ax_0 + by_0 \le c$ đúng.
+
+\textbf{2. Biểu diễn miền nghiệm của bất phương trình bậc nhất hai ẩn}
+
+Trong mặt phẳng tọa độ $Oxy$, tập hợp các điểm có tọa độ là nghiệm của bất phương trình được gọi là \textbf{miền nghiệm} của bất phương trình đó.
+
+\textbf{Chú ý:} Nghiệm và miền nghiệm của các bất phương trình dạng $ax + by > c$, $ax + by \le c$ và $ax + by \ge c$ được định nghĩa tương tự.
+
+Người ta chứng minh được rằng đường thẳng $d$ có phương trình $ax + by = c$ chia mặt phẳng tọa độ $Oxy$ thành hai nửa mặt phẳng bờ $d$:
+- Một nửa mặt phẳng (không kể bờ $d$) gồm các điểm có tọa độ $(x; y)$ thỏa mãn $ax + by > c$;
+- Nửa mặt phẳng còn lại (không kể bờ $d$) gồm các điểm có tọa độ $(x; y)$ thỏa mãn $ax + by < c$.
+
+Bờ $d$ gồm các điểm có tọa độ $(x; y)$ thỏa mãn $ax + by = c$.
+
+\textbf{Chú ý:} Đối với bất phương trình dạng $ax + by \le c$ hoặc $ax + by \ge c$ thì miền nghiệm là nửa mặt phẳng kể cả đường thẳng $d$.
+
+\image{0.7}{Biểu diễn miền nghiệm của bất phương trình bậc nhất hai ẩn}{lt_1.png}
+
+\textbf{Chú ý:} Thông thường khi sử dụng phần mềm toán học để biểu diễn miền nghiệm của bất phương trình bậc nhất hai ẩn, miền nghiệm của bất phương trình đó được tô màu.
+
+\textbf{3. Hệ bất phương trình bậc nhất hai ẩn}
+
+\textbf{Khái niệm:}
+Hệ bất phương trình bậc nhất hai ẩn $x, y$ là một hệ gồm hai hay nhiều bất phương trình bậc nhất hai ẩn $x, y$. Mỗi nghiệm chung của các bất phương trình trong hệ được gọi là một nghiệm của hệ bất phương trình đó.
+
+\textbf{4. Biểu diễn miền nghiệm của hệ bất phương trình bậc nhất hai ẩn}
+
+\image{0.7}{Biểu diễn miền nghiệm của hệ bất phương trình bậc nhất hai ẩn}{lt_2.png}
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: VÍ DỤ MINH HỌA
+% =========================================================================
+
+\begin{quiz}{Phần II: Ví dụ minh họa}
+
+\essay{Biểu diễn miền nghiệm của bất phương trình $x + y \ge 100$ trên mặt phẳng tọa độ.}{1}{Vẽ đường thẳng $d: x + y = 100$ đi qua hai điểm $(100; 0)$ và $(0; 100)$.
+
+Lấy gốc tọa độ $O(0; 0)$ không thuộc $d$. Ta thấy $0 + 0 = 0 < 100$ (không thỏa mãn bất phương trình).
+
+Do đó, miền nghiệm của bất phương trình $x + y \ge 100$ là nửa mặt phẳng bờ $d$ không chứa điểm $O(0; 0)$ (kể cả bờ $d$).}
+
+\essay{Giải bài toán ở tình huống đặt vấn đề:
+Nhân ngày Quốc tế Thiếu nhi 1-6, một rạp chiếu phim phục vụ các khán giả một bộ phim hoạt hình. Vé được bán ra có hai loại: loại 1 (dành cho trẻ từ 6-13 tuổi) giá $50\,000$ đồng/vé; loại 2 (dành cho người trên 13 tuổi) giá $100\,000$ đồng/vé. Để không phải bù lỗ thì số tiền vé thu được phải đạt tối thiểu $20$ triệu đồng. Hỏi số lượng vé bán được trong những trường hợp nào thì rạp chiếu phim phải bù lỗ?}{1}{Gọi $x$ và $y$ lần lượt là số vé loại 1 và loại 2 bán được ($x \ge 0, y \ge 0, x, y \in \mathbb{N}$).
+
+Tổng số tiền bán vé thu được là:
+$$50\,000x + 100\,000y \text{ (đồng)}.$$
+
+Rạp chiếu phim phải bù lỗ khi số tiền thu được nhỏ hơn $20$ triệu đồng ($20\,000\,000$ đồng), tức là:
+$$50\,000x + 100\,000y < 20\,000\,000 \Leftrightarrow x + 2y < 400.$$
+
+Vậy rạp chiếu phim phải bù lỗ khi các số tự nhiên $x, y$ thỏa mãn bất đẳng thức $x + 2y < 400$.}
+
+\essay{Một cửa hàng có kế hoạch nhập về hai loại máy tính $A$ và $B$, giá mỗi chiếc lần lượt là $10$ triệu đồng và $20$ triệu đồng với số vốn ban đầu không vượt quá $4$ tỉ đồng. Loại máy $A$ mang lại lợi nhuận $2{,}5$ triệu đồng cho mỗi máy bán được và loại máy $B$ mang lại lợi nhuận $4$ triệu đồng mỗi máy. Cửa hàng ước tính rằng tổng nhu cầu hàng tháng sẽ không vượt quá $250$ máy. Giả sử trong một tháng cửa hàng cần nhập số máy tính loại $A$ là $x$ và số máy tính loại $B$ là $y$.
+
+a) Viết các bất phương trình biểu thị các điều kiện của bài toán thành một hệ bất phương trình rồi xác định miền nghiệm của hệ đó.
+
+b) Gọi $F$ (triệu đồng) là lợi nhuận mà cửa hàng thu được trong tháng đó khi bán $x$ máy tính loại $A$ và $y$ máy tính loại $B$. Hãy biểu diễn $F$ theo $x$ và $y$.
+
+c) Tìm số lượng máy tính mỗi loại cửa hàng cần nhập về trong tháng đó để lợi nhuận thu được là lớn nhất.}{1}{a) Điều kiện: $x \ge 0, y \ge 0$ ($x, y \in \mathbb{N}$).
+
+- Số vốn nhập hàng không vượt quá $4$ tỉ đồng ($4000$ triệu đồng):
+$$10x + 20y \le 4000 \Leftrightarrow x + 2y \le 400.$$
+
+- Tổng nhu cầu hàng tháng không vượt quá $250$ máy:
+$$x + y \le 250.$$
+
+Hệ bất phương trình biểu thị các điều kiện của bài toán là:
+$$\begin{cases} x \ge 0 \\ y \ge 0 \\ x + y \le 250 \\ x + 2y \le 400 \end{cases}$$
+
+Miền nghiệm của hệ là miền tứ giác $OABC$ (kể cả biên) với tọa độ các đỉnh:
+- $O(0; 0)$
+- $A(250; 0)$
+- $B(100; 150)$ (tọa độ giao điểm của hai đường thẳng $x + y = 250$ và $x + 2y = 400$)
+- $C(0; 200)$
+
+b) Lợi nhuận $F$ (triệu đồng) thu được khi bán $x$ máy loại $A$ và $y$ máy loại $B$ là:
+$$F(x; y) = 2{,}5x + 4y.$$
+
+c) Lợi nhuận $F$ đạt giá trị lớn nhất tại một trong các đỉnh của tứ giác $OABC$:
+- $F(0; 0) = 0$ (triệu đồng).
+- $F(250; 0) = 2{,}5 \times 250 + 4 \times 0 = 625$ (triệu đồng).
+- $F(100; 150) = 2{,}5 \times 100 + 4 \times 150 = 850$ (triệu đồng).
+- $F(0; 200) = 2{,}5 \times 0 + 4 \times 200 = 800$ (triệu đồng).
+
+Giá trị lớn nhất của $F$ là $850$ triệu đồng khi $x = 100$ và $y = 150$.
+
+Vậy cửa hàng cần nhập $100$ máy tính loại $A$ và $150$ máy tính loại $B$ để thu được lợi nhuận lớn nhất.}
+
+\essay{Để gây quỹ từ thiện, câu lạc bộ thiện nguyện của một trường THPT tổ chức hoạt động bán hàng với hai mặt hàng là nước chanh và khoai chiên. Câu lạc bộ thiết kế hai thực đơn. Thực đơn 1 có giá $35$ nghìn đồng, bao gồm hai cốc nước chanh và một túi khoai chiên. Thực đơn 2 có giá $55$ nghìn đồng, bao gồm ba cốc nước chanh và hai túi khoai chiên. Biết rằng câu lạc bộ chỉ làm được không quá $165$ cốc nước chanh và $100$ túi khoai chiên. Số tiền lớn nhất mà câu lạc bộ có thể nhận được sau khi bán hết hàng bằng bao nhiêu nghìn đồng? (Nguồn: Đề chính thức năm 2025 môn Toán)}{1}{Gọi $x, y$ lần lượt là số suất thực đơn 1 và thực đơn 2 mà câu lạc bộ bán ra ($x \ge 0, y \ge 0, x, y \in \mathbb{N}$).
+
+- Số cốc nước chanh cần dùng là $2x + 3y \le 165$.
+- Số túi khoai chiên cần dùng là $x + 2y \le 100$.
+
+Ta có hệ bất phương trình:
+$$\begin{cases} x \ge 0 \\ y \ge 0 \\ 2x + 3y \le 165 \\ x + 2y \le 100 \end{cases}$$
+
+Miền nghiệm của hệ là miền tứ giác $OABC$ (kể cả biên) với các đỉnh:
+$O(0; 0)$, $A(82{,}5; 0)$, $B(30; 35)$ (giao điểm của $2x + 3y = 165$ và $x + 2y = 100$), $C(0; 50)$.
+
+Tổng số tiền thu được từ việc bán hàng là:
+$$T(x; y) = 35x + 55y \text{ (nghìn đồng)}.$$
+
+Tính giá trị $T(x; y)$ tại các đỉnh:
+- $T(0; 0) = 0$ nghìn đồng.
+- $T(82{,}5; 0) = 35 \times 82{,}5 = 2887{,}5$ nghìn đồng (với $x \in \mathbb{N}, x \le 82 \Rightarrow T \le 2870$ nghìn đồng).
+- $T(30; 35) = 35 \times 30 + 55 \times 35 = 1050 + 1925 = 2975$ nghìn đồng.
+- $T(0; 50) = 55 \times 50 = 2750$ nghìn đồng.
+
+Vậy số tiền lớn nhất mà câu lạc bộ có thể nhận được là $2975$ nghìn đồng (khi bán $30$ suất thực đơn 1 và $35$ suất thực đơn 2).}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: BÀI TẬP RÈN LUYỆN
+% =========================================================================
+
+\begin{quiz}{Phần III: Bài tập rèn luyện}
+
+\begin{truefalse}{Một cửa hàng dành tối đa $10$ triệu để nhập $x$ tạ gạo và $y$ tạ mì. Biết mỗi tạ gạo mua hết $1{,}5$ triệu, mỗi tạ mì mua hết $1{,}2$ triệu. Khi đó:}{1}{Số tiền mua $x$ tạ gạo và $y$ tạ mì là $1{,}5x + 1{,}2y$ (triệu đồng). Vì số tiền tối đa là $10$ triệu nên bất phương trình là $1{,}5x + 1{,}2y \le 10$.
+
+Thay tọa độ điểm $O(0; 0)$ vào ta có $1{,}5(0) + 1{,}2(0) = 0 \le 10$ (luôn đúng), do đó miền nghiệm là nửa mặt phẳng bờ $1{,}5x + 1{,}2y = 10$ chứa điểm $O(0; 0)$.}
+	\statement{true}{Bất phương trình biểu thị mối liên hệ giữa $x$ và $y$ là: $1{,}5x + 1{,}2y \le 10$.}
+	\statement{false}{Bất phương trình biểu thị mối liên hệ giữa $x$ và $y$ là: $1{,}5x + 1{,}2y \ge 10$.}
+	\statement{true}{Miền nghiệm của bất phương trình $1{,}5x + 1{,}2y \le 10$ là nửa mặt phẳng bờ là đường thẳng $1{,}5x + 1{,}2y = 10$ chứa điểm $O(0; 0)$.}
+	\statement{false}{Miền nghiệm của bất phương trình $1{,}5x + 1{,}2y \le 10$ là nửa mặt phẳng bờ là đường thẳng $1{,}5x + 1{,}2y = 10$ không chứa điểm $O(0; 0)$.}
+\end{truefalse}
+
+\begin{truefalse}{Bạn Khải làm một bài thi giữa học kỳ I môn Toán. Đề thi gồm $35$ câu hỏi trắc nghiệm và $3$ câu hỏi tự luận. Khi làm đúng mỗi câu trắc nghiệm được $0{,}2$ điểm, làm đúng mỗi câu tự luận được $1$ điểm. Giả sử bạn Khải làm đúng $x$ câu trắc nghiệm và $y$ câu tự luận và số điểm bạn Khải đạt được là ít nhất $9$ điểm. Các mệnh đề sau đúng hay sai?}{1}{- Mệnh đề a sai vì điều kiện của $x, y$ là các số tự nhiên: $x \in \mathbb{N}, 0 \le x \le 35$ và $y \in \mathbb{N}, 0 \le y \le 3$.
+- Mệnh đề b đúng vì số điểm đạt được là $0{,}2x + y$, ít nhất $9$ điểm nghĩa là $0{,}2x + y \ge 9$.
+- Mệnh đề c sai vì thay $x = 8, y = 2$ vào bất phương trình ta được $0{,}2 \times 8 + 2 = 3{,}6 \ge 9$ (vô lý).
+- Mệnh đề d đúng vì: do $y \le 3$ và $0{,}2x + y \ge 9$, ta có:
+  + Nếu $y \le 1$ thì số điểm tối đa là $0{,}2 \times 35 + 1 = 8 < 9$ (không thể đạt $\ge 9$ điểm). Do đó $y \ge 2$.
+  + Khi $y = 2 \Rightarrow 0{,}2x \ge 7 \Rightarrow x \ge 35$.
+  + Khi $y = 3 \Rightarrow 0{,}2x \ge 6 \Rightarrow x \ge 30$.
+  Như vậy $x \ge 30 \ge 25$ và $y \ge 2$. Do đó bạn Khải làm đúng ít nhất $25$ câu trắc nghiệm và $2$ câu tự luận.}
+	\statement{false}{Bạn Khải được $0{,}2x$ điểm trắc nghiệm và $y$ điểm tự luận ($x, y > 0$).}
+	\statement{true}{Bất phương trình bậc nhất hai ẩn là $0{,}2x + y \ge 9$.}
+	\statement{false}{Cặp $(8; 2)$ là một nghiệm của bất phương trình bậc nhất cho hai ẩn $x, y$.}
+	\statement{true}{Bạn Khải trả lời được ít nhất $25$ câu trắc nghiệm và $2$ câu tự luận.}
+\end{truefalse}
+
+\begin{truefalse}{Ông An muốn thuê một chiếc ô tô (có lái xe) trong một tuần. Giá thuê xe bao gồm:
+- Từ thứ Hai đến thứ Bảy: Phí cố định $800$ nghìn đồng/ngày, phí tính theo quãng đường di chuyển $10$ nghìn đồng/km.
+- Chủ nhật: Phí cố định $1200$ nghìn đồng/ngày, phí tính theo quãng đường di chuyển $15$ nghìn đồng/km.
+
+Gọi $x$ và $y$ lần lượt là số kilômét ông An đi trong các ngày từ thứ Hai đến thứ Bảy và trong Chủ nhật. Khi đó các mệnh đề sau đúng hay sai?\image{0.55}{}{lt_3.png}}{1}{- Mệnh đề a sai vì từ thứ Hai đến thứ Bảy có 6 ngày, tổng chi phí là $6 \times 800 + 10x = 4800 + 10x$ (nghìn đồng).
+- Mệnh đề b đúng vì Chủ nhật có 1 ngày nên chi phí là $1200 \times 1 + 15y = 1200 + 15y$ (nghìn đồng).
+- Mệnh đề c sai vì tổng số tiền không quá $16$ triệu đồng ($16\,000$ nghìn đồng):
+$$(4800 + 10x) + (1200 + 15y) \le 16\,000 \Leftrightarrow 10x + 15y \le 10\,000 \Leftrightarrow 2x + 3y \le 2000.$$
+Dấu của bất phương trình là $\le 2000$ chứ không phải $< 2000$.
+- Mệnh đề d đúng vì điểm $O(0; 0)$ thỏa mãn $2(0) + 3(0) = 0 \le 2000$ nên miền nghiệm là nửa mặt phẳng chứa gốc tọa độ $O$ (phần không bị tô đậm), kể cả bờ $d$.}
+	\statement{false}{Số tiền ông An phải trả khi thuê xe từ thứ Hai đến thứ Bảy là $10x$ (nghìn đồng).}
+	\statement{true}{Số tiền ông An phải trả khi thuê xe trong Chủ nhật là $1200 + 15y$ (nghìn đồng).}
+	\statement{false}{Bất phương trình biểu thị mối liên hệ giữa $x$ và $y$ sao cho tổng số tiền ông An phải trả không quá $16$ triệu đồng là $2x + 3y < 2000$.}
+	\statement{true}{Miền nghiệm của bất phương trình biểu thị mối liên hệ giữa $x$ và $y$ sao cho tổng số tiền ông An phải trả không quá $16$ triệu đồng là nửa mặt phẳng phần không bị tô đậm trong hình bên dưới có bờ là đường thẳng $d: 2x + 3y = 2000$ (lấy cả những điểm nằm trên đường thẳng $d: 2x + 3y = 2000$).}
+\end{truefalse}
+
+\shortanswer{Một cửa hàng bán hai loại gạo, loại I bán mỗi kg lãi $3000$ đồng, loại II bán mỗi kg lãi $2000$ đồng. Giả sử cửa hàng bán $x\text{ kg}$ gạo loại I và $y\text{ kg}$ gạo loại II. Bất phương trình biểu thị mối liên hệ giữa $x$ và $y$ để cửa hàng đó thu được số lãi lớn hơn $100000$ đồng có dạng $ax + by > 10$. Khi đó $a + b$ bằng bao nhiêu?}{0,5}{1}{Tổng số tiền lãi thu được từ việc bán gạo là: $3000x + 2000y$ (đồng).
+
+Để số lãi lớn hơn $100\,000$ đồng, ta có:
+$$3000x + 2000y > 100\,000 \Leftrightarrow 3x + 2y > 100 \Leftrightarrow 0{,}3x + 0{,}2y > 10.$$
+
+Đồng nhất với dạng $ax + by > 10$, ta có $a = 0{,}3$ và $b = 0{,}2$.
+Vậy $a + b = 0{,}3 + 0{,}2 = 0{,}5$.}
+
+\shortanswer{Bạn Lan có $15$ nghìn đồng để đi mua vở. Vở loại $A$ có giá $3000$ đồng một cuốn, vở loại $B$ có giá $4000$ đồng một cuốn. Hỏi bạn Lan có thể mua nhiều nhất bao nhiêu quyển vở sao cho bạn có cả hai loại vở?}{4}{1}{Gọi $x$ và $y$ lần lượt là số vở loại $A$ và loại $B$ bạn Lan mua ($x, y \in \mathbb{N}^*$ do phải mua cả hai loại vở).
+
+Số tiền mua vở là: $3000x + 4000y \le 15\,000 \Leftrightarrow 3x + 4y \le 15$.
+Tổng số quyển vở mua được là $S = x + y$.
+
+Vì $y \ge 1$, ta xét các trường hợp:
+- Nếu $y = 1 \Rightarrow 3x + 4 \le 15 \Rightarrow 3x \le 11 \Rightarrow x \le 3 \Rightarrow x_{\max} = 3$. Tổng số vở là $3 + 1 = 4$ cuốn.
+- Nếu $y = 2 \Rightarrow 3x + 8 \le 15 \Rightarrow 3x \le 7 \Rightarrow x \le 2 \Rightarrow x_{\max} = 2$. Tổng số vở là $2 + 2 = 4$ cuốn.
+- Nếu $y = 3 \Rightarrow 3x + 12 \le 15 \Rightarrow 3x \le 3 \Rightarrow x_{\max} = 1$. Tổng số vở là $1 + 3 = 4$ cuốn.
+
+Vậy bạn Lan có thể mua nhiều nhất là $4$ quyển vở.}
+
+\essay{Một gian hàng trưng bày bàn và ghế rộng $60\text{ m}^2$. Diện tích để kê một chiếc ghế là $0{,}5\text{ m}^2$, một chiếc bàn là $1{,}2\text{ m}^2$. Gọi $x$ là số chiếc ghế, $y$ là số chiếc bàn được kê.
+
+a) Viết bất phương trình bậc nhất hai ẩn $x, y$ cho phần mặt sàn để kê bàn và ghế, biết diện tích mặt sàn dành cho lưu thông tối thiểu là $12\text{ m}^2$.
+
+b) Chỉ ra ba nghiệm của bất phương trình trên.}{1}{a) Diện tích kê $x$ chiếc ghế và $y$ chiếc bàn là: $0{,}5x + 1{,}2y\text{ (m}^2\text{)}$ ($x, y \in \mathbb{N}$).
+
+Do diện tích gian hàng là $60\text{ m}^2$ và diện tích dành cho lối đi lưu thông tối thiểu là $12\text{ m}^2$, nên diện tích dành để kê bàn ghế tối đa là:
+$$60 - 12 = 48\text{ m}^2.$$
+
+Bất phương trình biểu thị là:
+$$0{,}5x + 1{,}2y \le 48.$$
+
+b) Ba cặp nghiệm nguyên không âm của bất phương trình là:
+- Cặp $(x; y) = (10; 10)$ vì $0{,}5 \times 10 + 1{,}2 \times 10 = 17 \le 48$.
+- Cặp $(x; y) = (20; 10)$ vì $0{,}5 \times 20 + 1{,}2 \times 10 = 22 \le 48$.
+- Cặp $(x; y) = (0; 20)$ vì $0{,}5 \times 0 + 1{,}2 \times 20 = 24 \le 48$.}
+
+\essay{Trong $1$ lạng ($100\text{ g}$) thịt bò chứa khoảng $26\text{ g}$ protein, $1$ lạng cá rô phi chứa khoảng $20\text{ g}$ protein. Trung bình trong một ngày, một người phụ nữ cần tối thiểu $46\text{ g}$ protein. (Nguồn: vinmec.com và thanhnien.vn) Gọi $x, y$ lần lượt là số lạng thịt bò và số lạng cá rô phi mà một người phụ nữ nên ăn trong một ngày. Viết bất phương trình bậc nhất hai ẩn $x, y$ để biểu diễn lượng protein cần thiết cho một người phụ nữ trong một ngày và chỉ ra ba nghiệm của bất phương trình đó.}{1}{Lượng protein cung cấp từ $x$ lạng thịt bò và $y$ lạng cá rô phi là: $26x + 20y\text{ (g)}$ ($x \ge 0, y \ge 0$).
+
+Vì một ngày người phụ nữ cần tối thiểu $46\text{ g}$ protein nên ta có bất phương trình:
+$$26x + 20y \ge 46.$$
+
+Ba cặp nghiệm của bất phương trình là:
+- $(x; y) = (1; 1)$ vì $26 \times 1 + 20 \times 1 = 46 \ge 46$.
+- $(x; y) = (2; 0)$ vì $26 \times 2 + 20 \times 0 = 52 \ge 46$.
+- $(x; y) = (1; 2)$ vì $26 \times 1 + 20 \times 2 = 66 \ge 46$.}
+
+\essay{Hà, Châu, Liên và Ngân cùng đi mua trà sữa. Cả bốn bạn có tất cả $185$ nghìn đồng. Bốn bạn mua $4$ cốc trà sữa với giá tiền $35$ nghìn đồng một cốc. Các bạn gọi thêm trân châu cho vào trà sữa. Một phần trân châu đen có giá $5$ nghìn đồng, một phần trân châu trắng có giá $10$ nghìn đồng. Gọi $x, y$ lần lượt là số phần trân châu đen, trân châu trắng mà bốn bạn định mua thêm.
+
+a) Viết bất phương trình bậc nhất hai ẩn $x, y$ để thể hiện số tiền các bạn có đủ khả năng chi trả cho phần trân châu đen, trắng.
+
+b) Chỉ ra một nghiệm nguyên của bất phương trình đó.}{1}{a) Tiền mua $4$ cốc trà sữa là: $4 \times 35 = 140$ nghìn đồng.
+
+Số tiền còn lại để mua trân châu là: $185 - 140 = 45$ nghìn đồng.
+
+Số tiền mua thêm $x$ phần trân châu đen và $y$ phần trân châu trắng là: $5x + 10y$ (nghìn đồng).
+
+Vì số tiền mua trân châu không vượt quá $45$ nghìn đồng nên ta có bất phương trình:
+$$5x + 10y \le 45 \Leftrightarrow x + 2y \le 9 \quad (x, y \in \mathbb{N}).$$
+
+b) Một nghiệm nguyên của bất phương trình là $(x; y) = (1; 2)$ vì $1 + 2(2) = 5 \le 9$ (tức mua 1 phần trân châu đen và 2 phần trân châu trắng hết $25$ nghìn đồng).}
+
+\essay{Bạn Nga muốn pha hai loại nước rửa xe. Để pha một lít loại I cần $600\text{ ml}$ dung dịch chất tẩy rửa, còn loại II chỉ cần $400\text{ ml}$. Gọi $x$ và $y$ lần lượt là số lít nước rửa xe loại I và II mà bạn Nga có thể pha chế được và biết rằng Nga chỉ còn $2400\text{ ml}$ chất tẩy rửa, hãy lập các bất phương trình mô tả số lít nước rửa xe loại I và II mà bạn Nga có thể pha chế được và biểu diễn miền nghiệm của từng bất phương trình đó trên mặt phẳng tọa độ $Oxy$.}{1}{Điều kiện: $x \ge 0$ và $y \ge 0$.
+
+Tổng lượng chất tẩy rửa cần dùng để pha $x$ lít nước rửa xe loại I và $y$ lít nước rửa xe loại II là: $600x + 400y\text{ (ml)}$.
+
+Vì bạn Nga chỉ còn $2400\text{ ml}$ chất tẩy rửa nên ta có bất phương trình:
+$$600x + 400y \le 2400 \Leftrightarrow 3x + 2y \le 12.$$
+
+Hệ bất phương trình mô tả số lít nước rửa xe loại I và II là:
+$$\begin{cases} x \ge 0 \\ y \ge 0 \\ 3x + 2y \le 12 \end{cases}$$
+
+Biểu diễn miền nghiệm trên mặt phẳng tọa độ $Oxy$:
+- Miền nghiệm của $x \ge 0$ là nửa mặt phẳng bên phải trục tung $Oy$ (kể cả trục $Oy$).
+- Miền nghiệm của $y \ge 0$ là nửa mặt phẳng phía trên trục hoành $Ox$ (kể cả trục $Ox$).
+- Vẽ đường thẳng $d: 3x + 2y = 12$ đi qua hai điểm $A(4; 0)$ và $B(0; 6)$. Thay điểm $O(0; 0)$ vào ta có $3(0) + 2(0) = 0 \le 12$ (đúng), nên miền nghiệm của bất phương trình $3x + 2y \le 12$ là nửa mặt phẳng bờ $d$ chứa điểm $O(0; 0)$ (kể cả bờ $d$).
+- Giao của ba miền nghiệm trên là miền tam giác vuông $OAB$ (kể cả các cạnh của tam giác) với $O(0; 0)$, $A(4; 0)$, $B(0; 6)$.}
+
+\essay{Một cửa hàng bán lẻ bán hai loại hạt cà phê. Loại thứ nhất giá $140$ nghìn đồng/kg và loại thứ hai giá $180$ nghìn đồng/kg. Cửa hàng trộn $x\text{ kg}$ loại thứ nhất và $y\text{ kg}$ loại thứ hai sao cho hạt cà phê đã trộn có giá không quá $170$ nghìn đồng/kg.
+
+a) Viết bất phương trình bậc nhất hai ẩn $x, y$ thoả mãn điều kiện đề bài.
+
+b) Biểu diễn miền nghiệm của bất phương trình tìm được ở câu a trên mặt phẳng toạ độ.}{1}{a) Điều kiện: $x > 0, y > 0$.
+
+Tổng khối lượng cà phê sau khi trộn là $x + y\text{ (kg)}$.
+
+Tổng số tiền của lượng cà phê đã trộn là $140x + 180y$ (nghìn đồng).
+
+Giá tiền của $1\text{ kg}$ cà phê sau khi trộn là: $\frac{140x + 180y}{x + y}$ (nghìn đồng/kg).
+
+Vì giá cà phê sau khi trộn không quá $170$ nghìn đồng/kg nên ta có:
+$$\frac{140x + 180y}{x + y} \le 170 \Leftrightarrow 140x + 180y \le 170(x + y) \Leftrightarrow 10y \le 30x \Leftrightarrow 3x - y \ge 0.$$
+
+b) Biểu diễn miền nghiệm:
+- Vẽ đường thẳng $d: 3x - y = 0$ đi qua gốc tọa độ $O(0; 0)$ và điểm $M(1; 3)$.
+- Chọn điểm $A(1; 0)$ không thuộc $d$, ta có $3(1) - 0 = 3 \ge 0$ (đúng).
+- Do đó, trong góc phần tư thứ nhất (ứng với $x > 0, y > 0$), miền nghiệm của bất phương trình $3x - y \ge 0$ là miền nằm giữa đường thẳng $d$ và tia $Ox$, kể cả bờ $d$ nhưng không kể các điểm thuộc các trục toạ độ $Ox$ và $Oy$.}
+
+\end{quiz}
+
+\end{document}

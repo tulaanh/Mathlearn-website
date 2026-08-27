@@ -3,20 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { DocumentTestResult } from "@/lib/document-types";
-
-const RESULT_KEY_PREFIX = "document-test-result-";
-
-function normalizeStoredResult(raw: string): DocumentTestResult | null {
-  const parsed = JSON.parse(raw) as Partial<DocumentTestResult>;
-  if (typeof parsed.correctCount !== "number" || typeof parsed.totalAutoGraded !== "number") return null;
-  const totalPoints = typeof parsed.totalPoints === "number" ? parsed.totalPoints : parsed.totalAutoGraded;
-  const earnedPoints = typeof parsed.earnedPoints === "number" ? parsed.earnedPoints : parsed.correctCount;
-  return { ...parsed, totalPoints, earnedPoints } as DocumentTestResult;
-}
+import { loadExamResult } from "@/lib/exam-draft";
 
 /**
  * Trang kết quả của bài kiểm tra (tài liệu loại 'test').
- * Đọc kết quả tạm từ sessionStorage — không có database lưu điểm.
+ * Đọc kết quả gần nhất từ localStorage / sessionStorage.
  */
 export default function ExamResultView({ documentId, title }: { documentId: string; title: string }) {
   const [result, setResult] = useState<DocumentTestResult | null>(null);
@@ -24,8 +15,8 @@ export default function ExamResultView({ documentId, title }: { documentId: stri
 
   useEffect(() => {
     try {
-      const raw = sessionStorage.getItem(`${RESULT_KEY_PREFIX}${documentId}`);
-      setResult(raw ? normalizeStoredResult(raw) : null);
+      const res = loadExamResult(documentId);
+      setResult(res);
     } catch {
       setResult(null);
     } finally {

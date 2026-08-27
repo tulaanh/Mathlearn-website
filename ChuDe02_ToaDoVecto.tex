@@ -1,0 +1,525 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 02: TỌA ĐỘ VECTƠ}
+\docdesc{Tóm tắt lý thuyết và các dạng toán Tọa độ vectơ trong không gian Oxyz - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hình học không gian, Tọa độ trong không gian}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Hệ trục tọa độ Oxyz, tọa độ của vectơ, tọa độ của điểm và tích vô hướng}
+
+\textbf{1. Hệ trục tọa độ $Oxyz$}
+
+- Gồm ba trục đôi một vuông góc nhau: trục $Ox$, trục $Oy$ và trục $Oz$.
+
+- Trên trục $Ox$ có vectơ đơn vị $\vec{i} = (1; 0; 0)$, trục $Oy$ có vectơ đơn vị $\vec{j} = (0; 1; 0)$, trục $Oz$ có vectơ đơn vị $\vec{k} = (0; 0; 1)$.
+
+- Các mặt phẳng $(Oxy), (Oyz), (Oxz)$ được gọi là các mặt phẳng tọa độ.
+
+\image{0.6}{}{lt_1.png}
+
+\textbf{Chú ý:}
+- Ba vectơ $\vec{i}, \vec{j}, \vec{k}$ đôi một vuông góc với nhau và $|\vec{i}| = |\vec{j}| = |\vec{k}| = 1$.
+- Ba mặt phẳng $(Oxy), (Oyz), (Oxz)$ đôi một vuông góc với nhau.
+
+\textbf{2. Tọa độ vectơ}
+
+- Cho $\vec{v} = (a; b; c)$ thì $\vec{v} = a\vec{i} + b\vec{j} + c\vec{k}$.
+
+- Cho hai vectơ $\vec{a} = (a_1; a_2; a_3)$ và $\vec{b} = (b_1; b_2; b_3)$. Khi đó:
+- $\vec{a} \pm \vec{b} = (a_1 \pm b_1; a_2 \pm b_2; a_3 \pm b_3)$.
+- $k\vec{a} = (ka_1; ka_2; ka_3)$, với $k \in \mathbb{R}$.
+- $\vec{a} = \vec{b} \Leftrightarrow \begin{cases} a_1 = b_1 \\ a_2 = b_2 \\ a_3 = b_3 \end{cases}$. Đặc biệt $\vec{a} = \vec{0} \Leftrightarrow a_1 = a_2 = a_3 = 0$.
+- $\vec{a}$ cùng phương với $\vec{b} \Leftrightarrow \exists k \in \mathbb{R}: \vec{a} = k\vec{b} \, (k \ne 0)$ hay $\frac{a_1}{b_1} = \frac{a_2}{b_2} = \frac{a_3}{b_3} \, (b_1 b_2 b_3 \ne 0)$.
+
+\textbf{3. Tích vô hướng và ứng dụng}
+
+- Định nghĩa: Cho $\vec{a} = (a_1; a_2; a_3)$ và $\vec{b} = (b_1; b_2; b_3)$. Khi đó:
+$$\vec{a} \cdot \vec{b} = |\vec{a}| \cdot |\vec{b}| \cdot \cos(\vec{a}, \vec{b}) = a_1 b_1 + a_2 b_2 + a_3 b_3$$
+
+- Các ứng dụng:
+- Tính độ dài: $|\vec{a}| = \sqrt{a_1^2 + a_2^2 + a_3^2}$.
+- Tính góc: $\cos(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|} = \frac{a_1 b_1 + a_2 b_2 + a_3 b_3}{\sqrt{a_1^2 + a_2^2 + a_3^2} \cdot \sqrt{b_1^2 + b_2^2 + b_3^2}} \, (\vec{a}, \vec{b} \ne \vec{0})$.
+- Chứng minh vuông góc: $\vec{a} \perp \vec{b} \Leftrightarrow \vec{a} \cdot \vec{b} = 0 \Leftrightarrow a_1 b_1 + a_2 b_2 + a_3 b_3 = 0$.
+
+\textbf{4. Tọa độ điểm}
+
+- Xác định tọa độ điểm $M(x; y; z)$ (đặc biệt) trên hệ trục $Oxyz$:
+- $M \in Ox \Rightarrow M(x; 0; 0)$.
+- $M \in Oy \Rightarrow M(0; y; 0)$.
+- $M \in Oz \Rightarrow M(0; 0; z)$.
+- $M \in (Oxy) \Rightarrow M(x; y; 0)$.
+- $M \in (Oyz) \Rightarrow M(0; y; z)$.
+- $M \in (Oxz) \Rightarrow M(x; 0; z)$.
+
+- Xác định tọa độ điểm $M$ bất kì (không đặc biệt):
+- Chiếu vuông góc điểm $M$ lên $(Oxy)$ thành $M_1$;
+- Từ $M_1$, hạ vuông góc vào các trục $Ox, Oy$ để xác định hoành độ $x_M$ và tung độ $y_M$;
+- Từ $M$, hạ vuông góc với trục $Oz$ để xác định cao độ $z_M$;
+- Kết luận tọa độ $M(x_M; y_M; z_M)$.
+
+\image{0.6}{}{lt_2.png}
+
+- Cho điểm $A(x_A; y_A; z_A), B(x_B; y_B; z_B), C(x_C; y_C; z_C)$. Ta có:
+- $\vec{AB} = (x_B - x_A; y_B - y_A; z_B - z_A)$.
+- $AB = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$.
+- $M$ là trung điểm của đoạn $AB$ thì $M\left(\frac{x_A + x_B}{2}; \frac{y_A + y_B}{2}; \frac{z_A + z_B}{2}\right)$.
+- $G$ là trọng tâm của $\Delta ABC$ thì $G\left(\frac{x_A + x_B + x_C}{3}; \frac{y_A + y_B + y_C}{3}; \frac{z_A + z_B + z_C}{3}\right)$.
+- Điều kiện ba điểm $A, B, C$ thẳng hàng: $\vec{AB}$ cùng phương $\vec{AC}$.
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Tọa độ điểm, trung điểm, trọng tâm}{Xác định tọa độ của điểm, trung điểm đoạn thẳng và trọng tâm tam giác}
+
+\textbf{Phương pháp giải:}
+- Sử dụng công thức tọa độ vectơ: $\vec{AB} = (x_B - x_A; y_B - y_A; z_B - z_A)$.
+- Tọa độ trung điểm $I$ của đoạn thẳng $AB$: $x_I = \frac{x_A + x_B}{2}, y_I = \frac{y_A + y_B}{2}, z_I = \frac{z_A + z_B}{2}$.
+- Tọa độ trọng tâm $G$ của tam giác $ABC$: $x_G = \frac{x_A + x_B + x_C}{3}, y_G = \frac{y_A + y_B + y_C}{3}, z_G = \frac{z_A + z_B + z_C}{3}$.
+- Sử dụng các phép toán vectơ và điều kiện hai vectơ bằng nhau để tìm tọa độ điểm thỏa mãn đẳng thức vectơ.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1: Các ví dụ minh họa}
+
+\begin{mcq}{Cho các vectơ $\vec{a} = (1; -2; 1), \vec{b} = (1; -2; -1)$. Mệnh đề nào sau đây là đúng?}{3}{1}{Ta có $\vec{a} = \vec{i} - 2\vec{j} + \vec{k}, \vec{b} = \vec{i} - 2\vec{j} - \vec{k}$ nên loại A, B.
+
+Xét $\vec{a} + \vec{b} = (1+1; -2-2; 1+(-1)) = (2; -4; 0)$. Chọn D.}
+	\option{$\vec{a} = \vec{i} - 2\vec{j} - \vec{k}$.}
+	\option{$\vec{b} = \vec{i} - 2\vec{j} + \vec{k}$.}
+	\option{$\vec{a} + \vec{b} = (2; -4; -2)$.}
+	\option{$\vec{a} + \vec{b} = (2; -4; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Cho $\vec{a} = (1; -1; 3), \vec{b} = (2; 0; -1)$. Tọa độ vectơ $\vec{u} = 2\vec{a} - 3\vec{b}$ là:}{1}{1}{Ta có $2\vec{a} = (2; -2; 6), 3\vec{b} = (6; 0; -3)$.
+
+Suy ra $\vec{u} = 2\vec{a} - 3\vec{b} = (-4; -2; 9)$. Chọn B.}
+	\option{$\vec{u} = (4; 2; -9)$.}
+	\option{$\vec{u} = (-4; -2; 9)$.}
+	\option{$\vec{u} = (1; 3; -11)$.}
+	\option{$\vec{u} = (-4; -5; 9)$.}
+\end{mcq}
+
+\begin{mcq}{Cho $A(1; 5; -2), B(2; 1; 1)$. Tọa độ trung điểm $I$ của đoạn thẳng $AB$ là:}{0}{1}{Ta có:
+$$x_I = \frac{x_A + x_B}{2} = \frac{3}{2}, \quad y_I = \frac{y_A + y_B}{2} = 3, \quad z_I = \frac{z_A + z_B}{2} = -\frac{1}{2}$$
+
+Suy ra $I\left(\frac{3}{2}; 3; -\frac{1}{2}\right)$. Chọn A.}
+	\option{$I\left(\frac{3}{2}; 3; -\frac{1}{2}\right)$.}
+	\option{$I\left(\frac{3}{2}; 3; \frac{1}{2}\right)$.}
+	\option{$I\left(\frac{3}{2}; 2; -\frac{1}{2}\right)$.}
+	\option{$I(3; 6; -1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho tam giác $ABC$, biết $A(1; -2; 4), B(0; 2; 5), C(5; 6; 3)$. Tọa độ trọng tâm $G$ của tam giác $ABC$ là:}{0}{1}{Ta có:
+$$x_G = \frac{x_A + x_B + x_C}{3} = 2, \quad y_G = \frac{y_A + y_B + y_C}{3} = 2, \quad z_G = \frac{z_A + z_B + z_C}{3} = 4$$
+
+Suy ra $G(2; 2; 4)$. Chọn A.}
+	\option{$G(2; 2; 4)$.}
+	\option{$G(4; 2; 2)$.}
+	\option{$G(3; 3; 6)$.}
+	\option{$G(6; 3; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Cho ba điểm $A(1; 3; 2), B(2; -1; 5), C(3; 2; -1)$. Tìm tọa độ điểm $D$ sao cho tứ giác $ABCD$ là hình bình hành.}{2}{1}{Tứ giác $ABCD$ là hình bình hành khi và chỉ khi:
+$$\vec{AD} = \vec{BC} \Leftrightarrow \begin{cases} x_D - 1 = 3 - 2 \\ y_D - 3 = 2 + 1 \\ z_D - 2 = -1 - 5 \end{cases} \Leftrightarrow \begin{cases} x_D = 2 \\ y_D = 6 \\ z_D = -4 \end{cases}$$
+
+Suy ra $D(2; 6; -4)$. Chọn C.}
+	\option{$D(2; 6; 8)$.}
+	\option{$D(0; 0; 8)$.}
+	\option{$D(2; 6; -4)$.}
+	\option{$D(4; -2; 4)$.}
+\end{mcq}
+
+\begin{mcq}{Cho $A(1; -1; 0), B(0; 2; 0), C(2; 1; 3)$. Tọa độ điểm $M$ thỏa mãn $\vec{MA} - \vec{MB} + \vec{MC} = \vec{0}$ là:}{1}{1}{Giả sử $M(x; y; z)$. Khi đó:
+$$\vec{MA} - \vec{MB} + \vec{MC} = \vec{0} \Leftrightarrow \begin{cases} (1-x) - (0-x) + (2-x) = 0 \\ (-1-y) - (2-y) + (1-y) = 0 \\ (0-z) - (0-z) + (3-z) = 0 \end{cases} \Leftrightarrow \begin{cases} x = 3 \\ y = -2 \\ z = 3 \end{cases}$$
+
+Suy ra $M(3; -2; 3)$. Chọn B.}
+	\option{$M(3; 2; -3)$.}
+	\option{$M(3; -2; 3)$.}
+	\option{$M(3; -2; -3)$.}
+	\option{$M(3; 2; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(1; 2; 3)$ và điểm $B$ thỏa mãn hệ thức $\vec{OB} = \vec{k} - 3\vec{i}$. Tọa độ trung điểm $I$ của đoạn thẳng $AB$ là:}{1}{1}{Từ $\vec{OB} = \vec{k} - 3\vec{i} = -3\vec{i} + 0\vec{j} + \vec{k}$ ta suy ra $B(-3; 0; 1)$.
+
+Trung điểm $I$ của đoạn thẳng $AB$ là $I(-1; 1; 2)$. Chọn B.}
+	\option{$I(-4; -2; -2)$.}
+	\option{$I(-1; 1; 2)$.}
+	\option{$I(4; 2; 2)$.}
+	\option{$I(-2; -1; -1)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2: Hình chiếu, điểm đối xứng qua các trục, mặt phẳng tọa độ}{Xác định tọa độ hình chiếu và điểm đối xứng}
+
+\textbf{Phương pháp giải:}
+- Chiếu lên ``thành phần'' nào thì ``thành phần'' đó giữ nguyên, các ``thành phần'' khác bằng $0$.
+- Đối xứng qua ``thành phần'' nào thì ``thành phần'' đó giữ nguyên, các ``thành phần'' khác đổi dấu.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2: Các ví dụ minh họa}
+
+\begin{mcq}{Cho điểm $A(-2; 3; 1)$. Hình chiếu vuông góc của điểm $A$ lên trục $Ox$ có tọa độ là:}{2}{1}{Ghi nhớ: Chiếu lên $Ox$, ta giữ nguyên hoành độ, hai thành phần còn lại bằng $0$. Chọn C.}
+	\option{$(2; 0; 0)$.}
+	\option{$(0; -3; -1)$.}
+	\option{$(-2; 0; 0)$.}
+	\option{$(0; 3; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Hình chiếu của điểm $M(1; -3; -5)$ lên mặt phẳng $(Oxy)$ có tọa độ là:}{1}{1}{Ghi nhớ: Chiếu lên $(Oxy)$, ta giữ nguyên hoành độ và tung độ, thành phần cao độ bằng $0$. Chọn B.}
+	\option{$(1; -3; 5)$.}
+	\option{$(1; -3; 0)$.}
+	\option{$(1; -3; 1)$.}
+	\option{$(1; -3; 2)$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(3; -1; 1)$. Điểm đối xứng của $A$ qua mặt phẳng $(Oyz)$ là điểm:}{0}{1}{Ghi nhớ: Đối xứng qua mặt phẳng $(Oyz)$ thì ta giữ nguyên tung độ và cao độ, đổi dấu hoành độ. Chọn A.}
+	\option{$(-3; -1; 1)$.}
+	\option{$(0; -1; 1)$.}
+	\option{$(0; -1; 0)$.}
+	\option{$(0; 0; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(-3; 2; -1)$. Tọa độ điểm $A'$ đối xứng với điểm $A$ qua gốc tọa độ $O$ là:}{0}{1}{Ta có:
+$$\begin{cases} x_{A'} = 2x_O - x_A = 3 \\ y_{A'} = 2y_O - y_A = -2 \\ z_{A'} = 2z_O - z_A = 1 \end{cases}$$
+
+Suy ra $A'(3; -2; 1)$. Chọn A.}
+	\option{$A'(3; -2; 1)$.}
+	\option{$A'(3; 2; -1)$.}
+	\option{$A'(3; -2; -1)$.}
+	\option{$A'(3; 2; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(-2; 3; 4)$. Khoảng cách từ điểm $A$ đến trục $Ox$ là:}{2}{1}{Tọa độ hình chiếu của $A$ lên trục $Ox$ là $H(-2; 0; 0)$. Khi đó $d(A, Ox) = AH = \sqrt{0^2 + 3^2 + 4^2} = 5$. Chọn C.}
+	\option{$4$.}
+	\option{$3$.}
+	\option{$5$.}
+	\option{$2$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(-2; 3; 4)$. Khoảng cách từ điểm $A$ đến mặt phẳng $(Oxy)$ là:}{0}{1}{Tọa độ hình chiếu của $A$ lên mặt phẳng $(Oxy)$ là $H(-2; 3; 0)$. Khi đó $d(A, (Oxy)) = AH = |z_A| = 4$. Chọn A.}
+	\option{$4$.}
+	\option{$3$.}
+	\option{$5$.}
+	\option{$2$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3: Hai vectơ cùng phương - Độ dài vectơ, độ dài đoạn thẳng AB}{Điều kiện cùng phương, thẳng hàng và tính khoảng cách}
+
+\textbf{Phương pháp giải:}
+- Điều kiện cùng phương: $\vec{a} = (a_1; a_2; a_3)$ cùng phương $\vec{b} = (b_1; b_2; b_3) \Leftrightarrow \frac{a_1}{b_1} = \frac{a_2}{b_2} = \frac{a_3}{b_3}$ (với $b_1 b_2 b_3 \ne 0$).
+- Ba điểm $A, B, C$ thẳng hàng $\Leftrightarrow \vec{AB}$ cùng phương $\vec{AC}$.
+- Độ dài vectơ và khoảng cách: $|\vec{a}| = \sqrt{a_1^2 + a_2^2 + a_3^2}$, $AB = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3: Các ví dụ minh họa}
+
+\begin{mcq}{Để hai vectơ $\vec{a} = (m; 2; 3), \vec{b} = (1; n; 2)$ cùng phương, ta phải có:}{1}{1}{Để $\vec{a}$ cùng phương $\vec{b}$ thì:
+$$\frac{m}{1} = \frac{2}{n} = \frac{3}{2} \Leftrightarrow \begin{cases} m = \frac{3}{2} \\ n = \frac{4}{3} \end{cases}$$
+
+Chọn B.}
+	\option{$\begin{cases} m = \frac{1}{2} \\ n = \frac{4}{3} \end{cases}$.}
+	\option{$\begin{cases} m = \frac{3}{2} \\ n = \frac{4}{3} \end{cases}$.}
+	\option{$\begin{cases} m = \frac{3}{2} \\ n = \frac{2}{3} \end{cases}$.}
+	\option{$\begin{cases} m = \frac{2}{3} \\ n = \frac{4}{3} \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{Cho các vectơ $\vec{AB} = (1; 2; 3), \vec{CD} = (1; 2; -3), \vec{EF} = (2; 4; 6), \vec{GH} = (1; -2; 3)$. Cặp vectơ nào sau đây cùng phương?}{1}{1}{Vì $\vec{EF} = 2\vec{AB}$ nên $\vec{AB}$ cùng phương $\vec{EF}$. Chọn B.}
+	\option{$\vec{AB}, \vec{CD}$.}
+	\option{$\vec{AB}, \vec{EF}$.}
+	\option{$\vec{EF}, \vec{CD}$.}
+	\option{$\vec{CD}, \vec{GH}$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(1; -2; -1), B(2; -1; 3)$. Độ dài vectơ $\vec{AB}$ là:}{0}{1}{Ta có $\vec{AB} = (1; 1; 4) \Rightarrow |\vec{AB}| = \sqrt{1^2 + 1^2 + 4^2} = \sqrt{18} = 3\sqrt{2}$. Chọn A.}
+	\option{$3\sqrt{2}$.}
+	\option{$\sqrt{2}$.}
+	\option{$2$.}
+	\option{$18$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $A(3; -1; 5), B(m; 2; 7)$. Tìm tất cả giá trị của $m$ để $AB = 7$.}{0}{1}{Ta có $AB = 7 \Leftrightarrow \sqrt{(m-3)^2 + 3^2 + 2^2} = 7 \Leftrightarrow (m-3)^2 = 36 \Leftrightarrow \left[\begin{aligned} m &= 9 \\ m &= -3 \end{aligned}\right.$. Chọn A.}
+	\option{$\left[\begin{aligned} m &= 9 \\ m &= -3 \end{aligned}\right.$.}
+	\option{$\left[\begin{aligned} m &= -9 \\ m &= -3 \end{aligned}\right.$.}
+	\option{$\left[\begin{aligned} m &= 9 \\ m &= 3 \end{aligned}\right.$.}
+	\option{$\left[\begin{aligned} m &= 3 \\ m &= -3 \end{aligned}\right.$.}
+\end{mcq}
+
+\begin{mcq}{Cho ba điểm $A(2; -3; 4), B(1; y; -1), C(x; 4; 3)$. Biết $A, B, C$ thẳng hàng. Tính tổng $5x + y$.}{3}{1}{Ta có $\vec{AB} = (-1; y+3; -5), \vec{AC} = (x-2; 7; -1)$.
+
+Ba điểm $A, B, C$ thẳng hàng thì:
+$$\frac{-1}{x-2} = \frac{y+3}{7} = \frac{-5}{-1} \Leftrightarrow \begin{cases} x = \frac{9}{5} \\ y = 32 \end{cases}$$
+
+Khi đó $5x + y = 5 \cdot \frac{9}{5} + 32 = 41$. Chọn D.}
+	\option{$43$.}
+	\option{$40$.}
+	\option{$42$.}
+	\option{$41$.}
+\end{mcq}
+
+\begin{mcq}{Cho vectơ $\vec{a} = (2; -1; -2)$ và $\vec{b}$ thỏa $|\vec{b}| = 6$ và $|\vec{a} - \vec{b}| = 4$. Tính $|\vec{a} + \vec{b}|$.}{3}{1}{Ta có $|\vec{a}| = 3$.
+
+Xét $(\vec{a} - \vec{b})^2 = \vec{a}^2 - 2\vec{a}\cdot\vec{b} + \vec{b}^2 \Rightarrow 2\vec{a}\cdot\vec{b} = \vec{a}^2 + \vec{b}^2 - (\vec{a} - \vec{b})^2 = 9 + 36 - 16 = 29$.
+
+Ta có $(\vec{a} + \vec{b})^2 = \vec{a}^2 + 2\vec{a}\cdot\vec{b} + \vec{b}^2 = 9 + 29 + 36 = 74 \Rightarrow |\vec{a} + \vec{b}| = \sqrt{74}$. Chọn D.}
+	\option{$8$.}
+	\option{$2\sqrt{21}$.}
+	\option{$\sqrt{21}$.}
+	\option{$\sqrt{74}$.}
+\end{mcq}
+
+\begin{mcq}{Cho tam giác $ABC$, biết $A(1; 1; 1), B(5; 1; -2), C(7; 9; 1)$. Tính độ dài đường phân giác trong $AD$ của góc $A$.\image{0.6}{}{lt_3.png}}{2}{1}{Ta có $AB = 5, AC = 10$. Theo tính chất đường phân giác, ta có:
+$$\frac{DB}{DC} = \frac{AB}{AC} = \frac{1}{2} \Rightarrow DC = 2DB \Rightarrow \vec{DC} = -2\vec{DB}$$
+
+$$\Leftrightarrow \begin{cases} 7 - x_D = -2(5 - x_D) \\ 9 - y_D = -2(1 - y_D) \\ 1 - z_D = -2(-2 - z_D) \end{cases} \Leftrightarrow \begin{cases} x_D = \frac{17}{3} \\ y_D = \frac{11}{3} \\ z_D = -1 \end{cases}$$
+
+Vậy ta có $D\left(\frac{17}{3}; \frac{11}{3}; -1\right)$ nên suy ra $AD = \frac{2\sqrt{74}}{3}$. Chọn C.}
+	\option{$\frac{3\sqrt{74}}{2}$.}
+	\option{$2\sqrt{74}$.}
+	\option{$\frac{2\sqrt{74}}{3}$.}
+	\option{$3\sqrt{74}$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4: Tích vô hướng của hai vectơ - Góc giữa hai vectơ}{Tính góc giữa hai vectơ và chứng minh vuông góc}
+
+\textbf{Phương pháp giải:}
+- Tích vô hướng: $\vec{a} \cdot \vec{b} = a_1 b_1 + a_2 b_2 + a_3 b_3$.
+- Góc giữa hai vectơ: $\cos(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| \cdot |\vec{b}|} = \frac{a_1 b_1 + a_2 b_2 + a_3 b_3}{\sqrt{a_1^2 + a_2^2 + a_3^2} \cdot \sqrt{b_1^2 + b_2^2 + b_3^2}}$.
+- Hai vectơ vuông góc: $\vec{a} \perp \vec{b} \Leftrightarrow \vec{a} \cdot \vec{b} = 0$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4: Các ví dụ minh họa}
+
+\begin{mcq}{Cho $\vec{a}$ và $\vec{b}$ đều khác $\vec{0}$. Điều kiện để $\vec{a}$ vuông góc với $\vec{b}$ là:}{3}{1}{Điều kiện để $\vec{a}$ vuông góc với $\vec{b}$ là $\vec{a} \cdot \vec{b} = 0$. Chọn D.}
+	\option{$\vec{a} - \vec{b} = \vec{0}$.}
+	\option{$\vec{a} + \vec{b} = \vec{0}$.}
+	\option{$\vec{a} \cdot \vec{b} \ne 0$.}
+	\option{$\vec{a} \cdot \vec{b} = 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho ba vectơ $\vec{a} = (-1; 1; 0), \vec{b} = (1; 1; 0), \vec{c} = (1; 1; 1)$. Mệnh đề nào sau đây là sai?}{3}{1}{Xét $\vec{b} \cdot \vec{c} = 1\cdot 1 + 1\cdot 1 + 0\cdot 1 = 2 \ne 0$ nên $\vec{b}$ không vuông góc với $\vec{c}$. Chọn D.}
+	\option{$|\vec{a}| = \sqrt{2}$.}
+	\option{$|\vec{c}| = \sqrt{3}$.}
+	\option{$\vec{a} \perp \vec{b}$.}
+	\option{$\vec{c} \perp \vec{b}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hai vectơ $\vec{u} = \vec{i}\sqrt{3} + \vec{k}, \vec{v} = \vec{j}\sqrt{3} + \vec{k}$. Tính $\vec{u} \cdot \vec{v}$.}{1}{1}{Ta có $\vec{u} = (\sqrt{3}; 0; 1), \vec{v} = (0; \sqrt{3}; 1)$. Suy ra $\vec{u} \cdot \vec{v} = 1$. Chọn B.}
+	\option{$2$.}
+	\option{$1$.}
+	\option{$-3$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Cho $\vec{u} = (2; -1; 1), \vec{v} = (0; -3; m)$. Tìm số thực $m$ để $\vec{u} \cdot \vec{v} = 1$.}{3}{1}{Ta có $\vec{u} \cdot \vec{v} = 1 \Leftrightarrow 3 + m = 1 \Leftrightarrow m = -2$. Chọn D.}
+	\option{$m = 4$.}
+	\option{$m = 2$.}
+	\option{$m = 3$.}
+	\option{$m = -2$.}
+\end{mcq}
+
+\begin{mcq}{Cho 2 vectơ $\vec{a} = (1; -2; -1), \vec{b} = (2; 1; -1)$. Giá trị của $\cos(\vec{a}, \vec{b})$ là:}{1}{1}{Ta có $\cos(\vec{a}, \vec{b}) = \frac{1\cdot 2 + (-2)\cdot 1 + (-1)\cdot (-1)}{\sqrt{1^2 + (-2)^2 + (-1)^2}\cdot\sqrt{2^2 + 1^2 + (-1)^2}} = \frac{1}{6}$. Chọn B.}
+	\option{$-\frac{1}{6}$.}
+	\option{$\frac{1}{6}$.}
+	\option{$\frac{\sqrt{2}}{2}$.}
+	\option{$-\frac{\sqrt{2}}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho 2 vectơ $\vec{a}, \vec{b}$ thỏa mãn $|\vec{a}| = 2\sqrt{3}, |\vec{b}| = 3, (\vec{a}, \vec{b}) = 30^\circ$. Độ dài của vectơ $3\vec{a} - 2\vec{b}$ là:}{3}{1}{Ta có $(3\vec{a} - 2\vec{b})^2 = 9\vec{a}^2 + 4\vec{b}^2 - 12\vec{a}\cdot\vec{b} = 9(2\sqrt{3})^2 + 4\cdot 3^2 - 12 \cdot 2\sqrt{3} \cdot 3 \cdot \cos 30^\circ = 36 \Rightarrow |3\vec{a} - 2\vec{b}| = 6$. Chọn D.}
+	\option{$-54$.}
+	\option{$54$.}
+	\option{$9$.}
+	\option{$6$.}
+\end{mcq}
+
+\begin{mcq}{Cho $A(2; 1; 4), B(2; 2; 6), C(6; 0; 1)$. Giá trị của $\vec{AB} \cdot \vec{AC}$ là:}{0}{1}{Ta có $\vec{AB} = (0; 1; 2), \vec{AC} = (4; -1; -3)$. Suy ra $\vec{AB} \cdot \vec{AC} = 0\cdot 4 + 1(-1) + 2(-3) = -7$. Chọn A.}
+	\option{$-7$.}
+	\option{$5$.}
+	\option{$-12$.}
+	\option{$6$.}
+\end{mcq}
+
+\begin{mcq}{Cho tam giác $ABC$ có $A(-1; -2; 4), B(-4; -2; 0), C(3; -2; 1)$. Số đo của góc $B$ là:}{0}{1}{Ta có $\vec{BA} = (3; 0; 4), \vec{BC} = (7; 0; 1)$.
+
+Khi đó $\cos B = \cos(\vec{BA}, \vec{BC}) = \frac{3\cdot 7 + 0\cdot 0 + 4\cdot 1}{\sqrt{3^2 + 0^2 + 4^2}\cdot\sqrt{7^2 + 0^2 + 1^2}} = \frac{25}{5 \cdot 5\sqrt{2}} = \frac{1}{\sqrt{2}} \Rightarrow \widehat{B} = 45^\circ$. Chọn A.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$30^\circ$.}
+	\option{$120^\circ$.}
+\end{mcq}
+
+\begin{mcq}{Cho tam giác $ABC$ có $\vec{AB} = (-3; 0; 4), \vec{AC} = (5; -2; 4)$. Độ dài trung tuyến $AM$ bằng:\image{0.6}{}{lt_4.png}}{0}{1}{Ta có $\vec{AM} = \frac{1}{2}(\vec{AB} + \vec{AC}) \Rightarrow AM^2 = \frac{1}{4}(AB^2 + AC^2 + 2\vec{AB}\cdot\vec{AC}) = \frac{1}{4}(25 + 45 + 2\cdot 1) = 18 \Rightarrow AM = \sqrt{18} = 3\sqrt{2}$. Chọn A.}
+	\option{$3\sqrt{2}$.}
+	\option{$4\sqrt{2}$.}
+	\option{$2\sqrt{3}$.}
+	\option{$5\sqrt{3}$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 5
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 5: Bài toán thực tế}{Vận dụng tọa độ và vectơ vào giải quyết các bài toán chuyển động, lực và góc}
+
+\textbf{Phương pháp giải:}
+- Thiết lập hệ trục tọa độ $Oxyz$ thích hợp gắn với bài toán thực tế.
+- Chuyển các đại lượng thực tế (vị trí, vận tốc, lực...) thành tọa độ điểm và tọa độ vectơ.
+- Áp dụng các công thức tính công, góc, độ dài và tọa độ trong không gian $Oxyz$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 5: Các ví dụ minh họa}
+
+\essay{Trong không gian $Oxyz$, một người tác động một lực không đổi $\vec{F} = (2; 3; -1)$ vào một vật đang ở gốc tọa độ $O$ và làm cho vật dịch chuyển thẳng từ $O$ đến điểm $M(1; 2; 1)$. Biết lực tính bằng newton ($\text{N}$) và đơn vị trên mỗi trục tọa độ là mét, làm thế nào để tính công $A$ (đơn vị: $\text{J}$) sinh ra bởi lực $\vec{F}$ trong tình huống này?}{1}{Ta có $\vec{OM} = (1; 2; 1)$. Từ đó ta tính được công sinh ra bởi lực $\vec{F}$ là:
+$$A = \vec{F} \cdot \vec{OM} = 2\cdot 1 + 3\cdot 2 + (-1)\cdot 1 = 7\text{ (J)}.$$
+
+Như vậy công sinh ra bởi lực $\vec{F}$ trong tình huống này là $A = 7\text{ (J)}$.}
+
+\essay{Trong hình vẽ bên dưới, gốc tọa độ $O$ là nơi máy bay xuất phát, trục $Ox$ theo hướng Nam, trục $Oy$ theo hướng Đông, trục $Oz$ theo hướng thẳng đứng. Đơn vị trên các trục là $\text{km}$. Vào thời điểm 9h30 sáng, máy bay ở độ cao $9\text{ km}$, cách điểm xuất phát theo hướng Nam $150\text{ km}$ và theo hướng Đông $300\text{ km}$. Phi công để chế độ máy bay tự động, với vận tốc theo hướng Đông $750\text{ km/h}$, độ cao không đổi. Biết rằng gió thổi theo hướng Bắc với vận tốc $10\text{ m/s}$. Tìm tọa độ của máy bay lúc 10h30, với giả định là trong khoảng thời gian 9h30 đến 10h30, vận tốc và hướng gió không thay đổi.\image{0.6}{}{lt_5.png}}{1}{Ta có $10\text{ m/s} = 36\text{ km/h}$.
+
+Hoành độ của máy bay sau 1 giờ khi chịu ảnh hưởng của gió thổi theo hướng Bắc là:
+$$150 - 36 \cdot 1 = 114.$$
+
+Tung độ của máy bay sau 1 giờ khi chịu ảnh hưởng của gió thổi theo hướng Bắc là:
+$$300 + 750 \cdot 1 = 1050.$$
+
+Cao độ của máy bay là $9$.
+
+Như vậy tọa độ của máy bay lúc 10h30 là $(114; 1050; 9)$.}
+
+\essay{Một máy bay đang cất cánh từ phi trường. Với hệ tọa độ $Oxyz$ được thiết lập như hình vẽ bên dưới, cho biết $M$ là vị trí của máy bay, $OM = 14, \widehat{NOB} = 32^\circ, \widehat{MOC} = 65^\circ$. Tìm tọa độ điểm $M$.\image{0.6}{}{lt_6.png}}{1}{Ta có:
+$$OC = OM \cdot \cos \widehat{MOC} = 14 \cdot \cos 65^\circ \approx 5{,}92$$
+$$ON = OM \cdot \sin \widehat{OMN} = 14 \cdot \sin 65^\circ \approx 12{,}69$$
+$$OB = ON \cdot \cos \widehat{NOB} = 12{,}69 \cdot \cos 32^\circ \approx 10{,}76$$
+$$OA = ON \cdot \sin \widehat{ONA} = 12{,}69 \cdot \sin 32^\circ \approx 6{,}72$$
+
+Như vậy tọa độ điểm $M$ là $M(6{,}72; 10{,}76; 5{,}92)$.}
+
+\essay{Một chiếc xe đang kéo căng sợi dây cáp $AB$ trong công trường xây dựng, trên đó đã thiết lập hệ tọa độ $Oxyz$ như hình vẽ bên dưới với độ dài đơn vị trên các trục tọa độ bằng $1\text{ m}$. Tìm tọa độ của vectơ $\vec{AB}$.\image{0.6}{}{lt_7.png}}{1}{Dựa vào hình vẽ, ta có tọa độ của điểm $A$ là $A(0; 0; 10)$.
+
+Ta có $OH = OB \cdot \cos \widehat{BOH} = 15 \cdot \cos 30^\circ = \frac{15\sqrt{3}}{2}$ và $OK = OB \cdot \sin \widehat{BOK} = 15 \cdot \sin 30^\circ = \frac{15}{2}$.
+
+Suy ra tọa độ của điểm $B$ là $B\left(\frac{15}{2}; \frac{15\sqrt{3}}{2}; 0\right)$.
+
+Vậy tọa độ của vectơ $\vec{AB}$ là:
+$$\vec{AB} = \left(\frac{15}{2}; \frac{15\sqrt{3}}{2}; -10\right).$$}
+
+\end{quiz}
+
+\end{document}

@@ -185,10 +185,12 @@ function parseTrueFalse(content: string): QuizQuestion {
     while (curr < rest.length && /\s/.test(rest[curr])) curr++;
     const [text] = extractBracedArg(rest, curr);
     
+    const valLower = correctStr.trim().toLowerCase();
+    const isTrue = ["true", "đ", "đúng", "d", "t", "1"].includes(valLower);
     statements.push({
       id: generateId(),
       text: text.trim(),
-      correctVal: correctStr.trim().toLowerCase() === "true" ? "true" : "false"
+      correctVal: isTrue ? "true" : "false"
     });
   }
 

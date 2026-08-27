@@ -1,0 +1,628 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{PHẦN III: BÀI TẬP RÈN LUYỆN - NGUYÊN HÀM}
+\docdesc{Bộ đề trắc nghiệm nhiều phương án, trắc nghiệm đúng sai và trả lời ngắn chuyên đề Nguyên hàm}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Nguyên hàm}
+
+% =========================================================================
+% 1. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN - ĐỀ 1
+% =========================================================================
+
+\begin{quiz}{1. Câu trắc nghiệm nhiều phương án lựa chọn - Đề 1}
+
+\begin{mcq}{Khẳng định nào sau đây sai?}{0}{1}{Khẳng định đúng là $\int \cos x\,\mathrm{d}x = \sin x + C$. Do đó khẳng định A là sai. Chọn A.}
+	\option{$\int \cos x\,\mathrm{d}x = -\sin x + C$.}
+	\option{$\int 2^x\,\mathrm{d}x = \frac{2^x}{\ln 2} + C$.}
+	\option{$\int e^x\,\mathrm{d}x = e^x + C$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Khẳng định nào sai trong các khẳng định sau?}{3}{1}{Khẳng định đúng là $\int \frac{\mathrm{d}x}{x} = \ln|x| + C$. Khẳng định D thiếu dấu giá trị tuyệt đối. Chọn D.}
+	\option{$\int x^3\,\mathrm{d}x = \frac{x^4+C}{4}$, $C$ là hằng số.}
+	\option{$\int \sin x\,\mathrm{d}x = C - \cos x$.}
+	\option{$\int 2e^x\,\mathrm{d}x = 2(e^x+C)$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln x + C$.}
+\end{mcq}
+
+\begin{mcq}{Khẳng định nào sau đây sai?}{1}{1}{Công thức $\int x^n\,\mathrm{d}x = \frac{x^{n+1}}{n+1} + C$ chỉ đúng với điều kiện $n \ne -1$. Do đó B sai. Chọn B.}
+	\option{$\int \mathrm{d}x = x + 2C$.}
+	\option{$\int x^n\,\mathrm{d}x = \frac{x^{n+1}}{n+1} + C, n \in \mathbb{R}$.}
+	\option{$\int e^x\,\mathrm{d}x = e^x - C$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm $F(x) = \int \pi^2\,\mathrm{d}x$ là.}{0}{1}{Vì $\pi^2$ là hằng số nên $\int \pi^2\,\mathrm{d}x = \pi^2 x + C$. Chọn A.}
+	\option{$F(x) = \pi^2 x + C$.}
+	\option{$F(x) = \frac{\pi^3}{3} + C$.}
+	\option{$F(x) = 2\pi x + C$.}
+	\option{$F(x) = \frac{\pi^2 x^2}{2} + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = e^x + \cos x + 2018$.}{0}{1}{Ta có $\int (e^x + \cos x + 2018)\,\mathrm{d}x = e^x + \sin x + 2018x + C$. Chọn A.}
+	\option{$F(x) = e^x + \sin x + 2018x + C$.}
+	\option{$F(x) = e^x - \sin x + 2018x + C$.}
+	\option{$F(x) = e^x + \sin x + 2018x$.}
+	\option{$F(x) = e^x + \sin x + 2018 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = 2x^3 - 9$ là}{0}{1}{Ta có $\int (2x^3 - 9)\,\mathrm{d}x = \frac{2x^4}{4} - 9x + C = \frac{1}{2}x^4 - 9x + C$. Chọn A.}
+	\option{$\frac{1}{2}x^4 - 9x + C$.}
+	\option{$4x^4 - 9x + C$.}
+	\option{$\frac{1}{4}x^4 + C$.}
+	\option{$4x^3 - 9x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = x^2 - 3x + \frac{1}{x}$. Khẳng định nào sau đây đúng?}{3}{1}{Ta có $\int \left(x^2 - 3x + \frac{1}{x}\right)\,\mathrm{d}x = \frac{x^3}{3} - \frac{3x^2}{2} + \ln|x| + C$. Chọn D.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{3x^2}{2} + \ln|x| + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{3x^2}{2} + \ln x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{3x^2}{2} - \frac{1}{x^2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{3x^2}{2} + \ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 2x + 5$.}{2}{1}{Ta có $\int (3x^2 + 2x + 5)\,\mathrm{d}x = x^3 + x^2 + 5x + C$. Chọn C.}
+	\option{$F(x) = x^3 + x^2 + 5$.}
+	\option{$F(x) = x^3 + x^2 + C$.}
+	\option{$F(x) = x^3 + x^2 + 5x + C$.}
+	\option{$F(x) = x^3 + x + C$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số nào sau đây không phải là nguyên hàm của hàm số $f(x) = (3x+1)^5$}{3}{1}{Ta có $\int (3x+1)^5\,\mathrm{d}x = \frac{(3x+1)^6}{3 \cdot 6} + C = \frac{(3x+1)^6}{18} + C$. Do đó hàm số ở phương án D không phải là nguyên hàm. Chọn D.}
+	\option{$F(x) = \frac{(3x+1)^6}{18} + 8$.}
+	\option{$F(x) = \frac{(3x+1)^6}{18} - 2$.}
+	\option{$F(x) = \frac{(3x+1)^6}{18}$.}
+	\option{$F(x) = \frac{(3x+1)^6}{6}$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3\sqrt{x} + x^{2018}$ là:}{2}{1}{Ta có $\int \left(3x^{\frac{1}{2}} + x^{2018}\right)\,\mathrm{d}x = 3 \cdot \frac{x^{\frac{3}{2}}}{\frac{3}{2}} + \frac{x^{2019}}{2019} + C = 2\sqrt{x^3} + \frac{x^{2019}}{2019} + C$. Chọn C.}
+	\option{$F(x) = \sqrt{x} + \frac{x^{2019}}{673} + C$.}
+	\option{$F(x) = \frac{1}{\sqrt{x}} + \frac{x^{2019}}{673} + C$.}
+	\option{$F(x) = 2\sqrt{x^3} + \frac{x^{2019}}{2019} + C$.}
+	\option{$F(x) = \frac{1}{2\sqrt{x}} + 6054x^{2017} + C$.}
+\end{mcq}
+
+\begin{mcq}{Hàm số $F(x) = e^x + \tan x + C$ là họ nguyên hàm của hàm số nào sau đây?}{2}{1}{Ta có $F'(x) = e^x + \frac{1}{\cos^2 x} = e^x\left(1 + \frac{e^{-x}}{\cos^2 x}\right)$. Chọn C.}
+	\option{$f(x) = e^x - \frac{1}{\sin^2 x}$.}
+	\option{$f(x) = e^x + \frac{1}{\sin^2 x}$.}
+	\option{$f(x) = e^x\left(1 + \frac{e^{-x}}{\cos^2 x}\right)$.}
+	\option{$f(x) = e^x + \tan^2 x$.}
+\end{mcq}
+
+\begin{mcq}{$G(x)$ là họ nguyên hàm của hàm số $g(x) = 3x^2 + 8\sin x$. Khẳng định nào sau đây là đúng?}{2}{1}{Ta có $\int (3x^2 + 8\sin x)\,\mathrm{d}x = x^3 - 8\cos x + C$. Chọn C.}
+	\option{$G(x) = 6x - 8\cos x + C$.}
+	\option{$G(x) = 6x + 8\cos x + C$.}
+	\option{$G(x) = x^3 - 8\cos x + C$.}
+	\option{$G(x) = x^3 + 8\cos x + C$.}
+\end{mcq}
+
+\begin{mcq}{Một hàm số $F(x)$ là nguyên hàm của hàm số $f(x) = 2x + \frac{1}{\sin^2 x}$ thỏa mãn $F\left(\frac{\pi}{4}\right) = -1$. Chọn khẳng định đúng trong các khẳng định sau?}{0}{1}{Ta có $F(x) = \int \left(2x + \frac{1}{\sin^2 x}\right)\,\mathrm{d}x = x^2 - \cot x + C$.
+
+Vì $F\left(\frac{\pi}{4}\right) = -1 \Leftrightarrow \frac{\pi^2}{16} - 1 + C = -1 \Leftrightarrow C = -\frac{\pi^2}{16} \Rightarrow F(x) = -\cot x + x^2 - \frac{\pi^2}{16}$. Chọn A.}
+	\option{$F(x) = -\cot x + x^2 - \frac{\pi^2}{16}$.}
+	\option{$F(x) = -\cot x + x^2 + \frac{\pi^2}{16}$.}
+	\option{$F(x) = -\cot x + x$.}
+	\option{$F(x) = -\cot x + x - \frac{\pi}{16}$.}
+\end{mcq}
+
+\begin{mcq}{Một hàm số $F(x)$ là nguyên hàm của hàm số $f(x) = \frac{x^3+1}{x^2}$ thỏa mãn $F(1) = 0$. Khẳng định nào sau đây đúng?}{0}{1}{Ta có $F(x) = \int \left(x + \frac{1}{x^2}\right)\,\mathrm{d}x = \frac{x^2}{2} - \frac{1}{x} + C$.
+
+Vì $F(1) = 0 \Leftrightarrow \frac{1}{2} - 1 + C = 0 \Leftrightarrow C = \frac{1}{2} \Rightarrow F(x) = \frac{x^2}{2} - \frac{1}{x} + \frac{1}{2}$. Chọn A.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} + \frac{1}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} + \frac{3}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} - \frac{1}{2}$.}
+	\option{$F(x) = \frac{x^2}{2} - \frac{1}{x} - \frac{3}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ liên tục trên $\mathbb{R}$ có $f'(x) = |x-1|$ và thỏa mãn $f(0) = 3$. Tính $T = f(2) + f(4)$?}{1}{1}{Ta có:
+- Với $x \ge 1$: $f'(x) = x - 1 \Rightarrow f(x) = \frac{x^2}{2} - x + C_1$.
+- Với $x < 1$: $f'(x) = 1 - x \Rightarrow f(x) = x - \frac{x^2}{2} + C_2$.
+- Do $f(0) = 3 \Rightarrow C_2 = 3$.
+- Hàm liên tục tại $x = 1 \Rightarrow \lim_{x\to 1^-} f(x) = \lim_{x\to 1^+} f(x) \Leftrightarrow 1 - \frac{1}{2} + 3 = \frac{1}{2} - 1 + C_1 \Leftrightarrow C_1 = 4$.
+- Vậy với $x \ge 1$: $f(x) = \frac{x^2}{2} - x + 4$.
+- $f(2) = \frac{4}{2} - 2 + 4 = 4$, $f(4) = \frac{16}{2} - 4 + 4 = 8$.
+- Do đó $T = f(2) + f(4) = 4 + 8 = 12$. Chọn B.}
+	\option{$15$.}
+	\option{$12$.}
+	\option{$11$.}
+	\option{$7$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ đồng thời thỏa mãn các điều kiện $f'(x) = x + \sin x$ và $f(0) = 1$. Khẳng định nào sau đây đúng?}{0}{1}{Ta có $f(x) = \int (x + \sin x)\,\mathrm{d}x = \frac{x^2}{2} - \cos x + C$.
+
+Vì $f(0) = 1 \Leftrightarrow -1 + C = 1 \Leftrightarrow C = 2 \Rightarrow f(x) = \frac{x^2}{2} - \cos x + 2$. Chọn A.}
+	\option{$f(x) = \frac{x^2}{2} - \cos x + 2$.}
+	\option{$f(x) = \frac{x^2}{2} - \cos x - 2$.}
+	\option{$f(x) = \frac{x^2}{2} + \cos x$.}
+	\option{$f(x) = \frac{x^2}{2} + \cos x + \frac{1}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x)$ là nguyên hàm của hàm số $f(x) = \sin x$ và đồ thị hàm số $y = F(x)$ đi qua điểm $M(0;1)$. Tính $F\left(\frac{\pi}{2}\right)$.}{0}{1}{Ta có $F(x) = \int \sin x\,\mathrm{d}x = -\cos x + C$.
+
+Vì $M(0;1) \in (C) \Rightarrow F(0) = -\cos 0 + C = 1 \Leftrightarrow C = 2 \Rightarrow F(x) = -\cos x + 2$.
+
+Vậy $F\left(\frac{\pi}{2}\right) = -\cos\frac{\pi}{2} + 2 = 2$. Chọn A.}
+	\option{$2$.}
+	\option{$-1$.}
+	\option{$0$.}
+	\option{$1$.}
+\end{mcq}
+
+\begin{mcq}{Cho $\int f(x)\,\mathrm{d}x = 3x^2 - 4x + C$. Tìm $\int f(e^x)\,\mathrm{d}x$.}{3}{1}{Từ giả thiết $\int f(x)\,\mathrm{d}x = 3x^2 - 4x + C \Rightarrow f(x) = (3x^2 - 4x + C)' = 6x - 4$.
+
+Suy ra $f(e^x) = 6e^x - 4 \Rightarrow \int f(e^x)\,\mathrm{d}x = \int (6e^x - 4)\,\mathrm{d}x = 6e^x - 4x + C$. Chọn D.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 3e^x \cdot 2x - 4x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = \frac{3}{2}e^{2x} - 4e^x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 6e^x + 4x + C$.}
+	\option{$\int f(e^x)\,\mathrm{d}x = 6e^x - 4x + C$.}
+\end{mcq}
+
+\begin{mcq}{Giá trị của $m$ để hàm số $F(x) = mx^3 + (3m+2)x^2 - 4x + 3$ là nguyên hàm của hàm số $f(x) = 3x^2 + 10x - 4$?}{2}{1}{Ta có $F'(x) = 3mx^2 + 2(3m+2)x - 4 = f(x) = 3x^2 + 10x - 4$.
+
+Đồng nhất hệ số: $\begin{cases} 3m = 3 \\ 2(3m+2) = 10 \end{cases} \Leftrightarrow m = 1$. Chọn C.}
+	\option{$m = 0$.}
+	\option{$m = 2$.}
+	\option{$m = 1$.}
+	\option{$m = 3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ có đạo hàm $f'(x) = ax^2 + \frac{b}{x^3}$ và đồng thời thỏa mãn $f(-1) = 2, f(1) = 3, f'(1) = 0$. Tính $T = a + 2b$.}{1}{1}{Ta có:
+- $f'(1) = a + b = 0 \Leftrightarrow b = -a$.
+- $f(x) = \int \left(ax^2 + \frac{b}{x^3}\right)\,\mathrm{d}x = \frac{a}{3}x^3 - \frac{b}{2x^2} + C = \frac{a}{3}x^3 + \frac{a}{2x^2} + C$.
+- $f(1) - f(-1) = \frac{2a}{3} = 3 - 2 = 1 \Rightarrow a = \frac{3}{2} \Rightarrow b = -\frac{3}{2}$.
+- Vậy $T = a + 2b = \frac{3}{2} + 2\left(-\frac{3}{2}\right) = -\frac{3}{2}$. Chọn B.}
+	\option{$1$.}
+	\option{$-\frac{3}{2}$.}
+	\option{$0$.}
+	\option{$\frac{3}{2}$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% 1. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN - ĐỀ 2
+% =========================================================================
+
+\begin{quiz}{1. Câu trắc nghiệm nhiều phương án lựa chọn - Đề 2}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = e^x + x$ là}{1}{1}{Ta có $\int (e^x + x)\,\mathrm{d}x = e^x + \frac{x^2}{2} + C$. Chọn B.}
+	\option{$e^x + x^2 + C$.}
+	\option{$e^x + \frac{1}{2}x^2 + C$.}
+	\option{$\frac{1}{x+1}e^x + \frac{1}{2}x^2 + C$.}
+	\option{$e^x + 1 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^3 + x$ là}{3}{1}{Ta có $\int (x^3 + x)\,\mathrm{d}x = \frac{1}{4}x^4 + \frac{1}{2}x^2 + C$. Chọn D.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$3x^2 + 1 + C$.}
+	\option{$x^3 + x + C$.}
+	\option{$\frac{1}{4}x^4 + \frac{1}{2}x^2 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^4 + x^2$ là}{1}{1}{Ta có $\int (x^4 + x^2)\,\mathrm{d}x = \frac{1}{5}x^5 + \frac{1}{3}x^3 + C$. Chọn B.}
+	\option{$4x^3 + 2x + C$.}
+	\option{$\frac{1}{5}x^5 + \frac{1}{3}x^3 + C$.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$x^5 + x^3 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm mệnh đề sai trong các mệnh đề sau:}{2}{1}{Công thức đúng là $\int \frac{1}{x}\,\mathrm{d}x = \ln|x| + C$. Do đó mệnh đề C sai. Chọn C.}
+	\option{$\int 2e^x\,\mathrm{d}x = 2(e^x + C)$.}
+	\option{$\int x^3\,\mathrm{d}x = \frac{x^4 + C}{4}$.}
+	\option{$\int \frac{1}{x}\,\mathrm{d}x = \ln x + C$.}
+	\option{$\int \sin x\,\mathrm{d}x = -\cos x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm của hàm số $f(x) = 5^{2x}$.}{2}{1}{Ta có $\int 5^{2x}\,\mathrm{d}x = \int 25^x\,\mathrm{d}x = \frac{25^x}{\ln 25} + C = \frac{25^x}{2\ln 5} + C$. Chọn C.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = 2 \cdot 5^{2x}\ln 5 + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = 2 \cdot \frac{5^{2x}}{\ln 5} + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = \frac{25^x}{2\ln 5} + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = \frac{25^{x+1}}{x+1} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 3^x$ là}{1}{1}{Ta có $\int (3x^2 + 3^x)\,\mathrm{d}x = x^3 + \frac{3^x}{\ln 3} + C$. Chọn B.}
+	\option{$x^3 + 3^x\ln 3 + C$.}
+	\option{$x^3 + \frac{3^x}{\ln 3} + C$.}
+	\option{$x^3 + 3^x + C$.}
+	\option{$x^3 + \frac{\ln 3}{3^x} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 2^{2x}$ là}{3}{1}{Ta có $\int 2^{2x}\,\mathrm{d}x = \int 4^x\,\mathrm{d}x = \frac{4^x}{\ln 4} + C$. Chọn D.}
+	\option{$4^x\ln 4 + C$.}
+	\option{$\frac{1}{4^x\ln 4} + C$.}
+	\option{$4^x + C$.}
+	\option{$\frac{4^x}{\ln 4} + C$.}
+\end{mcq}
+
+\begin{mcq}{Với $C$ là hằng số, họ nguyên hàm của hàm số $f(x) = 2\cos 2x$ là}{3}{1}{Ta có $\int 2\cos 2x\,\mathrm{d}x = \sin 2x + C$. Chọn D.}
+	\option{$-\sin 2x + C$.}
+	\option{$-2\sin 2x + C$.}
+	\option{$2\sin 2x + C$.}
+	\option{$\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = e^{-x}\left(2 + \frac{e^x}{\cos^2 x}\right)$.}{0}{1}{Ta có $f(x) = 2e^{-x} + \frac{1}{\cos^2 x} \Rightarrow \int f(x)\,\mathrm{d}x = -2e^{-x} + \tan x + C = -\frac{2}{e^x} + \tan x + C$. Chọn A.}
+	\option{$F(x) = -\frac{2}{e^x} + \tan x + C$.}
+	\option{$F(x) = 2e^x - \tan x + C$.}
+	\option{$F(x) = -\frac{2}{e^x} - \tan x + C$.}
+	\option{$F(x) = 2e^{-x} + \tan x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho biết $F(x)$ là một nguyên hàm của hàm số $f(x)$ trên $\mathbb{R}$. Tìm $I = \int [2f(x) - 1]\,\mathrm{d}x$.}{3}{1}{Ta có $I = 2\int f(x)\,\mathrm{d}x - \int 1\,\mathrm{d}x = 2F(x) - x + C$. Chọn D.}
+	\option{$I = 2xf(x) - x + C$.}
+	\option{$I = 2xf(x) - 1 + C$.}
+	\option{$I = 2F(x) - 1 + C$.}
+	\option{$I = 2F(x) - x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm tất cả các nguyên hàm của hàm số $f(x) = \sin 5x$ là}{3}{1}{Ta có $\int \sin 5x\,\mathrm{d}x = -\frac{1}{5}\cos 5x + C$. Chọn D.}
+	\option{$\frac{1}{5}\cos 5x + C$.}
+	\option{$\cos 5x + C$.}
+	\option{$-\cos 5x + C$.}
+	\option{$-\frac{1}{5}\cos 5x + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = \frac{1}{x+1}$ là}{3}{1}{Ta có $\int \frac{1}{x+1}\,\mathrm{d}x = \ln|x+1| + C = \ln|1+x| + C$. Chọn D.}
+	\option{$\log|1+x| + C$.}
+	\option{$\ln(1+x) + C$.}
+	\option{$-\frac{1}{(1+x)^2} + C$.}
+	\option{$\ln|1+x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = e^x + x^2$ là}{2}{1}{Ta có $\int (e^x + x^2)\,\mathrm{d}x = e^x + \frac{x^3}{3} + C$. Chọn C.}
+	\option{$\frac{1}{x}e^x + \frac{x^3}{3} + C$.}
+	\option{$e^x + 2x + C$.}
+	\option{$e^x + \frac{x^3}{3} + C$.}
+	\option{$e^x + 3x^3 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm của hàm số $f(x) = \cos 3x$.}{1}{1}{Ta có $\int \cos 3x\,\mathrm{d}x = \frac{1}{3}\sin 3x + C = \frac{\sin 3x}{3} + C$. Chọn B.}
+	\option{$\int \cos 3x\,\mathrm{d}x = 3\sin 3x + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = \frac{\sin 3x}{3} + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = -\frac{\sin 3x}{3} + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = \sin 3x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \frac{1}{5x-2}$.}{0}{1}{Ta có $\int \frac{\mathrm{d}x}{5x-2} = \frac{1}{5}\ln|5x-2| + C$. Chọn A.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = \frac{1}{5}\ln|5x-2| + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = -\frac{1}{2}\ln(5x-2) + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = 5\ln|5x-2| + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = \ln|5x-2| + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = 7^x$.}{1}{1}{Ta có $\int 7^x\,\mathrm{d}x = \frac{7^x}{\ln 7} + C$. Chọn B.}
+	\option{$\int 7^x\,\mathrm{d}x = 7^x\ln 7 + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = \frac{7^x}{\ln 7} + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = 7^{x+1} + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = \frac{7^{x+1}}{x+1} + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \cos 2x$.}{0}{1}{Ta có $\int \cos 2x\,\mathrm{d}x = \frac{1}{2}\sin 2x + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{1}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\frac{1}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 2\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -2\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = x^2 + \frac{2}{x^2}$.}{0}{1}{Ta có $\int \left(x^2 + \frac{2}{x^2}\right)\,\mathrm{d}x = \frac{x^3}{3} - \frac{2}{x} + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{2}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{1}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{2}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{1}{x} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 1$ là}{3}{1}{Ta có $\int (3x^2 + 1)\,\mathrm{d}x = x^3 + x + C$. Chọn D.}
+	\option{$x^3 + C$.}
+	\option{$\frac{x^3}{3} + x + C$.}
+	\option{$6x + C$.}
+	\option{$x^3 + x + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^3 + x$ là}{3}{1}{Ta có $\int (x^3 + x)\,\mathrm{d}x = \frac{1}{4}x^4 + \frac{1}{2}x^2 + C$. Chọn D.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$3x^2 + 1 + C$.}
+	\option{$x^3 + x + C$.}
+	\option{$\frac{1}{4}x^4 + \frac{1}{2}x^2 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = 4 \cdot 2^{2x+3}$.}{2}{1}{Ta có $f(x) = 2^2 \cdot 2^{2x+3} = 2^{2x+5} = 4 \cdot 2^{4x+1}$ (hoặc viết $\int 2^{4x+3}\,\mathrm{d}x = \frac{2^{4x+3}}{4\ln 2} = \frac{2^{4x+1}}{\ln 2}$). Chọn C.}
+	\option{$F(x) = \frac{2^{4x+3}}{\ln 2}$.}
+	\option{$F(x) = 2^{4x+1}\ln 2$.}
+	\option{$F(x) = \frac{2^{4x+1}}{\ln 2}$.}
+	\option{$F(x) = 2^{4x+3}\ln 2$.}
+\end{mcq}
+
+\begin{mcq}{Mệnh đề nào dưới đây sai?}{2}{1}{Mệnh đề C sai vì tính chất $\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$ yêu cầu điều kiện $k \ne 0$. Chọn C.}
+	\option{$\int [f(x) + g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x + \int g(x)\,\mathrm{d}x$, với mọi hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int f'(x)\,\mathrm{d}x = f(x) + C$ với mọi hàm số $f(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$ với mọi hằng số $k$ và với mọi hàm số $f(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int [f(x) - g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x - \int g(x)\,\mathrm{d}x$, với mọi hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \frac{\pi}{2}\cos 2x$.}{0}{1}{Ta có $\int \frac{\pi}{2}\cos 2x\,\mathrm{d}x = \frac{\pi}{4}\sin 2x + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{\pi}{4}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\frac{\pi}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \pi\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{\pi}{2}\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho $f(x), g(x)$ là các hàm số liên tục trên $\mathbb{R}$. Khẳng định nào sau đây đúng?}{3}{1}{Ta có $\left(\frac{f^2(x)}{2} + C\right)' = \frac{2f(x)f'(x)}{2} = f(x)f'(x)$. Do đó khẳng định D đúng. Chọn D.}
+	\option{$\int f(x)g(x)\,\mathrm{d}x = \int f(x)\,\mathrm{d}x \cdot \int g(x)\,\mathrm{d}x$.}
+	\option{$\int f'(x)g'(x)\,\mathrm{d}x = f(x)g(x) + C$.}
+	\option{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$.}
+	\option{$\int f(x)f'(x)\,\mathrm{d}x = \frac{f^2(x)}{2} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 4^x$ là}{3}{1}{Ta có $\int 4^x\,\mathrm{d}x = \frac{4^x}{\ln 4} + C$. Chọn D.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{4^{x+1}}{x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 4^{x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 4^x\ln 4 + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{4^x}{\ln 4} + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% 2. CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hàm số $f(x)$ thỏa mãn $f'(x) = 3 - 5\sin x$ và $f(0) = 10$. Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- Ta có $f(x) = \int (3 - 5\sin x)\,\mathrm{d}x = 3x + 5\cos x + C$.
+- $f(0) = 10 \Leftrightarrow 5 + C = 10 \Leftrightarrow C = 5 \Rightarrow f(x) = 3x + 5\cos x + 5$.
+- a) Sai vì nguyên hàm của $f'(x)$ là $3x + 5\cos x + C$.
+- b) Đúng vì $f(\pi) = 3\pi + 5\cos\pi + 5 = 3\pi$.
+- c) Sai vì $f(\pi/2) = \frac{3\pi}{2} + 5 = \frac{3\pi+10}{2}$.
+- d) Đúng vì $(f'(x))' = -5\cos x = 0 \Leftrightarrow x = \frac{\pi}{2} \in [0; \pi/2]$.}
+	\statement{S}{Một nguyên hàm của $f'(x)$ là $3x - 5\cos x$.}
+	\statement{Đ}{$f(\pi) = 3\pi$.}
+	\statement{S}{$f\left(\frac{\pi}{2}\right) = \frac{3\pi+4}{2}$.}
+	\statement{Đ}{Đạo hàm của hàm số $f'(x)$ có nghiệm thuộc đoạn $\left[0; \frac{\pi}{2}\right]$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hai hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$. Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- a) Đúng theo tính chất nguyên hàm của hiệu hai hàm số.
+- b) Sai vì tính chất chỉ đúng với $k \ne 0$. Khi $k = 0$, vế trái là hằng số $C$, vế phải bằng $0$.
+- c) Sai vì nguyên hàm không có tính chất nhân hai hàm số.
+- d) Sai vì chỉ đúng khi $f'(x) = g(x)$.}
+	\statement{Đ}{$\int [f(x) - g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x - \int g(x)\,\mathrm{d}x$.}
+	\statement{S}{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x, \forall k \in \mathbb{R}$.}
+	\statement{S}{$\int [f(x)g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x \cdot \int g(x)\,\mathrm{d}x$.}
+	\statement{S}{$\int g(x)\,\mathrm{d}x = f(x) + C$, với $C$ là hằng số.}
+\end{truefalse}
+
+\begin{truefalse}{Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- a) Sai vì thiếu điều kiện $a > 0$ (điều kiện đúng là $0 < a \ne 1$).
+- b) Đúng vì $\ln|3x| + C = \ln|x| + \ln 3 + C = \ln|x| + C'$ là họ nguyên hàm của $1/x$.
+- c) Đúng vì $\int \tan^2 x\,\mathrm{d}x = \int (\frac{1}{\cos^2 x} - 1)\,\mathrm{d}x = \tan x - x + C$.
+- d) Sai vì hai nguyên hàm của cùng một hàm số chỉ sai khác nhau một hằng số $C$, không bắt buộc phải bằng nhau.}
+	\statement{S}{$\int a^x\,\mathrm{d}x = \frac{a^x}{\ln a} + C, a \ne 1$.}
+	\statement{Đ}{$\int \frac{\mathrm{d}x}{x} = \ln|3x| + C, x \ne 0$.}
+	\statement{Đ}{$\int \tan^2 x\,\mathrm{d}x = \tan x - x + C$.}
+	\statement{S}{Nếu $F(x), G(x)$ lần lượt là nguyên hàm của hàm số $f(x)$ thì $F(x) = G(x)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $F(x) = 3x(x+1)$ là một nguyên hàm của hàm số $y = f(x)e^x$. Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- Ta có $F'(x) = (3x^2 + 3x)' = 6x + 3 = 3(2x+1)$.
+- Do $F'(x) = f(x)e^x \Rightarrow f(x) = 3e^{-x}(2x+1)$.
+- a) Đúng.
+- b) Đúng vì $e^{-x} > 0$ và $2x+1 \ge 0, \forall x \ge -1/2$.
+- c) Sai vì $f(2) = 15e^{-2} \ne 15e^2$.
+- d) Đúng vì $f'(x) = 3e^{-x}(-2x+1) = 0 \Leftrightarrow x = 1/2$, đạo hàm đổi dấu từ dương sang âm nên $x = 1/2$ là điểm cực đại.}
+	\statement{Đ}{Hàm số $f(x) = 3e^{-x}(2x+1)$.}
+	\statement{Đ}{$f(x) \ge 0, \forall x \in \left[-\frac{1}{2}; +\infty\right)$.}
+	\statement{S}{$f(2) = 15e^2$.}
+	\statement{Đ}{Hàm số $f(x)$ đạt cực trị tại $x = \frac{1}{2}$.}
+\end{truefalse}
+
+\begin{truefalse}{Giả sử $F(x)$ là một nguyên hàm của hàm số $f(x) = ax + \frac{b}{x^2}$ với $x \ne 0$. Biết rằng $F(-1) = 1, F(1) = 4$ và $f(1) = 0$. Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- $F(x) = \frac{a}{2}x^2 - \frac{b}{x} + C$.
+- $f(1) = a + b = 0 \Leftrightarrow b = -a \Rightarrow F(x) = \frac{a}{2}x^2 + \frac{a}{x} + C$.
+- $\begin{cases} F(1) = \frac{3a}{2} + C = 4 \\ F(-1) = -\frac{a}{2} + C = 1 \end{cases} \Leftrightarrow \begin{cases} a = \frac{3}{2} \\ C = \frac{7}{4} \end{cases} \Rightarrow b = -\frac{3}{2}$.
+- Suy ra $f(x) = \frac{3}{2}x - \frac{3}{2x^2}$ và $F(x) = \frac{3}{4}x^2 + \frac{3}{2x} + \frac{7}{4}$.
+- a) Sai vì $F(2) = \frac{3}{4}(4) + \frac{3}{4} + \frac{7}{4} = \frac{11}{2}$.
+- b) Đúng.
+- c) Đúng.
+- d) Sai vì $a + b = \frac{3}{2} + \left(-\frac{3}{2}\right) = 0$.}
+	\statement{S}{$F(2) = \frac{21}{8}$.}
+	\statement{Đ}{$f(x) = \frac{3}{2}x - \frac{3}{2x^2}$.}
+	\statement{Đ}{$F(x) = \frac{3}{4}x^2 + \frac{3}{2x} + \frac{7}{4}$.}
+	\statement{S}{$a+b = 1$, với $a, b$ là các phân số tối giản.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $f(x) = ax^3 + bx^2 + cx + d$ có $f(0) = 2$ và $f(4x) - f(x) = 4x^3 + 2x, \forall x \in \mathbb{R}$. Xét tính đúng sai của các khẳng định sau:}{1}{Lời giải chi tiết:
+- $f(0) = 2 \Rightarrow d = 2$.
+- $f(4x) - f(x) = 63ax^3 + 15bx^2 + 3cx = 4x^3 + 2x \Rightarrow a = \frac{4}{63}, b = 0, c = \frac{2}{3}$.
+- Do đó $f(x) = \frac{4}{63}x^3 + \frac{2}{3}x + 2$.
+- a) Đúng vì $a \cdot b = 0$.
+- b) Đúng.
+- c) Sai vì $g(x) = f'(x) = \frac{4}{21}x^2 + \frac{2}{3} \Rightarrow g(0) = \frac{2}{3} \ne \frac{3}{2}$.
+- d) Sai vì $f'(x) > 0, \forall x \in \mathbb{R}$ nên hàm số không có cực trị.}
+	\statement{Đ}{$a \cdot b = 0$.}
+	\statement{Đ}{$f(x) = \frac{4}{63}x^3 + \frac{2}{3}x + 2$.}
+	\statement{S}{$g(0) = \frac{3}{2}$ với $f(x)$ là nguyên hàm của hàm số $g(x)$.}
+	\statement{S}{Hàm số $y = f(x)$ có 1 điểm cực đại.}
+\end{truefalse}
+
+\begin{truefalse}{Một khinh khí cầu bay với độ cao (so với mực nước biển) tại thời điểm $t$ là $h(t)$, trong đó $t$ tính bằng phút, $h(t)$ tính bằng mét. Tốc độ bay của khinh khí cầu được cho bởi hàm số $v(t) = -0{,}12t^2 + 1{,}2t$ với $t$ tính bằng phút, $v(t)$ tính bằng mét/phút. Tại thời điểm xuất phát ($t = 0$), khinh khí cầu bay ở độ cao $520\text{ m}$ và $5$ phút sau khi xuất phát khinh khí cầu đã ở độ cao $530\text{ m}$. Xét tính đúng/sai của các khẳng định dưới đây:}{1}{Lời giải chi tiết:
+- $h(t) = \int (-0{,}12t^2 + 1{,}2t)\,\mathrm{d}t = -0{,}04t^3 + 0{,}6t^2 + C = -\frac{1}{25}t^3 + \frac{3}{5}t^2 + 520$.
+- a) Đúng.
+- b) Đúng vì $h'(t) = v(t) = -0{,}12t(t-10) = 0 \Leftrightarrow t = 10$, tại đó $h(t)$ đạt giá trị lớn nhất.
+- c) Sai vì $h(12) = 537{,}28\text{ m} \ne 520\text{ m}$ (độ cao ban đầu đạt lại khi $t = 15$ phút).
+- d) Sai vì $h(20) = 440\text{ m}$, thấp hơn ban đầu là $520 - 440 = 80\text{ m} \ne 60\text{ m}$.}
+	\statement{Đ}{Độ cao của khinh khí cầu theo $t$ là $h(t) = -\frac{1}{25}t^3 + \frac{3}{5}t^2 + 520$.}
+	\statement{Đ}{Sau khi xuất phát $10$ phút khinh khí cầu đã ở độ cao tối đa.}
+	\statement{S}{Sau khi bay được $12$ phút khinh khí cầu đã trở lại điểm xuất phát.}
+	\statement{S}{Sau $20$ phút khinh khí cầu đã bay thấp hơn điểm xuất phát là $60\text{ m}$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% 3. CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Hàm số $f(x) = \frac{1}{\cos^2 x}$ có một nguyên hàm $F(x)$ thỏa $F\left(\frac{\pi}{4}\right) = 2$. Tính $F\left(\frac{\pi}{3}\right)$ (làm tròn kết quả đến chữ số thứ 2 sau phần thập phân).}{$2{,}73$}{1}{Ta có $F(x) = \int \frac{\mathrm{d}x}{\cos^2 x} = \tan x + C$.
+
+Vì $F\left(\frac{\pi}{4}\right) = 2 \Leftrightarrow \tan\frac{\pi}{4} + C = 2 \Leftrightarrow 1 + C = 2 \Leftrightarrow C = 1$.
+
+Suy ra $F(x) = \tan x + 1$.
+
+Vậy $F\left(\frac{\pi}{3}\right) = \tan\frac{\pi}{3} + 1 = \sqrt{3} + 1 \approx 2{,}73$.}
+
+\shortanswer{Để hàm số $F(x) = mx^3 + (3m+2)x^2 - 4x + 3$ là một nguyên hàm của hàm số $f(x) = 3x^2 + 10x - 4$ thì giá trị của tham số $m$ là}{$1$}{1}{Ta có $F'(x) = 3mx^2 + 2(3m+2)x - 4$.
+
+Để $F(x)$ là nguyên hàm của $f(x)$ thì $F'(x) = f(x), \forall x \in \mathbb{R}$:
+$$\begin{cases} 3m = 3 \\ 2(3m+2) = 10 \end{cases} \Leftrightarrow m = 1.$$}
+
+\shortanswer{Biết $F(x)$ là nguyên hàm của hàm số $f(x) = \frac{1}{2\sqrt{x}} + m - 1$ thỏa mãn $F(0) = 1$ và $F(4) = 7$. Khi đó giá trị của tham số $m$ bằng bao nhiêu?}{$2$}{1}{Ta có $F(x) = \int \left(\frac{1}{2\sqrt{x}} + m - 1\right)\,\mathrm{d}x = \sqrt{x} + (m-1)x + C$.
+
+- $F(0) = 1 \Leftrightarrow C = 1 \Rightarrow F(x) = \sqrt{x} + (m-1)x + 1$.
+- $F(4) = \sqrt{4} + 4(m-1) + 1 = 4m - 1 = 7 \Leftrightarrow 4m = 8 \Leftrightarrow m = 2$.}
+
+\shortanswer{Biết $F(x)$ là một nguyên hàm của hàm số $f(x) = (x^2 - 2x + 1)^{50}$ thỏa mãn $F(1) = 0$. Tập nghiệm của phương trình $F(x) - 1 = 0$ có bao nhiêu phần tử?}{$1$}{1}{Ta có $f(x) = [(x-1)^2]^{50} = (x-1)^{100}$.
+
+$F(x) = \int (x-1)^{100}\,\mathrm{d}x = \frac{(x-1)^{101}}{101} + C$.
+
+Vì $F(1) = 0 \Leftrightarrow C = 0 \Rightarrow F(x) = \frac{(x-1)^{101}}{101}$.
+
+Phương trình $F(x) - 1 = 0 \Leftrightarrow \frac{(x-1)^{101}}{101} = 1 \Leftrightarrow (x-1)^{101} = 101 \Leftrightarrow x = 1 + \sqrt[101]{101}$.
+
+Phương trình bậc lẻ có duy nhất 1 nghiệm thực, nên tập nghiệm có 1 phần tử.}
+
+\shortanswer{Cho $F(x) = \left(1 - \frac{x^2}{2}\right)\cos x + x\sin x$ là một nguyên hàm của hàm số $f(x)$ trên khoảng $(0; \pi)$. Giá trị của $f(2)$ bằng bao nhiêu? (làm tròn đến chữ số thập phân thứ 2)}{$1{,}82$}{1}{Ta có:
+$$f(x) = F'(x) = -x\cos x - \left(1 - \frac{x^2}{2}\right)\sin x + \sin x + x\cos x = \frac{x^2}{2}\sin x.$$
+
+Do đó $f(2) = \frac{2^2}{2}\sin 2 = 2\sin 2 \approx 1{,}82$.}
+
+\shortanswer{Cho hàm số $f(x) = \begin{cases} 2x + 2a - 3 & (x \ge 1) \\ ax^2 + 2 & (x < 1) \end{cases}$ (với $a$ là hằng số) liên tục trên $\mathbb{R}$. Giả sử $F(x)$ là một nguyên hàm của $f(x)$ trên $\mathbb{R}$, thỏa mãn $F(0) = 2$. Giá trị của biểu thức $F(-1) + 2F(2)$ bằng bao nhiêu?}{$21$}{1}{Ta có:
+- $f(x)$ liên tục tại $x = 1 \Leftrightarrow \lim_{x\to 1^+} f(x) = \lim_{x\to 1^-} f(x) \Leftrightarrow 2(1) + 2a - 3 = a(1)^2 + 2 \Leftrightarrow a = 3$.
+- Với $x < 1$: $f(x) = 3x^2 + 2 \Rightarrow F(x) = x^3 + 2x + C_1$.
+  Do $F(0) = 2 \Rightarrow C_1 = 2 \Rightarrow F(x) = x^3 + 2x + 2 \Rightarrow F(-1) = (-1)^3 + 2(-1) + 2 = -1$.
+- Do $F(x)$ liên tục tại $x = 1 \Rightarrow \lim_{x\to 1^-} F(x) = 5$.
+- Với $x \ge 1$: $f(x) = 2x + 3 \Rightarrow F(x) = x^2 + 3x + C_2$.
+  $\lim_{x\to 1^+} F(x) = 4 + C_2 = 5 \Rightarrow C_2 = 1 \Rightarrow F(x) = x^2 + 3x + 1 \Rightarrow F(2) = 2^2 + 3(2) + 1 = 11$.
+- Vậy $F(-1) + 2F(2) = -1 + 2(11) = 21$.}
+
+\shortanswer{Một tay đua đang điều khiển chiếc xe đua với vận tốc $180\text{ km/h}$. Tay đua nhấn ga để về đích, kể từ đó xe chạy với gia tốc $a(t) = 2t + 1\text{ (m/s}^2)$. Hỏi rằng $4$ giây sau khi tay đua nhấn ga thì xe đua chạy với vận tốc bao nhiêu $\text{km/h}$?}{$252$}{1}{Đổi vận tốc ban đầu: $v(0) = 180\text{ km/h} = 50\text{ m/s}$.
+
+Vận tốc của xe là $v(t) = \int a(t)\,\mathrm{d}t = \int (2t + 1)\,\mathrm{d}t = t^2 + t + C$.
+
+Vì $v(0) = 50 \Rightarrow C = 50 \Rightarrow v(t) = t^2 + t + 50\text{ (m/s)}$.
+
+Sau $4$ giây, vận tốc của xe là: $v(4) = 4^2 + 4 + 50 = 70\text{ m/s}$.
+
+Đổi sang $\text{km/h}$: $70 \times 3{,}6 = 252\text{ km/h}$.}
+
+\shortanswer{Vào năm 2014, dân số nước ta khoảng $90{,}7$ triệu người. Giả sử, dân số nước ta sau $t$ năm được xác định bởi hàm số $S(t)$ (đơn vị: triệu người), trong đó tốc độ gia tăng dân số được cho bởi $S'(t) = 1{,}2698e^{-0{,}014t}$, với $t$ là số năm kể từ năm 2014, $S'(t)$ tính bằng triệu người/năm. Theo công thức trên, dân số nước ta năm 2034 (làm tròn đến hàng đơn vị của triệu người) là bao nhiêu?}{$113$}{1}{Ta có $S(t) = \int S'(t)\,\mathrm{d}t = \int 1{,}2698e^{-0{,}014t}\,\mathrm{d}t = -\frac{1{,}2698}{0{,}014}e^{-0{,}014t} + C = -90{,}7e^{-0{,}014t} + C$.
+
+Tại $t = 0$ (năm 2014): $S(0) = 90{,}7 \Leftrightarrow -90{,}7 + C = 90{,}7 \Leftrightarrow C = 181{,}4$.
+
+Suy ra $S(t) = 181{,}4 - 90{,}7e^{-0{,}014t}$.
+
+Dân số năm 2034 ($t = 20$): $S(20) = 181{,}4 - 90{,}7e^{-0{,}014 \times 20} \approx 112{,}85 \approx 113\text{ triệu người}$.}
+
+\shortanswer{Chủ một trung tâm thương mại muốn cho thuê một số gian hàng. Người đó muốn tăng giá cho thuê mỗi gian hàng thêm $x$ (triệu đồng) ($x \ge 0$). Tốc độ thay đổi doanh thu từ các gian hàng đó được biểu diễn bởi hàm số $H'(x) = -20x + 300$, trong đó $H'(x)$ tính bằng triệu đồng. Biết rằng nếu người đó tăng giá thuê cho mỗi gian hàng thêm $10$ triệu đồng thì doanh thu là $12\,000$ triệu đồng. Tìm giá trị của $x$ để người đó có doanh thu là cao nhất?}{$15$}{1}{Doanh thu $H(x) = \int H'(x)\,\mathrm{d}x = \int (-20x + 300)\,\mathrm{d}x = -10x^2 + 300x + C$.
+
+Để doanh thu $H(x)$ đạt giá trị cao nhất thì $H'(x) = 0 \Leftrightarrow -20x + 300 = 0 \Leftrightarrow x = 15$.
+
+Vì hệ số $a = -10 < 0$ nên $H(x)$ đạt cực đại (lớn nhất) tại $x = 15$.}
+
+\shortanswer{Trong bài này, ta xét một tình huống giả định có một học sinh sau kì nghỉ đã mang virus cúm quay trở lại khuôn viên trường học biệt lập với $1000$ học sinh. Sau khi có sự tiếp xúc giữa các học sinh, virus cúm lây lan trong khuôn viên trường. Giả thiết hệ thống chống dịch chưa được khởi động và virus cúm được lây lan tự nhiên. Gọi $P(t)$ là số học sinh bị nhiễm virus cúm vào ngày thứ $t$ tính từ ngày học sinh mang virus cúm về lại khuôn viên trường. Biết rằng tốc độ lây lan của virus cúm tỉ lệ thuận với số học sinh không bị nhiễm virus cúm theo hệ số tỉ lệ là hằng số $k \ne 0$. Số học sinh bị nhiễm virus cúm sau $4$ ngày là $52$ học sinh. Xác định số học sinh bị nhiễm virus cúm sau $10$ ngày (làm tròn đến hàng đơn vị).}{$123$}{1}{Ta có phương trình vi phân: $P'(t) = k(1000 - P(t))$.
+
+Nghiệm của phương trình có dạng: $P(t) = 1000 - C e^{-kt}$.
+
+- Tại $t = 0$: $P(0) = 1 \Leftrightarrow 1000 - C = 1 \Leftrightarrow C = 999 \Rightarrow P(t) = 1000 - 999e^{-kt}$.
+- Tại $t = 4$: $P(4) = 52 \Leftrightarrow 1000 - 999e^{-4k} = 52 \Leftrightarrow e^{-4k} = \frac{948}{999}$.
+- Tại $t = 10$: $e^{-10k} = (e^{-4k})^{2{,}5} = \left(\frac{948}{999}\right)^{2{,}5} \approx 0{,}8777$.
+- Số học sinh bị nhiễm cúm sau 10 ngày là: $P(10) = 1000 - 999(0{,}8777) \approx 123$ học sinh.}
+
+\end{quiz}
+
+\end{document}

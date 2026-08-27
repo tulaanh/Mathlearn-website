@@ -1,0 +1,348 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{PHẦN III: BÀI TẬP RÈN LUYỆN - ĐỀ 1: TỌA ĐỘ VECTƠ}
+\docdesc{Tài Liệu Ôn Thi Group - FLASH STUDY}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Hình học không gian, Tọa độ trong không gian}
+
+% =========================================================================
+% CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN - ĐỀ 1
+% =========================================================================
+
+\begin{quiz}{Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho $\vec{a} = (1; -2; 3), \vec{b} = 2\vec{j} - 3\vec{k}$. Khi đó tọa độ $\vec{a} + \vec{b}$ là:}{0}{1}{Ta có $\vec{b} = 0\vec{i} + 2\vec{j} - 3\vec{k} = (0; 2; -3)$. Suy ra $\vec{a} + \vec{b} = (1+0; -2+2; 3-3) = (1; 0; 0)$.}
+	\option{$(1; 0; 0)$.}
+	\option{$(3; -5; -3)$.}
+	\option{$(3; -5; 0)$.}
+	\option{$(1; 2; -6)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho $\vec{a} = -\vec{i} + 2\vec{j} - 3\vec{k}$. Tọa độ của vectơ $\vec{a}$ là:}{3}{1}{Tọa độ của vectơ $\vec{a} = x\vec{i} + y\vec{j} + z\vec{k}$ là $(x; y; z) = (-1; 2; -3)$.}
+	\option{$(2; -1; -3)$.}
+	\option{$(-3; 2; -1)$.}
+	\option{$(2; -3; -1)$.}
+	\option{$(-1; 2; -3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho $\vec{a} = 2\vec{i} + 3\vec{j} - \vec{k}, \vec{b} = (2; 3; -7)$. Tọa độ $\vec{x} = 2\vec{a} - 3\vec{b}$ là:}{2}{1}{Ta có $\vec{a} = (2; 3; -1)$. Suy ra $2\vec{a} = (4; 6; -2)$ và $3\vec{b} = (6; 9; -21)$. Do đó $\vec{x} = 2\vec{a} - 3\vec{b} = (-2; -3; 19)$.}
+	\option{$(2; -1; 19)$.}
+	\option{$(-2; 3; 19)$.}
+	\option{$(-2; -3; 19)$.}
+	\option{$(-2; -1; 19)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho $A(1; -1; 2), B(-1; 0; 1)$. Tọa độ vectơ $\vec{AB}$ là:}{2}{1}{Ta có $\vec{AB} = (x_B - x_A; y_B - y_A; z_B - z_A) = (-1-1; 0-(-1); 1-2) = (-2; 1; -1)$.}
+	\option{$(2; -1; 1)$.}
+	\option{$(-2; -1; -1)$.}
+	\option{$(-2; 1; -1)$.}
+	\option{$(0; -1; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $A(2; -1; 3)$. Hình chiếu của $A$ lên trục $Oz$ là:}{1}{1}{Hình chiếu vuông góc của điểm $A(x; y; z)$ lên trục $Oz$ là điểm $(0; 0; z) = (0; 0; 3)$.}
+	\option{$(2; -1; 0)$.}
+	\option{$(0; 0; 3)$.}
+	\option{$(0; -1; 0)$.}
+	\option{$(2; 0; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $A(3; -1; 1)$. Hình chiếu vuông góc của điểm $A$ lên mặt phẳng $(Oyz)$ là:}{1}{1}{Hình chiếu vuông góc của điểm $A(x; y; z)$ lên mặt phẳng $(Oyz)$ là điểm $(0; y; z) = (0; -1; 1)$.}
+	\option{$(3; 0; 0)$.}
+	\option{$(0; -1; 1)$.}
+	\option{$(0; -1; 0)$.}
+	\option{$(0; 0; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(3; 1; 0)$ và $\vec{MN} = (-1; -1; 0)$. Tọa độ của $N$ là:}{3}{1}{Ta có $\vec{MN} = (x_N - 3; y_N - 1; z_N - 0) = (-1; -1; 0) \Rightarrow \begin{cases} x_N = 2 \\ y_N = 0 \\ z_N = 0 \end{cases} \Rightarrow N(2; 0; 0)$.}
+	\option{$(4; 2; 0)$.}
+	\option{$(-4; -2; 0)$.}
+	\option{$(-2; 0; 0)$.}
+	\option{$(2; 0; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(-1; 5; 3), M(2; 1; -2)$. Tìm tọa độ điểm $B$ biết $M$ là trung điểm của đoạn $AB$.}{3}{1}{Vì $M$ là trung điểm của $AB$ nên $B = 2M - A \Rightarrow \begin{cases} x_B = 2(2) - (-1) = 5 \\ y_B = 2(1) - 5 = -3 \\ z_B = 2(-2) - 3 = -7 \end{cases} \Rightarrow B(5; -3; -7)$.}
+	\option{$\left(\frac{1}{2}; 3; \frac{1}{2}\right)$.}
+	\option{$(-4; 9; 8)$.}
+	\option{$(5; 3; -7)$.}
+	\option{$(5; -3; -7)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(1; 2; 3), B(-1; 0; 1)$. Trọng tâm $G$ của tam giác $OAB$ có tọa độ là:}{1}{1}{Với $O(0; 0; 0)$, tọa độ trọng tâm $G$ là:
+$$x_G = \frac{0 + 1 - 1}{3} = 0, \quad y_G = \frac{0 + 2 + 0}{3} = \frac{2}{3}, \quad z_G = \frac{0 + 3 + 1}{3} = \frac{4}{3} \Rightarrow G\left(0; \frac{2}{3}; \frac{4}{3}\right).$$}
+	\option{$(0; 1; 1)$.}
+	\option{$\left(0; \frac{2}{3}; \frac{4}{3}\right)$.}
+	\option{$(0; 2; 4)$.}
+	\option{$(-2; -2; -2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $M(3; -2; 1), N(1; 0; -3)$. Gọi $M', N'$ lần lượt là hình chiếu của $M, N$ lên mặt phẳng $(Oxy)$. Độ dài đoạn $M'N'$ là:}{3}{1}{Hình chiếu lên $(Oxy)$ là $M'(3; -2; 0)$ và $N'(1; 0; 0)$. Độ dài $M'N' = \sqrt{(1-3)^2 + (0-(-2))^2 + 0^2} = \sqrt{4+4} = 2\sqrt{2}$.}
+	\option{$8$.}
+	\option{$4$.}
+	\option{$2\sqrt{6}$.}
+	\option{$2\sqrt{2}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho ba điểm $A(-1; 1; 2), B(0; 1; -1), C(x+2; y; -2)$ thẳng hàng. Tổng $x + y$ bằng:}{2}{1}{Ta có $\vec{AB} = (1; 0; -3)$ và $\vec{AC} = (x+3; y-1; -4)$.
+
+Ba điểm $A, B, C$ thẳng hàng $\Leftrightarrow \frac{x+3}{1} = \frac{y-1}{0} = \frac{-4}{-3} \Rightarrow \begin{cases} y = 1 \\ x = \frac{4}{3} - 3 = -\frac{5}{3} \end{cases} \Rightarrow x + y = -\frac{2}{3}$.}
+	\option{$\frac{7}{3}$.}
+	\option{$-\frac{8}{3}$.}
+	\option{$-\frac{2}{3}$.}
+	\option{$-\frac{1}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Tứ giác $ABCD$ là hình bình hành, biết $A(1; 0; 1), B(2; 1; 2), D(1; -1; 1)$. Tọa độ điểm $C$ là:}{2}{1}{Tứ giác $ABCD$ là hình bình hành $\Leftrightarrow \vec{AB} = \vec{DC} \Rightarrow C = B + D - A = (2+1-1; 1+(-1)-0; 2+1-1) = (2; 0; 2)$.}
+	\option{$(0; -2; 0)$.}
+	\option{$(2; 2; 2)$.}
+	\option{$(2; 0; 2)$.}
+	\option{$(2; -2; 2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $M(-2; 5; 1)$. Khoảng cách từ $M$ đến trục $Ox$ bằng:}{3}{1}{Hình chiếu của $M$ lên $Ox$ là $H(-2; 0; 0)$. Khoảng cách $d(M, Ox) = MH = \sqrt{0^2 + 5^2 + 1^2} = \sqrt{26}$.}
+	\option{$\sqrt{29}$.}
+	\option{$2$.}
+	\option{$\sqrt{5}$.}
+	\option{$\sqrt{26}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho ba vectơ $\vec{a} = (1; 2; 3), \vec{b} = (-2; 0; 1), \vec{c} = (-1; 0; 1)$. Tọa độ của vectơ $\vec{n} = \vec{a} + \vec{b} + 2\vec{c} - 3\vec{i}$ là:}{0}{1}{Với $\vec{i} = (1; 0; 0)$, ta có:
+$$\vec{n} = (1-2+2(-1)-3(1); 2+0+2(0)-3(0); 3+1+2(1)-3(0)) = (-6; 2; 6).$$}
+	\option{$(-6; 2; 6)$.}
+	\option{$(0; 2; 6)$.}
+	\option{$(6; 2; -6)$.}
+	\option{$(6; 2; 6)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai vectơ $\vec{u} = (1; 0; -3), \vec{v} = (-1; -2; 0)$. Tính $\cos(\vec{u}, \vec{v})$.}{0}{1}{Ta có $\cos(\vec{u}, \vec{v}) = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}| |\vec{v}|} = \frac{1(-1) + 0(-2) + (-3)0}{\sqrt{1^2+0^2+(-3)^2}\sqrt{(-1)^2+(-2)^2+0^2}} = \frac{-1}{\sqrt{10}\sqrt{5}} = -\frac{1}{5\sqrt{2}}$.}
+	\option{$-\frac{1}{5\sqrt{2}}$.}
+	\option{$-\frac{1}{\sqrt{10}}$.}
+	\option{$\frac{1}{\sqrt{10}}$.}
+	\option{$\frac{1}{5\sqrt{2}}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai vectơ $\vec{u} = (1; 1; -2), \vec{v} = (1; 0; m)$. Gọi $S$ là tập hợp các giá trị $m$ để hai vectơ $\vec{u}, \vec{v}$ tạo với nhau một góc $45^\circ$. Số phần tử của $S$ là:}{2}{1}{Ta có $\cos 45^\circ = \frac{\vec{u} \cdot \vec{v}}{|\vec{u}||\vec{v}|} \Leftrightarrow \frac{1 - 2m}{\sqrt{6}\sqrt{1+m^2}} = \frac{1}{\sqrt{2}} \Leftrightarrow \frac{1-2m}{\sqrt{3(1+m^2)}} = 1$.
+
+Điều kiện $1 - 2m > 0 \Leftrightarrow m < \frac{1}{2}$.
+
+Bình phương hai vế: $(1-2m)^2 = 3(1+m^2) \Leftrightarrow m^2 - 4m - 2 = 0 \Leftrightarrow m = 2 \pm \sqrt{6}$.
+
+So với điều kiện ta nhận duy nhất $m = 2 - \sqrt{6}$. Do đó số phần tử của $S$ là $1$.}
+	\option{$4$.}
+	\option{$2$.}
+	\option{$1$.}
+	\option{Vô số.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $B(0; 3; 1), C(-3; 6; 4)$. Gọi $M$ là điểm nằm trên đoạn $BC$ sao cho $MC = 2MB$. Tọa độ điểm $M$ là:}{1}{1}{Vì $M$ nằm trên đoạn $BC$ nên $\vec{MC} = -2\vec{MB} \Rightarrow C - M = -2(B - M) \Rightarrow 3M = 2B + C \Rightarrow M(-1; 4; 2)$.}
+	\option{$(-1; 4; -2)$.}
+	\option{$(-1; 4; 2)$.}
+	\option{$(1; -4; -2)$.}
+	\option{$(-1; -4; 2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $ABC$ trọng tâm $G$. Biết $A(0; 2; 1), B(1; -1; 2), G(1; 1; 1)$. Khi đó điểm $C$ có tọa độ là:}{3}{1}{Vì $G$ là trọng tâm $\Delta ABC$ nên $C = 3G - A - B = (3(1)-0-1; 3(1)-2-(-1); 3(1)-1-2) = (2; 2; 0)$.}
+	\option{$(2; 2; 4)$.}
+	\option{$(-2; 0; 2)$.}
+	\option{$(-2; -3; -2)$.}
+	\option{$(2; 2; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, tìm số thực $a$ để vectơ $\vec{u} = (a; 0; 1)$ vuông góc với vectơ $\vec{v} = (2; -1; 4)$.}{0}{1}{Ta có $\vec{u} \perp \vec{v} \Leftrightarrow \vec{u} \cdot \vec{v} = 0 \Leftrightarrow 2a + 0(-1) + 1(4) = 0 \Leftrightarrow 2a + 4 = 0 \Leftrightarrow a = -2$.}
+	\option{$a = -2$.}
+	\option{$a = 2$.}
+	\option{$a = 4$.}
+	\option{$a = -4$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, để hai vectơ $\vec{u} = (m; 2; 3), \vec{v} = (1; n; 2)$ cùng phương thì $m + n$ bằng:}{2}{1}{Hai vectơ cùng phương $\Leftrightarrow \frac{m}{1} = \frac{2}{n} = \frac{3}{2} \Rightarrow m = \frac{3}{2}, n = \frac{4}{3}$. Suy ra $m + n = \frac{3}{2} + \frac{4}{3} = \frac{17}{6}$.}
+	\option{$\frac{11}{6}$.}
+	\option{$\frac{13}{6}$.}
+	\option{$\frac{17}{6}$.}
+	\option{$2$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(-2; 1; 0), B(-4; 3; 2)$. Tọa độ điểm $M$ nằm trên $Oy$ sao cho $M$ cách đều hai điểm $A$ và $B$ là:}{1}{1}{Điểm $M \in Oy \Rightarrow M(0; y; 0)$.
+
+Ta có $MA = MB \Leftrightarrow MA^2 = MB^2 \Leftrightarrow 4 + (y-1)^2 + 0 = 16 + (y-3)^2 + 4 \Leftrightarrow -2y + 5 = -6y + 29 \Leftrightarrow 4y = 24 \Leftrightarrow y = 6 \Rightarrow M(0; 6; 0)$.}
+	\option{$(6; 0; 0)$.}
+	\option{$(0; 6; 0)$.}
+	\option{$(0; -6; 0)$.}
+	\option{$(0; 0; 7)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai vectơ $\vec{a} = (-2; -3; 1), \vec{b} = (1; 0; 1)$. Tính $\cos(\vec{a}, \vec{b})$.}{0}{1}{Ta có $\cos(\vec{a}, \vec{b}) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| |\vec{b}|} = \frac{-2(1) + (-3)0 + 1(1)}{\sqrt{(-2)^2+(-3)^2+1^2}\sqrt{1^2+0^2+1^2}} = \frac{-1}{\sqrt{14}\sqrt{2}} = -\frac{1}{2\sqrt{7}}$.}
+	\option{$-\frac{1}{2\sqrt{7}}$.}
+	\option{$\frac{1}{2\sqrt{7}}$.}
+	\option{$-\frac{3}{2\sqrt{7}}$.}
+	\option{$\frac{3}{2\sqrt{7}}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $ABC$ với $A(1; 2; 1), B(-3; 0; 3), C(2; 4; -1)$. Tìm tọa độ điểm $D$ sao cho tứ giác $ABCD$ là hình bình hành.}{3}{1}{Tứ giác $ABCD$ là hình bình hành $\Leftrightarrow \vec{AD} = \vec{BC} \Rightarrow D = A + C - B = (1+2-(-3); 2+4-0; 1+(-1)-3) = (6; 6; -3)$.}
+	\option{$(6; -6; 3)$.}
+	\option{$(6; 6; 3)$.}
+	\option{$(6; -6; -3)$.}
+	\option{$(6; 6; -3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hình hộp $ABCD.A'B'C'D'$ có $A(0; 0; 0), B(a; 0; 0), D(0; 2a; 0), A'(0; 0; 2a), a \ne 0$. Tính độ dài đoạn thẳng $AC'$.}{2}{1}{Ta có $\vec{AC'} = \vec{AB} + \vec{AD} + \vec{AA'} = (a; 2a; 2a)$.
+
+Suy ra $AC' = |\vec{AC'}| = \sqrt{a^2 + (2a)^2 + (2a)^2} = \sqrt{9a^2} = 3|a|$.}
+	\option{$|a|$.}
+	\option{$2|a|$.}
+	\option{$3|a|$.}
+	\option{$\frac{3|a|}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $ABC$ có $A(1; 2; -1), B(2; -1; 3), C(-4; 7; 5)$. Gọi $D(a, b, c)$ là chân đường phân giác trong góc $B$ của tam giác $ABC$. Giá trị của $a + b + 2c$ bằng:}{0}{1}{Tính độ dài $BA = \sqrt{1^2 + 3^2 + (-4)^2} = \sqrt{26}$, $BC = \sqrt{(-6)^2 + 8^2 + 2^2} = \sqrt{104} = 2\sqrt{26}$.
+
+Theo tính chất đường phân giác trong: $\frac{DA}{DC} = \frac{BA}{BC} = \frac{1}{2} \Rightarrow \vec{DC} = -2\vec{DA} \Rightarrow 3D = 2A + C$.
+
+Suy ra $a = -\frac{2}{3}, b = \frac{11}{3}, c = 1 \Rightarrow a + b + 2c = -\frac{2}{3} + \frac{11}{3} + 2(1) = 5$.}
+	\option{$5$.}
+	\option{$4$.}
+	\option{$14$.}
+	\option{$15$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tứ diện $ABCD$ có tọa độ các đỉnh là $A(0; 2; 0), B(2; 0; 0), C(0; 0; 2), D(0; -2; 0)$. Số đo góc giữa hai đường thẳng $AB, CD$ bằng bao nhiêu?}{2}{1}{Ta có $\vec{AB} = (2; -2; 0) \Rightarrow AB = 2\sqrt{2}$, $\vec{CD} = (0; -2; -2) \Rightarrow CD = 2\sqrt{2}$.
+
+Tích vô hướng $\vec{AB} \cdot \vec{CD} = 2(0) + (-2)(-2) + 0(-2) = 4$.
+
+Suy ra $\cos(AB, CD) = \frac{|\vec{AB} \cdot \vec{CD}|}{AB \cdot CD} = \frac{4}{2\sqrt{2} \cdot 2\sqrt{2}} = \frac{1}{2} \Rightarrow (AB, CD) = 60^\circ$.}
+	\option{$30^\circ$.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$90^\circ$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $ABC$ có $A(0; 2; 2), B\left(\frac{9}{4}; -1; 2\right), C(4; -1; 2)$. Tìm tọa độ điểm $D$ là chân đường phân giác trong góc $A$ của tam giác $ABC$.}{1}{1}{Ta có $AB = \sqrt{\left(\frac{9}{4}\right)^2 + (-3)^2 + 0^2} = \frac{15}{4}$, $AC = \sqrt{4^2 + (-3)^2 + 0^2} = 5$.
+
+Theo tính chất đường phân giác: $\frac{DB}{DC} = \frac{AB}{AC} = \frac{3}{4} \Rightarrow 3\vec{DC} = -4\vec{DB} \Rightarrow 7D = 4B + 3C \Rightarrow D(3; -1; 2)$.}
+	\option{$(3; -1; -2)$.}
+	\option{$(3; -1; 2)$.}
+	\option{$(-3; 1; 2)$.}
+	\option{$(-3; -1; 2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $A(1; 2; 1), B(2; -1; 3)$. Điểm $M(a; b; c)$ là điểm nằm trong mặt phẳng $(Oxy)$ sao cho $MA^2 - 2MB^2$ lớn nhất. Tính $P = a + b + c$.}{0}{1}{Điểm $M \in (Oxy) \Rightarrow c = 0$.
+
+Gọi $I$ thỏa mãn $\vec{IA} - 2\vec{IB} = \vec{0} \Rightarrow I = 2B - A = (3; -4; 5)$.
+
+Khi đó $MA^2 - 2MB^2 = -MI^2 + IA^2 - 2IB^2$ lớn nhất khi $MI$ nhỏ nhất $\Leftrightarrow M$ là hình chiếu của $I$ lên $(Oxy) \Rightarrow M(3; -4; 0)$.
+
+Suy ra $a = 3, b = -4, c = 0 \Rightarrow P = a + b + c = -1$.}
+	\option{$P = -1$.}
+	\option{$P = 7$.}
+	\option{$P = 5$.}
+	\option{$P = 2$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $ABC$ có $A(2; -7; 2), B(2; -10; 2), C(2; -7; 6)$. Tìm tọa độ tâm $I$ của đường tròn nội tiếp tam giác $ABC$.}{1}{1}{Ta có $\vec{AB} = (0; -3; 0) \Rightarrow c = AB = 3$, $\vec{AC} = (0; 0; 4) \Rightarrow b = AC = 4$, $\vec{BC} = (0; 3; 4) \Rightarrow a = BC = 5$.
+
+Tam giác $ABC$ vuông tại $A$ vì $\vec{AB} \cdot \vec{AC} = 0$.
+
+Tọa độ tâm đường tròn nội tiếp: $I = \frac{aA + bB + cC}{a+b+c} = \frac{5A + 4B + 3C}{12} = (2; -8; 3)$.}
+	\option{$\left(2; -\frac{17}{2}; 4\right)$.}
+	\option{$(2; -8; 3)$.}
+	\option{$\left(2; -8; \frac{10}{3}\right)$.}
+	\option{$\left(2; \frac{5}{2}; -2\right)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho ba điểm $A(0; -2; -3), B(-4; -4; 1), C(2; -3; 3)$. Tìm tọa độ của điểm $M$ nằm trong mặt phẳng $(Oxz)$ sao cho $MA^2 + MB^2 + 2MC^2$ đạt giá trị nhỏ nhất.}{2}{1}{Điểm $M \in (Oxz) \Rightarrow y_M = 0$.
+
+Gọi $I$ thỏa mãn $\vec{IA} + \vec{IB} + 2\vec{IC} = \vec{0} \Rightarrow I = \frac{A + B + 2C}{4} = (0; -3; 1)$.
+
+Biểu thức $MA^2 + MB^2 + 2MC^2 = 4MI^2 + IA^2 + IB^2 + 2IC^2$ nhỏ nhất khi $MI$ nhỏ nhất $\Leftrightarrow M$ là hình chiếu của $I$ lên $(Oxz) \Rightarrow M(0; 0; 1)$.}
+	\option{$(0; 0; 3)$.}
+	\option{$(0; 0; 2)$.}
+	\option{$(0; 0; 1)$.}
+	\option{$(0; 0; 4)$.}
+\end{mcq}
+
+\end{quiz}
+
+\end{document}

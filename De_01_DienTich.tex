@@ -1,0 +1,210 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ THI RÈN LUYỆN ỨNG DỤNG TÍCH PHÂN TÍNH DIỆN TÍCH - ĐỀ 01}
+\docdesc{Đề kiểm tra rèn luyện chuyên đề Ứng dụng tích phân tính diện tích - Đề số 1}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Tích phân, Diện tích hình phẳng}
+
+% =========================================================================
+% PHẦN I: CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Diện tích hình phẳng giới hạn bởi trục $Ox$, trục $Oy$, đồ thị hàm số $y = f(x)$ và đường thẳng $x = 2$ được tính theo công thức nào dưới đây?}{3}{1}{Chọn D.}
+	\option{$\int_2^0 |f(x)|\,\mathrm{d}x$.}
+	\option{$\int_0^2 |f(x)-2|\,\mathrm{d}x$.}
+	\option{$\int_0^2 f(x)\,\mathrm{d}x$.}
+	\option{$\int_0^2 |f(x)|\,\mathrm{d}x$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x)$ liên tục trên $\mathbb{R}$ có đồ thị $(C)$ cắt trục $Ox$ tại 3 điểm có hoành độ lần lượt là $a, b, c \ (a < b < c)$. Biết phần hình phẳng nằm phía trên trục $Ox$ có diện tích là $S_1 = \frac{7}{10}$, phần hình phẳng nằm phía dưới trục $Ox$ giới hạn bởi đồ thị $(C)$ và trục $Ox$ có diện tích là $S_2 = 2$ (như hình vẽ). Tính $I = \int_a^c f(x)\,\mathrm{d}x$. \image{0.35}{}{images_ChuDe03_DienTich/p3_c2.png}}{0}{1}{Chọn A.}
+	\option{$I = -\frac{13}{10}$.}
+	\option{$I = \frac{13}{10}$.}
+	\option{$I = \frac{27}{10}$.}
+	\option{$I = -\frac{27}{10}$.}
+\end{mcq}
+
+\begin{mcq}{Cho đồ thị hàm số $y = f(x)$ như hình vẽ bên dưới. Diện tích phần hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$ với trục $Ox$ nằm phía trên và phía dưới trục $Ox$ lần lượt là $3$ và $1$. Khi đó $\int_{-2}^3 f(x)\,\mathrm{d}x$ bằng \image{0.45}{}{images_ChuDe03_DienTich/p3_c3.png}}{0}{1}{Chọn A.}
+	\option{$2$.}
+	\option{$-2$.}
+	\option{$3$.}
+	\option{$4$.}
+\end{mcq}
+
+\begin{mcq}{Diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = \cos x$, trục tung, trục hoành và đường thẳng $x = \pi$ bằng}{0}{1}{Chọn A.}
+	\option{$2$.}
+	\option{$3$.}
+	\option{$1$.}
+	\option{$4$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình phẳng $(H)$ giới hạn bởi các đường $y = x^3 - 4x$, trục hoành, $x = -3, x = 4$.}{2}{1}{Chọn C.}
+	\option{$36$.}
+	\option{$44$.}
+	\option{$\frac{201}{4}$.}
+	\option{$\frac{119}{4}$.}
+\end{mcq}
+
+\begin{mcq}{Cho đồ thị hàm số $y = f(x)$. Diện tích $S$ của hình phẳng (phần tô đậm của hình vẽ dưới) là \image{0.35}{}{images_ChuDe03_DienTich/p3_c6.png}}{2}{1}{Chọn C.}
+	\option{$S = \int_{-2}^3 f(x)\,\mathrm{d}x$.}
+	\option{$S = \int_{-2}^0 f(x)\,\mathrm{d}x + \int_0^3 f(x)\,\mathrm{d}x$.}
+	\option{$S = \int_0^{-2} f(x)\,\mathrm{d}x + \int_0^3 f(x)\,\mathrm{d}x$.}
+	\option{$S = \int_{-2}^0 f(x)\,\mathrm{d}x + \int_3^0 f(x)\,\mathrm{d}x$.}
+\end{mcq}
+
+\begin{mcq}{Diện tích hình phẳng gạch sọc trong hình vẽ bên dưới bằng \image{0.35}{}{images_ChuDe03_DienTich/p3_c7.png}}{3}{1}{Chọn D.}
+	\option{$\int_1^3 2^x\,\mathrm{d}x$.}
+	\option{$\int_3^1 2^x\,\mathrm{d}x$.}
+	\option{$\int_3^1 (2^x-2)\,\mathrm{d}x$.}
+	\option{$\int_1^3 (2^x-2)\,\mathrm{d}x$.}
+\end{mcq}
+
+\begin{mcq}{Cho $(H)$ là hình phẳng giới hạn bởi các đường $y = \sqrt{2x}, y = 2x - 2$ và trục hoành. Tính diện tích của $(H)$.}{0}{1}{Chọn A.}
+	\option{$\frac{5}{3}$.}
+	\option{$\frac{16}{3}$.}
+	\option{$\frac{10}{3}$.}
+	\option{$\frac{8}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = \begin{cases} 7-4x^2, & 0 \le x \le 1 \\ 4-x^2, & x > 1 \end{cases}$. Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số $f(x)$ và các đường thẳng $x = 0, x = 3, y = 0$.}{1}{1}{Chọn B.}
+	\option{$\frac{16}{3}$.}
+	\option{$\frac{20}{3}$.}
+	\option{$10$.}
+	\option{$9$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho đường tròn $(C)$ có tâm $I(0; 1)$ và bán kính $R = 2$, parabol $(P): y = mx^2$ cắt $(C)$ tại hai điểm $A, B$ có tung độ bằng 2. Xét tính đúng sai của các khẳng định sau: \image{0.4}{}{images_ChuDe03_DienTich/tf_c1.png}}{1}{Đáp án: a) Sai, b) Sai, c) Sai, d) Sai.}
+	\statement{false}{Parabol $(P)$ có dạng $y = \frac{3}{4}x^2$.}
+	\statement{false}{Diện tích hình phẳng giới hạn bởi $(C)$ và $(P)$ (phần gạch sọc ở hình vẽ) có giá trị lớn hơn 7.}
+	\statement{false}{Tam giác $OAB$ vuông cân tại $O$.}
+	\statement{false}{Diện tích hình phẳng giới hạn bởi $(C)$ và $(P)$ (phần gạch sọc ở hình vẽ) lớn hơn diện tích phần còn lại của hình tròn (phần không gạch sọc).}
+\end{truefalse}
+
+\begin{truefalse}{Một ô tô đang chạy với vận tốc $20\text{ (m/s)}$ thì hãm phanh. Sau khi hãm phanh ô tô chuyển động chậm dần đều với vận tốc $v(t) = 20 - 4t\text{ (m/s)}$ trong đó $t$ là khoảng thời gian tính bằng giây kể từ lúc hãm phanh. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Đúng, b) Đúng, c) Đúng, d) Sai.}
+	\statement{true}{Ô tô dừng lại vào thời điểm $t = 5$ giây.}
+	\statement{true}{Từ lúc đạp phanh đến khi dừng hẳn quãng đường ô tô đi được là $50\text{ m}$.}
+	\statement{true}{Quãng đường xe ô tô di chuyển trong giây cuối bằng $\frac{1}{9}$ quãng đường xe ô tô di chuyển trong giây đầu.}
+	\statement{false}{Vào thời điểm $t = 3$ giây thì ô tô đang có vận tốc là $12\text{ m/s}$.}
+\end{truefalse}
+
+\begin{truefalse}{Ông An có một khu đất hình elip với độ dài trục lớn $10\text{ m}$ và độ dài trục bé $8\text{ m}$. Ông An muốn chia khu đất thành hai phần, phần thứ nhất là hình chữ nhật nội tiếp elip dùng để xây bể cá cảnh và phần còn lại dùng để trồng hoa. Biết chi phí xây bể cá là $1.000.000$ đồng trên $1\text{ m}^2$ và chi phí trồng hoa là $1.200.000$ đồng trên $1\text{ m}^2$. Xét tính đúng sai của các khẳng định sau: \image{0.4}{}{images_ChuDe03_DienTich/tf_c3.png}}{1}{Đáp án: a) Đúng, b) Sai, c) Sai, d) Sai.}
+	\statement{true}{Ông An có thể thiết kế xây dựng với tổng chi phí thấp nhất xấp xỉ $67398334$ đồng.}
+	\statement{false}{Diện tích hình chữ nhật (xây bể cá cảnh) nhỏ hơn diện tích phần còn lại (trồng hoa).}
+	\statement{false}{Khi ông An xây dựng với tổng chi phí thấp nhất thì chi phí để xây bể cá cảnh gần bằng $24000000$ đồng.}
+	\statement{false}{Khi ông An xây dựng với tổng chi phí thấp nhất thì chi phí để xây bể cá cảnh nhỏ hơn chi phí để trồng hoa.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Diện tích miền hình phẳng giới hạn bởi các đường $y = 2^x, y = -x + 3, y = 1$ bằng bao nhiêu?}{$0{,}9$}{1}{Đáp án: 0,9.}
+
+\shortanswer{Cho $(H)$ là hình phẳng được tô đậm trong hình vẽ bên dưới và được giới hạn bởi các đường có phương trình $y = \frac{10}{3}x - x^2, y = \begin{cases} -x, & x \le 1 \\ x-2, & x > 1 \end{cases}$. Diện tích của $(H)$ là bao nhiêu? \image{0.35}{}{images_ChuDe03_DienTich/sa_c2.png}}{$6{,}5$}{1}{Đáp án: 6,5.}
+
+\shortanswer{Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = x\ln x, x = e$ và trục $Ox$.}{$2{,}1$}{1}{Đáp án: 2,1.}
+
+\shortanswer{Mặt sàn của một thang máy có dạng hình vuông $ABCD$ cạnh $2\text{ m}$ được lát gạch hình 4 cánh giống nhau màu sẫm. Khi đặt trong hệ tọa độ $Oxy$ với $O$ là tâm hình vuông sao cho $A(1; 1)$ như hình vẽ bên dưới thì các đường cong $OA$ có phương trình $y = x^2, y = ax^3 + bx$. Tính giá trị $a \cdot b$ biết rằng diện tích trang trí màu sẫm chiếm $\frac{1}{3}$ diện tích mặt sàn. \image{0.4}{}{images_ChuDe03_DienTich/sa_c4.png}}{$-1{,}1$}{1}{Đáp án: -1,1.}
+
+\shortanswer{Một biển quảng cáo có dạng hình elip với bốn đỉnh $A_1, A_2, B_1, B_2$ như hình vẽ bên dưới. Biết chi phí sơn phần tô đậm là $200.000\text{ đồng/m}^2$ và phần còn lại là $100.000\text{ đồng/m}^2$. Hỏi số tiền để sơn theo cách trên gần nhất với số tiền nào dưới đây, biết $A_1 A_2 = 8\text{ m}, B_1 B_2 = 6\text{ m}$ và tứ giác $MNPQ$ là hình chữ nhật có $MQ = 3\text{ m}$. \image{0.4}{}{images_ChuDe03_DienTich/sa_c5.png}}{$4205000$}{1}{Đáp án: 4205000.}
+
+\end{quiz}
+
+\end{document}

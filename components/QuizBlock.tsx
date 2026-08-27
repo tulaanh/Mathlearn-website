@@ -1,8 +1,13 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { DocumentBlock, QuizQuestion } from "@/lib/document-types";
 import { resolveQuestionImageSrc, resolveAllExplanationImages } from "@/lib/document-preview";
+import {
+  clearQuizBlockDraft,
+  loadQuizBlockDraft,
+  saveQuizBlockDraft,
+} from "@/lib/exam-draft";
 import LazyMathText from "./LazyMathText";
 import DebouncedInput from "./DebouncedInput";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
@@ -244,10 +249,32 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
 
 export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { type: "quiz" }> }) {
   const questions: QuizQuestion[] = Array.isArray(block.questions) ? block.questions : [];
+  const blockKey = block.id || `${block.position}_${block.title}`;
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [visibleExplanations, setVisibleExplanations] = useState<Record<string, boolean>>({});
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
+  const [hasInitialized, setHasInitialized] = useState(false);
+
+  // Khôi phục câu trả lời từ localStorage khi load
+  useEffect(() => {
+    const draft = loadQuizBlockDraft(blockKey);
+    if (draft) {
+      if (draft.answers) setAnswers(draft.answers);
+      if (draft.submitted) setSubmitted(true);
+    }
+    setHasInitialized(true);
+  }, [blockKey]);
+
+  // Tự động lưu câu trả lời vào localStorage
+  useEffect(() => {
+    if (!hasInitialized) return;
+    if (Object.keys(answers).length > 0 || submitted) {
+      saveQuizBlockDraft(blockKey, { answers, submitted });
+    } else {
+      clearQuizBlockDraft(blockKey);
+    }
+  }, [blockKey, answers, submitted, hasInitialized]);
 
   /** Callback ổn định để QuizQuestionRow memo hoạt động: trả lời 1 câu không re-render cả block. */
   const setAnswer = useCallback((key: string, value: string) => {
@@ -315,7 +342,11 @@ export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { t
               </p>
               <button
                 type="button"
-                onClick={() => { setAnswers({}); setSubmitted(false); }}
+                onClick={() => {
+                  clearQuizBlockDraft(blockKey);
+                  setAnswers({});
+                  setSubmitted(false);
+                }}
                 className="rounded-xl border border-purple-300 px-4 py-2 text-sm font-bold text-purple-600 hover:bg-purple-50 dark:border-purple-800 dark:hover:bg-purple-950/40"
               >
                 Làm lại

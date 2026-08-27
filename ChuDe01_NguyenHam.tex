@@ -1,0 +1,517 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 01: NGUYÊN HÀM}
+\docdesc{Tóm tắt lý thuyết và các dạng toán Nguyên hàm - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Giải tích, Nguyên hàm - Tích phân}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Định nghĩa, tính chất và các bảng nguyên hàm cơ bản, mở rộng}
+
+\textbf{1. Nguyên hàm và tính chất:}
+
+a) \textbf{Nguyên hàm:}
+- \textbf{Định nghĩa 1:} Cho hàm số $f(x)$ xác định trên $K$. Hàm số $F(x)$ được gọi là nguyên hàm của hàm số $f(x)$ trên $K$ nếu $F'(x) = f(x)$ với mọi $x \in K$.
+- \textbf{Định nghĩa 2:} Nếu $F(x)$ là một nguyên hàm của hàm số $f(x)$ trên $K$ thì với mỗi hằng số $C$, hàm số $G(x) = F(x) + C$ cũng là một nguyên hàm của hàm số $f(x)$ trên $K$.
+
+\textbf{Chú ý:}
+- Khi tìm họ nguyên hàm (gọi tắt là tìm nguyên hàm) của hàm số $f(x)$ ta chỉ cần tìm một nguyên hàm của hàm số $f(x)$ trên $K$, và khi đó:
+$$\int f(x)\,\mathrm{d}x = F(x) + C, \quad C \text{ là hằng số.}$$
+- Biểu thức $f(x)\,\mathrm{d}x$ được gọi là vi phân của nguyên hàm $F(x)$ nên ta có:
+$$\mathrm{d}[F(x)] = F'(x)\,\mathrm{d}x = f(x)\,\mathrm{d}x.$$
+
+b) \textbf{Tính chất:}
+- \textbf{Tính chất 1:} $\int k \cdot f(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$, với $k \ne 0$.
+- \textbf{Tính chất 2:} $\int [f(x) \pm g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x \pm \int g(x)\,\mathrm{d}x$.
+
+\textbf{2. Nguyên hàm một số hàm thường gặp:}
+
+- \textbf{Bảng nguyên hàm cơ bản:}\image{0.6}{}{lt_1.png}
+
+- \textbf{Bảng nguyên hàm mở rộng cho đa thức bậc nhất:}\image{0.6}{}{lt_2.png}
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1: ÁP DỤNG BẢNG CÔNG THỨC NGUYÊN HÀM
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Áp dụng bảng công thức nguyên hàm}{Dạng 1.1: Nguyên hàm của hàm số lũy thừa}
+
+\textbf{Phương pháp giải:}
+- Sử dụng các công thức: $\int x^\alpha\,\mathrm{d}x = \frac{x^{\alpha+1}}{\alpha+1} + C \quad (\alpha \ne -1)$ và $\int (ax+b)^\alpha\,\mathrm{d}x = \frac{1}{a} \cdot \frac{(ax+b)^{\alpha+1}}{\alpha+1} + C \quad (\alpha \ne -1)$.
+- Sử dụng công thức nguyên hàm hàm phân thức cơ bản: $\int \frac{\mathrm{d}x}{x} = \ln|x| + C$ và $\int \frac{\mathrm{d}x}{ax+b} = \frac{1}{a}\ln|ax+b| + C$.
+
+\end{lesson}
+
+\begin{quiz}{Dạng 1.1: Các ví dụ minh họa}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = \frac{1}{x\sqrt{x}}$ là:}{1}{1}{Ta có $\int \frac{1}{x\sqrt{x}}\,\mathrm{d}x = \int x^{-\frac{3}{2}}\,\mathrm{d}x = \frac{x^{-\frac{3}{2}+1}}{-\frac{3}{2}+1} + C = -\frac{2}{\sqrt{x}} + C$. Chọn B.}
+	\option{$\frac{2}{\sqrt{x}} + C$.}
+	\option{$-\frac{2}{\sqrt{x}} + C$.}
+	\option{$\frac{\sqrt{x}}{2} + C$.}
+	\option{$-\frac{\sqrt{x}}{2} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $g(x) = 4x^3 + \frac{2}{x}$ là:}{2}{1}{Ta có $\int \left(4x^3 + \frac{2}{x}\right)\,\mathrm{d}x = 4\int x^3\,\mathrm{d}x + 2\int \frac{\mathrm{d}x}{x} = x^4 + 2\ln|x| + C$. Chọn C.}
+	\option{$\frac{4}{3}x^3 + 2\ln|x| + C$.}
+	\option{$x^4 + \frac{2}{\sqrt{x}} + C$.}
+	\option{$x^4 + 2\ln|x| + C$.}
+	\option{$\frac{4}{3}x^4 - 2\ln|x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = 4x^3 - 4x + 5$ biết $F(1) = 3$.}{2}{1}{Ta có $F(x) = \int (4x^3 - 4x + 5)\,\mathrm{d}x = x^4 - 2x^2 + 5x + C$.
+
+Vì $F(1) = 3 \Leftrightarrow 1 - 2 + 5 + C = 3 \Leftrightarrow C = -1$. Suy ra $F(x) = x^4 - 2x^2 + 5x - 1$. Chọn C.}
+	\option{$F(x) = x^4 - 2x^2 + 5x - 5$.}
+	\option{$F(x) = x^4 - 2x^2 + 5x + 2$.}
+	\option{$F(x) = x^4 - 2x^2 + 5x - 1$.}
+	\option{$F(x) = x^4 - 2x^2 + 5x + 1$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $y = (2x+1)^{2024}$.}{1}{1}{Ta có $\int (2x+1)^{2024}\,\mathrm{d}x = \frac{(2x+1)^{2024+1}}{2(2024+1)} + C = \frac{(2x+1)^{2025}}{4050} + C$. Chọn B.}
+	\option{$\frac{(2x+1)^{2023}}{2023} + C$.}
+	\option{$\frac{(2x+1)^{2025}}{4050} + C$.}
+	\option{$\frac{(2x+1)^{2025}}{2025} + C$.}
+	\option{$\frac{(2x+1)^{2023}}{4046} + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ thỏa mãn $f''(x) = 12x^2 + 6x - 4$ và $f(0) = 1, f(1) = 3$. Tính $f(-1)$.}{0}{1}{Ta có:
+$f'(x) = \int f''(x)\,\mathrm{d}x = \int (12x^2 + 6x - 4)\,\mathrm{d}x = 4x^3 + 3x^2 - 4x + C_1$.
+
+$f(x) = \int f'(x)\,\mathrm{d}x = \int (4x^3 + 3x^2 - 4x + C_1)\,\mathrm{d}x = x^4 + x^3 - 2x^2 + C_1 x + C_2$.
+
+Theo đề bài: $\begin{cases} f(0) = 1 \\ f(1) = 3 \end{cases} \Leftrightarrow \begin{cases} C_2 = 1 \\ C_1 = 2 \end{cases} \Rightarrow f(x) = x^4 + x^3 - 2x^2 + 2x + 1$.
+
+Suy ra $f(-1) = -3$. Chọn A.}
+	\option{$f(-1) = -3$.}
+	\option{$f(-1) = -1$.}
+	\option{$f(-1) = 2$.}
+	\option{$f(-1) = 3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = x + e^{2x+1}$. Khẳng định nào dưới đây đúng?}{0}{1}{Ta có $\int f(x)\,\mathrm{d}x = \frac{x^2}{2} + \frac{e^{2x+1}}{2} + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^2}{2} + \frac{e^{2x+1}}{2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = x^2 + e^{2x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^2}{2} + e^{2x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 2e^{2x+1} + C$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x) = (ax^2 + bx + c)e^x$ là một nguyên hàm của hàm số $f(x) = (x-1)^2 e^x$. Tính $S = a + 2b + c$.}{1}{1}{Theo định nghĩa ta có: $F'(x) = f(x) \Leftrightarrow [(ax^2 + bx + c)e^x]' = [ax^2 + (2a+b)x + b + c]e^x = (x^2 - 2x + 1)e^x$.
+
+Đồng nhất hệ số: $\begin{cases} a = 1 \\ 2a+b = -2 \\ b+c = 1 \end{cases} \Leftrightarrow \begin{cases} a = 1 \\ b = -4 \\ c = 5 \end{cases} \Rightarrow S = a + 2b + c = -2$. Chọn B.}
+	\option{$-3$.}
+	\option{$-2$.}
+	\option{$4$.}
+	\option{$0$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x) = (ax^2 + bx + c)\sqrt{2x-3}$ là nguyên hàm của hàm số $f(x) = \frac{20x^2 - 30x + 11}{\sqrt{2x-3}}$ trên khoảng $\left(\frac{3}{2}; +\infty\right)$. Tính $T = a + b + c$.}{2}{1}{Theo định nghĩa $F'(x) = f(x) \Leftrightarrow [(ax^2 + bx + c)\sqrt{2x-3}]' = \frac{5ax^2 + (3b-6a)x + c - 3b}{\sqrt{2x-3}} = \frac{20x^2 - 30x + 11}{\sqrt{2x-3}}$.
+
+Đồng nhất hệ số: $\begin{cases} 5a = 20 \\ 3b - 6a = -30 \\ c - 3b = 11 \end{cases} \Leftrightarrow \begin{cases} a = 4 \\ b = -2 \\ c = 5 \end{cases} \Rightarrow T = a + b + c = 7$. Chọn C.}
+	\option{$5$.}
+	\option{$6$.}
+	\option{$7$.}
+	\option{$8$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG 1.2: NGUYÊN HÀM CỦA HÀM SỐ LƯỢNG GIÁC
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Áp dụng bảng công thức nguyên hàm}{Dạng 1.2: Nguyên hàm của hàm số lượng giác}
+
+\textbf{Phương pháp giải:}
+- Áp dụng các công thức: $\int \sin x\,\mathrm{d}x = -\cos x + C$, $\int \cos x\,\mathrm{d}x = \sin x + C$, $\int \frac{\mathrm{d}x}{\cos^2 x} = \tan x + C$, $\int \frac{\mathrm{d}x}{\sin^2 x} = -\cot x + C$.
+- Công thức mở rộng bậc nhất: $\int \sin(ax+b)\,\mathrm{d}x = -\frac{1}{a}\cos(ax+b) + C$, $\int \cos(ax+b)\,\mathrm{d}x = \frac{1}{a}\sin(ax+b) + C$.
+
+\end{lesson}
+
+\begin{quiz}{Dạng 1.2: Các ví dụ minh họa}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3\sin x + 2\cos x$ là:}{1}{1}{Ta có $\int f(x)\,\mathrm{d}x = \int (3\sin x + 2\cos x)\,\mathrm{d}x = 3\int \sin x\,\mathrm{d}x + 2\int \cos x\,\mathrm{d}x = -3\cos x + 2\sin x + C$. Chọn B.}
+	\option{$F(x) = 3\cos x + 2\sin x + C$.}
+	\option{$F(x) = -3\cos x + 2\sin x + C$.}
+	\option{$F(x) = -2\cos x + 3\sin x + C$.}
+	\option{$F(x) = 2\cos x + 3\sin x + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $g(x) = 2\sin x + \frac{1}{\sin^2 x}$ là:}{0}{1}{Ta có $\int g(x)\,\mathrm{d}x = \int \left(2\sin x + \frac{1}{\sin^2 x}\right)\,\mathrm{d}x = 2\int \sin x\,\mathrm{d}x + \int \frac{\mathrm{d}x}{\sin^2 x} = -2\cos x - \cot x + C$. Chọn A.}
+	\option{$-2\cos x - \cot x + C$.}
+	\option{$-2\cos x + \cot x + C$.}
+	\option{$2\cos x - \cot x + C$.}
+	\option{$2\cos x + \cot x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = \left(\sin\frac{x}{2} - \cos\frac{x}{2}\right)^2$, biết $F\left(\frac{\pi}{2}\right) = \frac{3\pi}{2}$.}{0}{1}{Ta có $f(x) = \sin^2\frac{x}{2} - 2\sin\frac{x}{2}\cos\frac{x}{2} + \cos^2\frac{x}{2} = 1 - \sin x$.
+
+$F(x) = \int (1 - \sin x)\,\mathrm{d}x = x + \cos x + C$.
+
+Vì $F\left(\frac{\pi}{2}\right) = \frac{3\pi}{2} \Leftrightarrow \frac{\pi}{2} + \cos\frac{\pi}{2} + C = \frac{3\pi}{2} \Leftrightarrow C = \pi \Rightarrow F(x) = x + \cos x + \pi$. Chọn A.}
+	\option{$F(x) = x + \cos x + \pi$.}
+	\option{$F(x) = 2x + \cos x + \pi$.}
+	\option{$F(x) = x + \cos x - 2\pi$.}
+	\option{$F(x) = 2x + \cos x + 2\pi$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = \sin 3x$ là:}{2}{1}{Ta có $\int \sin 3x\,\mathrm{d}x = -\frac{1}{3}\cos 3x + C$. Chọn C.}
+	\option{$\frac{1}{3}\cos 3x + C$.}
+	\option{$\cos 3x + C$.}
+	\option{$-\frac{1}{3}\cos 3x + C$.}
+	\option{$-\cos 3x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = \cos\left(3x + \frac{\pi}{6}\right)$. Khẳng định nào sau đây đúng?}{0}{1}{Ta có $\int f(x)\,\mathrm{d}x = \int \cos\left(3x + \frac{\pi}{6}\right)\,\mathrm{d}x = \frac{1}{3}\sin\left(3x + \frac{\pi}{6}\right) + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{1}{3}\sin\left(3x + \frac{\pi}{6}\right) + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \sin\left(3x + \frac{\pi}{6}\right) + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\frac{1}{3}\sin\left(3x + \frac{\pi}{6}\right) + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{1}{6}\sin\left(3x + \frac{\pi}{6}\right) + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = 1 + \tan^2\frac{x}{2}$. Chọn câu trả lời đúng?}{0}{1}{Ta có $\int f(x)\,\mathrm{d}x = \int \left(1 + \tan^2\frac{x}{2}\right)\,\mathrm{d}x = \int \frac{\mathrm{d}x}{\cos^2\frac{x}{2}} = 2\tan\frac{x}{2} + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = 2\tan\frac{x}{2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{1}{2}\tan\frac{x}{2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \tan\frac{x}{2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\tan\frac{x}{2} + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG 1.3: NGUYÊN HÀM CỦA HÀM SỐ MŨ
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1: Áp dụng bảng công thức nguyên hàm}{Dạng 1.3: Nguyên hàm của hàm số mũ}
+
+\textbf{Phương pháp giải:}
+- Sử dụng các công thức: $\int e^x\,\mathrm{d}x = e^x + C$, $\int a^x\,\mathrm{d}x = \frac{a^x}{\ln a} + C \quad (0 < a \ne 1)$.
+- Công thức mở rộng bậc nhất: $\int e^{ax+b}\,\mathrm{d}x = \frac{1}{a}e^{ax+b} + C$, $\int a^{mx+n}\,\mathrm{d}x = \frac{1}{m} \cdot \frac{a^{mx+n}}{\ln a} + C$.
+
+\end{lesson}
+
+\begin{quiz}{Dạng 1.3: Các ví dụ minh họa}
+
+\begin{mcq}{Trong các khẳng định sau, khẳng định nào là sai?}{0}{1}{Khẳng định đúng là $\int a^x\,\mathrm{d}x = \frac{a^x}{\ln a} + C$. Do đó khẳng định A là sai. Chọn A.}
+	\option{$\int a^x\,\mathrm{d}x = a^x\ln a + C$.}
+	\option{$\int e^x\,\mathrm{d}x = e^x + C$.}
+	\option{$\int \frac{\mathrm{d}x}{x} = \ln|x| + C, x \ne 0$.}
+	\option{$\int x^\alpha\,\mathrm{d}x = \frac{x^{\alpha+1}}{\alpha+1} + C, \alpha \ne -1$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 2^x$ là:}{0}{1}{Ta có $\int f(x)\,\mathrm{d}x = \frac{2^x}{\ln 2} + C$. Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{2^x}{\ln 2} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 2^x\ln 2 + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{2^{x+1}}{x+1} + C, x \ne -1$.}
+	\option{$\int f(x)\,\mathrm{d}x = 2^x + C$.}
+\end{mcq}
+
+\begin{mcq}{Một nguyên hàm $H(x)$ của hàm số $h(x) = 2024^x$ thỏa mãn $H(1) = \ln^{-1} 2024$ là:}{3}{1}{Ta có $H(x) = \int h(x)\,\mathrm{d}x = \int 2024^x\,\mathrm{d}x = \frac{2024^x}{\ln 2024} + C$.
+
+Vì $H(1) = \ln^{-1} 2024 \Leftrightarrow \frac{2024}{\ln 2024} + C = \frac{1}{\ln 2024} \Leftrightarrow C = -\frac{2023}{\ln 2024}$.
+
+Vậy $H(x) = \frac{2024^x}{\ln 2024} - \frac{2023}{\ln 2024}$. Chọn D.}
+	\option{$H(x) = \frac{2024^x}{\ln 2023} - \frac{2022}{\ln 2024}$.}
+	\option{$H(x) = \frac{2024^x}{\ln 2024} - \frac{2025}{\ln 2024}$.}
+	\option{$H(x) = \frac{2024^x}{\ln 2024} - \frac{2026}{\ln 2024}$.}
+	\option{$H(x) = \frac{2024^x}{\ln 2024} - \frac{2023}{\ln 2024}$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $g(x) = 5^x + e^x$ là:}{1}{1}{Ta có $\int g(x)\,\mathrm{d}x = \int (5^x + e^x)\,\mathrm{d}x = \int 5^x\,\mathrm{d}x + \int e^x\,\mathrm{d}x = \frac{5^x}{\ln 5} + e^x + C$. Chọn B.}
+	\option{$\int g(x)\,\mathrm{d}x = 5^x\ln 5 + e^x + C$.}
+	\option{$\int g(x)\,\mathrm{d}x = \frac{5^x}{\ln 5} + e^x + C$.}
+	\option{$\int g(x)\,\mathrm{d}x = \frac{5^x}{\ln 5} - e^x + C$.}
+	\option{$\int g(x)\,\mathrm{d}x = \frac{5^{x+1}}{x+1} + e^x + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2: TÁCH NGUYÊN HÀM DẠNG TÍCH THÀNH TỔNG CÁC NGUYÊN HÀM CƠ BẢN
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2: Tách nguyên hàm dạng tích thành tổng các nguyên hàm cơ bản}{Khai triển tích và biến đổi lượng giác tích thành tổng}
+
+\textbf{Phương pháp giải:}
+- Đối với đa thức: Nhân phân phối để đưa về đa thức chuẩn và lấy nguyên hàm từng đơn thức.
+- Đối với hàm lượng giác: Dùng các công thức biến đổi tích thành tổng:
+$$\cos a \cos b = \frac{1}{2}[\cos(a+b) + \cos(a-b)]$$
+$$\sin a \sin b = \frac{1}{2}[\cos(a-b) - \cos(a+b)]$$
+$$\sin a \cos b = \frac{1}{2}[\sin(a+b) + \sin(a-b)]$$
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2: Các ví dụ minh họa}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 2x(1+3x^3)$ là:}{1}{1}{Ta có $\int f(x)\,\mathrm{d}x = \int 2x(1+3x^3)\,\mathrm{d}x = \int (2x + 6x^4)\,\mathrm{d}x = x^2 + \frac{6}{5}x^5 + C = x^2\left(1 + \frac{6}{5}x^3\right) + C$. Chọn B.}
+	\option{$2x\left(1 + \frac{3}{4}x^4\right) + C$.}
+	\option{$x^2\left(1 + \frac{6}{5}x^3\right) + C$.}
+	\option{$x^2\left(1 + \frac{3}{2}x^2\right) + C$.}
+	\option{$x^2\left(x + \frac{3}{4}x^3\right) + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $g(x) = (x-1)(x-2)(x+1)(x+2)$ là:}{1}{1}{Ta có:
+$$\int g(x)\,\mathrm{d}x = \int (x-1)(x-2)(x+1)(x+2)\,\mathrm{d}x = \int (x^2-1)(x^2-4)\,\mathrm{d}x = \int (x^4 - 5x^2 + 4)\,\mathrm{d}x = \frac{x^5}{5} - \frac{5}{3}x^3 + 4x + C.$$
+
+Chọn B.}
+	\option{$5x^4 - \frac{5}{3}x^3 - 4x + C$.}
+	\option{$\frac{x^5}{5} - \frac{5}{3}x^3 + 4x + C$.}
+	\option{$5x^4 - \frac{5}{3}x^3 - 4x + C$.}
+	\option{$\frac{x^5}{5} - \frac{3}{5}x^3 + 4x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm $F(x)$ của hàm số $f(x) = e^x(e^{-x} + 1)$?}{1}{1}{Ta có $F(x) = \int e^x(e^{-x} + 1)\,\mathrm{d}x = \int (1 + e^x)\,\mathrm{d}x = x + e^x + C$. Chọn B.}
+	\option{$F(x) = x - e^x + C$.}
+	\option{$F(x) = x + e^x + C$.}
+	\option{$F(x) = e^x + C$.}
+	\option{$F(x) = e^x + 1 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = \sin\frac{x}{2} \cdot \cos\frac{x}{2}$ thỏa mãn $F\left(\frac{\pi}{2}\right) = 1$.}{0}{1}{Ta có $F(x) = \int f(x)\,\mathrm{d}x = \int \sin\frac{x}{2}\cos\frac{x}{2}\,\mathrm{d}x = \frac{1}{2}\int \sin x\,\mathrm{d}x = -\frac{1}{2}\cos x + C$.
+
+Vì $F\left(\frac{\pi}{2}\right) = 1 \Leftrightarrow C = 1$. Vậy $F(x) = -\frac{1}{2}\cos x + 1$. Chọn A.}
+	\option{$F(x) = -\frac{1}{2}\cos x + 1$.}
+	\option{$F(x) = -\frac{1}{2}\cos x + \frac{1}{2}$.}
+	\option{$F(x) = -\frac{1}{2}\cos x - 1$.}
+	\option{$F(x) = -\frac{1}{2}\cos x - \frac{1}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = x\left(2 + \frac{1}{x\sin^2 x}\right)$ thỏa mãn $F\left(\frac{\pi}{4}\right) = -1$?}{0}{1}{Ta có $F(x) = \int f(x)\,\mathrm{d}x = \int x\left(2 + \frac{1}{x\sin^2 x}\right)\,\mathrm{d}x = \int \left(2x + \frac{1}{\sin^2 x}\right)\,\mathrm{d}x = x^2 - \cot x + C$.
+
+Vì $F\left(\frac{\pi}{4}\right) = -1 \Leftrightarrow \frac{\pi^2}{16} - 1 + C = -1 \Leftrightarrow C = -\frac{\pi^2}{16}$.
+
+Vậy $F(x) = x^2 - \cot x - \frac{\pi^2}{16}$. Chọn A.}
+	\option{$F(x) = x^2 - \cot x - \frac{\pi^2}{16}$.}
+	\option{$F(x) = x^2 - \tan x - 1$.}
+	\option{$F(x) = x^2 - \tan x - \frac{\pi^2}{16}$.}
+	\option{$F(x) = x^2 + \cot x - 1$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $y = \cos 5x \cdot \cos x$.}{1}{1}{Ta có:
+$$F(x) = \int \cos 5x \cos x\,\mathrm{d}x = \frac{1}{2}\int (\cos 6x + \cos 4x)\,\mathrm{d}x = \frac{1}{2}\left(\frac{1}{6}\sin 6x + \frac{1}{4}\sin 4x\right) + C.$$
+
+Chọn B.}
+	\option{$-\frac{1}{2}\left(\frac{1}{6}\sin 6x + \frac{1}{4}\sin 4x\right) + C$.}
+	\option{$\frac{1}{2}\left(\frac{1}{6}\sin 6x + \frac{1}{4}\sin 4x\right) + C$.}
+	\option{$\frac{1}{3}\left(\frac{1}{6}\cos 6x + \frac{1}{4}\cos 4x\right) + C$.}
+	\option{$\frac{1}{5}\sin 5x \cdot \sin x + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3: TÁCH NGUYÊN HÀM DẠNG PHÂN THỨC THÀNH TỔNG CÁC NGUYÊN HÀM CƠ BẢN
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3: Tách nguyên hàm dạng phân thức thành tổng các nguyên hàm cơ bản}{Phương pháp chia đa thức và tách phân thức}
+
+\textbf{Phương pháp giải:}
+- Phân thức có bậc tử lớn hơn hoặc bằng bậc mẫu, ta tiến hành chia đa thức.
+- Ví dụ: $f(x) = \frac{x^2 - 3x + 3}{x - 1}$ chia đa thức ta được $f(x) = x - 2 + \frac{1}{x - 1}$.
+- Ví dụ: $f(x) = \frac{2x + 3}{x - 1}$ chia đa thức ta được $f(x) = 2 + \frac{5}{x - 1}$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3: Các ví dụ minh họa}
+
+\begin{mcq}{Biết $F(x)$ là một nguyên hàm của hàm số $f(x) = \frac{1+2x^2}{x}$ thỏa mãn $F(-1) = 3$. Khẳng định nào sau đây đúng?}{3}{1}{Ta có $F(x) = \int \frac{1+2x^2}{x}\,\mathrm{d}x = \int \left(2x + \frac{1}{x}\right)\,\mathrm{d}x = x^2 + \ln|x| + C$.
+
+Vì $F(-1) = 3 \Leftrightarrow (-1)^2 + \ln|-1| + C = 3 \Leftrightarrow C = 2 \Rightarrow F(x) = x^2 + \ln|x| + 2$. Chọn D.}
+	\option{$F(x) = x + \ln|x| + 2$.}
+	\option{$F(x) = x^2 + \ln|x| - 2$.}
+	\option{$F(x) = 2x^2 + \ln|x| + 1$.}
+	\option{$F(x) = x^2 + \ln|x| + 2$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm $I = \int \frac{2x^2 - 7x + 5}{x - 3}\,\mathrm{d}x$.}{0}{1}{Ta có $I = \int \frac{2x^2 - 7x + 5}{x - 3}\,\mathrm{d}x = \int \left(2x - 1 + \frac{2}{x - 3}\right)\,\mathrm{d}x = x^2 - x + 2\ln|x-3| + C$. Chọn A.}
+	\option{$I = x^2 - x + 2\ln|x-3| + C$.}
+	\option{$I = x^2 + x + 2\ln|x-3| + C$.}
+	\option{$I = x^2 - x + 2\ln|x-3|$.}
+	\option{$I = x^2 - x - 2\ln|x-3| + C$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x)$ là một nguyên hàm của hàm số $f(x) = \frac{1}{\sin^2 x \cos^2 x}$ và $F\left(\frac{\pi}{4}\right) = 1$. Khẳng định nào sau đây đúng?}{0}{1}{Ta có:
+$$F(x) = \int \frac{1}{\sin^2 x \cos^2 x}\,\mathrm{d}x = \int \frac{\sin^2 x + \cos^2 x}{\sin^2 x \cos^2 x}\,\mathrm{d}x = \int \frac{\mathrm{d}x}{\cos^2 x} + \int \frac{\mathrm{d}x}{\sin^2 x} = \tan x - \cot x + C.$$
+
+Vì $F\left(\frac{\pi}{4}\right) = 1 \Leftrightarrow \tan\left(\frac{\pi}{4}\right) - \cot\left(\frac{\pi}{4}\right) + C = 1 \Leftrightarrow C = 1 \Rightarrow F(x) = \tan x - \cot x + 1$. Chọn A.}
+	\option{$F(x) = \tan x - \cot x + 1$.}
+	\option{$F(x) = \tan x + \cot x + 1$.}
+	\option{$F(x) = \tan x + \cot x + 1$.}
+	\option{$F(x) = \tan x + \cot x - 1$.}
+\end{mcq}
+
+\begin{mcq}{Cho $I = \int \frac{2x-1}{x+1}\,\mathrm{d}x = ax + b\ln|x+1| + C \, (a, b \in \mathbb{Z})$. Tính $a^2 + b^2$.}{0}{1}{Ta có $I = \int \frac{2(x+1) - 3}{x+1}\,\mathrm{d}x = \int \left(2 - \frac{3}{x+1}\right)\,\mathrm{d}x = 2x - 3\ln|x+1| + C$.
+
+Do đó: $\begin{cases} a = 2 \\ b = -3 \end{cases} \Rightarrow a^2 + b^2 = 2^2 + (-3)^2 = 13$. Chọn A.}
+	\option{$13$.}
+	\option{$14$.}
+	\option{$15$.}
+	\option{$16$.}
+\end{mcq}
+
+\begin{mcq}{Cho $I = \int \frac{4x+3}{2x-1}\,\mathrm{d}x$. Khẳng định nào sau đây đúng?}{2}{1}{Ta có $I = \int \frac{4x+3}{2x-1}\,\mathrm{d}x = \int \frac{2(2x-1) + 5}{2x-1}\,\mathrm{d}x = \int \left(2 + \frac{5}{2x-1}\right)\,\mathrm{d}x = 2x + \frac{5}{2}\ln|2x-1| + C$. Chọn C.}
+	\option{$x^2 + \frac{5}{2}\ln|2x-1| + C$.}
+	\option{$2x + 5\ln|2x-1| + C$.}
+	\option{$2x + \frac{5}{2}\ln|2x-1| + C$.}
+	\option{$\frac{5}{2}\ln|2x-1| + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho $J = \int \frac{x^2}{x-1}\,\mathrm{d}x = ax^2 + bx + c\ln|x-1| + C$. Tính $T = a + b - c$.}{0}{1}{Ta có:
+$$J = \int \frac{x^2}{x-1}\,\mathrm{d}x = \int \frac{(x^2-1) + 1}{x-1}\,\mathrm{d}x = \int \frac{(x+1)(x-1) + 1}{x-1}\,\mathrm{d}x = \int \left(x + 1 + \frac{1}{x-1}\right)\,\mathrm{d}x = \frac{x^2}{2} + x + \ln|x-1| + C.$$
+
+Do đó: $\begin{cases} a = \frac{1}{2} \\ b = 1 \\ c = 1 \end{cases} \Rightarrow T = a + b - c = \frac{1}{2}$. Chọn A.}
+	\option{$\frac{1}{2}$.}
+	\option{$1$.}
+	\option{$2$.}
+	\option{$0$.}
+\end{mcq}
+
+\begin{mcq}{Cho nguyên hàm $I = \int \frac{x^2+x+1}{x+2}\,\mathrm{d}x$. Chọn câu trả lời đúng?}{0}{1}{Ta có $I = \int \frac{x^2+x+1}{x+2}\,\mathrm{d}x = \int \left(x - 1 + \frac{3}{x+2}\right)\,\mathrm{d}x = \frac{x^2}{2} - x + 3\ln|x+2| + C$. Chọn A.}
+	\option{$\frac{x^2}{2} - x + 3\ln|x+2| + C$.}
+	\option{$\frac{x^2}{2} + x + 3\ln|x+2| + C$.}
+	\option{$x^2 - x + 3\ln|x+2| + C$.}
+	\option{$\frac{x^2}{2} - x + \ln|x+2| + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4: BÀI TOÁN THỰC TẾ
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4: Bài toán thực tế}{Ứng dụng nguyên hàm trong chuyển động, tốc độ tăng trưởng và mô hình thực tế}
+
+\textbf{Phương pháp giải:}
+- Chuyển động: Vận tốc $v(t) = \int a(t)\,\mathrm{d}t$, Quãng đường/Độ cao $s(t) = \int v(t)\,\mathrm{d}t$.
+- Tốc độ biến thiên: Hàm lượng tổng $F(t) = \int f'(t)\,\mathrm{d}t$.
+- Sử dụng các điều kiện ban đầu ($t = 0$) để xác định chính xác hằng số tích phân $C$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4: Các ví dụ minh họa}
+
+\essay{Một viên đạn bắn lên trời với vận tốc $72\text{ m/s}$ bắt đầu từ độ cao $2\text{ m}$. Hãy xác định chiều cao của viên đạn sau $5\text{ s}$ kể từ lúc bắn. Biết $a(t) = -9{,}8\text{ m/s}^2$.}{1}{Ta có:
+- Vận tốc viên đạn tại thời điểm $t$ là:
+$$v(t) = \int a(t)\,\mathrm{d}t = -\int 9{,}8\,\mathrm{d}t = -9{,}8t + C$$
+Do $v(0) = 72 \Leftrightarrow C = 72 \Rightarrow v(t) = -9{,}8t + 72$.
+
+- Độ cao của viên đạn tại thời điểm $t$ là:
+$$s(t) = \int v(t)\,\mathrm{d}t = \int (-9{,}8t + 72)\,\mathrm{d}t = -4{,}9t^2 + 72t + C'$$
+Do $s(0) = 2 \Leftrightarrow -4{,}9(0)^2 + 72(0) + C' = 2 \Leftrightarrow C' = 2 \Rightarrow s(t) = -4{,}9t^2 + 72t + 2$.
+
+- Vậy sau $5\text{ s}$ kể từ lúc viên đạn được bắn, viên đạn ở độ cao:
+$$s(5) = -4{,}9(5)^2 + 72(5) + 2 = 239{,}5\text{ m}.$$}
+
+\essay{Tốc độ tăng các cặp đôi kết hôn (đơn vị tính: triệu người) của nước Mỹ từ năm 1970 đến 2005 có thể được mô hình bởi hàm số $f(t) = 1{,}218t^2 - 44{,}72t + 709{,}1$ với $t$ là năm, $t = 0$ ứng với năm 1970. Số lượng cặp đôi kết hôn năm 2005 là $59513$ người. Hãy dự đoán số lượng cặp đôi kết hôn ở nước Mỹ vào năm 2012.}{1}{Ta có:
+- Số lượng cặp đôi kết hôn ở thời điểm $t$:
+$$F(t) = \int f(t)\,\mathrm{d}t = \int (1{,}218t^2 - 44{,}72t + 709{,}1)\,\mathrm{d}t = \frac{1{,}218}{3}t^3 - \frac{44{,}72}{2}t^2 + 709{,}1t + C$$
+
+Do năm 2005 có số lượng cặp đôi kết hôn là $59513$ nên:
+$$F(35) = 59513 \Leftrightarrow \frac{1{,}218}{3}(35)^3 - \frac{44{,}72}{2}(35)^2 + 709{,}1(35) + C = 59513 \Leftrightarrow C = 44678{,}25.$$
+
+- Số lượng cặp đôi kết hôn ở thời điểm năm 2012 ($t = 42$):
+$$F(42) = 65097{,}138\text{ triệu người}.$$}
+
+\essay{Một bác thợ xây bơm nước vào bể chứa. Gọi $h(t)$ là thể tích nước bơm được sau $t$ giây. Cho $h'(t) = 6at^2 + 2bt$ và ban đầu bể không có nước. Sau $3$ giây thì nước trong bể là $90\text{ m}^3$, sau $6$ giây thì nước trong bể là $504\text{ m}^3$. Tính thể tích nước trong bể sau khi bơm được $9$ giây.}{1}{Ta có:
+- Từ giả thiết suy ra: $h(t) = \int (6at^2 + 2bt)\,\mathrm{d}t = 2at^3 + bt^2 + C$.
+- Do ban đầu bể không có nước nên $C = 0 \Rightarrow h(t) = 2at^3 + bt^2$.
+- Theo đề bài:
+$$\begin{cases} h(3) = 90 \\ h(6) = 504 \end{cases} \Leftrightarrow \begin{cases} 54a + 9b = 90 \\ 432a + 36b = 504 \end{cases} \Leftrightarrow \begin{cases} a = \frac{2}{3} \\ b = 6 \end{cases} \Rightarrow h(t) = \frac{4}{3}t^3 + 6t^2.$$
+
+- Vậy $h(9) = 1458\text{ m}^3$.}
+
+\end{quiz}
+
+\end{document}

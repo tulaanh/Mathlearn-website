@@ -1,0 +1,322 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ THI RÈN LUYỆN NGUYÊN HÀM - ĐỀ 02}
+\docdesc{Đề kiểm tra rèn luyện chuyên đề Nguyên hàm - Đề số 2}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Nguyên hàm}
+
+% =========================================================================
+% PHẦN I: CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = e^x + x$ là}{1}{1}{Chọn B.}
+	\option{$e^x + x^2 + C$.}
+	\option{$e^x + \frac{1}{2}x^2 + C$.}
+	\option{$\frac{1}{x+1}e^x + \frac{1}{2}x^2 + C$.}
+	\option{$e^x + 1 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^3 + x$ là}{3}{1}{Chọn D.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$3x^2 + 1 + C$.}
+	\option{$x^3 + x + C$.}
+	\option{$\frac{1}{4}x^4 + \frac{1}{2}x^2 + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^4 + x^2$ là}{1}{1}{Chọn B.}
+	\option{$4x^3 + 2x + C$.}
+	\option{$\frac{1}{5}x^5 + \frac{1}{3}x^3 + C$.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$x^5 + x^3 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm mệnh đề sai trong các mệnh đề sau:}{2}{1}{Chọn C.}
+	\option{$\int 2e^x\,\mathrm{d}x = 2(e^x + C)$.}
+	\option{$\int x^3\,\mathrm{d}x = \frac{x^4 + C}{4}$.}
+	\option{$\int \frac{1}{x}\,\mathrm{d}x = \ln x + C$.}
+	\option{$\int \sin x\,\mathrm{d}x = -\cos x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm của hàm số $f(x) = 5^{2x}$.}{2}{1}{Chọn C.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = 2 \cdot 5^{2x}\ln 5 + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = 2 \cdot \frac{5^{2x}}{\ln 5} + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = \frac{25^x}{2\ln 5} + C$.}
+	\option{$\int 5^{2x}\,\mathrm{d}x = \frac{25^{x+1}}{x+1} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 3^x$ là}{1}{1}{Chọn B.}
+	\option{$x^3 + 3^x\ln 3 + C$.}
+	\option{$x^3 + \frac{3^x}{\ln 3} + C$.}
+	\option{$x^3 + 3^x + C$.}
+	\option{$x^3 + \frac{\ln 3}{3^x} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 2^{2x}$ là}{3}{1}{Chọn D.}
+	\option{$4^x\ln 4 + C$.}
+	\option{$\frac{1}{4^x\ln 4} + C$.}
+	\option{$4^x + C$.}
+	\option{$\frac{4^x}{\ln 4} + C$.}
+\end{mcq}
+
+\begin{mcq}{Với $C$ là hằng số, họ nguyên hàm của hàm số $f(x) = 2\cos 2x$ là}{3}{1}{Chọn D.}
+	\option{$-\sin 2x + C$.}
+	\option{$-2\sin 2x + C$.}
+	\option{$2\sin 2x + C$.}
+	\option{$\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = e^{-x}\left(2 + \frac{e^x}{\cos^2 x}\right)$.}{0}{1}{Chọn A.}
+	\option{$F(x) = -\frac{2}{e^x} + \tan x + C$.}
+	\option{$F(x) = 2e^x - \tan x + C$.}
+	\option{$F(x) = -\frac{2}{e^x} - \tan x + C$.}
+	\option{$F(x) = 2e^{-x} + \tan x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho biết $F(x)$ là một nguyên hàm của hàm số $f(x)$ trên $\mathbb{R}$. Tìm $I = \int [2f(x) - 1]\,\mathrm{d}x$.}{3}{1}{Chọn D.}
+	\option{$I = 2xf(x) - x + C$.}
+	\option{$I = 2xf(x) - 1 + C$.}
+	\option{$I = 2F(x) - 1 + C$.}
+	\option{$I = 2F(x) - x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm tất cả các nguyên hàm của hàm số $f(x) = \sin 5x$ là}{3}{1}{Chọn D.}
+	\option{$\frac{1}{5}\cos 5x + C$.}
+	\option{$\cos 5x + C$.}
+	\option{$-\cos 5x + C$.}
+	\option{$-\frac{1}{5}\cos 5x + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = \frac{1}{x+1}$ là}{3}{1}{Chọn D.}
+	\option{$\log|1+x| + C$.}
+	\option{$\ln(1+x) + C$.}
+	\option{$-\frac{1}{(1+x)^2} + C$.}
+	\option{$\ln|1+x| + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = e^x + x^2$ là}{2}{1}{Chọn C.}
+	\option{$\frac{1}{x}e^x + \frac{x^3}{3} + C$.}
+	\option{$e^x + 2x + C$.}
+	\option{$e^x + \frac{x^3}{3} + C$.}
+	\option{$e^x + 3x^3 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm họ nguyên hàm của hàm số $f(x) = \cos 3x$.}{1}{1}{Chọn B.}
+	\option{$\int \cos 3x\,\mathrm{d}x = 3\sin 3x + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = \frac{\sin 3x}{3} + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = -\frac{\sin 3x}{3} + C$.}
+	\option{$\int \cos 3x\,\mathrm{d}x = \sin 3x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \frac{1}{5x-2}$.}{0}{1}{Chọn A.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = \frac{1}{5}\ln|5x-2| + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = -\frac{1}{2}\ln(5x-2) + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = 5\ln|5x-2| + C$.}
+	\option{$\int \frac{\mathrm{d}x}{5x-2} = \ln|5x-2| + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = 7^x$.}{1}{1}{Chọn B.}
+	\option{$\int 7^x\,\mathrm{d}x = 7^x\ln 7 + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = \frac{7^x}{\ln 7} + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = 7^{x+1} + C$.}
+	\option{$\int 7^x\,\mathrm{d}x = \frac{7^{x+1}}{x+1} + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \cos 2x$.}{0}{1}{Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{1}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\frac{1}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 2\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -2\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = x^2 + \frac{2}{x^2}$.}{0}{1}{Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{2}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} - \frac{1}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{2}{x} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{x^3}{3} + \frac{1}{x} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 3x^2 + 1$ là}{3}{1}{Chọn D.}
+	\option{$x^3 + C$.}
+	\option{$\frac{x^3}{3} + x + C$.}
+	\option{$6x + C$.}
+	\option{$x^3 + x + C$.}
+\end{mcq}
+
+\begin{mcq}{Nguyên hàm của hàm số $f(x) = x^3 + x$ là}{3}{1}{Chọn D.}
+	\option{$x^4 + x^2 + C$.}
+	\option{$3x^2 + 1 + C$.}
+	\option{$x^3 + x + C$.}
+	\option{$\frac{1}{4}x^4 + \frac{1}{2}x^2 + C$.}
+\end{mcq}
+
+\begin{mcq}{Tìm một nguyên hàm $F(x)$ của hàm số $f(x) = 4 \cdot 2^{2x+3}$.}{2}{1}{Chọn C.}
+	\option{$F(x) = \frac{2^{4x+3}}{\ln 2}$.}
+	\option{$F(x) = 2^{4x+1}\ln 2$.}
+	\option{$F(x) = \frac{2^{4x+1}}{\ln 2}$.}
+	\option{$F(x) = 2^{4x+3}\ln 2$.}
+\end{mcq}
+
+\begin{mcq}{Mệnh đề nào dưới đây sai?}{2}{1}{Chọn C.}
+	\option{$\int [f(x) + g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x + \int g(x)\,\mathrm{d}x$, với mọi hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int f'(x)\,\mathrm{d}x = f(x) + C$ với mọi hàm số $f(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$ với mọi hằng số $k$ và với mọi hàm số $f(x)$ liên tục trên $\mathbb{R}$.}
+	\option{$\int [f(x) - g(x)]\,\mathrm{d}x = \int f(x)\,\mathrm{d}x - \int g(x)\,\mathrm{d}x$, với mọi hàm số $f(x), g(x)$ liên tục trên $\mathbb{R}$.}
+\end{mcq}
+
+\begin{mcq}{Tìm nguyên hàm của hàm số $f(x) = \frac{\pi}{2}\cos 2x$.}{0}{1}{Chọn A.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{\pi}{4}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = -\frac{\pi}{2}\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \pi\sin 2x + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{\pi}{2}\sin 2x + C$.}
+\end{mcq}
+
+\begin{mcq}{Cho $f(x), g(x)$ là các hàm số liên tục trên $\mathbb{R}$. Khẳng định nào sau đây đúng?}{3}{1}{Chọn D.}
+	\option{$\int f(x)g(x)\,\mathrm{d}x = \int f(x)\,\mathrm{d}x \cdot \int g(x)\,\mathrm{d}x$.}
+	\option{$\int f'(x)g'(x)\,\mathrm{d}x = f(x)g(x) + C$.}
+	\option{$\int kf(x)\,\mathrm{d}x = k\int f(x)\,\mathrm{d}x$.}
+	\option{$\int f(x)f'(x)\,\mathrm{d}x = \frac{f^2(x)}{2} + C$.}
+\end{mcq}
+
+\begin{mcq}{Họ nguyên hàm của hàm số $f(x) = 4^x$ là}{3}{1}{Chọn D.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{4^{x+1}}{x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 4^{x+1} + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = 4^x\ln 4 + C$.}
+	\option{$\int f(x)\,\mathrm{d}x = \frac{4^x}{\ln 4} + C$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Giả sử $F(x)$ là một nguyên hàm của hàm số $f(x) = ax + \frac{b}{x^2}$ với $x \ne 0$. Biết rằng $F(-1) = 1, F(1) = 4$ và $f(1) = 0$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Sai, b) Đúng, c) Đúng, d) Sai.}
+	\statement{false}{$F(2) = \frac{21}{8}$.}
+	\statement{true}{$f(x) = \frac{3}{2}x - \frac{3}{2x^2}$.}
+	\statement{true}{$F(x) = \frac{3}{4}x^2 + \frac{3}{2x} + \frac{7}{4}$.}
+	\statement{false}{$a+b = 1$, với $a, b$ là các phân số tối giản.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $f(x) = ax^3 + bx^2 + cx + d$ có $f(0) = 2$ và $f(4x) - f(x) = 4x^3 + 2x, \forall x \in \mathbb{R}$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Sai.}
+	\statement{true}{$a \cdot b = 0$.}
+	\statement{true}{$f(x) = \frac{4}{63}x^3 + \frac{2}{3}x + 2$.}
+	\statement{false}{$g(0) = \frac{3}{2}$ với $f(x)$ là nguyên hàm của hàm số $g(x)$.}
+	\statement{false}{Hàm số $y = f(x)$ có 1 điểm cực đại.}
+\end{truefalse}
+
+\begin{truefalse}{Một khinh khí cầu bay với độ cao (so với mực nước biển) tại thời điểm $t$ là $h(t)$, trong đó $t$ tính bằng phút, $h(t)$ tính bằng mét. Tốc độ bay của khinh khí cầu được cho bởi hàm số $v(t) = -0{,}12t^2 + 1{,}2t$ với $t$ tính bằng phút, $v(t)$ tính bằng mét/phút. Tại thời điểm xuất phát ($t = 0$), khinh khí cầu bay ở độ cao $520\text{ m}$ và $5$ phút sau khi xuất phát khinh khí cầu đã ở độ cao $530\text{ m}$. Xét tính đúng/sai của các khẳng định dưới đây:}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Sai.}
+	\statement{true}{Độ cao của khinh khí cầu theo $t$ là $h(t) = -\frac{1}{25}t^3 + \frac{3}{5}t^2 + 520$.}
+	\statement{true}{Sau khi xuất phát $10$ phút khinh khí cầu đã ở độ cao tối đa.}
+	\statement{false}{Sau khi bay được $12$ phút khinh khí cầu đã trở lại điểm xuất phát.}
+	\statement{false}{Sau $20$ phút khinh khí cầu đã bay thấp hơn điểm xuất phát là $60\text{ m}$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Cho hàm số $f(x) = \begin{cases} 2x + 2a - 3 & (x \ge 1) \\ ax^2 + 2 & (x < 1) \end{cases}$ (với $a$ là hằng số) liên tục trên $\mathbb{R}$. Giả sử $F(x)$ là một nguyên hàm của $f(x)$ trên $\mathbb{R}$, thỏa mãn $F(0) = 2$. Giá trị của biểu thức $F(-1) + 2F(2)$ bằng bao nhiêu?}{$21$}{1}{Đáp án: 21.}
+
+\shortanswer{Một tay đua đang điều khiển chiếc xe đua với vận tốc $180\text{ km/h}$. Tay đua nhấn ga để về đích, kể từ đó xe chạy với gia tốc $a(t) = 2t + 1\text{ (m/s}^2)$. Hỏi rằng $4$ giây sau khi tay đua nhấn ga thì xe đua chạy với vận tốc bao nhiêu $\text{km/h}$?}{$252$}{1}{Đáp án: 252.}
+
+\shortanswer{Vào năm 2014, dân số nước ta khoảng $90{,}7$ triệu người. Giả sử, dân số nước ta sau $t$ năm được xác định bởi hàm số $S(t)$ (đơn vị: triệu người), trong đó tốc độ gia tăng dân số được cho bởi $S'(t) = 1{,}2698e^{-0{,}014t}$, với $t$ là số năm kể từ năm 2014, $S'(t)$ tính bằng triệu người/năm. Theo công thức trên, dân số nước ta năm 2034 (làm tròn đến hàng đơn vị của triệu người) là bao nhiêu?}{$113$}{1}{Đáp án: 113.}
+
+\shortanswer{Chủ một trung tâm thương mại muốn cho thuê một số gian hàng. Người đó muốn tăng giá cho thuê mỗi gian hàng thêm $x$ (triệu đồng) ($x \ge 0$). Tốc độ thay đổi doanh thu từ các gian hàng đó được biểu diễn bởi hàm số $H'(x) = -20x + 300$, trong đó $H'(x)$ tính bằng triệu đồng. Biết rằng nếu người đó tăng giá thuê cho mỗi gian hàng thêm $10$ triệu đồng thì doanh thu là $12\,000$ triệu đồng. Tìm giá trị của $x$ để người đó có doanh thu là cao nhất?}{$15$}{1}{Đáp án: 15.}
+
+\shortanswer{Trong bài này, ta xét một tình huống giả định có một học sinh sau kì nghỉ đã mang virus cúm quay trở lại khuôn viên trường học biệt lập với $1000$ học sinh. Sau khi có sự tiếp xúc giữa các học sinh, virus cúm lây lan trong khuôn viên trường. Giả thiết hệ thống chống dịch chưa được khởi động và virus cúm được lây lan tự nhiên. Gọi $P(t)$ là số học sinh bị nhiễm virus cúm vào ngày thứ $t$ tính từ ngày học sinh mang virus cúm về lại khuôn viên trường. Biết rằng tốc độ lây lan của virus cúm tỉ lệ thuận với số học sinh không bị nhiễm virus cúm theo hệ số tỉ lệ là hằng số $k \ne 0$. Số học sinh bị nhiễm virus cúm sau $4$ ngày là $52$ học sinh. Xác định số học sinh bị nhiễm virus cúm sau $10$ ngày (làm tròn đến hàng đơn vị).}{$123$}{1}{Đáp án: 123.}
+
+\end{quiz}
+
+\end{document}

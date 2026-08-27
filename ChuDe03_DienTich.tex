@@ -1,0 +1,302 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 03: ỨNG DỤNG TÍCH PHÂN TÍNH DIỆN TÍCH}
+\docdesc{Lý thuyết trọng tâm, các dạng toán cơ bản và nâng cao chuyên đề Ứng dụng tích phân tính diện tích hình phẳng}
+\docgrade{12}
+\docstatus{draft}
+\doctype{lesson}
+\doctopics{Giải tích, Tích phân, Ứng dụng hình học của tích phân}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I. Tóm tắt lý thuyết}{Kiến thức trọng tâm về diện tích hình phẳng giới hạn bởi một hàm số và hai hàm số}
+
+\textbf{1. Diện tích hình phẳng giới hạn bởi đồ thị hàm số và trục hoành:}
+
+Cho hàm số $y = f(x)$ liên tục trên đoạn $[a; b]$. Khi đó, diện tích hình phẳng giới hạn bởi đồ thị của hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = a, x = b$ được tính bởi công thức:
+$$S = \int_a^b |f(x)|\,\mathrm{d}x.$$
+
+\image{0.35}{Diện tích hình phẳng giới hạn bởi một đường cong và trục hoành}{images_ChuDe03_DienTich/lt_1.png}
+
+\textbf{2. Diện tích hình phẳng giới hạn bởi hai đồ thị hàm số:}
+
+Cho hai hàm số $y = f(x), y = g(x)$ liên tục trên đoạn $[a; b]$. Khi đó, diện tích hình phẳng giới hạn bởi đồ thị của hai hàm số $y = f(x), y = g(x)$ và hai đường thẳng $x = a, x = b$ được tính bởi công thức:
+$$S = \int_a^b |f(x) - g(x)|\,\mathrm{d}x.$$
+
+\image{0.35}{Diện tích hình phẳng giới hạn bởi hai đường cong}{images_ChuDe03_DienTich/lt_2.png}
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+\begin{lesson}{Phần II. Các dạng toán}{Phương pháp giải và các ví dụ mẫu chi tiết}
+
+\textbf{\Large Bài toán 1. Bài toán tính diện tích hình phẳng giới hạn bởi đồ thị hàm số và trục hoành}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Ta dựa vào công thức tính như sau:
+$$(H): \begin{cases} y = f(x) \\ y = 0 \\ x = a, x = b \ (a < b) \end{cases} \Rightarrow S_{(H)} = \int_a^b |f(x)|\,\mathrm{d}x.$$
+
+\textbf{Chú ý:}
+- Nếu đề chưa cho (hoặc thiếu) cận, thì ta giải phương trình $f(x) = 0$ để tìm cận.
+- Nếu đề bài cho trước hình vẽ, ta có thể suy ra công thức tính như hình bên:
+  - Phần trên $Ox$, ta giữ nguyên $f(x)$.
+  - Phần dưới $Ox$, ta đổi dấu thành $-f(x)$.
+
+\image{0.4}{Minh họa dấu của hàm số trên các khoảng}{images_ChuDe03_DienTich/bt1_chuy.png}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1 - Ví dụ mẫu}
+
+\begin{mcq}{Diện tích $S$ của hình phẳng giới hạn bởi đồ thị hàm số $y = x^2$, trục hoành $Ox$, các đường thẳng $x = 1, x = 2$ là}{0}{1}{Diện tích cần tìm là $S = \int_1^2 |x^2|\,\mathrm{d}x$. Với $x \in [1; 2]$ thì $f(x) \ge 0$ nên $S = \int_1^2 x^2\,\mathrm{d}x = \frac{x^3}{3}\Big|_1^2 = \frac{7}{3}$. Chọn A.}
+	\option{$S = \frac{7}{3}$.}
+	\option{$S = \frac{8}{3}$.}
+	\option{$S = 7$.}
+	\option{$S = 8$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình phẳng giới hạn bởi đồ thị của hàm số $y = x^2 - 4x + 3$, trục hoành và hai đường thẳng $x = 0, x = 3$. \image{0.4}{}{images_ChuDe03_DienTich/vd2_p2.png}}{2}{1}{Diện tích cần tìm là $S = \int_0^3 |x^2 - 4x + 3|\,\mathrm{d}x$.
+Ta có: $x^2 - 4x + 3 = 0 \Leftrightarrow x = 1$ hoặc $x = 3$.
+Với $x \in [0; 1]$ thì $f(x) \ge 0$. Với $x \in [1; 3]$ thì $f(x) \le 0$.
+Vậy $S = \int_0^1 (x^2 - 4x + 3)\,\mathrm{d}x + \int_1^3 -(x^2 - 4x + 3)\,\mathrm{d}x = \left(\frac{x^3}{3} - 2x^2 + 3x\right)\Big|_0^1 - \left(\frac{x^3}{3} - 2x^2 + 3x\right)\Big|_1^3 = \frac{8}{3}$. Chọn C.}
+	\option{$S = 3$.}
+	\option{$S = \frac{10}{3}$.}
+	\option{$S = \frac{8}{3}$.}
+	\option{$S = \frac{13}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = \sin x$, trục hoành và hai đường thẳng $x = 0, x = 3\pi$. \image{0.5}{}{images_ChuDe03_DienTich/vd3_p3.png}}{3}{1}{Diện tích cần tìm là $S = \int_0^{3\pi} |\sin x|\,\mathrm{d}x$.
+Trên khoảng $(0; 3\pi)$, phương trình $\sin x = 0$ chỉ có hai nghiệm là $x = \pi$ và $x = 2\pi$.
+Vậy: $S = \int_0^\pi \sin x\,\mathrm{d}x - \int_\pi^{2\pi} \sin x\,\mathrm{d}x + \int_{2\pi}^{3\pi} \sin x\,\mathrm{d}x = 2 + |-2| + 2 = 6$. Chọn D.}
+	\option{$S = 5$.}
+	\option{$S = 4$.}
+	\option{$S = 3$.}
+	\option{$S = 6$.}
+\end{mcq}
+
+\begin{mcq}{Cho đồ thị hàm số $y = f(x)$ có đồ thị của đạo hàm $y = f'(x)$ là đường cong trong hình dưới. Biết rằng diện tích của các phần hình phẳng $A, B$ lần lượt là $S_A = 2, S_B = 3$. Nếu $f(0) = 4$ thì giá trị của $f(5)$ bằng \image{0.4}{}{images_ChuDe03_DienTich/vd4_p3.png}}{0}{1}{Ta có: $S_A = \int_0^2 f'(x)\,\mathrm{d}x = 2 \Rightarrow f(2) - f(0) = 2 \Rightarrow f(2) = f(0) + 2 = 6$.
+Diện tích hình phẳng phần tô màu của đồ thị hàm số $y = f'(x)$ là:
+$$S = \int_0^2 f'(x)\,\mathrm{d}x - \int_2^5 f'(x)\,\mathrm{d}x = f(x)\Big|_0^2 - f(x)\Big|_2^5 = f(2) - f(0) - (f(5) - f(2)) = 2f(2) - f(0) - f(5) = S_A + S_B = 5.$$
+$\Rightarrow 2f(2) - f(0) - f(5) = 5 \Rightarrow 2 \cdot 6 - 4 - f(5) = 5 \Rightarrow f(5) = 3$. Chọn A.}
+	\option{$3$.}
+	\option{$5$.}
+	\option{$9$.}
+	\option{$-1$.}
+\end{mcq}
+
+\begin{mcq}{Xét hình phẳng $(H)$ giới hạn bởi đồ thị hàm số $y = (x+3)^2$, trục hoành và đường thẳng $x = 0$. Gọi $A(0; 9), B(b; 0) \ (-3 < b < 0)$. Tính giá trị của tham số $b$ để đoạn thẳng $AB$ chia $(H)$ thành hai phần có diện tích bằng nhau. \image{0.4}{}{images_ChuDe03_DienTich/vd5_p4.png}}{2}{1}{Ta có đồ thị hàm số $y = (x+3)^2$ tiếp xúc với trục hoành tại $x = -3$.
+Gọi $S$ là diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = (x+3)^2$, trục hoành và đường thẳng $x = -3, x = 0$:
+$$S = \int_{-3}^0 (x+3)^2\,\mathrm{d}x = \frac{(x+3)^3}{3}\Big|_{-3}^0 = 9.$$
+Gọi $S_1$ là diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = (x+3)^2$, đoạn thẳng $AB$ và trục hoành.
+Gọi $S_2$ là diện tích tam giác $OAB$: $S_2 = \frac{1}{2} \cdot 9 \cdot (-b) = -\frac{9}{2}b$.
+Vì $S_1 = S_2$ nên $S = 2S_2 \Leftrightarrow 9 = 2 \cdot \frac{1}{2} \cdot 9 \cdot (-b) \Leftrightarrow b = -1$. Chọn C.}
+	\option{$b = -\frac{1}{2}$.}
+	\option{$b = -\frac{3}{2}$.}
+	\option{$b = -1$.}
+	\option{$b = -2$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 2
+% =========================================================================
+
+\begin{lesson}{Bài toán 2. Bài toán tính diện tích hình phẳng giới hạn bởi hai đồ thị hàm số}{Phương pháp tìm cận và phá dấu giá trị tuyệt đối}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Ta dựa vào công thức tính như sau:
+$$(H): \begin{cases} y = f(x) \\ y = g(x) \\ x = a, x = b \ (a < b) \end{cases} \Rightarrow S_{(H)} = \int_a^b |f(x) - g(x)|\,\mathrm{d}x.$$
+
+\textbf{Lưu ý:}
+- Xác định hai cận $x = a, x = b \ (a < b)$. Nếu đề chưa cho (hoặc thiếu) cận, thì ta giải phương trình $f(x) = g(x)$ để tìm cận.
+- Nếu đề bài cho trước hình vẽ, ta có thể suy ra công thức tính:
+  - Phần đồ thị $f(x)$ nằm trên $g(x)$, ta lấy $f(x) - g(x)$.
+  - Phần đồ thị $f(x)$ nằm dưới $g(x)$, ta lấy $g(x) - f(x)$.
+
+\image{0.4}{Minh họa vị trí tương đối giữa hai đồ thị}{images_ChuDe03_DienTich/bt2_chuy.png}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2 - Ví dụ mẫu}
+
+\begin{mcq}{Diện tích hình phẳng giới hạn bởi các đường $y = x^2, y = 4, x = -1, x = 2$ là}{2}{1}{Diện tích cần tìm là $S = \int_{-1}^2 |x^2 - 4|\,\mathrm{d}x = \int_{-1}^2 (4 - x^2)\,\mathrm{d}x = \left(4x - \frac{x^3}{3}\right)\Big|_{-1}^2 = 9$. Chọn C.}
+	\option{$S = 4$.}
+	\option{$S = \frac{8}{3}$.}
+	\option{$S = 9$.}
+	\option{$S = 8$.}
+\end{mcq}
+
+\begin{mcq}{Tính diện tích hình phẳng được giới hạn bởi hai đồ thị hàm số $y = x^2 + 2x$ và $y = x^3$.}{2}{1}{Phương trình hoành độ giao điểm: $x^2 + 2x = x^3 \Leftrightarrow x^3 - x^2 - 2x = 0 \Leftrightarrow x = -1, x = 0, x = 2$.
+Diện tích cần tính là:
+$$S = \int_{-1}^2 |x^3 - x^2 - 2x|\,\mathrm{d}x = \int_{-1}^0 (x^3 - x^2 - 2x)\,\mathrm{d}x + \int_0^2 -(x^3 - x^2 - 2x)\,\mathrm{d}x = \frac{5}{12} + \frac{8}{3} = \frac{37}{12}.$$
+Chọn C.}
+	\option{$S = \frac{83}{12}$.}
+	\option{$S = \frac{15}{4}$.}
+	\option{$S = \frac{37}{12}$.}
+	\option{$S = \frac{9}{12}$.}
+\end{mcq}
+
+\begin{mcq}{Diện tích $S$ của hình phẳng giới hạn bởi đồ thị các hàm số $y = x, y = e^x$, trục tung và đường thẳng $x = 1$ được tính theo công thức nào dưới đây? \image{0.4}{}{images_ChuDe03_DienTich/vd3_p5.png}}{1}{1}{Ta có $S = \int_0^1 |e^x - x|\,\mathrm{d}x$.
+Trên $[0; 1]$ thì $e^x \ge x$ nên $S = \int_0^1 (e^x - x)\,\mathrm{d}x$. Chọn B.}
+	\option{$S = \int_0^1 |e^x - 1|\,\mathrm{d}x$.}
+	\option{$S = \int_0^1 (e^x - x)\,\mathrm{d}x$.}
+	\option{$S = \int_0^1 (x - e^x)\,\mathrm{d}x$.}
+	\option{$S = \int_{-1}^1 |e^x - x|\,\mathrm{d}x$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% BÀI TOÁN 3: TOÁN THỰC TẾ
+% =========================================================================
+
+\begin{lesson}{Bài toán 3. Bài toán thực tế ứng dụng tích phân}{Ứng dụng tính diện tích hình phẳng và bài toán chuyển động thực tế}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Ta sử dụng kiến thức tính diện tích hình phẳng trong các bài toán thực tế.
+Chú ý: Bài toán chuyển động: Gọi $s(t)$ là hàm quãng đường; $v(t)$ là hàm vận tốc; $a(t)$ là hàm gia tốc.
+Khi đó:
+- $s'(t) = v(t); v'(t) = a(t)$.
+- $s(t) = \int v(t)\,\mathrm{d}t; v(t) = \int a(t)\,\mathrm{d}t$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3 - Ví dụ thực tế}
+
+\begin{mcq}{Một máy bay chuyển động trên đường băng với vận tốc $v(t) = t^2 + 10t\text{ (m/s)}$ với $t$ là thời gian được tính bằng giây kể từ khi máy bay bắt đầu chuyển động. Biết khi máy bay đạt vận tốc $200\text{ m/s}$ thì nó rời đường băng. Tính quãng đường máy bay đã di chuyển trên đường băng.}{0}{1}{Khi $v = 200$, ta có: $t^2 + 10t = 200 \Leftrightarrow t = 10$ hoặc $t = -20$ (loại).
+Máy bay di chuyển trên đường băng từ thời điểm $t = 0$ đến thời điểm $t = 10$, do đó quãng đường đi được trên đường băng là:
+$$s = \int_0^{10} (t^2 + 10t)\,\mathrm{d}t = \left(\frac{t^3}{3} + 5t^2\right)\Big|_0^{10} = \frac{2500}{3}\text{ m}.$$
+Chọn A.}
+	\option{$\frac{2500}{3}\text{ m}$.}
+	\option{$2000\text{ m}$.}
+	\option{$500\text{ m}$.}
+	\option{$\frac{4000}{3}\text{ m}$.}
+\end{mcq}
+
+\begin{mcq}{Một người chạy trong thời gian 1 giờ, vận tốc $v\text{ (km/h)}$ phụ thuộc thời gian $t\text{ (h)}$ có đồ thị là một phần của đường parabol với đỉnh $I\left(\frac{1}{2}; 8\right)$ và trục đối xứng song song với trục tung như hình vẽ. Tính quãng đường $S$ người đó chạy được trong khoảng thời gian 45 phút, kể từ khi bắt đầu chạy. \image{0.35}{}{images_ChuDe03_DienTich/vd2_p6.png}}{1}{1}{Từ giả thiết công thức biểu thị vận tốc theo thời gian có dạng $v(t) = at^2 + bt + c$.
+Dựa vào hình vẽ ta có hệ phương trình:
+$$\begin{cases} c = 0 \\ -\frac{b}{2a} = \frac{1}{2} \\ a\left(\frac{1}{2}\right)^2 + b\left(\frac{1}{2}\right) + c = 8 \end{cases} \Rightarrow \begin{cases} a = -32 \\ b = 32 \\ c = 0 \end{cases}$$
+Vậy hàm vận tốc là $v(t) = -32t^2 + 32t$.
+Do đó quãng đường người đó đi được sau 45 phút ($t = \frac{3}{4}\text{ h}$) là:
+$$S = \int_0^{\frac{3}{4}} (-32t^2 + 32t)\,\mathrm{d}t = 4{,}5\text{ km}.$$
+Chọn B.}
+	\option{$S = 5{,}3\text{ km}$.}
+	\option{$S = 4{,}5\text{ km}$.}
+	\option{$S = 4\text{ km}$.}
+	\option{$S = 2{,}3\text{ km}$.}
+\end{mcq}
+
+\begin{mcq}{Một viên gạch hoa hình vuông cạnh $40\text{ cm}$. Người ta đã dùng bốn đường parabol có chung đỉnh tại tâm của viên gạch để tạo ra bốn cánh hoa (phần tô đậm như hình vẽ). Diện tích của mỗi cánh hoa đó bằng \image{0.35}{}{images_ChuDe03_DienTich/vd3_p7_de.png}}{2}{1}{Đặt hình vuông vào hệ trục tọa độ $Oxy$ như hình vẽ, cạnh của hình vuông ta có thể coi có độ dài bằng 2 trên hệ trục tọa độ. Khi đó diện tích một cánh hoa chính là diện tích hình phẳng giới hạn bởi hai đồ thị $y = x^2, y = \sqrt{x}$.
+Ta có: $S_1 = \int_0^1 (\sqrt{x} - x^2)\,\mathrm{d}x = \left(\frac{2}{3}x\sqrt{x} - \frac{x^3}{3}\right)\Big|_0^1 = \frac{1}{3}$.
+Vậy thực tế diện tích của mỗi cánh hoa là: $S = 20 \times 20 \times S_1 = \frac{400}{3}\text{ cm}^2$. Chọn C. \image{0.45}{}{images_ChuDe03_DienTich/vd3_p7_giai.png}}
+	\option{$200\text{ cm}^2$.}
+	\option{$\frac{800}{3}\text{ cm}^2$.}
+	\option{$\frac{400}{3}\text{ cm}^2$.}
+	\option{$\frac{200}{3}\text{ cm}^2$.}
+\end{mcq}
+
+\begin{mcq}{Một chiếc cổng có hình dạng là một Parabol có khoảng cách giữa hai chân cổng là $AB = 8\text{ m}$. Người ta treo một tấm phông hình chữ nhật có hai đỉnh $M, N$ nằm trên Parabol và hai đỉnh $P, Q$ nằm trên mặt đất (như hình vẽ). Ở phần phía ngoài phông (phần không tô đen) người ta mua hoa để trang trí với chi phí $1\text{ m}^2$ cần số tiền mua hoa là $200.000$ đồng, biết $MN = 4\text{ m}, MQ = 6\text{ m}$. Hỏi số tiền mua hoa trang trí chiếc cổng gần với số tiền nào sau đây? \image{0.45}{}{images_ChuDe03_DienTich/vd4_p8.png}}{3}{1}{Chọn hệ trục tọa độ như hình vẽ. Parabol đối xứng qua $Oy$ nên có dạng $(P): y = ax^2 + c$.
+Vì $(P)$ đi qua $B(4; 0), N(2; 6)$ nên $(P): y = -\frac{1}{2}x^2 + 8$.
+Diện tích hình phẳng giới hạn bởi $(P)$ và $Ox$ là: $S_1 = 2\int_0^4 \left(-\frac{1}{2}x^2 + 8\right)\mathrm{d}x = \frac{128}{3}\text{ m}^2$.
+Diện tích phần trồng hoa là: $S = S_1 - S_{MNPQ} = \frac{128}{3} - 24 = \frac{56}{3}\text{ m}^2$.
+Số tiền dùng để mua hoa là: $\frac{56}{3} \times 200000 \approx 3.733.300$ đồng. Chọn D. \image{0.45}{}{images_ChuDe03_DienTich/vd4_p8_giai.png}}
+	\option{$3.373.400$ đồng.}
+	\option{$3.434.300$ đồng.}
+	\option{$3.437.300$ đồng.}
+	\option{$3.733.300$ đồng.}
+\end{mcq}
+
+\end{quiz}
+
+\end{document}

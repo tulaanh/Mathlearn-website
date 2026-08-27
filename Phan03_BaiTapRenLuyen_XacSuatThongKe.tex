@@ -1,0 +1,466 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{PHẦN III: BÀI TẬP RÈN LUYỆN - CÁC SỐ ĐẶC TRƯNG ĐO MỨC ĐỘ PHÂN TÁN}
+\docdesc{Tài Liệu Ôn Thi Group - FLASH STUDY}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Xác suất - Thống kê, Mẫu số liệu ghép nhóm}
+
+% =========================================================================
+% 1. CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Cho mẫu số liệu ghép nhóm có tứ phân vị thứ nhất, thứ hai, thứ ba lần lượt là $Q_1, Q_2, Q_3$. Khoảng tứ phân vị của mẫu số liệu ghép nhóm đó bằng:}{2}{1}{Theo định nghĩa, khoảng tứ phân vị của mẫu số liệu ghép nhóm là $\Delta_Q = Q_3 - Q_1$.}
+	\option{$2Q_2$.}
+	\option{$Q_1 - Q_3$.}
+	\option{$Q_3 - Q_1$.}
+	\option{$Q_3 + Q_1 - Q_2$.}
+\end{mcq}
+
+\begin{mcq}{Khoảng biến thiên của mẫu số liệu cho bởi Bảng 1 là:\image{0.6}{}{lt_1.png}}{3}{1}{Khoảng biến thiên của mẫu số liệu là $R = 6{,}5 - 1{,}5 = 5$.}
+	\option{$2$.}
+	\option{$3$.}
+	\option{$4$.}
+	\option{$5$.}
+\end{mcq}
+
+\begin{mcq}{Gọi $\Delta_Q$ là khoảng tứ phân vị của mẫu số liệu cho bởi Bảng 1. Khi đó:\image{0.6}{}{lt_1.png}}{0}{1}{Cỡ mẫu $n = 15$. Ta tính được $Q_1 \approx 3{,}083$ và $Q_3 \approx 4{,}393$. Suy ra $\Delta_Q = Q_3 - Q_1 \approx 1{,}31 \in [1; 2)$.}
+	\option{$\Delta_Q \in [1; 2)$.}
+	\option{$\Delta_Q \in [2; 3)$.}
+	\option{$\Delta_Q \in [3; 4)$.}
+	\option{$\Delta_Q \in [4; 5)$.}
+\end{mcq}
+
+\begin{mcq}{Phương sai của mẫu số liệu cho bởi Bảng 1 là:\image{0.6}{}{lt_1.png}}{3}{1}{Ta có số trung bình $\bar{x} = \frac{57}{15}$ và $\frac{1}{15}\sum n_i c_i^2 = \frac{233}{15}$. Do đó $S^2 = \frac{233}{15} - \left(\frac{57}{15}\right)^2$.}
+	\option{$S^2 = \frac{8}{15} - \left(\frac{7}{15}\right)^2$.}
+	\option{$S^2 = \frac{8}{15} - \left(\frac{57}{15}\right)^2$.}
+	\option{$S^2 = \frac{233}{15} - \left(\frac{50}{15}\right)^2$.}
+	\option{$S^2 = \frac{233}{15} - \left(\frac{57}{15}\right)^2$.}
+\end{mcq}
+
+\begin{mcq}{Trong các khẳng định sau, khẳng định nào sai?}{3}{1}{Phương sai không phải lúc nào cũng lớn hơn độ lệch chuẩn. Chẳng hạn nếu độ lệch chuẩn $S = 0{,}5$ thì phương sai $S^2 = 0{,}25 < S$.}
+	\option{Phương sai luôn luôn là số không âm.}
+	\option{Phương sai là bình phương của độ lệch chuẩn.}
+	\option{Phương sai càng lớn thì độ phân tán của các giá trị quanh số trung bình càng lớn.}
+	\option{Phương sai luôn luôn lớn hơn độ lệch chuẩn.}
+\end{mcq}
+
+\begin{mcq}{Kết quả điều tra tổng thu nhập trong năm 2022 của một số hộ gia đình trong một địa phương được ghi lại ở bảng sau:\image{0.6}{}{lt_2.png}
+
+Nhóm chứa mốt của mẫu số liệu trên là:}{1}{1}{Nhóm có tần số lớn nhất là $62$, tương ứng với nhóm $[250; 300)$.}
+	\option{$[200; 250)$.}
+	\option{$[250; 300)$.}
+	\option{$[300; 350)$.}
+	\option{$[350; 400)$.}
+\end{mcq}
+
+\begin{mcq}{Một trang báo điện tử thống kê thời gian người sử dụng đọc thông tin trên trang mỗi lần truy cập ở bảng sau:\image{0.6}{}{lt_3.png}
+
+Nhóm chứa tứ phân vị thứ ba là:}{1}{1}{Cỡ mẫu $n = 125 \Rightarrow \frac{3n}{4} = 93{,}75$. Tần số tích lũy của nhóm 2 là $79$ và nhóm 3 là $102$. Vì $79 < 93{,}75 \le 102$ nên nhóm chứa $Q_3$ là $[4; 6)$.}
+	\option{$[2; 4)$.}
+	\option{$[4; 6)$.}
+	\option{$[6; 8)$.}
+	\option{$[8; 10)$.}
+\end{mcq}
+
+\begin{mcq}{Một ngân hàng thống kê ở bảng dưới số tiền mà khách hàng rút từ một máy ATM trong một buổi sáng:\image{0.6}{}{lt_4.png}
+
+Khoảng tứ phân vị của mẫu số liệu ghép nhóm trên là:}{2}{1}{Cỡ mẫu $n = 80$. Tính được $Q_1 = 781{,}25$ và $Q_3 = 2300$. Suy ra $\Delta_Q = 2300 - 781{,}25 = 1518{,}75$.}
+	\option{$1517{,}75$.}
+	\option{$1518{,}50$.}
+	\option{$1518{,}75$.}
+	\option{$1815{,}75$.}
+\end{mcq}
+
+\begin{mcq}{Điều tra một số hộ gia đình thu nhập ở mức trung bình sinh sống trên hai địa bàn A, B. Hai biểu đồ dưới biểu diễn kết quả thống kê:\image{0.6}{}{lt_5.png}
+
+Số phát biểu đúng là:}{1}{1}{Các phát biểu (b), (c), (d), (e), (f) đều đúng, chỉ có phát biểu (a) sai vì $\Delta_{QA} < \Delta_{QB}$. Tổng số phát biểu đúng là 5.}
+	\option{$6$.}
+	\option{$5$.}
+	\option{$4$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Mai và Ngọc cùng sử dụng vòng tay thông minh để ghi lại số bước chân của hai bạn đi mỗi ngày trong một tháng:\image{0.6}{}{lt_6.png}
+
+Biết $S_1, S_2$ lần lượt là độ lệch chuẩn của từng mẫu số liệu ghép nhóm tương ứng với Mai và Ngọc. Giá trị của biểu thức $T = |S_2^2 - S_1^2|$ là:}{2}{1}{Tính được phương sai của Mai là $S_1^2 = 7{,}56$ và của Ngọc là $S_2^2 = 3{,}83$. Do đó $T = |3{,}83 - 7{,}56| = 3{,}73$.}
+	\option{$3{,}71$.}
+	\option{$3{,}72$.}
+	\option{$3{,}73$.}
+	\option{$3{,}74$.}
+\end{mcq}
+
+\begin{mcq}{Bảng dưới đây biểu thị kết quả điều tra thời gian sử dụng Internet hằng ngày của một số người:\image{0.6}{}{lt_7.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm nhận giá trị nào trong các giá trị dưới đây?}{1}{1}{Khoảng biến thiên là $R = 180 - 30 = 150$.}
+	\option{$30$.}
+	\option{$150$.}
+	\option{$180$.}
+	\option{$60$.}
+\end{mcq}
+
+\begin{mcq}{Bảng dưới đây biểu thị kết quả điều tra thời gian sử dụng Internet hằng ngày của một số người:\image{0.6}{}{lt_7.png}
+
+b) Nhóm chứa tứ phân vị thứ nhất là:}{1}{1}{Cỡ mẫu $n = 24 \Rightarrow \frac{n}{4} = 6$. Tần số tích lũy nhóm 2 bằng 6 nên $Q_1$ thuộc nhóm $[60; 90)$.}
+	\option{$[30; 60)$.}
+	\option{$[60; 90)$.}
+	\option{$[90; 120)$.}
+	\option{$[120; 150)$.}
+\end{mcq}
+
+\begin{mcq}{Bảng dưới đây biểu thị kết quả điều tra thời gian sử dụng Internet hằng ngày của một số người:\image{0.6}{}{lt_7.png}
+
+c) Nhóm chứa tứ phân vị thứ ba là:}{3}{1}{Ta có $\frac{3n}{4} = 18$. Tần số tích lũy nhóm 3 là 16 và nhóm 4 là 21 nên $Q_3$ thuộc nhóm $[120; 150)$.}
+	\option{$[30; 60)$.}
+	\option{$[60; 90)$.}
+	\option{$[90; 120)$.}
+	\option{$[120; 150)$.}
+\end{mcq}
+
+\begin{mcq}{Cân nặng của một số quả mít trong một khu vườn được thống kê ở bảng sau:\image{0.6}{}{lt_8.png}
+
+a) Số trung bình của mẫu số liệu ghép nhóm trên nhận giá trị nào trong các giá trị dưới đây:}{1}{1}{Số trung bình $\bar{x} = \frac{6 \cdot 5 + 12 \cdot 7 + 19 \cdot 9 + 9 \cdot 11 + 4 \cdot 13}{50} = 8{,}72$.}
+	\option{$8{,}70$.}
+	\option{$8{,}72$.}
+	\option{$4{,}8$.}
+	\option{$4{,}9$.}
+\end{mcq}
+
+\begin{mcq}{Cân nặng của một số quả mít trong một khu vườn được thống kê ở bảng sau:\image{0.6}{}{lt_8.png}
+
+b) Phương sai của mẫu số liệu ghép nhóm trên gần với giá trị nào dưới đây:}{2}{1}{Phương sai $S^2 \approx 4{,}80 \approx 4{,}8$.}
+	\option{$8{,}70$.}
+	\option{$8{,}72$.}
+	\option{$4{,}8$.}
+	\option{$4{,}9$.}
+\end{mcq}
+
+\begin{mcq}{Cân nặng của một số quả mít trong một khu vườn được thống kê ở bảng sau:\image{0.6}{}{lt_8.png}
+
+c) Độ lệch chuẩn của mẫu số liệu ghép nhóm trên gần với giá trị nào dưới đây:}{3}{1}{Độ lệch chuẩn $S = \sqrt{4{,}80} \approx 2{,}19 \approx 2{,}2$.}
+	\option{$2{,}19$.}
+	\option{$8{,}72$.}
+	\option{$4{,}8$.}
+	\option{$2{,}2$.}
+\end{mcq}
+
+\begin{mcq}{Hàm lượng protein (trong 100g) của một số loại thực phẩm được cho trong bảng sau:\image{0.6}{}{lt_9.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm nhận giá trị nào trong các giá trị dưới đây?}{1}{1}{Khoảng biến thiên là $R = 20 - 8 = 12$.}
+	\option{$10$.}
+	\option{$12$.}
+	\option{$2$.}
+	\option{$8$.}
+\end{mcq}
+
+\begin{mcq}{Hàm lượng protein (trong 100g) của một số loại thực phẩm được cho trong bảng sau:\image{0.6}{}{lt_9.png}
+
+b) Nhóm chứa tứ phân vị thứ nhất là:}{1}{1}{Cỡ mẫu $n = 50 \Rightarrow \frac{n}{4} = 12{,}5$. Tích lũy nhóm 1 là 4, nhóm 2 là 16 nên $Q_1$ thuộc nhóm $[10; 12)$.}
+	\option{$[8; 10)$.}
+	\option{$[10; 12)$.}
+	\option{$[12; 14)$.}
+	\option{$[14; 16)$.}
+\end{mcq}
+
+\begin{mcq}{Hàm lượng protein (trong 100g) của một số loại thực phẩm được cho trong bảng sau:\image{0.6}{}{lt_9.png}
+
+c) Nhóm chứa tứ phân vị thứ ba là:}{1}{1}{Ta có $\frac{3n}{4} = 37{,}5$. Tích lũy nhóm 3 là 32 và nhóm 4 là 46 nên $Q_3$ thuộc nhóm $[14; 16)$.}
+	\option{$[12; 14)$.}
+	\option{$[14; 16)$.}
+	\option{$[16; 18)$.}
+	\option{$[18; 20)$.}
+\end{mcq}
+
+\begin{mcq}{Bảng thống kê thành tích nhảy xa của học sinh lớp 12:\image{0.6}{}{lt_10.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm nhận giá trị nào trong các giá trị dưới đây?}{0}{1}{Khoảng biến thiên là $R = 300 - 150 = 150$.}
+	\option{$150$.}
+	\option{$180$.}
+	\option{$270$.}
+	\option{$300$.}
+\end{mcq}
+
+\begin{mcq}{Bảng thống kê thành tích nhảy xa của học sinh lớp 12:\image{0.6}{}{lt_10.png}
+
+b) Nhóm chứa tứ phân vị thứ nhất là:}{2}{1}{Cỡ mẫu $n = 58 \Rightarrow \frac{n}{4} = 14{,}5$. Tích lũy nhóm 2 là 8 và nhóm 3 là 36 nên $Q_1$ thuộc nhóm $[210; 240)$.}
+	\option{$[150; 180)$.}
+	\option{$[180; 210)$.}
+	\option{$[210; 240)$.}
+	\option{$[240; 270)$.}
+\end{mcq}
+
+\begin{mcq}{Bảng thống kê thành tích nhảy xa của học sinh lớp 12:\image{0.6}{}{lt_10.png}
+
+c) Nhóm chứa tứ phân vị thứ ba là:}{3}{1}{Ta có $\frac{3n}{4} = 43{,}5$. Tích lũy nhóm 3 là 36 và nhóm 4 là 50 nên $Q_3$ thuộc nhóm $[240; 270)$.}
+	\option{$[150; 180)$.}
+	\option{$[180; 210)$.}
+	\option{$[210; 240)$.}
+	\option{$[240; 270)$.}
+\end{mcq}
+
+\begin{mcq}{Cho mẫu số liệu ghép nhóm về chiều cao của 36 học sinh lớp 12:\image{0.6}{}{lt_11.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm nhận giá trị nào trong các giá trị dưới đây?}{1}{1}{Khoảng biến thiên là $R = 175 - 160 = 15$.}
+	\option{$36$.}
+	\option{$15$.}
+	\option{$160$.}
+	\option{$175$.}
+\end{mcq}
+
+\begin{mcq}{Cho mẫu số liệu ghép nhóm về chiều cao của 36 học sinh lớp 12:\image{0.6}{}{lt_11.png}
+
+b) Nhóm chứa tứ phân vị thứ nhất là:}{1}{1}{Cỡ mẫu $n = 36 \Rightarrow \frac{n}{4} = 9$. Tích lũy nhóm 1 là 6, nhóm 2 là 17 nên $Q_1$ thuộc nhóm $[163; 166)$.}
+	\option{$[160; 163)$.}
+	\option{$[163; 166)$.}
+	\option{$[166; 169)$.}
+	\option{$[169; 172)$.}
+\end{mcq}
+
+\begin{mcq}{Cho mẫu số liệu ghép nhóm về chiều cao của 36 học sinh lớp 12:\image{0.6}{}{lt_11.png}
+
+c) Nhóm chứa tứ phân vị thứ ba là:}{3}{1}{Ta có $\frac{3n}{4} = 27$. Tích lũy nhóm 3 là 26 và nhóm 4 là 33 nên $Q_3$ thuộc nhóm $[169; 172)$.}
+	\option{$[160; 163)$.}
+	\option{$[163; 166)$.}
+	\option{$[166; 169)$.}
+	\option{$[169; 172)$.}
+\end{mcq}
+
+\begin{mcq}{Số cổ động viên đến sân cổ vũ mỗi trận đấu được ghi lại ở bảng sau (đơn vị: nghìn người):\image{0.6}{}{lt_12.png}
+
+a) Khoảng biến thiên của mẫu số liệu ghép nhóm trên là:}{2}{1}{Khoảng biến thiên là $R = 18 - 8 = 10$.}
+	\option{$2$.}
+	\option{$8$.}
+	\option{$10$.}
+	\option{$18$.}
+\end{mcq}
+
+\begin{mcq}{Số cổ động viên đến sân cổ vũ mỗi trận đấu được ghi lại ở bảng sau (đơn vị: nghìn người):\image{0.6}{}{lt_12.png}
+
+b) Nhóm chứa tứ phân vị thứ nhất của mẫu số liệu ghép nhóm là:}{1}{1}{Cỡ mẫu $n = 64 \Rightarrow \frac{n}{4} = 16$. Tích lũy nhóm 1 là 5, nhóm 2 là 17 nên $Q_1$ thuộc nhóm $[10; 12)$.}
+	\option{$[8; 10)$.}
+	\option{$[10; 12)$.}
+	\option{$[12; 14)$.}
+	\option{$[14; 16)$.}
+\end{mcq}
+
+\begin{mcq}{Số cổ động viên đến sân cổ vũ mỗi trận đấu được ghi lại ở bảng sau (đơn vị: nghìn người):\image{0.6}{}{lt_12.png}
+
+c) Khoảng tứ phân vị của mẫu số liệu ghép nhóm trên gần nhất với giá trị nào sau đây?}{2}{1}{Tính được $Q_1 \approx 11{,}833$ và $Q_3 \approx 15{,}143 \Rightarrow \Delta_Q \approx 3{,}31$.}
+	\option{$2{,}48$.}
+	\option{$4{,}93$.}
+	\option{$3{,}31$.}
+	\option{$5{,}11$.}
+\end{mcq}
+
+\begin{mcq}{Số cổ động viên đến sân cổ vũ mỗi trận đấu được ghi lại ở bảng sau (đơn vị: nghìn người):\image{0.6}{}{lt_12.png}
+
+d) Độ lệch chuẩn của mẫu số liệu ghép nhóm trên gần nhất với giá trị nào sau đây?}{3}{1}{Tính được độ lệch chuẩn $S \approx 2{,}21$.}
+	\option{$3{,}66$.}
+	\option{$4{,}89$.}
+	\option{$13{,}40$.}
+	\option{$2{,}21$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% 2. CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Thời gian hoàn thành của một bài viết chính tả của một số học sinh lớp 4 hai trường X và Y được ghi lại ở bảng sau:\image{0.6}{}{lt_13.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{false}{Nếu so sánh theo số trung bình thì học sinh trường X viết nhanh hơn học sinh trường Y.}
+	\statement{true}{Nếu so sánh theo khoảng tứ phân vị thì học sinh trường Y có tốc độ viết đồng đều hơn trường X.}
+	\statement{false}{Nếu so sánh theo độ lệch chuẩn thì học sinh trường X có tốc độ viết đồng đều hơn trường Y.}
+	\statement{true}{Tứ phân vị thứ nhất của mẫu số liệu ghép nhóm theo thời gian viết của cả hai trường đều nằm ở nhóm $[7; 8)$.}
+\end{truefalse}
+
+\begin{truefalse}{Hình sau là biểu đồ biểu diễn nhiệt độ trung bình hằng tháng của hai địa phương Y, Z:\image{0.6}{}{lt_14.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{true}{Địa phương Z có nhiệt độ trung bình cao hơn địa phương Y.}
+	\statement{false}{Nếu so sánh theo khoảng tứ phân vị thì địa phương Y có nhiệt độ đồng đều hơn địa phương Z.}
+	\statement{true}{Nếu so sánh theo phương sai thì địa phương Z có nhiệt độ đồng đều hơn địa phương Y.}
+	\statement{true}{Tứ phân vị thứ nhất của mẫu số liệu ghép nhóm theo nhiệt độ ở địa phương Z ở nhóm $[25; 30)$.}
+\end{truefalse}
+
+\begin{truefalse}{Một bác tài xế thống kê lại độ dài quãng đường (đơn vị: km) bác đã lái xe mỗi ngày trong một tháng ở bảng sau:\image{0.6}{}{lt_15.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{true}{Khoảng biến thiên của mẫu số liệu ghép nhóm là $250\text{ (km)}$.}
+	\statement{true}{Khoảng tứ phân vị của mẫu số liệu ghép nhóm bằng $79{,}17$.}
+	\statement{false}{Số trung bình của mẫu số liệu ghép nhóm là $145$.}
+	\statement{true}{Độ lệch chuẩn của mẫu số liệu ghép nhóm gần bằng $55{,}68$.}
+\end{truefalse}
+
+\begin{truefalse}{Bảng sau thống kê lại tổng số giờ nắng trong tháng 6 của các năm từ 2003 đến 2024 tại hai trạm quan trắc đặt ở Nha Trang và Quy Nhơn:\image{0.6}{}{lt_16.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{false}{Khoảng tứ phân vị của mẫu số liệu ghép nhóm trạm quan trắc ở Nha Trang bằng $45$.}
+	\statement{true}{Nếu so sánh theo khoảng tứ phân vị thì số giờ nắng trong tháng 6 của Quy Nhơn đồng đều hơn Nha Trang.}
+	\statement{false}{Số trung bình của mẫu số liệu ghép nhóm trạm quan trắc ở Quy Nhơn bằng $242{,}5$.}
+	\statement{true}{Nếu so sánh theo độ lệch chuẩn thì số giờ nắng trong tháng 6 của Quy Nhơn đồng đều hơn Nha Trang.}
+\end{truefalse}
+
+\begin{truefalse}{Bảng thống kê độ ẩm không khí trung bình các tháng năm 2021 tại Đà Lạt và Vũng Tàu (đơn vị: \%):\image{0.6}{}{lt_17.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{false}{Xét số liệu ở Đà Lạt ta có khoảng biến thiên là $16{,}5$.}
+	\statement{true}{Xét số liệu ở Đà Lạt thì ta có độ lệch chuẩn của mẫu số liệu ghép nhóm (làm tròn kết quả đến hàng phần trăm) là $3{,}29$.}
+	\statement{true}{Xét số liệu ở Vũng Tàu thì phương sai của mẫu số liệu ghép nhóm là $4{,}235$.}
+	\statement{false}{Đà Lạt có độ ẩm không khí trung bình tháng đồng đều hơn vì độ lệch chuẩn nhỏ hơn.}
+\end{truefalse}
+
+\begin{truefalse}{Thống kê tổng số giờ nắng trong tháng 9 tại một trạm quan trắc đặt ở Cà Mau trong các năm từ 2002 đến 2021:\image{0.6}{}{lt_18.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{true}{Số trung bình của mẫu số liệu ghép nhóm là $124{,}1$.}
+	\statement{true}{Phương sai của mẫu số liệu ghép nhóm là $566{,}19$.}
+	\statement{true}{Độ lệch chuẩn của mẫu số liệu ghép nhóm (kết quả làm tròn đến hàng phần nghìn) là $23{,}795$.}
+	\statement{true}{Sai số tương đối của độ lệch chuẩn của mẫu số liệu ghép nhóm so với độ lệch chuẩn của mẫu số liệu gốc là $4{,}805\%$.}
+\end{truefalse}
+
+\begin{truefalse}{Bảng dưới đây biểu diễn mẫu số liệu ghép nhóm về cân nặng một số quả dưa được lựa chọn ngẫu nhiên từ một lô hàng:\image{0.6}{}{lt_19.png}
+
+Xét tính đúng sai của các khẳng định sau:}{1}{}
+	\statement{true}{Số phần tử của mẫu (cỡ mẫu) là $n = 100$.}
+	\statement{false}{Khoảng biến thiên của mẫu số liệu ghép nhóm trên là $80\text{ g}$.}
+	\statement{false}{Tứ phân vị thứ ba của mẫu số liệu ghép nhóm trên là $Q_3 = 830$.}
+	\statement{true}{Khoảng tứ phân vị của mẫu số liệu ghép nhóm trên là $\Delta_Q = 29{,}6$.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% 3. CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Thống kê số thẻ vàng của mỗi câu lạc bộ trong giải ngoại hạng Anh mùa giải 2021-2022 cho kết quả như sau:\image{0.6}{}{lt_20.png}
+
+Chuyển mẫu số liệu trên sang mẫu số liệu ghép nhóm gồm 6 nhóm có độ dài bằng nhau với nhóm đầu tiên là $[42; 52)$. Khi đó sai số tương đối của độ lệch chuẩn của mẫu số liệu ghép nhóm trên so với độ lệch chuẩn của mẫu số liệu gốc là bao nhiêu phần trăm (làm tròn kết quả đến hàng phần mười)?}{$3{,}0$}{1}{Ta tính được độ lệch chuẩn của mẫu gốc $S_1 \approx 13{,}547$ và độ lệch chuẩn của mẫu ghép nhóm $S_2 \approx 13{,}96$. Sai số tương đối là $\frac{|S_2 - S_1|}{S_1} \cdot 100\% \approx 3{,}0\%$.}
+
+\shortanswer{Biểu đồ sau mô tả kết quả điều tra về điểm trung bình năm học của học sinh ở hai trường A và B:\image{0.6}{}{lt_21.png}
+
+Sai số tương đối của phương sai của mẫu số liệu ghép nhóm ở học sinh trường A so với phương sai của mẫu số liệu ghép nhóm ở học sinh trường B là bao nhiêu phần trăm (làm tròn kết quả đến hàng phần mười)?}{$7{,}3$}{1}{Tính được phương sai $S_A^2 \approx 1{,}62$ và $S_B^2 \approx 1{,}51$. Sai số tương đối là $\frac{|S_A^2 - S_B^2|}{S_B^2} \cdot 100\% \approx 7{,}3\%$.}
+
+\shortanswer{Biểu đồ dưới đây mô tả phổ điểm môn Toán của kì thi đánh giá năng lực chuyên biệt của Trường Đại Học Sư Phạm Thành Phố Hồ Chí Minh năm 2024:\image{0.6}{}{lt_22.png}
+
+Khoảng tứ phân vị của mẫu số liệu ghép nhóm trên là bao nhiêu (làm tròn kết quả đến hàng phần trăm)?}{$1{,}62$}{1}{Dựa vào biểu đồ ta xác định được $Q_1 \approx 5{,}48$ và $Q_3 \approx 7{,}10$. Suy ra khoảng tứ phân vị $\Delta_Q = Q_3 - Q_1 \approx 1{,}62$.}
+
+\shortanswer{Trong thực hành đo hiệu điện thế của mạch điện, An và Bình đã dùng hai vôn kế khác nhau để đo, mỗi bạn tiến hành đo 10 lần và cho kết quả như sau:\image{0.6}{}{lt_23.png}
+
+Hiệu của độ lệch chuẩn của các mẫu số liệu ghép nhóm cho kết quả đo của An và Bình bằng bao nhiêu (làm tròn kết quả đến hàng phần chục)?}{$0{,}0$}{1}{Tính độ lệch chuẩn của An là $S_{\text{An}} \approx 0{,}037$ và của Bình là $S_{\text{Bình}} \approx 0{,}046$. Hiệu độ lệch chuẩn là $|0{,}037 - 0{,}046| = 0{,}009 \approx 0{,}0$.}
+
+\shortanswer{Người ta ghi lại tiền lãi (đơn vị: triệu đồng) của một số nhà đầu tư (với số tiền đầu tư như nhau), khi đầu tư vào hai lĩnh vực A, B cho kết quả như sau:\image{0.6}{}{lt_24.png}
+
+Gọi $\Delta_{QA}$ và $\Delta_{QB}$ lần lượt là khoảng tứ phân vị của mẫu số liệu ghép nhóm của lĩnh vực A và lĩnh vực B. Tính $|\Delta_{QA} - \Delta_{QB}|$ (làm tròn kết quả đến hàng phần mười).}{$6{,}5$}{1}{Tính được $\Delta_{QA} \approx 8{,}5$ và $\Delta_{QB} \approx 15{,}0$. Do đó $|\Delta_{QA} - \Delta_{QB}| = |8{,}5 - 15{,}0| = 6{,}5$.}
+
+\shortanswer{Hằng ngày ông Phúc đều đi xe buýt từ nhà đến cơ quan. Dưới đây là bảng thống kê thời gian của 100 lần ông Phúc đi xe buýt từ nhà đến cơ quan:\image{0.6}{}{lt_25.png}
+
+Khoảng tứ phân vị của mẫu số liệu ghép nhóm trên là bao nhiêu (làm tròn kết quả đến hàng đơn vị)?}{$4$}{1}{Tính được $Q_1 \approx 18{,}24$ và $Q_3 \approx 22{,}67$. Suy ra $\Delta_Q = 22{,}67 - 18{,}24 = 4{,}43 \approx 4$.}
+
+\shortanswer{Bảng dưới đây thống kê độ ẩm không khí trung bình các tháng năm 2021 tại Đà Lạt và Vũng Tàu (đơn vị: \%):\image{0.6}{}{lt_26.png}
+
+Khi ghép các số liệu của Đà Lạt, Vũng Tàu thành năm nhóm thì độ lệch chuẩn của mẫu số liệu ghép nhóm của Vũng Tàu là bao nhiêu (làm tròn kết quả đến một chữ số thập phân sau dấu phẩy)?}{$2{,}1$}{1}{Dựa vào bảng ghép nhóm của Vũng Tàu ta tính được phương sai $S^2 \approx 4{,}235 \Rightarrow S = \sqrt{4{,}235} \approx 2{,}1$.}
+
+\shortanswer{Một công ty giống cây trồng đã thử nghiệm hai phương pháp chăm sóc khác nhau cho cây hướng dương. Hình 3.5a và 3.5b biểu diễn chiều cao của một số cây:\image{0.6}{}{lt_27.png}
+
+Tính tổng hai số trung bình của chiều cao các cây được chăm sóc theo hai phương pháp (làm tròn kết quả đến hàng phần chục).}{$55{,}0$}{1}{Tính được số trung bình của phương pháp A là $\bar{x}_A \approx 26{,}3\text{ cm}$ và phương pháp B là $\bar{x}_B \approx 28{,}7\text{ cm}$. Tổng hai số trung bình là $26{,}3 + 28{,}7 = 55{,}0\text{ cm}$.}
+
+\shortanswer{Số tiền ghi trên hoá đơn của 150 khách hàng lấy ngẫu nhiên trong một ngày được siêu thị ghi lại ở bảng dưới đây:\image{0.6}{}{lt_28.png}
+
+Tìm bình phương độ lệch chuẩn của mẫu số liệu về số tiền ghi trên hóa đơn (làm tròn kết quả đến một chữ số thập phân sau dấu phẩy)?}{$2426{,}9$}{1}{Bình phương độ lệch chuẩn chính là phương sai $S^2$. Ta tính được $S^2 \approx 2426{,}9$.}
+
+\end{quiz}
+
+\end{document}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import type {
   DocumentBlock,
   DocumentTestAnswers,
@@ -29,9 +29,16 @@ import DebouncedInput from "./DebouncedInput";
 import QuestionPalette from "./QuestionPalette";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
 import { documentProgressKey, useProgress } from "@/lib/progress";
+import {
+  clearExamDraft,
+  clearExamResult,
+  loadExamDraft,
+  loadExamResult,
+  saveExamDraft,
+  saveExamResult,
+} from "@/lib/exam-draft";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F"];
-const RESULT_KEY_PREFIX = "document-test-result-";
 
 /** id DOM của thẻ câu hỏi, dùng để bảng câu hỏi cuộn tới. */
 const questionDomId = (questionId: string) => `cau-${questionId}`;
@@ -46,7 +53,7 @@ function usableOptions(q: QuizQuestion) {
   });
 }
 
-/** Màn hình làm bài kiểm tra: chấm điểm ngay khi nộp, không lưu database. */
+/** Màn hình làm bài kiểm tra: tự động lưu bài làm dở và kết quả gần nhất. */
 export default function ExamRunner({
   document,
   nextStep = null,
@@ -59,7 +66,53 @@ export default function ExamRunner({
   const [flagged, setFlagged] = useState<Record<string, boolean>>({});
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
+  const [restoredDraftInfo, setRestoredDraftInfo] = useState<{
+    answeredCount: number;
+    timeStr: string;
+  } | null>(null);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const { setPercent } = useProgress();
+
+  // Khôi phục bài làm dở hoặc kết quả đã làm gần nhất khi mở bài thi
+  useEffect(() => {
+    // 1. Ưu tiên khôi phục bài đang làm dở
+    const draft = loadExamDraft(document.id);
+    if (draft && Object.keys(draft.answers).length > 0) {
+      setAnswers(draft.answers);
+      setFlagged(draft.flagged || {});
+      const date = new Date(draft.updatedAt);
+      const timeStr = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const count = Object.keys(draft.answers).length;
+      setRestoredDraftInfo({ answeredCount: count, timeStr });
+      setHasInitialized(true);
+      return;
+    }
+
+    // 2. Nếu không có bài làm dở, xem có kết quả đã nộp gần nhất không
+    const savedResult = loadExamResult(document.id);
+    if (savedResult) {
+      setResult(savedResult);
+      if (savedResult.answers) {
+        setAnswers(savedResult.answers);
+      }
+    }
+    setHasInitialized(true);
+  }, [document.id]);
+
+  // Tự động lưu bài làm dở khi câu trả lời hoặc cờ thay đổi
+  useEffect(() => {
+    if (!hasInitialized) return;
+    if (result) return; // Đã nộp bài thì không lưu draft
+
+    if (Object.keys(answers).length > 0 || Object.keys(flagged).length > 0) {
+      const timer = setTimeout(() => {
+        saveExamDraft(document.id, { answers, flagged });
+      }, 300);
+      return () => clearTimeout(timer);
+    } else {
+      clearExamDraft(document.id);
+    }
+  }, [document.id, answers, flagged, result, hasInitialized]);
 
   const quizBlocks = useMemo(() => testQuizBlocks(document.blocks), [document.blocks]);
   const questions = useMemo(() => quizBlocks.flatMap((b) => b.questions), [quizBlocks]);
@@ -107,11 +160,10 @@ export default function ExamRunner({
       score: scoreOutOf10(earnedPoints, totalPoints),
     };
     setResult(finished);
-    try {
-      sessionStorage.setItem(`${RESULT_KEY_PREFIX}${document.id}`, JSON.stringify(finished));
-    } catch {
-      // bỏ qua nếu trình duyệt chặn sessionStorage
-    }
+    saveExamResult(document.id, finished);
+    clearExamDraft(document.id);
+    setRestoredDraftInfo(null);
+
     // Lưu điểm tốt nhất vào tiến độ học tập trên chính trình duyệt này
     setPercent(`document-quiz:${document.id}`, finished.percent);
     // Nộp bài test đính kèm = hoàn thành tài liệu chứa nó
@@ -120,9 +172,12 @@ export default function ExamRunner({
   }
 
   function handleRetry() {
+    clearExamDraft(document.id);
+    clearExamResult(document.id);
     setAnswers({});
     setFlagged({});
     setResult(null);
+    setRestoredDraftInfo(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -149,6 +204,40 @@ export default function ExamRunner({
           {essayCount > 0 && ` · ${essayCount} câu tự luận (không tính điểm tự động)`}
         </p>
       </div>
+
+      {/* Thông báo đã khôi phục bài làm dở */}
+      {!result && restoredDraftInfo && (
+        <div className="mb-8 flex flex-col items-start justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/80 p-4 text-sm text-indigo-900 shadow-xs dark:border-indigo-900 dark:bg-indigo-950/40 dark:text-indigo-200 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xl">⏳</span>
+            <div>
+              <p className="font-semibold">
+                Đã tự động khôi phục bài làm dở của bạn ({restoredDraftInfo.answeredCount} ý đã trả lời lúc {restoredDraftInfo.timeStr}).
+              </p>
+              <p className="text-xs text-indigo-700/80 dark:text-indigo-300/80">
+                Bạn có thể tiếp tục làm bài hoặc bấm làm lại từ đầu.
+              </p>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="rounded-xl border border-indigo-300 bg-white px-3.5 py-1.5 text-xs font-bold text-indigo-700 shadow-2xs transition-colors hover:bg-indigo-50 dark:border-indigo-800 dark:bg-slate-900 dark:text-indigo-300 dark:hover:bg-indigo-950"
+            >
+              🔄 Làm lại từ đầu
+            </button>
+            <button
+              type="button"
+              onClick={() => setRestoredDraftInfo(null)}
+              className="rounded-lg p-1.5 text-indigo-500 hover:bg-indigo-200/50 dark:text-indigo-400 dark:hover:bg-indigo-900/50"
+              title="Đóng thông báo"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Kết quả sau khi nộp bài */}
       {result && <ExamResultBanner result={result} onRetry={handleRetry} nextStep={nextStep} />}

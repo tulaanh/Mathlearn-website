@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { DocumentCardData } from "@/lib/documents";
+import TestCardStatus from "./TestCardStatus";
 
 /** Thẻ bài kiểm tra (tài liệu có document_type = 'test') hiển thị tại /quiz. */
 export default function TestCard({ card }: { card: DocumentCardData }) {
@@ -8,10 +9,13 @@ export default function TestCard({ card }: { card: DocumentCardData }) {
       href={`/quiz/${card.id}`}
       className="group flex flex-col rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition hover:-translate-y-1 hover:border-purple-300 hover:shadow-md dark:border-slate-800/80 dark:bg-[#131b2e] dark:hover:border-purple-500/60"
     >
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700 dark:bg-purple-950/70 dark:text-purple-300">📝 Bài kiểm tra</span>
-        <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950/70 dark:text-blue-300">Toán</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{card.grade}</span>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700 dark:bg-purple-950/70 dark:text-purple-300">📝 Bài kiểm tra</span>
+          <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950/70 dark:text-blue-300">Toán</span>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">{card.grade}</span>
+        </div>
+        <TestCardStatus documentId={card.id} />
       </div>
       <h2 className="text-lg font-bold leading-snug text-slate-900 group-hover:text-purple-600 dark:text-white dark:group-hover:text-purple-400">{card.title}</h2>
       <p className="mt-2 line-clamp-3 flex-1 text-sm leading-6 text-slate-600 dark:text-slate-400">

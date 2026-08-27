@@ -25,5 +25,9 @@
 *.tsbuildinfo
 next-env.d.ts
 
+# latex build artifacts
+*.aux
+*.synctex.gz
+
 .vercel
 .env*

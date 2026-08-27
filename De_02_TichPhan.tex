@@ -1,0 +1,253 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ THI RÈN LUYỆN TÍCH PHÂN - ĐỀ 02}
+\docdesc{Đề kiểm tra rèn luyện chuyên đề Tích phân - Đề số 2}
+\docgrade{12}
+\docstatus{draft}
+\doctype{test}
+\doctopics{Giải tích, Tích phân}
+
+% =========================================================================
+% PHẦN I: CÂU TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+% =========================================================================
+
+\begin{quiz}{Phần 1. Câu trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Diện tích hình thang cong giới hạn bởi đồ thị hàm số $y = \frac{2x-1}{x+1}$, trục hoành và hai đường thẳng $x = 2, x = 5$ là \image{0.45}{}{images_ChuDe02_TichPhan/d2_c1.png}}{3}{1}{Chọn D.}
+	\option{$3\ln 2$.}
+	\option{$6 - 2\ln 3$.}
+	\option{$3 - 6\ln 2$.}
+	\option{$6 - \ln 8$.}
+\end{mcq}
+
+\begin{mcq}{Biết $F(x) = x^2$ là một nguyên hàm của hàm số $f(x)$ trên $\mathbb{R}$. Giá trị của $\int_1^2 (2+f(x))\,\mathrm{d}x$ bằng}{0}{1}{Chọn A.}
+	\option{$5$.}
+	\option{$3$.}
+	\option{$\frac{13}{3}$.}
+	\option{$\frac{7}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Cho $F(x)$ là nguyên hàm của hàm số $f(x) = \frac{\ln x}{x}$. Tính $I = F(e) - F(1)$.}{0}{1}{Chọn A.}
+	\option{$I = \frac{1}{2}$.}
+	\option{$I = \frac{1}{e}$.}
+	\option{$I = 1$.}
+	\option{$I = e$.}
+\end{mcq}
+
+\begin{mcq}{Với $a, b$ là các tham số thực, giá trị của tích phân $\int_0^b (3x^2 - 2ax - 1)\,\mathrm{d}x$ bằng}{0}{1}{Chọn A.}
+	\option{$b^3 - b^2 a - b$.}
+	\option{$b^3 + b^2 a + b$.}
+	\option{$b^3 - ba^2 - b$.}
+	\option{$3b^2 - 2ab - 1$.}
+\end{mcq}
+
+\begin{mcq}{Nếu $\int_{-2}^1 [2f(x)-1]\,\mathrm{d}x = 3$ thì $\int_{-2}^1 f(x)\,\mathrm{d}x$ bằng}{2}{1}{Chọn C.}
+	\option{$5$.}
+	\option{$-9$.}
+	\option{$3$.}
+	\option{$-3$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x)$ thỏa mãn $f(1) = 12, f'(x)$ liên tục trên đoạn $[1; 4]$ và $\int_1^4 f'(x)\,\mathrm{d}x = 17$. Tính $f(4)$.}{0}{1}{Chọn A.}
+	\option{$29$.}
+	\option{$9$.}
+	\option{$26$.}
+	\option{$5$.}
+\end{mcq}
+
+\begin{mcq}{Cho $\int_{-1}^1 f(x)\,\mathrm{d}x = 4, \int_{-1}^1 g(x)\,\mathrm{d}x = 3$. Tính tích phân $I = \int_1^{-1} [2f(x)-5g(x)]\,\mathrm{d}x$.}{1}{1}{Chọn B.}
+	\option{$I = -7$.}
+	\option{$I = 7$.}
+	\option{$I = -14$.}
+	\option{$I = 14$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $y = f(x) = \begin{cases} 3x^2, & 0 \le x \le 1 \\ 4-x, & 1 \le x \le 2 \end{cases}$. Tính tích phân $\int_0^2 f(x)\,\mathrm{d}x$.}{0}{1}{Chọn A.}
+	\option{$\frac{7}{2}$.}
+	\option{$1$.}
+	\option{$\frac{5}{2}$.}
+	\option{$\frac{3}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho $I = \int_0^1 \frac{1}{\sqrt{2x+m}}\,\mathrm{d}x$ với $m$ là tham số thực. Tìm tất cả các giá trị của $m$ để $I \ge 1$.}{0}{1}{Chọn A.}
+	\option{$0 < m \le \frac{1}{4}$.}
+	\option{$m \ge \frac{1}{4}$.}
+	\option{$m > 0$.}
+	\option{$\frac{1}{8} \le m \le \frac{1}{4}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số bậc ba $y = f(x)$ thỏa mãn $f(x)+1$ chia hết cho $(x-1)^2$ và $f(x)-1$ chia hết cho $(x+1)^2$. Tính $\int_0^1 f(x)\,\mathrm{d}x$.}{2}{1}{Chọn C.}
+	\option{$5$.}
+	\option{$7$.}
+	\option{$-\frac{5}{8}$.}
+	\option{$\frac{13}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho biết $\int_0^1 \frac{x^2+x+1}{x+1}\,\mathrm{d}x = a + b\ln 2 (a, b \in \mathbb{Q})$. Mệnh đề nào sau đây là đúng?}{1}{1}{Chọn B.}
+	\option{$a + b = \frac{1}{2}$.}
+	\option{$a + b = \frac{3}{2}$.}
+	\option{$a + b = -\frac{1}{2}$.}
+	\option{$a + b = \frac{5}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hàm số $f(x) = \int_1^{\sqrt{x}} (4t^3 - 8t)\,\mathrm{d}t$. Gọi $m, M$ lần lượt là giá trị nhỏ nhất, giá trị lớn nhất của hàm số $f(x)$ trên đoạn $[1; 6]$. Tính $M - m$.}{0}{1}{Chọn A.}
+	\option{$16$.}
+	\option{$12$.}
+	\option{$18$.}
+	\option{$9$.}
+\end{mcq}
+
+\begin{mcq}{Biết $\int_2^3 \frac{-2x^2+14x}{x^2-1}\,\mathrm{d}x = a\ln 2 + b\ln 3 + c (a, b, c \in \mathbb{Z})$. Giá trị của $a^2 + b + c$ bằng}{2}{1}{Chọn C.}
+	\option{$494$.}
+	\option{$484$.}
+	\option{$474$.}
+	\option{$464$.}
+\end{mcq}
+
+\begin{mcq}{Cho $a, b$ là các số thực thỏa mãn $\int_0^1 \frac{2abx+a+b}{(1+ax)(1+bx)}\,\mathrm{d}x = 0$. Giá trị của $S = ab+a+b$ là}{1}{1}{Chọn B.}
+	\option{$S = 0, S = 1$.}
+	\option{$S = 0, S = -2$.}
+	\option{$S = -2, S = 1$.}
+	\option{$S = 2, S = 1$.}
+\end{mcq}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: CÂU TRẮC NGHIỆM ĐÚNG SAI
+% =========================================================================
+
+\begin{quiz}{Phần 2. Câu trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hàm số $y = f(x)$ thỏa mãn $f'(x)f(x) = x^4 - x$ và $f(1) = 2$. Xét tính đúng sai của các khẳng định sau:}{1}{Đáp án: a) Đúng, b) Sai, c) Đúng, d) Sai.}
+	\statement{true}{$f^2(x) = \frac{2}{5}x^5 - x^2 + \frac{23}{5}$.}
+	\statement{false}{$f(3) = \frac{11}{5}$.}
+	\statement{true}{$\int_1^2 f'(x)f(x)\,\mathrm{d}x = \frac{47}{10}$.}
+	\statement{false}{$T = 5f^2(2) + 20 = 85$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hàm số $y = f(x)$ có đồ thị như hình vẽ bên dưới. Xét tính đúng sai của các khẳng định sau: \image{0.45}{}{images_ChuDe02_TichPhan/tf_c6.png}}{1}{Đáp án: a) Đúng, b) Sai, c) Sai, d) Sai.}
+	\statement{true}{$\int_0^2 f(x)\,\mathrm{d}x > \int_1^3 f(x)\,\mathrm{d}x$.}
+	\statement{false}{$\int_0^{-1} f(x)\,\mathrm{d}x = \frac{3}{2}$.}
+	\statement{false}{Diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = -1, x = 4$ là $\frac{19}{2}$.}
+	\statement{false}{$\int_2^4 f(x)\,\mathrm{d}x = \int_{-1}^0 3f(x)\,\mathrm{d}x$.}
+\end{truefalse}
+
+\begin{truefalse}{Một vật chuyển động với đồ thị vận tốc được cho bởi hình vẽ bên dưới. Xét tính đúng sai của các khẳng định sau: \image{0.45}{}{images_ChuDe02_TichPhan/tf_c7.png}}{1}{Đáp án: a) Đúng, b) Đúng, c) Sai, d) Sai.}
+	\statement{true}{Quãng đường vật di chuyển trong 1 giây đầu tiên là $1\text{ m}$.}
+	\statement{true}{Quãng đường vật di chuyển trong khoảng thời gian $2 \le t \le 5$ là $6\text{ m}$.}
+	\statement{false}{Trong khoảng thời gian $5 \le t \le 6$ vật đứng yên.}
+	\statement{false}{Quãng đường vật di chuyển trong khoảng thời gian $1 \le t \le 3$ và $3 \le t \le 6$ là như nhau.}
+\end{truefalse}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: CÂU TRẮC NGHIỆM TRẢ LỜI NGẮN
+% =========================================================================
+
+\begin{quiz}{Phần 3. Câu trắc nghiệm trả lời ngắn}
+
+\shortanswer{Biết $I = \int_1^2 \frac{\mathrm{d}x}{(x+1)\sqrt{x} + x\sqrt{x+1}} = \sqrt{a} - \sqrt{b} - c$ với $a, b, c$ là các số nguyên dương. Giá trị của biểu thức $P = a+b+c$ bằng bao nhiêu?}{$46$}{1}{Đáp án: 46.}
+
+\shortanswer{Biết rằng hàm số $f(x) = ax^3 + bx^2 + c (a, b, c \in \mathbb{R})$ thỏa mãn $\int_0^1 f(x)\,\mathrm{d}x = -2, \int_0^2 f(x)\,\mathrm{d}x = -3$ và $\int_0^3 f(x)\,\mathrm{d}x = 1$. Giá trị của biểu thức $P = a+b+12c$ bằng bao nhiêu? (Làm tròn kết quả đến hàng phần chục).}{$-27{,}5$}{1}{Đáp án: -27,5.}
+
+\shortanswer{Cho hàm số $y = f(x)$ liên tục trên $[-6; 5]$, có đồ thị gồm hai đoạn thẳng và nửa đường tròn như hình vẽ. Biết $I = \int_{-6}^5 [f(x)+2]\,\mathrm{d}x = a\pi + b$. Giá trị $T = a+b$ bằng bao nhiêu? \image{0.45}{}{images_ChuDe02_TichPhan/sa_c12.png}}{$40{,}5$}{1}{Đáp án: 40,5.}
+
+\shortanswer{Cho hàm số $y = f(x)$ có đạo hàm liên tục trên đoạn $[1; 2]$ thỏa mãn $f(1) = 2$ và $f(x) - (x+1)f'(x) = 2xf^2(x), \forall x \in [1; 2]$. Giá trị của $\int_1^2 f(x)\,\mathrm{d}x$ bằng bao nhiêu? (Làm tròn kết quả đến một chữ số sau dấu thập phân).}{$1{,}2$}{1}{Đáp án: 1,2.}
+
+\shortanswer{Một vật chuyển động với hàm số gia tốc là $a(t)\text{ (đơn vị m/s}^2)$. Biết rằng đồ thị hàm số $a(t)$ trên đoạn $[0; 6]$ được cho như hình bên và vận tốc tại thời điểm $t = 0$ là $v(0) = 1\text{ (m/s)}$. Tại thời điểm $t = 6$ giây, vận tốc của vật là bao nhiêu? (Làm tròn kết quả đến hai chữ số sau dấu thập phân). \image{0.45}{}{images_ChuDe02_TichPhan/sa_c14.png}}{$8{,}07$}{1}{Đáp án: 8,07.}
+
+\shortanswer{Tại một nơi không có gió, một khinh khí cầu đang đứng yên ở độ cao $243$ mét so với mặt đất đã được phi công cài đặt cho nó chế độ chuyển động đi xuống. Biết rằng, khí cầu đã chuyển động theo phương thẳng đứng với vận tốc tuân theo quy luật $v(t) = 12t - t^2$, trong đó $t$ tính bằng phút là thời gian tính từ lúc khinh khí cầu bắt đầu chuyển động, $v(t)$ được tính bằng đơn vị mét/phút. Nếu vận tốc $v$ của khinh khí cầu khi tiếp đất là $v = x\text{ mét/phút}$ thì giá trị của $x$ bằng bao nhiêu? (Làm tròn kết quả đến hàng đơn vị).}{$27$}{1}{Đáp án: 27.}
+
+\shortanswer{Sử dụng ý nghĩa hình học của tích phân, tính $\int_{-3}^3 \sqrt{9-x^2}\,\mathrm{d}x$ (Làm tròn kết quả đến hàng phần chục).}{$14{,}1$}{1}{Đáp án: 14,1.}
+
+\shortanswer{Cho hàm số $y = f(x) = \begin{cases} e^x, & x \le 0 \\ -x^2 + x + 1, & x > 0 \end{cases}$ có đồ thị như hình vẽ bên dưới. Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = -1, x = 1$ (Làm tròn kết quả đến hàng phần mười). \image{0.45}{}{images_ChuDe02_TichPhan/sa_c17.png}}{$1{,}8$}{1}{Đáp án: 1,8.}
+
+\shortanswer{Cho hàm số $y = f(x) = \begin{cases} x^2, & x \le 2 \\ -x+6, & 2 < x \le 4 \\ \sqrt{-x^2+8x-12}, & x > 4 \end{cases}$ có đồ thị như hình vẽ bên dưới. Tính diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = f(x)$, trục hoành và hai đường thẳng $x = -2, x = 6$ (Làm tròn kết quả đến một chữ số sau dấu thập phân). \image{0.45}{}{images_ChuDe02_TichPhan/sa_c18.png}}{$14{,}5$}{1}{Đáp án: 14,5.}
+
+\end{quiz}
+
+\end{document}
