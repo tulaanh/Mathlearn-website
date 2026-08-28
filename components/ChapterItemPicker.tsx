@@ -13,12 +13,21 @@ interface QuizItem {
   id: string;
   title: string;
   grade: string;
+  /** Có giá trị khi bài kiểm tra là document trong Supabase. */
+  documentId?: string;
 }
 
 interface ChapterItemPickerProps {
   open: boolean;
   onClose: () => void;
-  onSelect: (item: { itemType: "document" | "quiz"; documentId?: string; quizId?: string; title: string; grade?: string }) => void;
+  onSelect: (item: {
+    itemType: "document" | "quiz";
+    documentId?: string;
+    quizId?: string;
+    documentType?: "normal" | "test";
+    title: string;
+    grade?: string;
+  }) => void;
   existingDocumentIds: string[];
   existingQuizIds: string[];
   documents: DocumentItem[];
@@ -46,15 +55,24 @@ export default function ChapterItemPicker({
 
   if (!open) return null;
 
-  // Lọc tài liệu chưa được thêm
-  const availableDocuments = documents
-    .filter((doc) => !existingDocumentIds.includes(doc.id))
-    .filter((doc) => doc.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  const normalizedSearchQuery = searchQuery.toLowerCase();
 
-  // Lọc bài kiểm tra chưa được thêm
-  const availableQuizzes = quizzes
-    .filter((quiz) => !existingQuizIds.includes(quiz.id))
-    .filter((quiz) => quiz.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  // Tài liệu dạng test cũng nằm trong bảng documents, nhưng phải được đưa
+  // sang tab bài kiểm tra để khi chọn vẫn giữ đúng ngữ nghĩa hiển thị.
+  const availableDocuments = documents
+    .filter((doc) => doc.documentType !== "test")
+    .filter((doc) => !existingDocumentIds.includes(doc.id))
+    .filter((doc) => doc.title.toLowerCase().includes(normalizedSearchQuery));
+
+  const availableQuizzes = [
+    ...documents
+      .filter((doc) => doc.documentType === "test")
+      .filter((doc) => !existingDocumentIds.includes(doc.id))
+      .map((doc) => ({ id: doc.id, title: doc.title, grade: doc.grade, documentId: doc.id })),
+    ...quizzes
+      .filter((quiz) => !existingQuizIds.includes(quiz.id))
+      .map((quiz) => ({ ...quiz, documentId: undefined })),
+  ].filter((quiz) => quiz.title.toLowerCase().includes(normalizedSearchQuery));
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -68,6 +86,7 @@ export default function ChapterItemPicker({
             Thêm nội dung vào chương
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
           >
@@ -89,6 +108,7 @@ export default function ChapterItemPicker({
         {/* Tab Buttons */}
         <div className="mb-4 flex border-b border-slate-100 dark:border-slate-800">
           <button
+            type="button"
             onClick={() => {
               setActiveTab("document");
               setSearchQuery("");
@@ -102,6 +122,7 @@ export default function ChapterItemPicker({
             📄 Tài liệu ({availableDocuments.length})
           </button>
           <button
+            type="button"
             onClick={() => {
               setActiveTab("quiz");
               setSearchQuery("");
@@ -143,10 +164,12 @@ export default function ChapterItemPicker({
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={() =>
                       onSelect({
                         itemType: "document",
                         documentId: doc.id,
+                        documentType: doc.documentType === "test" ? "test" : "normal",
                         title: doc.title,
                         grade: doc.grade,
                       })
@@ -179,13 +202,24 @@ export default function ChapterItemPicker({
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() =>
-                    onSelect({
-                      itemType: "quiz",
-                      quizId: quiz.id,
-                      title: quiz.title,
-                      grade: quiz.grade,
-                    })
+                    onSelect(
+                      quiz.documentId
+                        ? {
+                            itemType: "document",
+                            documentId: quiz.documentId,
+                            documentType: "test",
+                            title: quiz.title,
+                            grade: quiz.grade,
+                          }
+                        : {
+                            itemType: "quiz",
+                            quizId: quiz.id,
+                            title: quiz.title,
+                            grade: quiz.grade,
+                          },
+                    )
                   }
                   className="shrink-0 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-indigo-700"
                 >
@@ -199,6 +233,7 @@ export default function ChapterItemPicker({
         {/* Close Button */}
         <div className="mt-6 flex justify-end">
           <button
+            type="button"
             onClick={onClose}
             className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
           >

@@ -17,6 +17,7 @@ interface ChapterEditorItem {
   itemType: "document" | "quiz";
   documentId?: string;
   quizId?: string;
+  documentType?: "normal" | "test";
   title: string;
   grade?: string;
 }
@@ -33,6 +34,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
       itemType: item.itemType,
       documentId: item.documentId,
       quizId: item.quizId,
+      documentType: item.documentType,
       title: item.title ?? "",
       grade: item.grade,
     }));
@@ -271,7 +273,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
 
                   {/* Icon type */}
                   <span className="text-lg shrink-0">
-                    {item.itemType === "document" ? "📄" : "✓"}
+                    {item.itemType === "document" && item.documentType !== "test" ? "📄" : "✓"}
                   </span>
 
                   <div className="min-w-0">
@@ -280,7 +282,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
                     </p>
                     <div className="mt-0.5 flex items-center gap-1.5">
                       <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {item.itemType === "document" ? "Tài liệu" : "Bài kiểm tra"}
+                        {item.itemType === "document" && item.documentType !== "test" ? "Tài liệu" : "Bài kiểm tra"}
                       </span>
                       {item.grade && (
                         <span className="rounded bg-indigo-50 px-1.5 py-0.5 text-[9px] font-semibold text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400">
