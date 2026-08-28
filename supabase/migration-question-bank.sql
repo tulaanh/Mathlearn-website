@@ -35,10 +35,11 @@ create index if not exists question_bank_topics_topic_idx on public.question_ban
 alter table public.question_bank enable row level security;
 alter table public.question_bank_topics enable row level security;
 
--- Chỉ giáo viên: đọc toàn bộ ngân hàng (câu hỏi chứa đáp án đúng).
+-- Đọc ngân hàng câu hỏi: cho phép mọi người dùng đã đăng nhập (học sinh và giáo viên).
 drop policy if exists question_bank_read_teacher on public.question_bank;
-create policy question_bank_read_teacher on public.question_bank for select to authenticated
-using (public.is_teacher());
+drop policy if exists question_bank_read_authenticated on public.question_bank;
+create policy question_bank_read_authenticated on public.question_bank for select to authenticated
+using (true);
 
 drop policy if exists question_bank_insert_teacher on public.question_bank;
 create policy question_bank_insert_teacher on public.question_bank for insert to authenticated
@@ -52,10 +53,11 @@ drop policy if exists question_bank_delete_teacher on public.question_bank;
 create policy question_bank_delete_teacher on public.question_bank for delete to authenticated
 using (public.is_teacher());
 
--- Chủ đề của câu hỏi đi theo quyền của câu hỏi tương ứng.
+-- Chủ đề của câu hỏi: cho phép mọi người dùng đã đăng nhập đọc.
 drop policy if exists question_bank_topics_read_teacher on public.question_bank_topics;
-create policy question_bank_topics_read_teacher on public.question_bank_topics for select to authenticated
-using (public.is_teacher());
+drop policy if exists question_bank_topics_read_authenticated on public.question_bank_topics;
+create policy question_bank_topics_read_authenticated on public.question_bank_topics for select to authenticated
+using (true);
 
 drop policy if exists question_bank_topics_manage_teacher on public.question_bank_topics;
 create policy question_bank_topics_manage_teacher on public.question_bank_topics for all to authenticated

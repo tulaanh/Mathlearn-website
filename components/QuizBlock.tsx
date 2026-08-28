@@ -8,6 +8,7 @@ import {
   loadQuizBlockDraft,
   saveQuizBlockDraft,
 } from "@/lib/exam-draft";
+import { useSavedQuestions } from "@/lib/saved-questions";
 import LazyMathText from "./LazyMathText";
 import DebouncedInput from "./DebouncedInput";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
@@ -51,6 +52,8 @@ type QuizQuestionRowProps = {
   onToggleExplanation: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
   onReport: (question: QuizQuestion) => void;
+  onToggleSave: (question: QuizQuestion) => void;
+  isSaved: boolean;
 };
 
 /** Chỉ so sánh answer của riêng câu này để câu khác không phải re-render khi trả lời. */
@@ -63,7 +66,9 @@ function quizQuestionRowPropsEqual(prev: QuizQuestionRowProps, next: QuizQuestio
     prev.onAnswer !== next.onAnswer ||
     prev.onToggleExplanation !== next.onToggleExplanation ||
     prev.onZoomImage !== next.onZoomImage ||
-    prev.onReport !== next.onReport
+    prev.onReport !== next.onReport ||
+    prev.onToggleSave !== next.onToggleSave ||
+    prev.isSaved !== next.isSaved
   ) {
     return false;
   }
@@ -81,6 +86,8 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
   onToggleExplanation,
   onZoomImage,
   onReport,
+  onToggleSave,
+  isSaved,
 }: QuizQuestionRowProps) {
   const qType = q.type || "multiple_choice";
 
@@ -93,15 +100,31 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
         <div className="min-w-0 flex-1 font-semibold text-slate-800 dark:text-slate-100">
           {qi + 1}. <LazyMathText inline text={q.text} />
         </div>
-        <button
-          type="button"
-          onClick={() => onReport(q)}
-          title="Báo lỗi câu hỏi này (giải sai, đề sai, thiếu đề, đề mở...)"
-          className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50/80 px-2 py-1 text-[11px] font-semibold text-slate-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-rose-800 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
-        >
-          <span>🚩</span>
-          <span className="hidden sm:inline">Báo lỗi</span>
-        </button>
+        <div className="flex shrink-0 items-center gap-1.5">
+          {submitted && (
+            <button
+              type="button"
+              onClick={() => onToggleSave(q)}
+              title={isSaved ? "Bỏ lưu câu hỏi khỏi Ngân hàng câu hỏi" : "Lưu câu hỏi này vào Ngân hàng câu hỏi"}
+              className={`inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${
+                isSaved
+                  ? "border-amber-400 bg-amber-100 text-amber-900 hover:bg-amber-200 dark:border-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
+                  : "border-slate-200 bg-slate-50/80 text-slate-500 hover:border-amber-400 hover:bg-amber-50 hover:text-amber-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-amber-800 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
+              }`}
+            >
+              <span>{isSaved ? "⭐ Đã lưu" : "☆ Lưu ngân hàng"}</span>
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => onReport(q)}
+            title="Báo lỗi câu hỏi này (giải sai, đề sai, thiếu đề, đề mở...)"
+            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50/80 px-2 py-1 text-[11px] font-semibold text-slate-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-rose-800 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
+          >
+            <span>🚩</span>
+            <span className="hidden sm:inline">Báo lỗi</span>
+          </button>
+        </div>
       </div>
 
       {(() => {
@@ -283,6 +306,33 @@ export default function QuizBlock({
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
   const [reportingQuestion, setReportingQuestion] = useState<QuizQuestion | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
+  const [savedBatchMessage, setSavedBatchMessage] = useState("");
+  const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
+
+  const handleToggleSave = useCallback(
+    (q: QuizQuestion) => {
+      toggleSave(q, {
+        sourceDocId: documentInfo?.id,
+        sourceDocTitle: documentInfo?.title,
+      });
+    },
+    [toggleSave, documentInfo?.id, documentInfo?.title],
+  );
+
+  const handleSaveAll = useCallback(() => {
+    if (!questions.length) return;
+    const count = saveMultiple(
+      questions.map((q) => ({
+        question: q,
+        meta: {
+          sourceDocId: documentInfo?.id,
+          sourceDocTitle: documentInfo?.title,
+        },
+      })),
+    );
+    setSavedBatchMessage(`Đã lưu ${count} câu hỏi vào Ngân hàng câu hỏi!`);
+    setTimeout(() => setSavedBatchMessage(""), 5000);
+  }, [questions, saveMultiple, documentInfo?.id, documentInfo?.title]);
 
   // Khôi phục câu trả lời từ localStorage khi load
   useEffect(() => {
@@ -352,41 +402,57 @@ export default function QuizBlock({
             onToggleExplanation={toggleExplanation}
             onZoomImage={openZoom}
             onReport={handleReport}
+            onToggleSave={handleToggleSave}
+            isSaved={isSaved(q.id)}
           />
         ))}
       </div>
 
       {total > 0 && (
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          {!submitted ? (
-            <button
-              type="button"
-              onClick={() => setSubmitted(true)}
-              disabled={answeredCount < total}
-              className="rounded-xl bg-purple-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-purple-700 disabled:opacity-50"
-            >
-              Nộp bài
-            </button>
-          ) : (
-            <>
-              <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
-                Kết quả: {correctCount}/{total} ý đúng 🎉
-              </p>
+        <div className="mt-5 space-y-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {!submitted ? (
               <button
                 type="button"
-                onClick={() => {
-                  clearQuizBlockDraft(blockKey);
-                  setAnswers({});
-                  setSubmitted(false);
-                }}
-                className="rounded-xl border border-purple-300 px-4 py-2 text-sm font-bold text-purple-600 hover:bg-purple-50 dark:border-purple-800 dark:hover:bg-purple-950/40"
+                onClick={() => setSubmitted(true)}
+                disabled={answeredCount < total}
+                className="rounded-xl bg-purple-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-purple-700 disabled:opacity-50"
               >
-                Làm lại
+                Nộp bài
               </button>
-            </>
-          )}
-          {!submitted && answeredCount < total && (
-            <span className="text-xs text-slate-500">Đã trả lời {answeredCount}/{total} ý</span>
+            ) : (
+              <>
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                  Kết quả: {correctCount}/{total} ý đúng 🎉
+                </p>
+                <button
+                  type="button"
+                  onClick={handleSaveAll}
+                  className="rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-bold text-indigo-700 transition-colors hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-300"
+                >
+                  ⭐ Lưu {questions.length} câu vào Ngân hàng
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    clearQuizBlockDraft(blockKey);
+                    setAnswers({});
+                    setSubmitted(false);
+                  }}
+                  className="rounded-xl border border-purple-300 px-4 py-2 text-sm font-bold text-purple-600 hover:bg-purple-50 dark:border-purple-800 dark:hover:bg-purple-950/40"
+                >
+                  Làm lại
+                </button>
+              </>
+            )}
+            {!submitted && answeredCount < total && (
+              <span className="text-xs text-slate-500">Đã trả lời {answeredCount}/{total} ý</span>
+            )}
+          </div>
+          {savedBatchMessage && (
+            <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              ✓ {savedBatchMessage}
+            </p>
           )}
         </div>
       )}

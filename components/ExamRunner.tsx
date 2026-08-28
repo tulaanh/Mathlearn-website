@@ -30,6 +30,7 @@ import QuestionPalette from "./QuestionPalette";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
 import ReportQuestionModal from "./ReportQuestionModal";
 import { documentProgressKey, useProgress } from "@/lib/progress";
+import { useSavedQuestions } from "@/lib/saved-questions";
 import {
   clearExamDraft,
   clearExamResult,
@@ -74,6 +75,36 @@ export default function ExamRunner({
   } | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
   const { setPercent } = useProgress();
+  const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
+
+  const handleToggleSave = useCallback(
+    (q: QuizQuestion) => {
+      toggleSave(q, {
+        sourceDocId: document.id,
+        sourceDocTitle: document.title,
+        grade: document.grade,
+        topicIds: document.topics.map((t) => t.id),
+      });
+    },
+    [toggleSave, document.id, document.title, document.grade, document.topics],
+  );
+
+  const handleSaveQuestionsBatch = useCallback(
+    (targetQuestions: QuizQuestion[]) => {
+      return saveMultiple(
+        targetQuestions.map((q) => ({
+          question: q,
+          meta: {
+            sourceDocId: document.id,
+            sourceDocTitle: document.title,
+            grade: document.grade,
+            topicIds: document.topics.map((t) => t.id),
+          },
+        })),
+      );
+    },
+    [saveMultiple, document.id, document.title, document.grade, document.topics],
+  );
 
   // Khôi phục bài làm dở hoặc kết quả đã làm gần nhất khi mở bài thi
   useEffect(() => {
@@ -246,7 +277,16 @@ export default function ExamRunner({
       )}
 
       {/* Kết quả sau khi nộp bài */}
-      {result && <ExamResultBanner result={result} onRetry={handleRetry} nextStep={nextStep} />}
+      {result && (
+        <ExamResultBanner
+          result={result}
+          questions={questions}
+          answers={answers}
+          onRetry={handleRetry}
+          nextStep={nextStep}
+          onSaveBatch={handleSaveQuestionsBatch}
+        />
+      )}
 
       {/* Nội dung bài kiểm tra */}
       <div className="space-y-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs dark:border-slate-800/80 dark:bg-[#131b2e] sm:p-8">
@@ -262,6 +302,8 @@ export default function ExamRunner({
             onToggleFlag={toggleFlag}
             onZoomImage={openZoom}
             onReport={handleReport}
+            onToggleSave={handleToggleSave}
+            isQuestionSaved={isSaved}
           />
         ))}
         {questions.length === 0 && (
@@ -341,16 +383,49 @@ export default function ExamRunner({
   );
 }
 
-/** Bảng kết quả hiển thị sau khi nộp bài: điểm thang 10, phần trăm, số ý đúng. */
+/** Bảng kết quả hiển thị sau khi nộp bài: điểm thang 10, phần trăm, số ý đúng và tính năng lưu câu hỏi. */
 function ExamResultBanner({
   result,
+  questions,
+  answers,
   onRetry,
   nextStep = null,
+  onSaveBatch,
 }: {
   result: DocumentTestResult;
+  questions: QuizQuestion[];
+  answers: DocumentTestAnswers;
   onRetry: () => void;
   nextStep?: TestNextStep | null;
+  onSaveBatch: (qs: QuizQuestion[]) => number;
 }) {
+  const [saveMessage, setSaveMessage] = useState("");
+
+  const wrongQuestions = useMemo(() => {
+    return questions.filter((q) => {
+      const qType = questionType(q);
+      if (qType === "essay") return false;
+      if (qType === "true_false") {
+        return !statementsOf(q).every((s) => isUnitCorrect(q, statementKey(q.id, s.id), answers));
+      }
+      return !isUnitCorrect(q, q.id, answers);
+    });
+  }, [questions, answers]);
+
+  const handleSaveWrong = () => {
+    if (!wrongQuestions.length) return;
+    const count = onSaveBatch(wrongQuestions);
+    setSaveMessage(`Đã lưu ${count} câu làm sai vào Ngân hàng câu hỏi!`);
+    setTimeout(() => setSaveMessage(""), 5000);
+  };
+
+  const handleSaveAll = () => {
+    if (!questions.length) return;
+    const count = onSaveBatch(questions);
+    setSaveMessage(`Đã lưu ${count} câu hỏi vào Ngân hàng câu hỏi!`);
+    setTimeout(() => setSaveMessage(""), 5000);
+  };
+
   const feedback =
     result.percent === 100
       ? { emoji: "🏆", text: "Xuất sắc! Hoàn hảo tuyệt đối!", color: "text-emerald-600 dark:text-emerald-400" }
@@ -387,6 +462,50 @@ function ExamResultBanner({
         </span>
       </div>
       <p className={`mt-4 text-sm font-semibold ${feedback.color}`}>{feedback.text}</p>
+
+      {/* Tiện ích lưu câu hỏi vào ngân hàng câu hỏi */}
+      <div className="mt-6 rounded-2xl border border-indigo-200/80 bg-white/90 p-4 text-left shadow-2xs backdrop-blur-xs dark:border-indigo-900/60 dark:bg-slate-900/90">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <div>
+            <p className="flex items-center gap-1.5 text-sm font-bold text-slate-900 dark:text-white">
+              <span>🏦</span>
+              <span>Lưu câu hỏi vào Ngân hàng câu hỏi</span>
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+              Lưu lại câu hỏi để xem lại đáp án, lời giải chi tiết và ôn tập bất cứ lúc nào.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            {wrongQuestions.length > 0 && (
+              <button
+                type="button"
+                onClick={handleSaveWrong}
+                className="rounded-xl bg-amber-500 px-3.5 py-2 text-xs font-bold text-white shadow-2xs transition-colors hover:bg-amber-600"
+              >
+                ⭐ Lưu {wrongQuestions.length} câu làm sai
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleSaveAll}
+              className="rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-bold text-indigo-700 transition-colors hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-300"
+            >
+              ⭐ Lưu tất cả ({questions.length} câu)
+            </button>
+            <Link
+              href="/ngan-hang-cau-hoi"
+              className="rounded-xl px-2 py-2 text-xs font-bold text-indigo-600 transition-colors hover:underline dark:text-indigo-400"
+            >
+              Đến Ngân hàng câu hỏi →
+            </Link>
+          </div>
+        </div>
+        {saveMessage && (
+          <p className="mt-2.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+            ✓ {saveMessage}
+          </p>
+        )}
+      </div>
 
       {/* Gợi ý chuyển bài kế tiếp trong chương sau khi nộp bài */}
       {nextUrl && nextLabel && (
@@ -441,6 +560,8 @@ type ExamBlockProps = {
   onToggleFlag: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
   onReport: (question: QuizQuestion) => void;
+  onToggleSave: (question: QuizQuestion) => void;
+  isQuestionSaved: (questionId: string) => boolean;
 };
 
 /** So sánh theo giá trị answer của riêng khối này thay vì identity object answers,
@@ -452,14 +573,20 @@ function examBlockPropsEqual(prev: ExamBlockProps, next: ExamBlockProps) {
     prev.onAnswer !== next.onAnswer ||
     prev.onToggleFlag !== next.onToggleFlag ||
     prev.onZoomImage !== next.onZoomImage ||
-    prev.onReport !== next.onReport
+    prev.onReport !== next.onReport ||
+    prev.onToggleSave !== next.onToggleSave ||
+    prev.isQuestionSaved !== next.isQuestionSaved
   ) {
     return false;
   }
   if (next.block.type !== "quiz") return true;
   const keys = next.block.questions.flatMap(questionAnswerKeys);
   if (!answersEqualFor(keys, prev.answers, next.answers)) return false;
-  return next.block.questions.every((q) => prev.flagged[q.id] === next.flagged[q.id]);
+  return next.block.questions.every(
+    (q) =>
+      prev.flagged[q.id] === next.flagged[q.id] &&
+      prev.isQuestionSaved(q.id) === next.isQuestionSaved(q.id),
+  );
 }
 
 /** Render một khối nội dung: văn bản/bài giảng/ảnh hiển thị thuần, khối quiz render câu hỏi. */
@@ -472,6 +599,8 @@ const ExamBlock = memo(function ExamBlock({
   onToggleFlag,
   onZoomImage,
   onReport,
+  onToggleSave,
+  isQuestionSaved,
 }: ExamBlockProps) {
   if (block.type === "text") {
     return <LazyMathText text={block.content} className="block text-base leading-8 text-slate-700 dark:text-slate-300" />;
@@ -525,6 +654,8 @@ const ExamBlock = memo(function ExamBlock({
           onToggleFlag={onToggleFlag}
           onZoomImage={onZoomImage}
           onReport={onReport}
+          onToggleSave={onToggleSave}
+          isSaved={isQuestionSaved(q.id)}
         />
       ))}
     </section>
@@ -541,6 +672,8 @@ type ExamQuestionCardProps = {
   onToggleFlag: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
   onReport: (question: QuizQuestion) => void;
+  onToggleSave: (question: QuizQuestion) => void;
+  isSaved: boolean;
 };
 
 function examQuestionCardPropsEqual(prev: ExamQuestionCardProps, next: ExamQuestionCardProps) {
@@ -552,14 +685,16 @@ function examQuestionCardPropsEqual(prev: ExamQuestionCardProps, next: ExamQuest
     prev.flagged !== next.flagged ||
     prev.onToggleFlag !== next.onToggleFlag ||
     prev.onZoomImage !== next.onZoomImage ||
-    prev.onReport !== next.onReport
+    prev.onReport !== next.onReport ||
+    prev.onToggleSave !== next.onToggleSave ||
+    prev.isSaved !== next.isSaved
   ) {
     return false;
   }
   return answersEqualFor(questionAnswerKeys(next.question), prev.answers, next.answers);
 }
 
-/** Thẻ một câu hỏi trong bài kiểm tra: khóa input sau khi nộp, hiện đáp án + giải thích. */
+/** Thẻ một câu hỏi trong bài kiểm tra: khóa input sau khi nộp, hiện đáp án + giải thích và nút lưu vào ngân hàng. */
 const ExamQuestionCard = memo(function ExamQuestionCard({
   question,
   index,
@@ -570,6 +705,8 @@ const ExamQuestionCard = memo(function ExamQuestionCard({
   onToggleFlag,
   onZoomImage,
   onReport,
+  onToggleSave,
+  isSaved,
 }: ExamQuestionCardProps) {
   const qType = questionType(question);
   const locked = !!result;
@@ -601,6 +738,20 @@ const ExamQuestionCard = memo(function ExamQuestionCard({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
+          {locked && (
+            <button
+              type="button"
+              onClick={() => onToggleSave(question)}
+              title={isSaved ? "Bỏ lưu câu hỏi khỏi Ngân hàng câu hỏi" : "Lưu câu hỏi này vào Ngân hàng câu hỏi"}
+              className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors ${
+                isSaved
+                  ? "border-amber-400 bg-amber-100 text-amber-900 hover:bg-amber-200 dark:border-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
+                  : "border-slate-200 bg-white text-slate-600 hover:border-amber-400 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-amber-700 dark:hover:bg-amber-950/40 dark:hover:text-amber-300"
+              }`}
+            >
+              {isSaved ? "⭐ Đã lưu vào ngân hàng" : "☆ Lưu vào ngân hàng"}
+            </button>
+          )}
           <button
             type="button"
             onClick={() => onReport(question)}

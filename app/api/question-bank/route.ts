@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getBankQuestions } from "@/lib/question-bank";
 
-/** GET /api/question-bank — danh sách câu hỏi ngân hàng (chỉ giáo viên). */
+/** GET /api/question-bank — danh sách câu hỏi ngân hàng. */
 export async function GET(request: Request) {
-  const { user, profile } = await getCurrentUser();
-  if (!user || profile?.role !== "teacher") {
-    return NextResponse.json({ error: "Chỉ giáo viên mới được xem ngân hàng câu hỏi." }, { status: 403 });
+  const { user } = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "Cần đăng nhập để xem ngân hàng câu hỏi." }, { status: 401 });
   }
   const url = new URL(request.url);
   const limitParam = Number(url.searchParams.get("limit") ?? "0");
