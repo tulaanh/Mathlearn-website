@@ -1,0 +1,594 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{\vspace{1em}}{}
+
+\newenvironment{lesson}[2]{
+	\vspace{1em}\noindent\textbf{\Large #1}\\
+	\textit{#2}\vspace{0.5em}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\vspace{0.5em}
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 04: PHƯƠNG TRÌNH ĐƯỜNG THẲNG}
+\docdesc{Tóm tắt lý thuyết trọng tâm, các dạng toán cơ bản - nâng cao và ví dụ mẫu chuyên đề Phương trình đường thẳng trong không gian Oxyz}
+\docgrade{12}
+\docstatus{draft}
+\doctype{lesson}
+\doctopics{Hình học không gian, Oxyz, Phương trình đường thẳng}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I. Tóm tắt lý thuyết}{Kiến thức nền tảng về vecto chỉ phương, phương trình tham số, phương trình chính tắc, vị trí tương đối và góc}
+
+\textbf{1. Vecto chỉ phương của đường thẳng}
+
+Cho đường thẳng $\Delta$ và vecto $\vec{u}$ khác $\vec{0}$. Vecto $\vec{u}$ được gọi là \textbf{vecto chỉ phương} của đường thẳng $\Delta$ nếu giá của $\vec{u}$ song song hoặc trùng với $\Delta$.
+
+\image{0.5}{Vectơ chỉ phương của đường thẳng $\Delta$}{images_ChuDe04_PhuongTrinhDuongThang/lt_01.png}
+
+\textbf{Chú ý:}
+\begin{itemize}
+    \item Một đường thẳng hoàn toàn được xác định khi biết một vecto chỉ phương và một điểm mà nó đi qua.
+    \item Nếu $\vec{u}$ là vecto chỉ phương của một đường thẳng thì $k\vec{u}$ ($k \ne 0$) cũng là vecto chỉ phương của đường thẳng đó.
+\end{itemize}
+
+\textbf{2. Phương trình tham số của đường thẳng}
+
+Trong không gian $Oxyz$, cho đường thẳng $d$ đi qua điểm $M(x_0; y_0; z_0)$ và nhận $\vec{u} = (a; b; c)$ làm vecto chỉ phương. \textbf{Phương trình tham số của đường thẳng $d$} là:
+$$\begin{cases} x = x_0 + at \\ y = y_0 + bt \\ z = z_0 + ct \end{cases} \quad \text{với } t \in \mathbb{R} \text{ ($t$ là tham số)}.$$
+
+\textbf{Chú ý:}
+\begin{itemize}
+    \item Trong không gian $Oxyz$, mỗi hệ phương trình $\begin{cases} x = x_0 + at \\ y = y_0 + bt \\ z = z_0 + ct \end{cases}$, trong đó $a, b, c$ không đồng thời bằng $0$, đều xác định một đường thẳng đi qua điểm $M(x_0; y_0; z_0)$ và nhận $\vec{u} = (a; b; c)$ là vecto chỉ phương.
+    \item Từ phương trình tham số của đường thẳng, với mỗi giá trị của tham số $t$ ta xác định duy nhất một điểm thuộc đường thẳng đó và ngược lại.
+\end{itemize}
+
+\textbf{3. Phương trình chính tắc của đường thẳng}
+
+Trong không gian $Oxyz$, cho đường thẳng $d$ đi qua điểm $M(x_0; y_0; z_0)$ và nhận $\vec{u} = (a; b; c)$ làm vecto chỉ phương, với $a, b, c$ đều khác $0$. \textbf{Phương trình chính tắc của đường thẳng $d$} là:
+$$\frac{x - x_0}{a} = \frac{y - y_0}{b} = \frac{z - z_0}{c}.$$
+
+\textbf{4. Viết phương trình tham số, phương trình chính tắc của đường thẳng đi qua hai điểm}
+
+Trong không gian $Oxyz$, cho đường thẳng $d$ đi qua hai điểm phân biệt $A(x_A; y_A; z_A), B(x_B; y_B; z_B)$.
+Khi đó đường thẳng $d$ có vecto chỉ phương $\vec{AB} = (x_B - x_A; y_B - y_A; z_B - z_A)$.
+\begin{itemize}
+    \item Phương trình tham số của đường thẳng $d$ (đường thẳng $AB$) là:
+    $$\begin{cases} x = x_A + (x_B - x_A)t \\ y = y_A + (y_B - y_A)t \\ z = z_A + (z_B - z_A)t \end{cases} \quad (t \in \mathbb{R}).$$
+    \item Nếu $x_A \ne x_B, y_A \ne y_B, z_A \ne z_B$ thì đường thẳng $d$ (đường thẳng $AB$) có phương trình chính tắc là:
+    $$\frac{x - x_A}{x_B - x_A} = \frac{y - y_A}{y_B - y_A} = \frac{z - z_A}{z_B - z_A}.$$
+\end{itemize}
+
+\textbf{5. Vị trí tương đối giữa hai đường thẳng trong không gian}
+
+Trong không gian $Oxyz$, cho hai đường thẳng $\Delta_1, \Delta_2$ lần lượt đi qua các điểm $A_1(x_1; y_1; z_1), A_2(x_2; y_2; z_2)$ và tương ứng có vecto chỉ phương $\vec{u_1} = (a_1; b_1; c_1), \vec{u_2} = (a_2; b_2; c_2)$. Khi đó:
+\begin{itemize}
+    \item $\Delta_1 \parallel \Delta_2 \Leftrightarrow \vec{u_1}$ cùng phương với $\vec{u_2}$ và $A_1 \notin \Delta_2$.
+    \item $\Delta_1 \equiv \Delta_2 \Leftrightarrow \vec{u_1}$ cùng phương với $\vec{u_2}$ và $A_1 \in \Delta_2$.
+    \item $\Delta_1$ và $\Delta_2$ cắt nhau $\Leftrightarrow \begin{cases} [\vec{u_1}, \vec{u_2}] \ne \vec{0} \\ \vec{A_1A_2} \cdot [\vec{u_1}, \vec{u_2}] = 0 \end{cases}$.
+    \item $\Delta_1$ và $\Delta_2$ chéo nhau $\Leftrightarrow \vec{A_1A_2} \cdot [\vec{u_1}, \vec{u_2}] \ne 0$.
+    \item $\Delta_1 \perp \Delta_2 \Leftrightarrow \vec{u_1} \perp \vec{u_2} \Leftrightarrow \vec{u_1} \cdot \vec{u_2} = 0 \Leftrightarrow a_1a_2 + b_1b_2 + c_1c_2 = 0$.
+\end{itemize}
+
+\textbf{Chú ý:} Để xét vị trí tương đối giữa hai đường thẳng, ta cũng có thể dựa vào các vecto chỉ phương và phương trình tham số của hai đường thẳng:
+$\Delta_1: \begin{cases} x = x_1 + a_1t \\ y = y_1 + b_1t \\ z = z_1 + c_1t \end{cases}, \Delta_2: \begin{cases} x = x_2 + a_2s \\ y = y_2 + b_2s \\ z = z_2 + c_2s \end{cases}$ ($t, s \in \mathbb{R}$).
+Xét hệ phương trình hai ẩn $t, s$:
+$$\begin{cases} x_1 + a_1t = x_2 + a_2s \\ y_1 + b_1t = y_2 + b_2s \\ z_1 + c_1t = z_2 + c_2s \end{cases} \quad (*)$$
+\begin{itemize}
+    \item $\Delta_1 \parallel \Delta_2 \Leftrightarrow \vec{u_1}$ cùng phương với $\vec{u_2}$ và hệ $(*)$ vô nghiệm.
+    \item $\Delta_1 \equiv \Delta_2 \Leftrightarrow$ Hệ $(*)$ có vô số nghiệm.
+    \item $\Delta_1$ và $\Delta_2$ cắt nhau $\Leftrightarrow$ Hệ $(*)$ có nghiệm duy nhất.
+    \item $\Delta_1$ và $\Delta_2$ chéo nhau $\Leftrightarrow \vec{u_1}, \vec{u_2}$ không cùng phương và hệ $(*)$ vô nghiệm.
+\end{itemize}
+
+\textbf{6. Góc}
+
+\textbf{a) Góc giữa hai đường thẳng:}
+Góc giữa hai đường thẳng $d$ và $d'$ có vecto chỉ phương lần lượt là $\vec{u_1} = (a_1; b_1; c_1)$ và $\vec{u_2} = (a_2; b_2; c_2)$ được tính bởi công thức:
+$$\cos(d, d') = |\cos(\vec{u_1}, \vec{u_2})| = \frac{|\vec{u_1} \cdot \vec{u_2}|}{|\vec{u_1}| \cdot |\vec{u_2}|} = \frac{|a_1a_2 + b_1b_2 + c_1c_2|}{\sqrt{a_1^2 + b_1^2 + c_1^2}\sqrt{a_2^2 + b_2^2 + c_2^2}}.$$
+Chú ý: $0^\circ \le (d, d') \le 90^\circ$; Nếu $d \parallel d'$ hoặc $d \equiv d'$ thì $(d, d') = 0^\circ$; $d \perp d' \Leftrightarrow (d, d') = 90^\circ$.
+
+\textbf{b) Góc giữa đường thẳng và mặt phẳng:}
+Góc giữa đường thẳng $d$ có vecto chỉ phương $\vec{u} = (a_1; a_2; a_3)$ và mặt phẳng $(P)$ có vecto pháp tuyến $\vec{n} = (n_1; n_2; n_3)$ được tính bởi công thức:
+$$\sin(d, (P)) = |\cos(\vec{u}, \vec{n})| = \frac{|\vec{u} \cdot \vec{n}|}{|\vec{u}| \cdot |\vec{n}|} = \frac{|a_1n_1 + a_2n_2 + a_3n_3|}{\sqrt{a_1^2 + a_2^2 + a_3^2}\sqrt{n_1^2 + n_2^2 + n_3^2}}.$$
+Chú ý: $0^\circ \le (d, (P)) \le 90^\circ$; Nếu $d \parallel (P)$ hoặc $d \subset (P)$ thì $(d, (P)) = 0^\circ$; $\vec{u}$ cùng phương với $\vec{n} \Leftrightarrow d \perp (P) \Leftrightarrow (d, (P)) = 90^\circ$.
+
+\textbf{c) Góc giữa hai mặt phẳng:}
+Góc giữa hai mặt phẳng $(P)$ và $(P')$ có vecto pháp tuyến lần lượt là $\vec{n} = (n_1; n_2; n_3)$ và $\vec{n'} = (n'_1; n'_2; n'_3)$ được tính bởi công thức:
+$$\cos((P), (P')) = |\cos(\vec{n}, \vec{n'})| = \frac{|\vec{n} \cdot \vec{n'}|}{|\vec{n}| \cdot |\vec{n'}|} = \frac{|n_1n'_1 + n_2n'_2 + n_3n'_3|}{\sqrt{n_1^2 + n_2^2 + n_3^2}\sqrt{n'^2_1 + n'^2_2 + n'^2_3}}.$$
+Chú ý: $0^\circ \le ((P), (P')) \le 90^\circ$; Nếu $(P) \parallel (P')$ hoặc $(P) \equiv (P')$ thì $((P), (P')) = 0^\circ$; $\vec{n} \perp \vec{n'} \Leftrightarrow (P) \perp (P') \Leftrightarrow ((P), (P')) = 90^\circ$.
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 1. Xác định vecto chỉ phương của đường thẳng}{Phương pháp nhận biết và xác định vecto chỉ phương từ hình học không gian và tọa độ}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Cho đường thẳng $\Delta$ và vecto $\vec{u} \ne \vec{0}$. Vecto $\vec{u}$ được gọi là vecto chỉ phương của đường thẳng $\Delta$ nếu giá của $\vec{u}$ song song hoặc trùng với $\Delta$.
+
+\textbf{Chú ý:}
+\begin{itemize}
+    \item Một đường thẳng hoàn toàn được xác định khi biết một vecto chỉ phương và một điểm mà nó đi qua.
+    \item Nếu $\vec{u}$ là vecto chỉ phương của một đường thẳng thì $k\vec{u}$ ($k \ne 0$) cũng là vecto chỉ phương của đường thẳng đó.
+\end{itemize}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 1 - Ví dụ mẫu}
+
+\begin{mcq}{\image{0.5}{Hình hộp $ABCD.A'B'C'D'$}{images_ChuDe04_PhuongTrinhDuongThang/lt_02.png} Cho hình hộp $ABCD.A'B'C'D'$. Các vecto có điểm đầu và điểm cuối là các đỉnh của hình hộp và là vecto chỉ phương của đường thẳng $D'A$ là:}{0}{1}{Hai vecto $\vec{D'A}, \vec{AD'}$ có giá trùng với $D'A$, hai vecto $\vec{BC'}, \vec{C'B}$ có giá song song với $D'A$ (do $BC' \parallel D'A$). Vậy $\vec{D'A}, \vec{AD'}, \vec{BC'}, \vec{C'B}$ là các vecto chỉ phương của đường thẳng $D'A$. Chọn A.}
+	\option{$\vec{D'A}, \vec{AD'}, \vec{BC'}, \vec{C'B}$.}
+	\option{$\vec{D'A}, \vec{AD'}, \vec{B'C}, \vec{CB'}$.}
+	\option{$\vec{D'A}, \vec{A'D}, \vec{BC}, \vec{CB}$.}
+	\option{$\vec{D'A}, \vec{A'B}, \vec{C'D}, \vec{CD'}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình chóp $S.ABCD$ với $ABCD$ là hình bình hành. Gọi $d$ là giao tuyến của hai mặt phẳng $(SAB)$ và $(SCD)$. Vecto nào sau đây là vecto chỉ phương của $d$?}{1}{1}{\image{0.5}{Hình chóp $S.ABCD$}{images_ChuDe04_PhuongTrinhDuongThang/lt_03.png} Vì $S \in (SAB) \cap (SCD)$ và $AB \parallel CD$ nên giao tuyến $d$ của $(SAB)$ và $(SCD)$ là đường thẳng đi qua $S$ và song song với $AB, CD$. Các vecto $\vec{AB}, \vec{BA}, \vec{CD}, \vec{DC}$ đều có giá song song với $d$ nên là vecto chỉ phương của $d$. Chọn B.}
+	\option{$\vec{SA}$.}
+	\option{$\vec{AB}$.}
+	\option{$\vec{AC}$.}
+	\option{$\vec{BD}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hình lăng trụ tam giác $ABC.A'B'C'$ với $A(1;2;1), B(7;5;3), C(4;2;0), A'(4;9;9)$. Vecto nào sau đây là một vecto chỉ phương của đường thẳng $A'C'$?}{2}{1}{Ta có $\vec{AC} = (3; 0; -1)$. Vì $AC \parallel A'C'$ nên $\vec{AC} = (3; 0; -1)$ hoặc $\vec{u} = \left(-1; 0; \frac{1}{3}\right) = -\frac{1}{3}\vec{AC}$ là vecto chỉ phương của đường thẳng $A'C'$. Chọn C.}
+	\option{$(6; 3; 2)$.}
+	\option{$(3; 7; 8)$.}
+	\option{$(3; 0; -1)$.}
+	\option{$(1; 2; 1)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 2. Xác định vecto chỉ phương, điểm đi qua của đường thẳng}{Nhận diện vecto chỉ phương và tọa độ điểm thuộc đường thẳng từ phương trình tham số, chính tắc}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- Đường thẳng $d: \begin{cases} x = x_0 + at \\ y = y_0 + bt \\ z = z_0 + ct \end{cases}$ có VTCP là $\vec{u} = (a; b; c)$ và đi qua $M(x_0; y_0; z_0)$.
+- Đường thẳng $d: \frac{x - x_0}{a} = \frac{y - y_0}{b} = \frac{z - z_0}{c}$ có VTCP là $\vec{u} = (a; b; c)$ và đi qua $M(x_0; y_0; z_0)$.
+- Nếu $d \perp (P): Ax + By + Cz + D = 0$ thì $\vec{u_d} = \vec{n}_{(P)} = (A; B; C)$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 2 - Ví dụ mẫu}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: \begin{cases} x = 1 - t \\ y = 2 + 3t \\ z = 2 + t \end{cases}$ ($t \in \mathbb{R}$). Vecto nào sau đây là vecto chỉ phương của đường thẳng $d$?}{3}{1}{Đường thẳng $d$ có một VTCP là $\vec{u} = (-1; 3; 1)$. Chọn D.}
+	\option{$\vec{u} = (-1; 3; -1)$.}
+	\option{$\vec{u} = (1; 2; 2)$.}
+	\option{$\vec{u} = (-1; 3; 2)$.}
+	\option{$\vec{u} = (-1; 3; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta: \frac{x+8}{4} = \frac{y-5}{-2} = \frac{z}{1}$. Khi đó một vecto chỉ phương của đường thẳng $\Delta$ có tọa độ là}{2}{1}{Đường thẳng $\Delta$ có một VTCP $\vec{u} = (4; -2; 1) = -(-4; 2; -1)$. Chọn C.}
+	\option{$(4; 2; 1)$.}
+	\option{$(-8; 5; 0)$.}
+	\option{$(-4; 2; -1)$.}
+	\option{$(8; -5; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: x-1 = y = z$. Khi đó một vecto chỉ phương của đường thẳng $d$ có tọa độ là}{0}{1}{Phương trình đường thẳng $d$ viết lại là $\frac{x-1}{1} = \frac{y}{1} = \frac{z}{1}$ nên có VTCP $\vec{u} = (1; 1; 1)$. Chọn A.}
+	\option{$(1; 1; 1)$.}
+	\option{$(1; 0; 0)$.}
+	\option{$(-1; 0; 0)$.}
+	\option{$(1; 1; -1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, đường thẳng $\Delta$ có phương trình $\frac{x+2}{-1} = \frac{y}{-1} = \frac{-1-z}{1}$. Vecto nào sau đây là vecto chỉ phương của đường thẳng $\Delta$?}{3}{1}{Viết lại $\Delta: \frac{x+2}{-1} = \frac{y}{-1} = \frac{z+1}{-1}$, có một VTCP là $(-1; -1; -1) = -(1; 1; 1)$. Chọn D.}
+	\option{$\vec{u_1} = (-1; -1; 1)$.}
+	\option{$\vec{u_2} = (-2; 0; -1)$.}
+	\option{$\vec{u_3} = (-2; 0; 1)$.}
+	\option{$\vec{u_4} = (1; 1; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: \frac{x-2}{1} = \frac{y+3}{-2} = \frac{z+1}{1}$. Vecto nào trong các vecto dưới đây \textbf{không} là vecto chỉ phương của đường thẳng $d$?}{0}{1}{Đường thẳng $d$ có một VTCP $\vec{u} = (1; -2; 1)$. Xét $\vec{u_1} = (1; 2; 1)$ có $\frac{1}{1} \ne \frac{-2}{2}$ nên không cùng phương với $\vec{u}$. Chọn A.}
+	\option{$\vec{u_1} = (1; 2; 1)$.}
+	\option{$\vec{u_2} = (-1; 2; -1)$.}
+	\option{$\vec{u_3} = (2; -4; 2)$.}
+	\option{$\vec{u_4} = (-3; 6; -3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta: \begin{cases} x = -2t \\ y = 5 \\ z = 2024 + 4t \end{cases}$ ($t \in \mathbb{R}$). Vecto nào trong các vecto dưới đây \textbf{không} là vecto chỉ phương của đường thẳng $\Delta$?}{3}{1}{Đường thẳng có VTCP $\vec{u} = (-2; 0; 4)$. Vecto $\vec{u_4} = (-2; 5; 4)$ có tung độ khác $0$ nên không cùng phương với $\vec{u}$. Chọn D.}
+	\option{$\vec{u_2} = (-2; 0; 4)$.}
+	\option{$\vec{u_1} = (1; 0; -2)$.}
+	\option{$\vec{u_3} = (-1; 0; 2)$.}
+	\option{$\vec{u_4} = (-2; 5; 4)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d$ có phương trình $\frac{x-1}{3} = \frac{y+2}{2} = \frac{z-3}{-4}$. Điểm nào sau đây thuộc đường thẳng $d$?}{2}{1}{Đường thẳng $d$ đi qua điểm $(1; -2; 3)$ (ứng với giá trị tỉ số bằng $0$). Chọn C.}
+	\option{$A(-1; 2; -3)$.}
+	\option{$B(3; 2; -4)$.}
+	\option{$C(1; -2; 3)$.}
+	\option{$D(1; 2; 3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta$ có phương trình $\frac{x}{-2} = \frac{y-1}{1} = \frac{4-z}{2}$. Điểm nào sau đây thuộc đường thẳng $\Delta$?}{1}{1}{Viết lại $\Delta: \frac{x}{-2} = \frac{y-1}{1} = \frac{z-4}{-2}$. Điểm thuộc đường thẳng là $(0; 1; 4)$. Chọn B.}
+	\option{$M(0; 1; -4)$.}
+	\option{$N(0; 1; 4)$.}
+	\option{$P(-2; 1; 2)$.}
+	\option{$Q(0; -1; 4)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: \frac{x-1}{2} = \frac{y+1}{3} = \frac{z}{2}$. Điểm nào trong các điểm dưới đây nằm trên đường thẳng $d$?}{2}{1}{Thay tọa độ điểm $M(3; 2; 2)$ vào ta được $\frac{3-1}{2} = \frac{2+1}{3} = \frac{2}{2} = 1$ (thỏa mãn). Chọn C.}
+	\option{$P(5; 2; 5)$.}
+	\option{$Q(1; 0; 0)$.}
+	\option{$M(3; 2; 2)$.}
+	\option{$N(1; -1; 2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, đường thẳng $d: \begin{cases} x = 1 \\ y = 3 - t \\ z = 1 - t \end{cases}$ ($t \in \mathbb{R}$) đi qua điểm nào dưới đây?}{3}{1}{Với $t = 0$, ta có điểm $N(1; 3; 1) \in d$. Chọn D.}
+	\option{$M(1; 3; -1)$.}
+	\option{$P(0; -1; -1)$.}
+	\option{$Q(-1; -3; -1)$.}
+	\option{$N(1; 3; 1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, đường thẳng $\Delta: \begin{cases} x = 1 - t \\ y = 2 + 2t \\ z = -2t \end{cases}$ đi qua điểm nào dưới đây?}{2}{1}{Với $t = 1$, ta có $\begin{cases} x = 0 \\ y = 4 \\ z = -2 \end{cases} \Rightarrow Q(0; 4; -2) \in \Delta$. Chọn C.}
+	\option{$M(1; 2; -2)$.}
+	\option{$P(-1; 2; -2)$.}
+	\option{$Q(0; 4; -2)$.}
+	\option{$N(-1; 2; 0)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: \begin{cases} x = 1 + 2t \\ y = 2 + 3t \\ z = 5 - t \end{cases}$ ($t \in \mathbb{R}$). Đường thẳng $d$ \textbf{không} đi qua điểm nào sau đây?}{1}{1}{Thay tọa độ điểm $N(2; 3; -1)$ vào ta được các giá trị $t$ khác nhau $\left(\frac{1}{2}; \frac{1}{3}; 6\right)$ nên $N \notin d$. Chọn B.}
+	\option{$M(1; 2; 5)$.}
+	\option{$N(2; 3; -1)$.}
+	\option{$P(3; 5; 4)$.}
+	\option{$Q(-1; -1; 6)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta$ có phương trình $\frac{x-1}{-1} = \frac{y+2}{2} = \frac{z-4}{-4}$. Điểm nào sau đây \textbf{không} thuộc đường thẳng $\Delta$?}{3}{1}{Thay tọa độ điểm $E(3; -6; -12)$ vào ta được $\frac{3-1}{-1} = -2 \ne \frac{-12-4}{-4} = 4$ nên $E \notin \Delta$. Chọn D.}
+	\option{$K(1; -2; 4)$.}
+	\option{$L(-1; 2; -4)$.}
+	\option{$O(0; 0; 0)$.}
+	\option{$E(3; -6; -12)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta$ vuông góc với mặt phẳng $(\alpha): x + 2z + 3 = 0$. Một vecto chỉ phương của $\Delta$ là}{2}{1}{Mặt phẳng $(\alpha)$ có VTPT $\vec{n} = (1; 0; 2)$. Vì $\Delta \perp (\alpha)$ nên $\Delta$ nhận $\vec{a} = \vec{n} = (1; 0; 2)$ làm VTCP. Chọn C.}
+	\option{$\vec{b} = (2; -1; 0)$.}
+	\option{$\vec{v} = (1; 2; 3)$.}
+	\option{$\vec{a} = (1; 0; 2)$.}
+	\option{$\vec{u} = (2; 0; -1)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 3. Viết phương trình đường thẳng khi biết các yếu tố liên quan}{Phương pháp lập phương trình tham số, chính tắc của đường thẳng thỏa mãn các điều kiện cho trước}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Cần xác định một điểm $M(x_0; y_0; z_0) \in d$ và một vecto chỉ phương $\vec{u} = (a; b; c)$.
+\begin{itemize}
+    \item $d$ đi qua hai điểm $A, B \Rightarrow \vec{u_d} = \vec{AB}$.
+    \item $d \parallel \Delta \Rightarrow \vec{u_d} = \vec{u_\Delta}$.
+    \item $d \perp (P) \Rightarrow \vec{u_d} = \vec{n}_{(P)}$.
+    \item $d$ song song với hai mặt phẳng $(P), (Q) \Rightarrow \vec{u_d} = [\vec{n}_{(P)}, \vec{n}_{(Q)}]$.
+\end{itemize}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 3 - Ví dụ mẫu}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình tham số của đường thẳng $d$ đi qua điểm $A(5; 0; -7)$ và nhận $\vec{v} = (9; 0; -2)$ làm vecto chỉ phương là:}{0}{1}{Phương trình tham số của $d$ là $\begin{cases} x = 5 + 9t \\ y = 0 \\ z = -7 - 2t \end{cases}$ ($t \in \mathbb{R}$). Điểm $M(-4; 0; -5)$ ứng với $t = -1$ thuộc $d$. Chọn A.}
+	\option{$\begin{cases} x = 5 + 9t \\ y = 0 \\ z = -7 - 2t \end{cases}$.}
+	\option{$\begin{cases} x = 9 + 5t \\ y = 0 \\ z = -2 - 7t \end{cases}$.}
+	\option{$\begin{cases} x = 5 + 9t \\ y = t \\ z = -7 - 2t \end{cases}$.}
+	\option{$\begin{cases} x = 5 - 9t \\ y = 0 \\ z = 7 - 2t \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d$ đi qua $A(6; -2; 3)$ và có VTCP $\vec{a} = (2; 2; -1)$. Điểm $M \in d$ khác $A$ thỏa mãn $OM = 7$ có tọa độ là:}{2}{1}{Điểm $M(6+2t; -2+2t; 3-t)$. $OM = 7 \Leftrightarrow (6+2t)^2 + (-2+2t)^2 + (3-t)^2 = 49 \Leftrightarrow 9t^2 + 10t = 0 \Leftrightarrow t = -\frac{10}{9}$ (do $t = 0 \Rightarrow M \equiv A$). Suy ra $M\left(\frac{34}{9}; -\frac{38}{9}; \frac{37}{9}\right)$. Chọn C.}
+	\option{$(6; -2; 3)$.}
+	\option{$(8; 0; 2)$.}
+	\option{$\left(\frac{34}{9}; -\frac{38}{9}; \frac{37}{9}\right)$.}
+	\option{$\left(-\frac{34}{9}; \frac{38}{9}; -\frac{37}{9}\right)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình tham số của trục $Ox$ là:}{0}{1}{Trục $Ox$ đi qua $O(0; 0; 0)$ và có VTCP $\vec{i} = (1; 0; 0)$ nên có phương trình tham số là $\begin{cases} x = t \\ y = 0 \\ z = 0 \end{cases}$ ($t \in \mathbb{R}$). Trục $Ox$ không có phương trình chính tắc. Chọn A.}
+	\option{$\begin{cases} x = t \\ y = 0 \\ z = 0 \end{cases}$.}
+	\option{$\begin{cases} x = 0 \\ y = t \\ z = 0 \end{cases}$.}
+	\option{$\begin{cases} x = 0 \\ y = 0 \\ z = t \end{cases}$.}
+	\option{$\begin{cases} x = t \\ y = t \\ z = t \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta$ đi qua điểm $M(1; -2; 4)$ và vuông góc với mặt phẳng $(\alpha): x + 2y - 3z - 1 = 0$. Giao điểm của $\Delta$ và mặt phẳng $(P): 2x - y + z + 1 = 0$ có tọa độ là:}{1}{1}{$\Delta$ có VTCP $\vec{u} = (1; 2; -3)$, phương trình $\Delta: \begin{cases} x = 1 + t \\ y = -2 + 2t \\ z = 4 - 3t \end{cases}$. Tọa độ giao điểm với $(P)$: $2(1+t) - (-2+2t) + (4-3t) + 1 = 0 \Leftrightarrow -3t + 9 = 0 \Leftrightarrow t = 3 \Rightarrow A(4; 4; -5)$. Chọn B.}
+	\option{$(1; -2; 4)$.}
+	\option{$(4; 4; -5)$.}
+	\option{$(2; 0; 1)$.}
+	\option{$(3; 2; -2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, phương trình chính tắc của đường thẳng đi qua hai điểm $A(4; 2; -1)$ và $B(3; -2; 2)$ là:}{0}{1}{$\vec{AB} = (-1; -4; 3)$. Phương trình chính tắc là $\frac{x-4}{-1} = \frac{y-2}{-4} = \frac{z+1}{3}$. Chọn A.}
+	\option{$\frac{x-4}{-1} = \frac{y-2}{-4} = \frac{z+1}{3}$.}
+	\option{$\frac{x-4}{1} = \frac{y-2}{4} = \frac{z+1}{3}$.}
+	\option{$\frac{x+4}{-1} = \frac{y+2}{-4} = \frac{z-1}{3}$.}
+	\option{$\frac{x-3}{-1} = \frac{y+2}{4} = \frac{z-2}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho tam giác $OAB$ với $A(2; -3; 4), B(-4; 5; -4)$. Phương trình tham số của đường thẳng chứa đường trung tuyến kẻ từ $O$ của tam giác $OAB$ là:}{1}{1}{Trung điểm $AB$ là $M(-1; 1; 0) \Rightarrow \vec{OM} = (-1; 1; 0)$. Đường thẳng $OM$ đi qua $O(0;0;0)$ có phương trình tham số là $\begin{cases} x = -t \\ y = t \\ z = 0 \end{cases}$ ($t \in \mathbb{R}$). Chọn B.}
+	\option{$\begin{cases} x = t \\ y = t \\ z = 0 \end{cases}$.}
+	\option{$\begin{cases} x = -t \\ y = t \\ z = 0 \end{cases}$.}
+	\option{$\begin{cases} x = -1 - t \\ y = 1 + t \\ z = 0 \end{cases}$.}
+	\option{$\begin{cases} x = -t \\ y = t \\ z = t \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $\Delta: \frac{x-1}{2} = \frac{y}{1} = \frac{z+1}{-1}$, điểm $A(2; -3; 4)$. Đường thẳng $d$ qua $A$ và song song với $\Delta$ có phương trình là}{1}{1}{VTCP của $d$ là $\vec{u} = -(2; 1; -1) = (-2; -1; 1)$. Phương trình tham số là $\begin{cases} x = 2 - 2t \\ y = -3 - t \\ z = 4 + t \end{cases}$. Chọn B.}
+	\option{$\begin{cases} x = 2 + t \\ y = -3 - t \\ z = 4 - t \end{cases}$.}
+	\option{$\begin{cases} x = 2 - 2t \\ y = -3 - t \\ z = 4 + t \end{cases}$.}
+	\option{$\begin{cases} x = 2 + 2t \\ y = -3 + t \\ z = 4 + t \end{cases}$.}
+	\option{$\begin{cases} x = 2 + 2t \\ y = 1 - 3t \\ z = -1 + 4t \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho điểm $I(1; -2; 1)$ và hai mặt phẳng $(P): x - 3z + 1 = 0, (Q): 2y - z + 1 = 0$. Đường thẳng $d$ đi qua $I$ và song song với hai mặt phẳng $(P), (Q)$ có phương trình là}{3}{1}{$\vec{n}_{(P)} = (1; 0; -3), \vec{n}_{(Q)} = (0; 2; -1) \Rightarrow \vec{u} = [\vec{n}_{(P)}, \vec{n}_{(Q)}] = (6; 1; 2)$. Phương trình chính tắc của $d$ là $\frac{x-1}{6} = \frac{y+2}{1} = \frac{z-1}{2}$. Chọn D.}
+	\option{$\frac{x-1}{-2} = \frac{y+2}{1} = \frac{z-1}{5}$.}
+	\option{$\frac{x-1}{-6} = \frac{y+2}{1} = \frac{z-1}{-2}$.}
+	\option{$\frac{x-1}{2} = \frac{y+2}{1} = \frac{z-1}{-5}$.}
+	\option{$\frac{x-1}{6} = \frac{y+2}{1} = \frac{z-1}{2}$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 4. Vị trí tương đối của hai đường thẳng trong không gian}{Phương pháp xét vị trí tương đối (song song, trùng nhau, cắt nhau, chéo nhau, vuông góc)}
+
+\textbf{PHƯƠNG PHÁP:}
+
+Cho hai đường thẳng $\Delta_1, \Delta_2$ có VTCP $\vec{u_1}, \vec{u_2}$ và qua $A_1, A_2$:
+\begin{itemize}
+    \item $\vec{u_1}, \vec{u_2}$ cùng phương: Nếu $A_1 \in \Delta_2 \Rightarrow \Delta_1 \equiv \Delta_2$; Nếu $A_1 \notin \Delta_2 \Rightarrow \Delta_1 \parallel \Delta_2$.
+    \item $\vec{u_1}, \vec{u_2}$ không cùng phương: Nếu $\vec{A_1A_2} \cdot [\vec{u_1}, \vec{u_2}] = 0 \Rightarrow$ Cắt nhau; Nếu $\vec{A_1A_2} \cdot [\vec{u_1}, \vec{u_2}] \ne 0 \Rightarrow$ Chéo nhau.
+\end{itemize}
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 4 - Ví dụ mẫu}
+
+\begin{mcq}{Trong không gian $Oxyz$, vị trí tương đối của hai đường thẳng $d: \begin{cases} x = 3 - t \\ y = 4 + t \\ z = 5 - 2t \end{cases}$ và $d': \begin{cases} x = 2 - 3t' \\ y = 5 + 3t' \\ z = 3 - 6t' \end{cases}$ là:}{1}{1}{$\vec{u} = (-1; 1; -2), \vec{u'} = (-3; 3; -6) = 3\vec{u}$. Thay điểm $M(3; 4; 5) \in d$ vào $d'$ ta được $t' = -\frac{1}{3}$ thỏa mãn. Vậy $d \equiv d'$. Chọn B.}
+	\option{Song song.}
+	\option{Trùng nhau.}
+	\option{Cắt nhau.}
+	\option{Chéo nhau.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, vị trí tương đối của hai đường thẳng $d: \frac{x-1}{1} = \frac{y}{2} = \frac{z-3}{-1}$ và $d': \begin{cases} x = 2 + 2t' \\ y = 3 + 4t' \\ z = 5 - 2t' \end{cases}$ là:}{0}{1}{$\vec{u} = (1; 2; -1), \vec{u'} = (2; 4; -2) = 2\vec{u}$. Thay điểm $M(1; 0; 3) \in d$ vào $d'$ ta thấy vô nghiệm ($t' = -\frac{1}{2} \ne -\frac{3}{4}$). Vậy $d \parallel d'$. Chọn A.}
+	\option{Song song.}
+	\option{Trùng nhau.}
+	\option{Cắt nhau.}
+	\option{Chéo nhau.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho ba đường thẳng $d_1: \frac{x-5}{1} = \frac{y+3}{2} = \frac{z-3}{-2}; d_2: \frac{x-2}{-3} = \frac{y-3}{1} = \frac{z-1}{6}$ và $d_3: \begin{cases} x = 1 - 2t \\ y = 3 \\ z = 4 - t \end{cases}$. Khẳng định nào sau đây đúng?}{2}{1}{$\vec{u_1} = (1; 2; -2), \vec{u_2} = (-3; 1; 6), \vec{u_3} = (-2; 0; -1)$. Ta có $\vec{u_1} \cdot \vec{u_3} = 1(-2) + 2(0) + (-2)(-1) = 0$ và $\vec{u_2} \cdot \vec{u_3} = (-3)(-2) + 1(0) + 6(-1) = 0$. Vậy $d_1 \perp d_3$ và $d_2 \perp d_3$. Chọn C.}
+	\option{$d_1 \perp d_2$.}
+	\option{$d_1 \parallel d_2$.}
+	\option{$d_1 \perp d_3 \text{ và } d_2 \perp d_3$.}
+	\option{$d_2 \parallel d_3$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai đường thẳng $a: \begin{cases} x = 1 \\ y = 2 + 3t \\ z = 3t \end{cases}$ và $b: \begin{cases} x = 1 + 4t' \\ y = 2 + 2t' \\ z = 6 \end{cases}$. Tọa độ giao điểm của $a$ và $b$ là:}{3}{1}{Xét hệ $\begin{cases} 1 = 1 + 4t' \\ 2 + 3t = 2 + 2t' \\ 3t = 6 \end{cases} \Leftrightarrow \begin{cases} t = 2 \\ t' = 0 \end{cases}$. Tọa độ giao điểm là $(1; 2; 6)$. Chọn D.}
+	\option{$(1; 2; 0)$.}
+	\option{$(1; 8; 6)$.}
+	\option{$(5; 4; 6)$.}
+	\option{$(1; 2; 6)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 5
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 5. Góc trong không gian Oxyz}{Phương pháp tính góc giữa hai đường thẳng, đường thẳng và mặt phẳng, hai mặt phẳng}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- Góc giữa hai đường thẳng: $\cos(d, d') = \frac{|\vec{u} \cdot \vec{u'}|}{|\vec{u}| \cdot |\vec{u'}|}$.
+- Góc giữa đường thẳng và mặt phẳng: $\sin(d, (P)) = \frac{|\vec{u} \cdot \vec{n}|}{|\vec{u}| \cdot |\vec{n}|}$.
+- Góc giữa hai mặt phẳng: $\cos((P), (Q)) = \frac{|\vec{n_1} \cdot \vec{n_2}|}{|\vec{n_1}| \cdot |\vec{n_2}|}$.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 5 - Ví dụ mẫu}
+
+\begin{mcq}{Trong không gian $Oxyz$, góc giữa hai đường thẳng $\Delta_1: \begin{cases} x = -1 + t_1 \\ y = 4 + \sqrt{3}t_1 \\ z = 0 \end{cases}$ và $\Delta_2: \begin{cases} x = -1 + \sqrt{3}t_2 \\ y = 4 + t_2 \\ z = 5 \end{cases}$ bằng}{0}{1}{$\vec{u_1} = (1; \sqrt{3}; 0), \vec{u_2} = (\sqrt{3}; 1; 0)$. $\cos(\Delta_1, \Delta_2) = \frac{|1\sqrt{3} + \sqrt{3}(1) + 0|}{\sqrt{1+3}\sqrt{3+1}} = \frac{2\sqrt{3}}{4} = \frac{\sqrt{3}}{2} \Rightarrow (\Delta_1, \Delta_2) = 30^\circ$. Chọn A.}
+	\option{$30^\circ$.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$90^\circ$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, góc giữa đường thẳng $\Delta: \begin{cases} x = 1 + \sqrt{3}t \\ y = 2 \\ z = 3 + t \end{cases}$ và mặt phẳng $(P): \sqrt{3}x + z - 2 = 0$ bằng}{3}{1}{$\vec{u} = (\sqrt{3}; 0; 1), \vec{n} = (\sqrt{3}; 0; 1)$. $\sin(\Delta, (P)) = \frac{|\sqrt{3}\sqrt{3} + 0 + 1|}{\sqrt{3+1}\sqrt{3+1}} = \frac{4}{4} = 1 \Rightarrow (\Delta, (P)) = 90^\circ$. Chọn D.}
+	\option{$30^\circ$.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$90^\circ$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, góc giữa hai mặt phẳng $(\alpha): x + y + 2z - 1 = 0$ và $(\beta): 2x - y + z - 2 = 0$ bằng}{2}{1}{$\vec{n_1} = (1; 1; 2), \vec{n_2} = (2; -1; 1)$. $\cos((\alpha), (\beta)) = \frac{|1(2) + 1(-1) + 2(1)|}{\sqrt{1+1+4}\sqrt{4+1+1}} = \frac{3}{6} = \frac{1}{2} \Rightarrow ((\alpha), (\beta)) = 60^\circ$. Chọn C.}
+	\option{$30^\circ$.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$90^\circ$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình chữ nhật và $SA \perp (ABCD)$. Cho biết $AB = 2a, AD = 3a$ và $SA = 2a$. Cosin góc giữa hai đường thẳng $SC$ và $BD$ bằng}{1}{1}{\image{0.5}{Hình chóp $S.ABCD$ trong hệ tọa độ $Oxyz$}{images_ChuDe04_PhuongTrinhDuongThang/lt_04.png} Chọn hệ trục tọa độ $A \equiv O(0;0;0), B(2a; 0; 0), D(0; 3a; 0), S(0; 0; 2a), C(2a; 3a; 0)$. Ta có $\vec{SC} = (2a; 3a; -2a), \vec{BD} = (-2a; 3a; 0)$. $\cos(SC, BD) = \frac{|2(-2) + 3(3) + (-2)(0)|}{\sqrt{4+9+4}\sqrt{4+9+0}} = \frac{5}{\sqrt{17}\sqrt{13}} = \frac{5}{\sqrt{221}}$. Chọn B.}
+	\option{$-\frac{5}{\sqrt{221}}$.}
+	\option{$\frac{5}{\sqrt{221}}$.}
+	\option{$\frac{3}{\sqrt{221}}$.}
+	\option{$-\frac{3}{\sqrt{221}}$.}
+\end{mcq}
+
+\begin{mcq}{Cho hình hộp chữ nhật $ABCD.A'B'C'D'$ có $AB = a, AD = 5a$ và $AA' = 3a$. Góc giữa hai đường thẳng $AC$ và $BA'$ gần nhất với giá trị nào sau đây?}{1}{1}{\image{0.5}{Hình hộp chữ nhật $ABCD.A'B'C'D'$ trong hệ tọa độ $Oxyz$}{images_ChuDe04_PhuongTrinhDuongThang/lt_05.png} Chọn hệ trục tọa độ với $A \equiv O$. Ta có $\vec{AC} = (5; 1; 0), \vec{BA'} = (0; -1; 3) \Rightarrow \cos(AC, BA') = \frac{|0 - 1 + 0|}{\sqrt{26}\sqrt{10}} = \frac{1}{2\sqrt{65}} \Rightarrow (AC, BA') \approx 86^\circ27'$. Chọn B.}
+	\option{$45^\circ$.}
+	\option{$86^\circ27'$.}
+	\option{$60^\circ$.}
+	\option{$28^\circ12'$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 6
+% -------------------------------------------------------------------------
+
+\begin{lesson}{Bài toán 6. Bài toán thực tế ứng dụng phương trình đường thẳng}{Mô hình hóa hình học không gian Oxyz và giải quyết các bài toán chuyển động, tầm nhìn, góc thực tiễn}
+
+\textbf{PHƯƠNG PHÁP:}
+
+- Thiết lập hệ tọa độ $Oxyz$ phù hợp với bài toán thực tế.
+- Chuyển các đối tượng thực tế (tia sáng, làn đường, chuyển động, tầm nhìn) thành đường thẳng, mặt phẳng trong không gian.
+- Sử dụng các công thức phương trình đường thẳng, vị trí tương đối và góc để trả lời bài toán.
+
+\end{lesson}
+
+\begin{quiz}{Bài toán 6 - Ví dụ mẫu}
+
+\begin{mcq}{\image{0.6}{Mô hình cầu treo trong không gian $Oxyz$}{images_ChuDe04_PhuongTrinhDuongThang/lt_06.png} Một mô hình cầu treo được thiết kế trong không gian $Oxyz$. Viết phương trình tham số của làn đường $d$ đi qua hai điểm $M(4; 3; 20)$ và $N(4; 1000; 20)$.}{0}{1}{Ta có $\vec{MN} = (0; 997; 0) = 997(0; 1; 0)$. Đường thẳng $MN$ qua $M(4; 3; 20)$ có VTCP $\vec{u} = (0; 1; 0)$ nên có phương trình tham số là $\begin{cases} x = 4 \\ y = 3 + t \\ z = 20 \end{cases}$ ($t \in \mathbb{R}$). Chọn A.}
+	\option{$\begin{cases} x = 4 \\ y = 3 + t \\ z = 20 \end{cases}$.}
+	\option{$\begin{cases} x = 4 + t \\ y = 3 \\ z = 20 \end{cases}$.}
+	\option{$\begin{cases} x = 4 \\ y = 3 \\ z = 20 + t \end{cases}$.}
+	\option{$\begin{cases} x = 4 + 4t \\ y = 3 + 1000t \\ z = 20 + 20t \end{cases}$.}
+\end{mcq}
+
+\begin{mcq}{\image{0.5}{Tầm nhìn của người quan sát và tấm bìa chắn sáng}{images_ChuDe04_PhuongTrinhDuongThang/lt_07.png} Trong không gian $Oxyz$, mắt một người quan sát đặt ở điểm $M(2; 3; -4)$ và vật cần quan sát đặt tại điểm $N(-1; 0; 8)$. Một tấm bìa chắn đường truyền của ánh sáng có dạng hình tròn tâm $O(0;0;0)$, bán kính $3$ đặt trong mặt phẳng $Oxy$. Tấm bìa có che khuất tầm nhìn của người quan sát đối với vật đặt ở điểm $N$ hay không?}{0}{1}{Phương trình đường thẳng $MN: \begin{cases} x = 2 + t \\ y = 3 + t \\ z = -4 - 4t \end{cases}$. Giao điểm $D$ của $MN$ với mặt phẳng $Oxy$ ($z = 0$) ứng với $t = -1 \Rightarrow D(1; 2; 0)$. Ta có $\vec{DM} = (1; 1; -4), \vec{DN} = (-2; -2; 8) \Rightarrow \vec{DN} = -2\vec{DM}$ nên $D$ nằm giữa $M$ và $N$. Khoảng cách $OD = \sqrt{1^2 + 2^2 + 0^2} = \sqrt{5} < 3$ nên điểm $D$ nằm bên trong hình tròn tấm bìa. Vậy tấm bìa che khuất tầm nhìn. Chọn A.}
+	\option{Có, tấm bìa che khuất tầm nhìn.}
+	\option{Không, tấm bìa không che khuất.}
+	\option{Tia nhìn tiếp xúc với mép tấm bìa.}
+	\option{Không đủ dữ kiện xác định.}
+\end{mcq}
+
+\begin{mcq}{\image{0.5}{Đường ngắm chụp ảnh con gà lôi}{images_ChuDe04_PhuongTrinhDuongThang/lt_08.png} Anh Bình là một nhiếp ảnh gia đang ngắm ống kính ở vị trí $A(200; 685; 436)$ chụp con gà lôi ở vị trí $B(640; 550; 474)$. Một quả đồi có tọa độ đỉnh $C(420; 617{,}5; 450)$. Hỏi quả đồi có thuộc đường ngắm $AB$ không và anh Bình có nhìn thấy con gà lôi không?}{0}{1}{$\vec{AB} = (440; -135; 38)$. Đường thẳng $AB: \begin{cases} x = 200 + 440t \\ y = 685 - 135t \\ z = 436 + 38t \end{cases}$. Thay tọa độ điểm $C$ vào phương trình $AB$ ta thấy không cùng một giá trị $t$ ($t = \frac{1}{2} \ne \frac{7}{19}$) nên $C \notin AB$. Anh Bình vẫn có khả năng nhìn thấy con gà lôi. Chọn A.}
+	\option{$C \notin AB$, anh Bình có thể nhìn thấy con gà lôi.}
+	\option{$C \in AB$, anh Bình bị che khuất tầm nhìn.}
+	\option{$C$ là trung điểm của $AB$.}
+	\option{$C \in AB$, nhưng không bị che khuất.}
+\end{mcq}
+
+\begin{mcq}{\image{0.4}{Mô hình máy khoan bàn}{images_ChuDe04_PhuongTrinhDuongThang/lt_09.png} Trên một máy khoan bàn, trục mũi khoan $d: \begin{cases} x = 1 \\ y = 1 \\ z = 1 + t \end{cases}$ và trục đỡ $d': \begin{cases} x = 10 \\ y = 20 \\ z = 5 + 5t' \end{cases}$. Vị trí tương đối giữa $d$ và $d'$ là:}{0}{1}{$d, d'$ lần lượt có VTCP là $\vec{u} = (0; 0; 1)$ và $\vec{u'} = (0; 0; 5) = 5\vec{u}$. Thay điểm $A(1; 1; 1) \in d$ vào $d'$ ta thấy vô lý ($1 = 10$). Vậy $d \parallel d'$. Chọn A.}
+	\option{Song song.}
+	\option{Trùng nhau.}
+	\option{Cắt nhau.}
+	\option{Chéo nhau.}
+\end{mcq}
+
+\begin{mcq}{\image{0.5}{Hai vật thể chuyển động trong không gian $Oxyz$}{images_ChuDe04_PhuongTrinhDuongThang/lt_10.png} Trong không gian $Oxyz$, có hai vật thể lần lượt xuất phát từ $A(1; 2; 0)$ và $B(3; 5; 0)$ với vận tốc không đổi tương ứng là $\vec{v_1} = (2; 1; 3), \vec{v_2} = (1; 2; 1)$. Trong quá trình chuyển động, hai vật thể trên có va chạm vào nhau không?}{1}{1}{Ta có $\vec{AB} = (2; 3; 0)$ và $[\vec{v_1}, \vec{v_2}] = (-5; 1; 3)$. Suy ra $\vec{AB} \cdot [\vec{v_1}, \vec{v_2}] = 2(-5) + 3(1) + 0 = -7 \ne 0$. Hai đường thẳng chuyển động là hai đường thẳng chéo nhau nên hai vật thể không bao giờ chạm nhau. Chọn B.}
+	\option{Có va chạm.}
+	\option{Không va chạm.}
+	\option{Va chạm sau 2 giây.}
+	\option{Va chạm tại gốc tọa độ.}
+\end{mcq}
+
+\begin{mcq}{\image{0.5}{Mô hình chùm sáng đèn sân khấu 3D}{images_ChuDe04_PhuongTrinhDuongThang/lt_11.png} Trên một phần mềm thiết kế sân khấu 3D trong không gian $Oxyz$, hai tia sáng có phương trình lần lượt là $d: \frac{x}{2} = \frac{y-2}{1} = \frac{z}{-1}$ và $d': \frac{x-1}{3} = \frac{y}{3} = \frac{z-1}{9}$. Góc giữa hai tia sáng bằng}{3}{1}{$\vec{u} = (2; 1; -1), \vec{u'} = (3; 3; 9) = 3(1; 1; 3)$. $\cos(d, d') = \frac{|2(3) + 1(3) + (-1)(9)|}{\sqrt{4+1+1}\sqrt{9+9+81}} = \frac{0}{\sqrt{6}\sqrt{99}} = 0 \Rightarrow (d, d') = 90^\circ$. Chọn D.}
+	\option{$30^\circ$.}
+	\option{$45^\circ$.}
+	\option{$60^\circ$.}
+	\option{$90^\circ$.}
+\end{mcq}
+
+\begin{mcq}{\image{0.4}{Góc nâng khi máy bay cất cánh}{images_ChuDe04_PhuongTrinhDuongThang/lt_12.png} Trong hệ trục tọa độ $Oxyz$, với mặt phẳng $(Oxy)$ là mặt đất, một máy bay cất cánh từ vị trí $A(0; 10; 0)$ với vận tốc $\vec{v} = (150; 150; 40)$. Góc nâng của máy bay (góc giữa hướng chuyển động và mặt đất) xấp xỉ bằng}{1}{1}{Hướng chuyển động có VTCP $\vec{v} = (150; 150; 40) = 10(15; 15; 4)$. Mặt phẳng $(Oxy)$ có VTPT $\vec{k} = (0; 0; 1)$. Gọi $\varphi$ là góc nâng: $\sin \varphi = \frac{|15(0) + 15(0) + 4(1)|}{\sqrt{15^2 + 15^2 + 4^2}\sqrt{1}} = \frac{4}{\sqrt{466}} \approx 0{,}1853 \Rightarrow \varphi \approx 10^\circ41'$. Chọn B.}
+	\option{$5^\circ12'$.}
+	\option{$10^\circ41'$.}
+	\option{$15^\circ30'$.}
+	\option{$20^\circ15'$.}
+\end{mcq}
+
+\begin{mcq}{\image{0.5}{Thí nghiệm chuyển động trên mặt phẳng nghiêng}{images_ChuDe04_PhuongTrinhDuongThang/lt_13.png} Để làm thí nghiệm về chuyển động trong mặt phẳng nghiêng, người làm thí nghiệm đã thiết lập sẵn một hệ tọa độ $Oxyz$. Góc giữa mặt phẳng nghiêng $(P): 4x + 11z + 5 = 0$ và mặt sàn $(Q): z - 1 = 0$ xấp xỉ bằng}{0}{1}{VTPT của $(P)$ là $\vec{n_1} = (4; 0; 11)$, VTPT của $(Q)$ là $\vec{n_2} = (0; 0; 1)$. Ta có $\cos((P), (Q)) = \frac{|4(0) + 0 + 11(1)|}{\sqrt{16 + 0 + 121}\sqrt{1}} = \frac{11}{\sqrt{137}} \approx 0{,}9398 \Rightarrow ((P), (Q)) \approx 19^\circ59'$. Chọn A.}
+	\option{$19^\circ59'$.}
+	\option{$30^\circ15'$.}
+	\option{$45^\circ00'$.}
+	\option{$70^\circ01'$.}
+\end{mcq}
+
+\end{quiz}
+
+\end{document}

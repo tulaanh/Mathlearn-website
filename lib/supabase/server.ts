@@ -1,8 +1,29 @@
 import { createServerClient } from "@supabase/ssr";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseClient, type SupabaseClient } from "@supabase/supabase-js";
 import { cache } from "react";
 import { cookies } from "next/headers";
 import { isSupabaseConfigured } from "./client";
+
+let publicSupabaseClient: SupabaseClient | null = null;
+
+/** Client Supabase phi trạng thái (không đọc/ghi cookies), an toàn tuyệt đối khi dùng trong
+ *  `unstable_cache`, ISR hoặc các tác vụ static/public data fetching. */
+export function createPublicSupabaseClient(): SupabaseClient | null {
+  if (!isSupabaseConfigured()) return null;
+  if (!publicSupabaseClient) {
+    publicSupabaseClient = createSupabaseClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      },
+    );
+  }
+  return publicSupabaseClient;
+}
 
 export async function createServerSupabaseClient(): Promise<SupabaseClient | null> {
   if (!isSupabaseConfigured()) return null;

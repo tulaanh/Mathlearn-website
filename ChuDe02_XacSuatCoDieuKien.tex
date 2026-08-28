@@ -1,0 +1,920 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 02: XÁC SUẤT CÓ ĐIỀU KIỆN - LÝ THUYẾT VÀ CÁC DẠNG TOÁN}
+\docdesc{Tóm tắt lý thuyết nền tảng và 5 dạng toán xác suất có điều kiện, công thức nhân, xác suất toàn phần và Bayes - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Xác suất thống kê, Xác suất có điều kiện, Công thức Bayes}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Định nghĩa xác suất có điều kiện, công thức nhân, xác suất toàn phần và công thức Bayes}
+
+\textbf{1. Xác suất có điều kiện}
+
+- **Định nghĩa:** Xét một phép thử ngẫu nhiên có không gian mẫu $\Omega$ và $A, B$ là hai biến cố bất kì. Xác suất có điều kiện của $B$ với điều kiện $A$, kí hiệu $P(B|A)$, là xác suất của $B$ được tính sau khi $A$ xảy ra.
+
+\image{0.45}{}{lt_1.png}
+\image{0.45}{}{lt_2.png}
+
+\textbf{Chú ý:} Xác suất có điều kiện cũng có tính chất như một xác suất:
+$$0 \le P(B|A) \le 1, \quad P(A|A) = P(B|B) = 1, \quad P(B|A) = 1 - P(\overline{B}|A).$$
+
+- **Công thức tính xác suất có điều kiện:** Cho $A$ và $B$ là hai biến cố, trong đó $P(A) > 0$.
+Khi đó:
+$$P(B|A) = \frac{P(AB)}{P(A)} = \frac{n(AB)}{n(A)}.$$
+
+- **Công thức nhân xác suất:** Cho $A$ và $B$ là hai biến cố. Khi đó:
+$$P(AB) = P(A)P(B|A) = P(B)P(A|B).$$
+- Nếu $A$ và $B$ là hai biến cố độc lập thì:
+$$P(A|B) = P(A|\overline{B}) = P(A), \quad P(B|A) = P(B|\overline{A}) = P(B) \text{ và } P(AB) = P(A)P(B).$$
+- Mở rộng: Với $A_1, A_2, \dots, A_n$ là các biến cố bất kì thì:
+$$P(A_1A_2\dots A_n) = P(A_1)P(A_2|A_1)P(A_3|A_1A_2)\dots P(A_n|A_1A_2\dots A_{n-1}).$$
+
+- **Sơ đồ hình cây:**
+  - Xác suất của các nhánh trong sơ đồ hình cây từ đỉnh thứ hai là xác suất có điều kiện.
+  - Xác suất xảy ra của mỗi kết quả bằng tích các xác suất trên các nhánh của cây đi trên kết quả đó.
+
+\textbf{2. Công thức xác suất toàn phần và công thức Bayes}
+
+- **a) Công thức xác suất toàn phần:** Cho hai biến cố $A$ và $B$ với $0 < P(B) < 1$.
+Khi đó $P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A})$ gọi là công thức xác suất toàn phần.
+
+\image{0.45}{}{lt_3.png}
+
+\textbf{Tổng quát:} Cho $A_1, A_2, \dots, A_n$ là một nhóm biến cố đầy đủ và $B$ là một biến cố bất kì. Khi đó:
+$$P(B) = P(A_1)P(B|A_1) + P(A_2)P(B|A_2) + \dots + P(A_n)P(B|A_n).$$
+
+\image{0.45}{}{lt_4.png}
+
+- **b) Công thức Bayes:** Cho hai biến cố $A$ và $B$ ngẫu nhiên thỏa mãn $P(A) > 0$ và $0 < P(B) < 1$.
+Khi đó:
+$$P(B|A) = \frac{P(AB)}{P(A)} = \frac{P(B)P(A|B)}{P(A)} = \frac{P(B)P(A|B)}{P(B)P(A|B) + P(\overline{B})P(A|\overline{B})}.$$
+
+\image{0.45}{}{lt_5.png}
+\image{0.45}{}{lt_6.png}
+
+\textbf{Tổng quát:} Cho $A_1, A_2, \dots, A_n$ là một nhóm biến cố đầy đủ và $B$ là một biến cố bất kì ($P(B) > 0$). Khi đó:
+$$P(A_i|B) = \frac{P(A_i)P(B|A_i)}{P(B)} = \frac{P(A_i)P(B|A_i)}{\sum_{j=1}^n P(A_j)P(B|A_j)}.$$
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 1: SỬ DỤNG CÔNG THỨC XÁC SUẤT CÓ ĐIỀU KIỆN
+% -------------------------------------------------------------------------
+\begin{lesson}{Bài toán 1: Sử dụng công thức xác suất có điều kiện}{Phương pháp định nghĩa $P(B|A) = \frac{P(AB)}{P(A)} = \frac{n(AB)}{n(A)}$}
+
+\textbf{PHƯƠNG PHÁP}
+
+- Xác suất có điều kiện của $B$ với điều kiện $A$, kí hiệu $P(B|A)$, là xác suất của $B$ được tính sau khi $A$ xảy ra.
+- Công thức: $P(B|A) = \frac{P(AB)}{P(A)} = \frac{n(AB)}{n(A)}$ với $P(A) > 0$ và $n(A) > 0$.
+- Chú ý: $P(A|B) = 1 - P(\overline{A}|B)$, $P(AB) + P(A\overline{B}) = P(A)$ và $P(AB) + P(\overline{A}B) = P(B)$.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Bài toán 1}
+
+\essay{Cho hai biến cố $A, B$ có $P(A) = 0{,}3; P(B) = 0{,}8; P(AB) = 0{,}2$.
+Tính các xác suất sau: $P(A|B), P(B|A), P(\overline{A}|B)$ và $P(A|\overline{B})$.}{1}{Ta có:
+$P(A|B) = \frac{P(AB)}{P(B)} = \frac{0{,}2}{0{,}8} = \frac{1}{4}$.
+$P(B|A) = \frac{P(AB)}{P(A)} = \frac{0{,}2}{0{,}3} = \frac{2}{3}$.
+$P(\overline{A}|B) = 1 - P(A|B) = 1 - \frac{1}{4} = \frac{3}{4}$.
+$P(A|\overline{B}) = \frac{P(A\overline{B})}{P(\overline{B})} = \frac{P(A) - P(AB)}{1 - P(B)} = \frac{0{,}3 - 0{,}2}{1 - 0{,}8} = \frac{1}{2}$.}
+
+\essay{Một hộp có 10 vé trong đó có 3 vé trúng thưởng. Hai người lần lượt bốc một vé từ hộp và không hoàn lại. Tính xác suất người thứ hai bốc được vé trúng thưởng, biết rằng người thứ nhất đã bốc được một vé trúng thưởng.}{1}{Gọi $A$ là biến cố: "người thứ nhất bốc được vé trúng thưởng".
+$B$ là biến cố: "người thứ hai bốc được vé trúng thưởng".
+Khi đó xác suất để người thứ hai bốc được vé trúng thưởng khi người thứ nhất đã bốc được một vé trúng thưởng là $P(B|A)$.
+
+**Cách 1 (Tính bằng định nghĩa):**
+Trong 10 vé có 3 vé trúng thưởng, nếu người thứ nhất bốc được vé trúng thưởng thì còn lại 9 vé trong đó có 2 vé trúng thưởng.
+Vậy xác suất cần tìm là $P(B|A) = \frac{2}{9} \approx 22\%$.
+
+**Cách 2 (Tính bằng công thức):**
+Số phần tử của không gian mẫu là $n(\Omega) = 10 \times 9 = 90$.
+$n(AB) = 3 \times 2 = 6 \Rightarrow P(AB) = \frac{6}{90} = \frac{1}{15}$.
+$n(A) = 3 \times 9 = 27 \Rightarrow P(A) = \frac{27}{90} = \frac{3}{10}$.
+Vậy $P(B|A) = \frac{P(AB)}{P(A)} = \frac{1/15}{3/10} = \frac{2}{9}$.}
+
+\essay{Một hộp có 30 viên bi trắng và 16 viên bi đen, các viên bi có cùng kích thước và khối lượng. Bạn Giáp lấy ngẫu nhiên một viên bi trong hộp, không trả lại. Sau đó bạn Thìn lấy ngẫu nhiên một viên bi trong hộp đó. Gọi $A$ là biến cố: "Thìn lấy được viên bi trắng", $B$ là biến cố: "Giáp lấy được viên bi trắng".
+a) Tính $P(A|B)$ bằng định nghĩa và bằng công thức.
+b) Tính $P(A|\overline{B})$ bằng định nghĩa và bằng công thức.}{1}{a) **Cách 1 (Định nghĩa):** Nếu $B$ xảy ra tức là Giáp lấy được bi trắng. Khi đó trong hộp còn lại 45 viên bi với 29 bi trắng và 16 bi đen. Vậy $P(A|B) = \frac{29}{45}$.
+**Cách 2 (Công thức):** $n(B) = 30 \times 45$. $n(AB) = 30 \times 29$.
+$P(A|B) = \frac{P(AB)}{P(B)} = \frac{n(AB)}{n(B)} = \frac{30 \times 29}{30 \times 45} = \frac{29}{45}$.
+
+b) **Cách 1 (Định nghĩa):** Nếu $B$ không xảy ra tức là Giáp lấy bi đen. Khi đó trong hộp còn lại 45 viên bi với 30 bi trắng và 15 bi đen. Vậy $P(A|\overline{B}) = \frac{30}{45} = \frac{2}{3}$.
+**Cách 2 (Công thức):** $n(\overline{B}) = 16 \times 45$. $n(A\overline{B}) = 16 \times 30$.
+$P(A|\overline{B}) = \frac{n(A\overline{B})}{n(\overline{B})} = \frac{16 \times 30}{16 \times 45} = \frac{2}{3}$.}
+
+\essay{Một hộp chứa ba tấm thẻ cùng loại được ghi số lần lượt từ 1 đến 3. Bạn Thư lấy một cách ngẫu nhiên một thẻ từ hộp, bỏ thẻ đó ra ngoài và lại lấy ra một cách ngẫu nhiên thêm một thẻ nữa. Xét các biến cố:
+$A$: "Thẻ lấy ra lần thứ nhất ghi số 1";
+$B$: "Thẻ lấy ra lần thứ nhất ghi số 2";
+$C$: "Thẻ lấy ra lần thứ hai ghi số lẻ";
+$D$: "Thẻ lấy ra lần thứ hai ghi số lớn hơn 1".
+a) Xác định không gian mẫu của phép thử. Viết tập hợp các kết quả thuận lợi cho mỗi biến cố $A, B, C$.
+b) Tính xác suất để thẻ lấy ra lần thứ hai ghi số lẻ, biết rằng thẻ lấy ra lần thứ nhất ghi số 1.
+c) Tính xác suất để thẻ lấy ra lần thứ hai ghi số lẻ, biết rằng thẻ lấy ra lần thứ nhất ghi số 2.
+d) Tính $P(D|A)$ và $P(D|B)$.}{1}{a) Không gian mẫu: $\Omega = \{(1;2); (1;3); (2;1); (2;3); (3;1); (3;2)\}$.
+$A = \{(1;2); (1;3)\}, \quad B = \{(2;1); (2;3)\}, \quad C = \{(2;1); (3;1); (1;3); (2;3)\}$.
+
+b) Khi $A$ xảy ra thì kết quả là $(1;2)$ hoặc $(1;3)$. Trong hai kết quả đồng khả năng này chỉ có kết quả $(1;3)$ là thuận lợi cho $C$.
+Vậy $P(C|A) = \frac{1}{2}$.
+
+c) Khi $B$ xảy ra thì kết quả là $(2;1)$ hoặc $(2;3)$. Cả hai kết quả này đều thuận lợi cho $C$.
+Vậy $P(C|B) = 1$.
+
+d) Ta có $AD = \{(1;2); (1;3)\}$ và $BD = \{(2;3)\}$.
+$P(D|A) = \frac{P(AD)}{P(A)} = 1$ và $P(D|B) = \frac{P(BD)}{P(B)} = \frac{1}{2}$.}
+
+\essay{Một đại hội thể thao có 175 vận động viên nam và 160 vận động viên nữ tham gia. Tổng kết đại hội, có 30 vận động viên nam và 35 vận động viên nữ đạt huy chương. Chọn ngẫu nhiên một vận động viên tham gia đại hội.
+a) Tính xác suất vận động viên được chọn không đạt huy chương biết đó là vận động viên nam.
+b) Biết vận động viên được chọn đạt huy chương, tính xác suất để vận động viên đó là nữ.}{1}{a) Gọi $A$ là biến cố: "Vận động viên được chọn là nam", $B$ là biến cố: "Vận động viên được chọn không đạt huy chương".
+Số vận động viên nam không đạt huy chương là $175 - 30 = 145$.
+Xác suất vận động viên được chọn không đạt huy chương, biết đó là nam là:
+$P(B|A) = \frac{145}{175} = \frac{29}{35}$.
+
+b) Tổng số vận động viên đạt huy chương là $30 + 35 = 65$.
+Số vận động viên nữ đạt huy chương là 35.
+Xác suất để vận động viên là nữ, biết đã đạt huy chương là:
+$P(A|B) = \frac{35}{65} = \frac{7}{13}$.}
+
+\essay{Một nhóm 5 học sinh nam và 4 học sinh nữ tham gia lao động trên sân trường. Cô giáo chọn ngẫu nhiên đồng thời 2 bạn trong nhóm đi tưới cây. Tính xác suất để hai bạn được chọn có cùng giới tính, biết rằng có ít nhất 1 bạn nam được chọn.}{1}{Gọi $A$ là biến cố: "Hai bạn được chọn có cùng giới tính".
+$B$ là biến cố: "Hai bạn được chọn có ít nhất 1 bạn nam".
+Ta có $AB$ là biến cố: "Hai bạn được chọn là hai bạn nam".
+$n(AB) = C_5^2 = 10$.
+$n(B) = C_5^1 C_4^1 + C_5^2 = 20 + 10 = 30$.
+Vậy xác suất cần tìm là $P(A|B) = \frac{P(AB)}{P(B)} = \frac{n(AB)}{n(B)} = \frac{10}{30} = \frac{1}{3}$.}
+
+\essay{Trong một hộc tủ có chứa 18 chiếc vớ bao gồm 4 chiếc màu đen, 6 chiếc màu nâu và 8 chiếc màu ô-liu. Lấy ngẫu nhiên 2 chiếc vớ trong hộc tủ đó.
+a) Xác suất để lấy được 2 chiếc vớ cùng màu là bao nhiêu?
+b) Nếu biết rằng 2 chiếc vớ được lấy là cùng màu, thì xác suất để 2 chiếc vớ ấy màu ô-liu là bao nhiêu?}{1}{a) Số cách lấy 2 chiếc vớ: $n(\Omega) = C_{18}^2 = 153$.
+Gọi $A$ là biến cố: "lấy được 2 chiếc vớ cùng màu".
+$n(A) = C_4^2 + C_6^2 + C_8^2 = 6 + 15 + 28 = 49$.
+Vậy $P(A) = \frac{49}{153}$.
+
+b) Gọi $B$ là biến cố: "lấy được 2 chiếc vớ màu ô-liu".
+$n(AB) = C_8^2 = 28$.
+Vậy $P(B|A) = \frac{n(AB)}{n(A)} = \frac{C_8^2}{C_4^2 + C_6^2 + C_8^2} = \frac{28}{49} = \frac{4}{7}$.}
+
+\essay{Ba người mỗi người bắn một viên đạn vào cùng một mục tiêu với xác suất bắn trúng lần lượt là $0{,}7; 0{,}8$ và $0{,}9$. Biết rằng có ít nhất một viên đạn bắn trúng đích, tính xác suất để người thứ nhất bắn trúng.}{1}{Gọi $A$ là biến cố: "Có ít nhất một viên bắn trúng đích", $A_i$ là biến cố: "Người thứ $i$ bắn trúng" ($i \in \{1;2;3\}$).
+Ta có $A_1A$ là biến cố: "Có ít nhất một viên trúng đích và người thứ nhất bắn trúng", chính là $A_1$.
+$P(A_1A) = P(A_1) = 0{,}7$.
+$P(\overline{A}) = P(\overline{A_1}\overline{A_2}\overline{A_3}) = (1-0{,}7)(1-0{,}8)(1-0{,}9) = 0{,}3 \times 0{,}2 \times 0{,}1 = 0{,}006$.
+$P(A) = 1 - 0{,}006 = 0{,}994$.
+Vậy xác suất cần tìm là $P(A_1|A) = \frac{P(A_1A)}{P(A)} = \frac{0{,}7}{0{,}994} = \frac{50}{71}$.}
+
+\essay{Trong một đợt khám sức khỏe, người ta thấy có 15\% người dân ở một khu vực mắc bệnh béo phì. Tỉ lệ người béo phì và thường xuyên tập thể dục là 2\%. Biết rằng tỉ lệ người thường xuyên tập thể dục ở khu vực đó là 40\%. Theo kết quả điều tra trên, việc tập thể dục sẽ làm giảm khả năng bị béo phì đi bao nhiêu lần?}{1}{Gọi $A$ là biến cố: "Một người thường xuyên tập thể dục", $B$ là biến cố: "Một người bị béo phì".
+Ta có $P(B) = 0{,}15, P(AB) = 0{,}02, P(A) = 0{,}4 \Rightarrow P(\overline{A}) = 0{,}6$.
+$P(\overline{A}B) = P(B) - P(AB) = 0{,}15 - 0{,}02 = 0{,}13$.
+
+Xác suất để một người mắc bệnh béo phì, biết không thường xuyên tập thể dục là:
+$P(B|\overline{A}) = \frac{P(\overline{A}B)}{P(\overline{A})} = \frac{0{,}13}{0{,}6} = \frac{13}{60}$.
+
+Xác suất để một người mắc bệnh béo phì, biết thường xuyên tập thể dục là:
+$P(B|A) = \frac{P(AB)}{P(A)} = \frac{0{,}02}{0{,}4} = \frac{1}{20}$.
+
+Ta có $\frac{P(B|\overline{A})}{P(B|A)} = \frac{13/60}{1/20} = \frac{13}{3} \approx 4{,}33$.
+Vậy việc tập thể dục sẽ làm giảm khả năng bị béo phì khoảng 4,33 lần.}
+
+\essay{Trong cuộc khảo sát trên một nhóm học sinh gồm các bạn thích trà sữa hoặc kem, người ta có được kết quả sau: Có 56\% số học sinh thích kem, 68\% số học sinh thích trà sữa, 24\% số học sinh thích cả trà sữa và kem. Chọn ngẫu nhiên một bạn học sinh trong nhóm được khảo sát này. Tính xác suất để chọn được học sinh thích kem, biết rằng học sinh đó thích trà sữa.
+
+\image{0.45}{}{lt_7.png}}{1}{Gọi $A$ là biến cố "Chọn được học sinh thích kem", $B$ là biến cố "Chọn được học sinh thích trà sữa".
+Theo giả thiết: $P(B) = 68\% = 0{,}68$ và $P(AB) = 24\% = 0{,}24$.
+Xác suất để chọn được học sinh thích kem, biết rằng học sinh đó thích trà sữa là:
+$P(A|B) = \frac{P(AB)}{P(B)} = \frac{0{,}24}{0{,}68} = \frac{6}{17}$.}
+
+\essay{Một lớp học có 50 học sinh, trong đó có 30 em biết chơi bóng chuyền, 25 em biết chơi bóng đá, 5 em không biết chơi cả bóng đá và bóng chuyền. Chọn ngẫu nhiên hai bạn học sinh trong lớp để thi đấu.
+a) Tính xác suất để chọn được hai bạn biết chơi bóng chuyền, biết rằng hai bạn này biết chơi bóng đá.
+b) Tính xác suất để chọn được hai bạn biết chơi cả hai môn, biết rằng hai bạn này biết chơi bóng đá hoặc bóng chuyền.}{1}{Gọi $A$ là biến cố: "Hai bạn được chọn biết chơi bóng chuyền", $B$ là biến cố: "Hai bạn được chọn biết chơi bóng đá".
+Số học sinh biết chơi bóng đá hoặc bóng chuyền là $50 - 5 = 45$.
+Số học sinh biết chơi cả hai môn là $30 + 25 - 45 = 10$.
+
+a) Xác suất cần tìm là $P(A|B) = \frac{n(AB)}{n(B)} = \frac{C_{10}^2}{C_{25}^2} = \frac{3}{20}$.
+
+b) Xác suất cần tìm là $P(AB|A \cup B) = \frac{P(AB)}{P(A \cup B)} = \frac{C_{10}^2}{C_{45}^2} = \frac{1}{22}$.}
+
+\essay{Một cuộc điều tra về sở thích mua sắm quần áo của dân cư trong một vùng. Trong số 500 người được điều tra có 136 người trong 240 nam và 224 nữ trong số 260 nữ trả lời "thích".
+a) Giả sử chọn được một người nữ của vùng. Tính xác suất người đó không thích mua sắm.
+b) Giả sử chọn được người thích mua sắm. Tính xác suất người đó là nam.}{1}{Bảng số liệu:
+- Nam: Thích 136, Không thích 104 (tổng 240).
+- Nữ: Thích 224, Không thích 36 (tổng 260).
+
+a) Gọi $A$ là biến cố: "người được chọn không thích mua sắm", $B$ là biến cố: "người được chọn là nữ".
+$P(A|B) = \frac{n(AB)}{n(B)} = \frac{36}{224 + 36} = \frac{36}{260} = \frac{9}{65}$.
+
+b) Xác suất người đó là nam, biết người đó thích mua sắm là:
+$P(B|\overline{A}) = \frac{n(\overline{A}B)}{n(\overline{A})} = \frac{136}{136 + 224} = \frac{136}{360} = \frac{17}{45}$.}
+
+\essay{Một viện nghiên cứu cứu về an toàn giao thông muốn tìm hiểu về mối quan hệ giữa việc thắt dây an toàn khi lái xe và nguy cơ tử vong của người lái xe khi xảy ra tai nạn giao thông. Giả sử viện đã xem xét 577 006 vụ tai nạn giao thông ô tô và kết quả thống kê dạng $2 \times 2$ như sau:
+- Không thắt dây an toàn: 1 601 tử vong, 162 527 sống sót (tổng 164 128).
+- Có thắt dây an toàn: 510 tử vong, 412 368 sống sót (tổng 412 878).
+a) Tính xác suất để người lái xe đó tử vong khi xảy ra tai nạn giao thông trong trường hợp không thắt dây an toàn.
+b) Tính xác suất để người lái xe đó tử vong khi xảy ra tai nạn giao thông trong trường hợp có thắt dây an toàn.
+c) So sánh hai xác suất ở câu a) và câu b) rồi rút ra kết luận.}{1}{a) Gọi $A$ là biến cố: "Người lái xe bị tử vong", $B$ là biến cố: "Người lái xe không thắt dây an toàn".
+$P(A|B) = \frac{n(AB)}{n(B)} = \frac{1601}{164128} \approx 9{,}755 \times 10^{-3} = 0{,}009755$.
+
+b) Gọi $\overline{B}$ là biến cố: "Người lái xe có thắt dây an toàn".
+$P(A|\overline{B}) = \frac{n(A\overline{B})}{n(\overline{B})} = \frac{510}{412878} \approx 1{,}235 \times 10^{-3} = 0{,}001235$.
+
+c) Ta có $\frac{P(A|B)}{P(A|\overline{B})} = \frac{9{,}755 \times 10^{-3}}{1{,}235 \times 10^{-3}} \approx 7{,}9$.
+Như vậy, xác suất để một người lái xe không thắt dây an toàn bị tử vong khi xảy ra tai nạn giao thông cao gấp khoảng 7,9 lần so với người có thắt dây an toàn.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 2: CÔNG THỨC NHÂN XÁC SUẤT - SƠ ĐỒ CÂY
+% -------------------------------------------------------------------------
+\begin{lesson}{Bài toán 2: Sử dụng công thức nhân xác suất – Sơ đồ cây}{Phương pháp tính xác suất tích $P(AB) = P(A)P(B|A)$ và mô hình hóa bằng sơ đồ cây}
+
+\textbf{PHƯƠNG PHÁP}
+
+- **Công thức nhân xác suất:** $P(AB) = P(A)P(B|A) = P(B)P(A|B)$.
+- **Sơ đồ hình cây:**
+  - Xác suất của các nhánh trong sơ đồ hình cây từ đỉnh thứ hai là xác suất có điều kiện.
+  - Xác suất xảy ra của mỗi kết quả bằng tích các xác suất trên các nhánh của cây đi trên kết quả đó.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Bài toán 2}
+
+\begin{mcq}{Cho $A, B$ là hai biến cố thỏa mãn $P(A) = 0{,}2; P(B) = 0{,}51$ và $P(B|A) = 0{,}8$. Tính $P(A|B)$ (Làm tròn kết quả đến hàng phần trăm).}{3}{1}{Ta có $P(AB) = P(A)P(B|A) = 0{,}2 \times 0{,}8 = 0{,}16$.
+Do đó $P(A|B) = \frac{P(AB)}{P(B)} = \frac{0{,}16}{0{,}51} = \frac{16}{51} \approx 0{,}31$.
+
+Chọn D.}
+	\option{0{,}32.}
+	\option{0{,}34.}
+	\option{0{,}33.}
+	\option{0{,}31.}
+\end{mcq}
+
+\essay{Cho $A, B, C$ là ba biến cố thỏa mãn $P(A) = 0{,}5; P(B) = 0{,}6; P(C) = 0{,}3; P(A \cup B) = 0{,}7$ và $P(A|\overline{C}) = 0{,}5$.
+a) Tính $P(AB), P(\overline{A}B), P(\overline{A}\overline{B}), P(A\overline{C})$.
+b) $A$ và $B$ có phải là hai biến cố độc lập không? Vì sao?
+c) $A$ và $C$ có phải là hai biến cố độc lập không? Vì sao?
+d) Tính $P(A \cup C)$ và $P(A\overline{C})$.}{1}{a) $P(AB) = P(A) + P(B) - P(A \cup B) = 0{,}5 + 0{,}6 - 0{,}7 = 0{,}4$.
+$P(\overline{A}B) = P(B) - P(AB) = 0{,}6 - 0{,}4 = 0{,}2$.
+$P(\overline{A}\overline{B}) = 1 - P(A \cup B) = 1 - 0{,}7 = 0{,}3$.
+$P(A\overline{C}) = P(\overline{C})P(A|\overline{C}) = (1 - 0{,}3) \times 0{,}5 = 0{,}35$.
+
+b) $P(A)P(B) = 0{,}5 \times 0{,}6 = 0{,}3 \ne P(AB) = 0{,}4$ nên $A, B$ không độc lập.
+
+c) $P(AC) = P(A) - P(A\overline{C}) = 0{,}5 - 0{,}35 = 0{,}15$.
+$P(A)P(C) = 0{,}5 \times 0{,}3 = 0{,}15 = P(AC)$ nên $A, C$ là hai biến cố độc lập.
+
+d) Vì $A, C$ độc lập nên:
+$P(A \cup C) = P(A) + P(C) - P(AC) = 0{,}5 + 0{,}3 - 0{,}15 = 0{,}65$.
+$P(A\overline{C}) = P(A)P(\overline{C}) = 0{,}5 \times (1 - 0{,}3) = 0{,}35$.}
+
+\essay{Lấy ngẫu nhiên 2 chiếc tivi (lấy lần lượt từng chiếc không hoàn lại) từ một lô hàng gồm 240 chiếc tivi trong đó có 15 chiếc bị lỗi. Xác xuất để cả 2 chiếc được lấy đều bị lỗi là bao nhiêu?}{1}{Gọi $A$ là biến cố: "Chiếc tivi thứ nhất lấy được bị lỗi", $B$ là biến cố: "Chiếc tivi thứ hai lấy được bị lỗi".
+$P(AB) = P(A)P(B|A) = \frac{15}{240} \times \frac{14}{239} = \frac{7}{1912}$.}
+
+\essay{Trong một hộp kín có 10 quả bóng in hình đom đóm và 5 quả bóng in hình ruồi, các quả bóng có cùng kích thước và khối lượng. Bạn Kid lấy ngẫu nhiên một quả bóng từ trong hộp, không trả lại. Sau đó người yêu cũ bạn Kid lấy ngẫu nhiên một trong 14 quả bóng còn lại. Tính xác suất để bạn Kid lấy được quả bóng in hình ruồi và người yêu cũ bạn Kid lấy được quả bóng in hình đom đóm.}{1}{Gọi $A$ là biến cố: "Kid lấy được bóng in hình ruồi", $B$ là biến cố: "Người yêu cũ Kid lấy được bóng in hình đom đóm".
+$P(A) = \frac{5}{15} = \frac{1}{3}$.
+Khi $A$ xảy ra, trong hộp còn 14 quả với 10 quả hình đom đóm $\Rightarrow P(B|A) = \frac{10}{14} = \frac{5}{7}$.
+Theo công thức nhân xác suất: $P(AB) = P(A)P(B|A) = \frac{1}{3} \times \frac{5}{7} = \frac{5}{21}$.}
+
+\essay{Một bình đựng 50 viên bi kích thước, chất liệu như nhau, trong đó có 30 viên bi xanh và 20 viên bi trắng. Lấy ngẫu nhiên ra một viên bi, rồi lại lấy ngẫu nhiên ra một viên bi nữa. Tính xác suất để lấy được một viên bi xanh ở lần thứ nhất và một viên bi trắng ở lần thứ hai.}{1}{Gọi $A$ là biến cố: "Lấy được viên bi xanh ở lần thứ nhất", $B$ là biến cố: "Lấy được viên bi trắng ở lần thứ hai".
+$P(A) = \frac{30}{50} = \frac{3}{5}$.
+Khi $A$ xảy ra, trong bình còn 49 viên trong đó có 20 viên bi trắng $\Rightarrow P(B|A) = \frac{20}{49}$.
+$P(AB) = P(A)P(B|A) = \frac{3}{5} \times \frac{20}{49} = \frac{12}{49}$.}
+
+\essay{Trong một lọ có chứa bi đen và bi trắng cùng kích thước và khối lượng, lấy ngẫu nhiên lần lượt hai viên bi ra ngoài và không bỏ vào lại. Biết rằng xác suất để lần đầu lấy được bi đen là $0{,}47$; xác suất để lần đầu lấy được bi đen và lần thứ hai lấy được bi trắng là $0{,}34$. Tính xác suất để lấy được bi trắng ở lần thứ hai với điều kiện lần đầu lấy được bi đen.}{1}{Gọi biến cố $A$: "Lần đầu lấy được bi đen", $B$: "Lần thứ hai lấy được bi trắng".
+Ta có $P(A) = 0{,}47$ và $P(AB) = 0{,}34$.
+Xác suất cần tìm là $P(B|A) = \frac{P(AB)}{P(A)} = \frac{0{,}34}{0{,}47} \approx 0{,}7234$.}
+
+\essay{Theo kết quả từ trạm nghiên cứu khí hậu tại địa phương T, xác suất để một ngày có gió là $0{,}6$; nếu ngày có gió thì xác suất có mưa là $0{,}4$; nếu ngày không có gió thì xác suất có mưa là $0{,}2$. Sử dụng sơ đồ hình cây để tính:
+a) Xác suất để trời vừa có gió và vừa có mưa là bao nhiêu?
+b) Xác suất để trời không có gió và có mưa là bao nhiêu?
+c) Giải thích ý nghĩa của việc sử dụng sơ đồ hình cây xác suất.}{1}{Gọi $G$ là biến cố "Ngày có gió" và $M$ là biến cố "Ngày có mưa".
+
+\image{0.6}{}{lt_8.png}
+
+a) Xác suất để trời vừa có gió, vừa có mưa là:
+$P(GM) = P(G)P(M|G) = 0{,}6 \times 0{,}4 = 0{,}24$.
+
+b) Xác suất để trời không có gió và có mưa là:
+$P(\overline{G}M) = P(\overline{G})P(M|\overline{G}) = (1 - 0{,}6) \times 0{,}2 = 0{,}08$.
+
+c) Sơ đồ hình cây giúp trực quan hóa tất cả các kết quả phân nhánh và tính xác suất các biến cố phức hợp một cách dễ dàng và chính xác.}
+
+\essay{Trong một hộp kín có 7 chiếc bút bi xanh và 5 chiếc bút bi đen, các chiếc bút có cùng kích thước, hình dạng và khối lượng. Bạn Sơn lấy ngẫu nhiên một chiếc bút bi từ trong hộp, không trả lại. Sau đó bạn Tùng lấy ngẫu nhiên một trong 11 chiếc bút còn lại. Tính xác suất để Sơn lấy được chiếc bút bi đen và Tùng lấy được chiếc bút bi xanh bằng công thức và sơ đồ hình cây.}{1}{Gọi $A$ là biến cố: "Sơn lấy được bút bi đen", $B$ là biến cố: "Tùng lấy được bút bi xanh".
+
+**Cách 1 (Bằng công thức):**
+$P(A) = \frac{5}{12}$. $P(B|A) = \frac{7}{11}$.
+$P(AB) = P(A)P(B|A) = \frac{5}{12} \times \frac{7}{11} = \frac{35}{132}$.
+
+**Cách 2 (Sơ đồ hình cây):**
+
+\image{0.5}{}{lt_9.png}
+
+Xác suất cần tính ứng với nhánh ĐX: $P(AB) = \frac{5}{12} \times \frac{7}{11} = \frac{35}{132}$.}
+
+\essay{Một công ty bảo hiểm ô tô nhận thấy nếu một tài xế gặp sự cố trong một năm thì xác suất gặp sự cố ở năm tiếp theo là $0{,}2$; còn nếu trong một năm không gặp sự cố nào thì xác suất gặp sự cố ở năm tiếp theo là $0{,}05$. Xác suất để một tài xế gặp sự cố ở năm đầu tiên lái xe là $0{,}1$. Sử dụng sơ đồ hình cây:
+a) Tính xác suất để một tài xế không gặp sự cố nào trong 2 năm đầu tiên lái xe.
+b) Tính xác suất để một tài xế gặp sự cố trong cả 2 năm đầu tiên lái xe. (Làm tròn kết quả đến hàng phần trăm).}{1}{Gọi $A$ là biến cố: "Tài xế không gặp sự cố trong năm đầu", $B$ là biến cố: "Tài xế không gặp sự cố trong năm thứ hai".
+
+\image{0.6}{}{lt_10.png}
+
+a) Xác suất để tài xế không gặp sự cố trong 2 năm đầu là:
+$P(AB) = P(A)P(B|A) = 0{,}9 \times 0{,}95 = 0{,}855 \approx 0{,}86$.
+
+b) Xác suất để tài xế gặp sự cố trong cả 2 năm đầu là:
+$P(\overline{A}\overline{B}) = P(\overline{A})P(\overline{B}|\overline{A}) = 0{,}1 \times 0{,}2 = 0{,}02$.}
+
+\essay{Có 4 que thăm, trong đó có 3 que thăm dài bằng nhau và 1 que thăm ngắn hơn. Bốn người lần lượt lên rút ngẫu nhiên một que thăm. Tính xác suất người thứ $i$ rút được thăm ngắn ($i=1,2,3,4$).}{1}{Gọi $A_i$: "Người thứ $i$ rút được thăm ngắn".
+$P(A_1) = \frac{1}{4}$.
+$P(A_2) = P(\overline{A_1})P(A_2|\overline{A_1}) = \frac{3}{4} \times \frac{1}{3} = \frac{1}{4}$.
+$P(A_3) = P(\overline{A_1})P(\overline{A_2}|\overline{A_1})P(A_3|\overline{A_1}\overline{A_2}) = \frac{3}{4} \times \frac{2}{3} \times \frac{1}{2} = \frac{1}{4}$.
+$P(A_4) = P(\overline{A_1}\overline{A_2}\overline{A_3}A_4) = \frac{3}{4} \times \frac{2}{3} \times \frac{1}{2} \times 1 = \frac{1}{4}$.
+Vậy khả năng rút được thăm ngắn của cả 4 người là như nhau và bằng $\frac{1}{4}$.}
+
+\essay{Một hộp có 9 bi trong đó có 3 bi đỏ được chia ngẫu nhiên thành 3 phần, mỗi phần 3 bi. Tính xác suất mỗi phần đều có bi đỏ.}{1}{Gọi $A$: "ba phần đều có 1 bi đỏ", $A_i$: "phần $i$ có 1 bi đỏ".
+$P(A) = P(A_1A_2A_3) = P(A_1)P(A_2|A_1)P(A_3|A_1A_2) = \frac{C_3^1 C_6^2}{C_9^3} \times \frac{C_2^1 C_4^2}{C_6^3} \times 1 = \frac{9}{28}$.}
+
+\essay{Một sản phẩm xuất xưởng phải qua 3 lần kiểm tra. Xác suất để một phế phẩm bị loại ở lần kiểm tra đầu là $0{,}8$; nếu lần kiểm tra đầu không bị loại thì xác suất nó bị loại ở lần kiểm tra thứ hai là $0{,}9$; tương tự nếu lần thứ hai nó cũng không bị loại thì ở lần kiểm tra thứ ba xác suất nó bị loại là $0{,}95$. Tính xác suất để một phế phẩm bị loại qua 3 lần kiểm tra.}{1}{Gọi $A$: "phế phẩm bị loại qua 3 lần kiểm tra", $A_i$: "phế phẩm bị loại ở lần thứ $i$".
+**Cách 1:** $P(A) = P(A_1) + P(\overline{A_1}A_2) + P(\overline{A_1}\overline{A_2}A_3) = 0{,}8 + 0{,}2 \times 0{,}9 + 0{,}2 \times 0{,}1 \times 0{,}95 = 0{,}999$.
+**Cách 2:** $P(A) = 1 - P(\overline{A_1}\overline{A_2}\overline{A_3}) = 1 - 0{,}2 \times 0{,}1 \times 0{,}05 = 0{,}999$.}
+
+\essay{Ông Walter White phải thực hiện hai thí nghiệm liên tiếp. Thí nghiệm thứ nhất có xác suất thành công là $0{,}7$. Nếu thí nghiệm thứ nhất thành công thì xác suất thành công của thí nghiệm thứ hai là $0{,}9$. Nếu thí nghiệm thứ nhất không thành công thì xác suất thành công của thí nghiệm thứ hai chỉ là $0{,}4$. Tính xác suất để:
+a) cả hai thí nghiệm đều thành công.
+b) cả hai thí nghiệm đều không thành công.
+c) thí nghiệm thứ nhất thành công và thí nghiệm thứ hai không thành công.
+
+\image{0.45}{}{lt_11.png}}{1}{Gọi $A$ là biến cố: "Thí nghiệm thứ nhất thành công", $B$ là biến cố: "Thí nghiệm thứ hai thành công".
+Ta có $P(A) = 0{,}7 \Rightarrow P(\overline{A}) = 0{,}3; P(B|A) = 0{,}9; P(B|\overline{A}) = 0{,}4$.
+
+a) $P(AB) = P(A)P(B|A) = 0{,}7 \times 0{,}9 = 0{,}63$.
+b) $P(\overline{A}\overline{B}) = P(\overline{A})P(\overline{B}|\overline{A}) = 0{,}3 \times (1 - 0{,}4) = 0{,}18$.
+c) $P(A\overline{B}) = P(A)P(\overline{B}|A) = 0{,}7 \times (1 - 0{,}9) = 0{,}07$.}
+
+\essay{Các sản phẩm của một phân xưởng được đóng thành hộp, mỗi hộp gồm 10 sản phẩm. Các hộp sản phẩm được kiểm tra như sau: người ta lấy ngẫu nhiên 1 sản phẩm từ hộp, nếu sản phẩm đó xấu, hộp sẽ bị loại; nếu sản phẩm đó tốt người ta sẽ chọn ngẫu nhiên thêm 1 sản phẩm khác từ hộp để kiểm tra. Hộp sẽ chỉ được chấp nhận nếu không có sản phẩm xấu nào trong các sản phẩm được chọn kiểm tra. Biết có một hộp chứa 2 sản phẩm xấu. Tính xác suất để hộp đó không được chấp nhận (Làm tròn kết quả đến hàng phần trăm).}{1}{Gọi $A$: "Sản phẩm chọn đầu tiên là xấu", $B$: "Sản phẩm chọn thứ hai là xấu".
+$P(A) = \frac{2}{10} = 0{,}2 \Rightarrow P(\overline{A}) = 0{,}8$.
+$P(B|\overline{A}) = \frac{2}{9}$.
+$P(\overline{A}B) = P(\overline{A})P(B|\overline{A}) = 0{,}8 \times \frac{2}{9} = \frac{8}{45}$.
+Xác suất hộp không được chấp nhận là $P(A) + P(\overline{A}B) = 0{,}2 + \frac{8}{45} = \frac{17}{45} \approx 0{,}38$.}
+
+\essay{Ba xạ thủ $A, B, C$ độc lập với nhau cùng bắn súng vào bia. Xác suất bắn trúng của $B$ và $C$ tương ứng là $0{,}6$ và $0{,}9$. Khả năng có đúng hai xạ thủ trong 3 xạ thủ bắn trúng bia là $0{,}456$ và khả năng xạ thủ $A$ bắn trúng bia biết rằng có hai xạ thủ bắn trúng bia là $\frac{49}{76}$.
+a) Tính xác suất để có đúng hai xạ thủ bắn trúng trong đó có xạ thủ $A$.
+b) Tính xác suất bắn trúng bia của xạ thủ $A$.}{1}{Gọi $D$ là biến cố "Có đúng hai xạ thủ bắn trúng bia".
+Theo đề bài: $P(D) = 0{,}456$ và $P(A|D) = \frac{49}{76}$.
+
+a) $P(AD) = P(D)P(A|D) = 0{,}456 \times \frac{49}{76} = 0{,}294$.
+
+b) Vì $AD = AB\overline{C} \cup A\overline{B}C$ nên:
+$P(AD) = P(A)P(B)P(\overline{C}) + P(A)P(\overline{B})P(C) = P(A)[0{,}6(1-0{,}9) + (1-0{,}6)0{,}9] = P(A)[0{,}06 + 0{,}36] = 0{,}42 P(A)$.
+$\Rightarrow 0{,}42 P(A) = 0{,}294 \Rightarrow P(A) = \frac{0{,}294}{0{,}42} = 0{,}7$.}
+
+\essay{Một cuộc điều tra cho thấy, ở một thành phố, có 20,7\% dân số dùng loại sản phẩm $X$, 50\% dùng loại sản phẩm $Y$ và trong số những người dùng $Y$, có 36,5\% dùng $X$. Phỏng vấn ngẫu nhiên một người dân trong thành phố đó, tính xác suất để người ấy:
+a) Dùng cả $X$ và $Y$.
+b) Không dùng $X$, cũng không dùng $Y$.
+c) Dùng $Y$, biết rằng người ấy không dùng $X$.}{1}{Gọi $A$: "Dùng sản phẩm $X$", $B$: "Dùng sản phẩm $Y$".
+$P(A) = 0{,}207; P(B) = 0{,}5; P(A|B) = 0{,}365$.
+
+a) $P(AB) = P(B)P(A|B) = 0{,}5 \times 0{,}365 = 0{,}1825$.
+
+b) $P(\overline{A}\overline{B}) = 1 - P(A \cup B) = 1 - (P(A) + P(B) - P(AB)) = 1 - (0{,}207 + 0{,}5 - 0{,}1825) = 0{,}4755$.
+
+c) $P(B|\overline{A}) = \frac{P(\overline{A}B)}{P(\overline{A})} = \frac{P(B) - P(AB)}{1 - P(A)} = \frac{0{,}5 - 0{,}1825}{1 - 0{,}207} = \frac{0{,}3175}{0{,}793} = 0{,}404$.}
+
+\essay{Một công ty dược phẩm giới thiệu một dụng cụ kiểm tra sớm bệnh sốt xuất huyết. Số người được thử là 9000, trong số đó có 1500 người đã bị nhiễm bệnh và có 7500 người không bị nhiễm. Khi thử bằng dụng cụ của công ty, trong 1500 người đã bị nhiễm bệnh thì có 76\% số người đó cho kết quả dương tính. Trong 7500 người không bị nhiễm có 7\% số người cho kết quả dương tính.
+a) Điền số thích hợp vào bảng kết quả thống kê.
+b) Chọn ngẫu nhiên một người trong số thử nghiệm. Tính xác suất để người được chọn ra bị nhiễm bệnh, biết rằng người đó có kết quả thử nghiệm dương tính (làm tròn đến hàng phần mười).
+c) Nhà sản xuất khẳng định dụng cụ cho kết quả đúng với hơn 90\% số trường hợp có kết quả dương tính. Khẳng định đó có đúng không?}{1}{a) Bảng số liệu:
+- Nhiễm bệnh: Dương tính $1500 \times 76\% = 1140$, Âm tính $1500 - 1140 = 360$.
+- Không nhiễm: Dương tính $7500 \times 7\% = 525$, Âm tính $7500 - 525 = 6975$.
+Tổng số người có kết quả dương tính là $1140 + 525 = 1665$.
+
+b) Gọi $A$: "Người bị nhiễm bệnh", $B$: "Người có kết quả dương tính".
+$P(A|B) = \frac{n(AB)}{n(B)} = \frac{1140}{1665} = \frac{76}{111} \approx 68{,}5\%$.
+
+c) Do $68{,}5\% < 90\%$ nên khẳng định của nhà sản xuất là không đúng.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 3: CÔNG THỨC XÁC SUẤT TOÀN PHẦN
+% -------------------------------------------------------------------------
+\begin{lesson}{Bài toán 3: Công thức xác suất toàn phần}{Phương pháp phân tích theo nhóm biến cố đầy đủ $P(B) = \sum P(A_i)P(B|A_i)$}
+
+\textbf{PHƯƠNG PHÁP}
+
+- Cho hai biến cố $A$ và $B$ với $0 < P(A) < 1$:
+  $$P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}).$$
+- Tổng quát với nhóm đầy đủ $A_1, A_2, \dots, A_n$:
+  $$P(B) = \sum_{i=1}^n P(A_i)P(B|A_i).$$
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Bài toán 3}
+
+\essay{Một công ty thời trang có hai chi nhánh cùng sản xuất một loại áo thời trang, trong đó có 56\% áo ở chi nhánh I và 44\% áo ở chi nhánh II. Tại chi nhánh I có 75\% áo chất lượng cao và tại chi nhánh II có 68\% áo chất lượng cao. Chọn ngẫu nhiên 1 áo thời trang. Xác suất chọn được áo chất lượng cao là bao nhiêu?}{1}{Gọi $A$ là biến cố: "Chọn được áo chất lượng cao", $B$ là biến cố: "Chọn được áo ở chi nhánh I".
+$P(B) = 0{,}56, P(\overline{B}) = 0{,}44, P(A|B) = 0{,}75, P(A|\overline{B}) = 0{,}68$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = 0{,}56 \times 0{,}75 + 0{,}44 \times 0{,}68 = 0{,}7192$.}
+
+\essay{Trong số bệnh nhân của khoa X ở một bệnh viện Y có 60\% điều trị bệnh A và 40\% điều trị bệnh B. Xác suất để chữa khỏi bệnh A và B trong bệnh viện này lần lượt là 0,7 và 0,9. Xác suất để một bệnh nhân chữa khỏi bệnh là bao nhiêu?}{1}{Gọi $A$ là biến cố: "Bệnh nhân mắc bệnh A", $B$ là biến cố: "Bệnh nhân chữa khỏi bệnh".
+$P(A) = 0{,}6 \Rightarrow P(\overline{A}) = 0{,}4$.
+$P(B|A) = 0{,}7, P(B|\overline{A}) = 0{,}9$.
+Theo công thức xác suất toàn phần:
+$P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}) = 0{,}6 \times 0{,}7 + 0{,}4 \times 0{,}9 = 0{,}78 = 78\%$.}
+
+\essay{Người ta khảo sát khả năng chơi nhạc cụ của một nhóm học sinh tại trường X. Nhóm này có 60\% học sinh là nam. Kết quả khảo sát cho thấy có 20\% học sinh nam và 15\% học sinh nữ biết chơi ít nhất một nhạc cụ. Chọn ngẫu nhiên một học sinh trong nhóm này. Tính xác suất để chọn được học sinh biết chơi ít nhất một nhạc cụ.}{1}{Gọi $A$ là biến cố "Chọn được học sinh biết chơi ít nhất một nhạc cụ", $B$ là biến cố "Chọn được học sinh nam".
+$P(B) = 0{,}6 \Rightarrow P(\overline{B}) = 0{,}4$.
+$P(A|B) = 0{,}2, P(A|\overline{B}) = 0{,}15$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = 0{,}6 \times 0{,}2 + 0{,}4 \times 0{,}15 = 0{,}18 = 18\%$.}
+
+\essay{Một chiếc hộp có 80 viên bi, trong đó có 50 viên bi màu đỏ và 30 viên bi màu vàng. Sau khi kiểm tra, người ta thấy có 60\% số viên bi màu đỏ có đánh số và 50\% số viên bi màu vàng có đánh số. Lấy ngẫu nhiên một viên bi trong hộp. Xác suất để viên bi được lấy ra có đánh số là bao nhiêu?}{1}{Gọi $A$ là biến cố "Viên bi lấy ra có đánh số", $B$ là biến cố "Viên bi lấy ra có màu đỏ".
+$P(B) = \frac{50}{80} = \frac{5}{8} \Rightarrow P(\overline{B}) = \frac{3}{8}$.
+$P(A|B) = 60\% = \frac{3}{5}, P(A|\overline{B}) = 50\% = \frac{1}{2}$.
+Áp dụng công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = \frac{5}{8} \times \frac{3}{5} + \frac{3}{8} \times \frac{1}{2} = \frac{9}{16}$.}
+
+\essay{Tại một địa phương có 500 người cao tuổi, bao gồm 260 nam và 240 nữ. Trong nhóm người cao tuổi nam và nữ lần lượt có 40\% và 55\% bị bệnh tiểu đường. Chọn ngẫu nhiên một người. Xác suất để chọn được một người không bị bệnh tiểu đường là bao nhiêu?}{1}{Gọi $A$ là biến cố: "Chọn được người không bị bệnh tiểu đường", $B$ là biến cố: "Chọn được người là nam".
+$P(B) = \frac{260}{500} = 0{,}52 \Rightarrow P(\overline{B}) = 0{,}48$.
+$P(A|B) = 1 - 0{,}4 = 0{,}6$.
+$P(A|\overline{B}) = 1 - 0{,}55 = 0{,}45$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = 0{,}52 \times 0{,}6 + 0{,}48 \times 0{,}45 = 0{,}528$.}
+
+\essay{Một loại xét nghiệm nhanh SARS-CoV-2 cho kết quả dương tính với 76,2\% các ca thực sự nhiễm virus và kết quả âm tính với 99,1\% các ca thực sự không nhiễm virus. Giả sử tỉ lệ người nhiễm virus SARS-CoV-2 trong một cộng đồng là 1\%. Chọn một người trong cộng đồng đó làm xét nghiệm. Tính xác suất người làm xét nghiệm có kết quả dương tính.}{1}{Gọi $A$ là biến cố: "Người làm xét nghiệm có kết quả dương tính", $B$ là biến cố: "Người làm xét nghiệm thực sự nhiễm virus".
+$P(B) = 0{,}01 \Rightarrow P(\overline{B}) = 0{,}99$.
+$P(A|B) = 0{,}762$.
+$P(A|\overline{B}) = 1 - 0{,}991 = 0{,}009$.
+Áp dụng công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = 0{,}01 \times 0{,}762 + 0{,}99 \times 0{,}009 = 0{,}01653$.}
+
+\essay{Vào mỗi buổi sáng ở tuyến phố H, xác suất xảy ra tắc đường khi trời mưa và không mưa lần lượt là 0,7 và 0,2. Xác suất có mưa vào một buổi sáng là 0,1. Tính xác suất để sáng đó tuyến phố H bị tắc đường.}{1}{Gọi $A$ là biến cố: "Buổi sáng bị tắc đường", $B$ là biến cố: "Buổi sáng trời mưa".
+$P(B) = 0{,}1 \Rightarrow P(\overline{B}) = 0{,}9$.
+$P(A|B) = 0{,}7, P(A|\overline{B}) = 0{,}2$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = 0{,}1 \times 0{,}7 + 0{,}9 \times 0{,}2 = 0{,}25$.}
+
+\essay{Ông An hằng ngày đi làm bằng xe máy hoặc xe buýt. Nếu hôm nay ông đi làm bằng xe buýt thì xác suất để hôm sau ông đi làm bằng xe máy là 0,4. Nếu hôm nay ông đi làm bằng xe máy thì xác suất để hôm sau ông đi làm bằng xe buýt là 0,7. Xét một tuần mà thứ Hai ông An đi làm bằng xe buýt. Tính xác suất để thứ Tư trong tuần đó, ông An đi làm bằng xe máy.}{1}{Gọi $A$ là biến cố: "Thứ Ba, ông An đi làm bằng xe máy", $B$ là biến cố: "Thứ Tư, ông An đi làm bằng xe máy".
+Vì thứ Hai đi xe buýt nên xác suất thứ Ba đi xe máy là $P(A) = 0{,}4 \Rightarrow P(\overline{A}) = 0{,}6$.
+Nếu thứ Ba đi xe máy $\Rightarrow P(B|A) = 1 - 0{,}7 = 0{,}3$.
+Nếu thứ Ba đi xe buýt $\Rightarrow P(B|\overline{A}) = 0{,}4$.
+Áp dụng công thức xác suất toàn phần:
+$P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}) = 0{,}4 \times 0{,}3 + 0{,}6 \times 0{,}4 = 0{,}36$.}
+
+\essay{Biết rằng có 1\% dân số mang virus X trong người. Có một xét nghiệm để phát hiện virus X với xác suất sai lầm là 1\% (âm tính giả là 1\%, dương tính giả là 1\%). Giả sử bạn Giang đi làm xét nghiệm để biết mình có mang virus X hay không. Xác suất để xét nghiệm này báo dương tính đối với bạn ấy là bao nhiêu?}{1}{Gọi $A$ là biến cố: "Bạn Giang mang virus X", $B$ là biến cố: "Xét nghiệm báo dương tính".
+$P(A) = 0{,}01 \Rightarrow P(\overline{A}) = 0{,}99$.
+$P(B|A) = 1 - 0{,}01 = 0{,}99$.
+$P(B|\overline{A}) = 0{,}01$.
+Áp dụng công thức xác suất toàn phần:
+$P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}) = 0{,}01 \times 0{,}99 + 0{,}99 \times 0{,}01 = 0{,}0198 = 1{,}98\%$.}
+
+\essay{Có hai hộp đựng các viên bi cùng kích thước và khối lượng. Hộp thứ nhất chứa 5 viên bi đỏ và 5 viên bi xanh, hộp thứ hai chứa 6 viên bi đỏ và 4 viên bi xanh. Lấy ngẫu nhiên một viên bi từ hộp thứ nhất chuyển sang hộp thứ hai, sau đó lấy ra ngẫu nhiên một viên bi từ hộp thứ hai. Tính xác suất để viên bi được lấy ra từ hộp thứ hai là viên bi đỏ.}{1}{Gọi $A$ là biến cố: "Viên bi lấy ra từ hộp thứ hai là bi đỏ", $B$ là biến cố: "Viên bi chuyển từ hộp 1 sang hộp 2 là bi đỏ".
+$P(B) = \frac{5}{10} = \frac{1}{2} \Rightarrow P(\overline{B}) = \frac{1}{2}$.
+Nếu chuyển bi đỏ sang hộp 2 thì hộp 2 có 7 đỏ, 4 xanh $\Rightarrow P(A|B) = \frac{7}{11}$.
+Nếu chuyển bi xanh sang hộp 2 thì hộp 2 có 6 đỏ, 5 xanh $\Rightarrow P(A|\overline{B}) = \frac{6}{11}$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = \frac{1}{2} \times \frac{7}{11} + \frac{1}{2} \times \frac{6}{11} = \frac{13}{22}$.}
+
+\essay{Hình dạng hạt của đậu Hà Lan có hai kiểu hình: hạt trơn và hạt nhăn, ứng với hai gen trội B và gen lặn b. Khi cho lai hai cây đậu Hà Lan, cây con lấy ngẫu nhiên một cách độc lập một gen từ cây bố và một gen từ cây mẹ. Giả sử cây bố và cây mẹ được chọn ngẫu nhiên từ quần thể có tỉ lệ kiểu gen bb, Bb tương ứng là 40\% và 60\%. Tính xác suất để cây con có kiểu gen bb.}{1}{Gọi $A$: "Cây bố có kiểu gen bb" ($P(A) = 0{,}4, P(\overline{A}) = 0{,}6$).
+$M$: "Cây con lấy gen b từ bố". $P(M|A) = 1, P(M|\overline{A}) = \frac{1}{2}$.
+$P(M) = P(A)P(M|A) + P(\overline{A})P(M|\overline{A}) = 0{,}4 \times 1 + 0{,}6 \times \frac{1}{2} = 0{,}7$.
+Tương tự, xác suất cây con lấy gen b từ mẹ là $P(N) = 0{,}7$.
+Do $M, N$ độc lập nên xác suất cây con có kiểu gen bb là $P(E) = P(M)P(N) = 0{,}7 \times 0{,}7 = 0{,}49 = 49\%$.}
+
+\essay{Có hai hộp bóng bàn. Hộp thứ nhất có 3 quả bóng bàn màu trắng và 2 quả màu vàng. Hộp thứ hai có 6 quả màu trắng và 4 quả màu vàng. Lấy ngẫu nhiên 4 quả bóng bàn ở hộp thứ nhất bỏ vào hộp thứ hai rồi lấy ngẫu nhiên 1 quả bóng bàn ở hộp thứ hai ra. Tính xác suất để lấy được quả bóng bàn màu vàng từ hộp thứ hai.}{1}{Khi lấy 4 quả từ hộp 1 (có 3 trắng, 2 vàng), có 2 trường hợp:
+- $B$: Lấy 3 trắng, 1 vàng $\Rightarrow P(B) = \frac{C_3^3 C_2^1}{C_5^4} = \frac{2}{5}$. Khi đó hộp 2 có 9 trắng, 5 vàng $\Rightarrow P(A|B) = \frac{5}{14}$.
+- $\overline{B}$: Lấy 2 trắng, 2 vàng $\Rightarrow P(\overline{B}) = \frac{C_3^2 C_2^2}{C_5^4} = \frac{3}{5}$. Khi đó hộp 2 có 8 trắng, 6 vàng $\Rightarrow P(A|\overline{B}) = \frac{6}{14}$.
+Theo công thức xác suất toàn phần:
+$P(A) = P(B)P(A|B) + P(\overline{B})P(A|\overline{B}) = \frac{2}{5} \times \frac{5}{14} + \frac{3}{5} \times \frac{6}{14} = \frac{2}{5}$.}
+
+\essay{Có 2 hộp sản phẩm: hộp thứ nhất có 10 sản phẩm trong đó có 3 phế phẩm; hộp thứ hai có 12 sản phẩm trong đó có 4 phế phẩm. Một khách hàng lấy ngẫu nhiên một hộp, từ đó lấy ngẫu nhiên ra 2 sản phẩm để kiểm tra, nếu toàn chính phẩm thì mua hộp đó. Tính xác suất hộp sản phẩm được mua.}{1}{Gọi $A_1, A_2$ là biến cố chọn được hộp 1, hộp 2 ($P(A_1) = P(A_2) = \frac{1}{2}$).
+$A$: "Lấy được 2 sản phẩm toàn chính phẩm".
+$P(A|A_1) = \frac{C_7^2}{C_{10}^2} = \frac{21}{45} = \frac{7}{15}$.
+$P(A|A_2) = \frac{C_8^2}{C_{12}^2} = \frac{28}{66} = \frac{14}{33}$.
+Theo công thức xác suất toàn phần:
+$P(A) = \frac{1}{2} \times \frac{7}{15} + \frac{1}{2} \times \frac{14}{33} = \frac{49}{110} \approx 44{,}5\%$.}
+
+\essay{Một cửa hàng mua trứng của ba cơ sở nuôi gà theo tỷ lệ 25\%, 35\%, 40\%. Nếu tỷ lệ trứng hỏng của ba cơ sở tương ứng là 5\%, 4\%, 2\% thì xác suất để 1 quả trứng mua tại cửa hàng bị hỏng là bao nhiêu?}{1}{Gọi $A_1, A_2, A_3$ là biến cố trứng mua của cơ sở 1, 2, 3 ($P(A_1) = 0{,}25, P(A_2) = 0{,}35, P(A_3) = 0{,}4$).
+$B$: "Trứng bị hỏng". $P(B|A_1) = 0{,}05, P(B|A_2) = 0{,}04, P(B|A_3) = 0{,}02$.
+Áp dụng công thức xác suất toàn phần:
+$P(B) = 0{,}25 \times 0{,}05 + 0{,}35 \times 0{,}04 + 0{,}4 \times 0{,}02 = 0{,}0345$.}
+
+\essay{Một nhà máy có ba phân xưởng cùng sản xuất một loại sản phẩm. Xác suất để phân xưởng 1, 2, 3 sản xuất được sản phẩm loại một lần lượt là 0,7; 0,8 và 0,6. Từ một lô hàng gồm 20\% sản phẩm của phân xưởng 1, 50\% của phân xưởng 2 và 30\% của phân xưởng 3 người ta lấy ra một sản phẩm để kiểm tra. Tính xác suất để sản phẩm được kiểm tra là loại một và nêu ý nghĩa của xác suất này.}{1}{Gọi $H$: "Sản phẩm kiểm tra là loại một", $A_i$: "Sản phẩm do phân xưởng $i$ sản xuất".
+$P(A_1) = 0{,}2; P(A_2) = 0{,}5; P(A_3) = 0{,}3$.
+$P(H|A_1) = 0{,}7; P(H|A_2) = 0{,}8; P(H|A_3) = 0{,}6$.
+Áp dụng công thức xác suất toàn phần:
+$P(H) = 0{,}2 \times 0{,}7 + 0{,}5 \times 0{,}8 + 0{,}3 \times 0{,}6 = 0{,}72 = 72\%$.
+Ý nghĩa: Tỉ lệ sản phẩm loại một của toàn bộ nhà máy là 72\%.}
+
+\essay{Một hãng hàng không cho biết rằng 5\% số khách đặt trước vé sẽ hoãn chuyến bay. Hãng bán 52 ghế cho chuyến bay chở tối đa 50 khách. Biết xác suất bán được 52 vé hoặc 51 vé là như nhau và bằng 10\% (còn lại bán $\le 50$ vé). Tìm xác suất để tất cả các khách đặt chỗ trước và không hoãn chuyến bay đều có ghế.}{1}{Gọi $A, B, C$ lần lượt là biến cố bán được 52 vé, 51 vé, $\le 50$ vé ($P(A) = 0{,}1, P(B) = 0{,}1, P(C) = 0{,}8$).
+$H$: "Tất cả khách đến đều có chỗ" $\Rightarrow \overline{H}$: "Khách không đủ chỗ".
+- Bán 52 vé: không đủ chỗ nếu có 52 hoặc 51 khách đến:
+  $P(\overline{H}|A) = 0{,}95^{52} + C_{52}^1 0{,}95^{51} \times 0{,}05$.
+- Bán 51 vé: không đủ chỗ nếu có 51 khách đến:
+  $P(\overline{H}|B) = 0{,}95^{51}$.
+- Bán $\le 50$ vé: $P(\overline{H}|C) = 0$.
+$P(\overline{H}) = 0{,}1 P(\overline{H}|A) + 0{,}1 P(\overline{H}|B) + 0{,}8 \times 0 \approx 0{,}0333$.
+Suy ra $P(H) = 1 - 0{,}0333 = 0{,}9667 = 96{,}67\%$.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 4: CÔNG THỨC BAYES
+% -------------------------------------------------------------------------
+\begin{lesson}{Bài toán 4: Công thức Bayes}{Phương pháp tính xác suất hậu nghiệm theo công thức Bayes}
+
+\textbf{PHƯƠNG PHÁP}
+
+- Cho hai biến cố $A$ và $B$ ($P(A) > 0, 0 < P(B) < 1$):
+  $$P(A|B) = \frac{P(A)P(B|A)}{P(B)} = \frac{P(A)P(B|A)}{P(A)P(B|A) + P(\overline{A})P(B|\overline{A})}.$$
+- Tổng quát với nhóm đầy đủ $A_1, A_2, \dots, A_n$:
+  $$P(A_i|B) = \frac{P(A_i)P(B|A_i)}{\sum_{j=1}^n P(A_j)P(B|A_j)}.$$
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Bài toán 4}
+
+\essay{Cho hai biến cố $A$ và $B$ có $P(\overline{A}) = 0{,}7; P(B|\overline{A}) = 0{,}5$ và $P(B|A) = 0{,}4$. Tính $P(A|B)$ (kết quả làm tròn đến hàng phần trăm).}{1}{Ta có $P(A) = 1 - 0{,}7 = 0{,}3$.
+Theo công thức Bayes:
+$P(A|B) = \frac{P(A)P(B|A)}{P(A)P(B|A) + P(\overline{A})P(B|\overline{A})} = \frac{0{,}3 \times 0{,}4}{0{,}3 \times 0{,}4 + 0{,}7 \times 0{,}5} = \frac{0{,}12}{0{,}47} = \frac{12}{47} \approx 0{,}26$.}
+
+\essay{Trong số bệnh nhân của khoa X ở một bệnh viện Y có 75\% điều trị bệnh A và 25\% điều trị bệnh B. Xác suất để chữa khỏi bệnh A và B trong bệnh viện này lần lượt là 0,8 và 0,9. Tính xác suất để một bệnh nhân chữa khỏi bệnh A trong tổng số bệnh nhân được chữa khỏi bệnh.}{1}{Gọi $A$: "Bệnh nhân mắc bệnh A", $B$: "Bệnh nhân chữa khỏi bệnh".
+$P(A) = 0{,}75 \Rightarrow P(\overline{A}) = 0{,}25$.
+$P(B|A) = 0{,}8, P(B|\overline{A}) = 0{,}9$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}75 \times 0{,}8}{0{,}75 \times 0{,}8 + 0{,}25 \times 0{,}9} = \frac{0{,}6}{0{,}825} \approx 0{,}7273 = 72{,}73\%$.}
+
+\essay{Kết quả khảo sát tại một xã cho thấy có 20\% cư dân hút thuốc lá. Tỉ lệ cư dân thường xuyên gặp các vấn đề sức khoẻ về đường hô hấp trong số những người hút thuốc lá và không hút thuốc lá lần lượt là 70\%, 15\%.
+a) Nếu ta gặp một cư dân của xã thì xác suất người đó thường xuyên gặp các vấn đề sức khoẻ về đường hô hấp là bao nhiêu?
+b) Nếu ta gặp một cư dân của xã thường xuyên gặp các vấn đề sức khoẻ về đường hô hấp thì xác suất người đó có hút thuốc lá là bao nhiêu?}{1}{Gọi $A$ là biến cố "Người đó có hút thuốc lá", $B$ là biến cố "Người đó thường xuyên gặp vấn đề về hô hấp".
+
+\image{0.6}{}{lt_12.png}
+
+a) $P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}) = 0{,}2 \times 0{,}7 + 0{,}8 \times 0{,}15 = 0{,}26 = 26\%$.
+
+b) Theo công thức Bayes:
+$P(A|B) = \frac{P(A)P(B|A)}{P(B)} = \frac{0{,}2 \times 0{,}7}{0{,}26} = \frac{0{,}14}{0{,}26} \approx 0{,}54 = 54\%$.}
+
+\essay{Trong một kì thi tốt nghiệp THPT, một tỉnh X có 80\% học sinh lựa chọn tổ hợp A00. Nếu chọn tổ hợp A00 thì xác suất đỗ đại học là 0,6; không chọn A00 thì xác suất đỗ đại học là 0,7. Chọn ngẫu nhiên một học sinh đã tốt nghiệp. Biết học sinh này đã đỗ đại học, tính xác suất để học sinh đó chọn tổ hợp A00.}{1}{Gọi $A$: "Học sinh chọn tổ hợp A00", $B$: "Học sinh đỗ đại học".
+$P(A) = 0{,}8 \Rightarrow P(\overline{A}) = 0{,}2$.
+$P(B|A) = 0{,}6, P(B|\overline{A}) = 0{,}7$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}8 \times 0{,}6}{0{,}8 \times 0{,}6 + 0{,}2 \times 0{,}7} = \frac{0{,}48}{0{,}62} \approx 0{,}7742 = 77{,}42\%$.}
+
+\essay{Trong một kho rượu có 30\% là rượu loại I. Một chai rượu loại I có xác suất 0,9 để chuyên gia xác nhận là loại I; một chai không phải loại I có xác suất 0,95 để chuyên gia xác nhận không phải loại I. Sau khi nếm, chuyên gia xác nhận đây là rượu loại I. Tính xác suất để chai rượu đúng là rượu loại I.}{1}{Gọi $A$: "Chai rượu là loại I", $B$: "Chuyên gia xác nhận là loại I".
+$P(A) = 0{,}3 \Rightarrow P(\overline{A}) = 0{,}7$.
+$P(B|A) = 0{,}9, P(B|\overline{A}) = 1 - 0{,}95 = 0{,}05$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}3 \times 0{,}9}{0{,}3 \times 0{,}9 + 0{,}7 \times 0{,}05} = \frac{0{,}27}{0{,}305} \approx 0{,}8852 = 88{,}52\%$.}
+
+\essay{Một thống kê cho thấy tỉ lệ dân số mắc bệnh hiểm nghèo Y là 0,5\%. Nếu mắc bệnh Y thì xác suất xét nghiệm dương tính là 0,94; nếu không mắc bệnh Y thì xác suất xét nghiệm âm tính là 0,97. Bà N đi xét nghiệm và nhận được kết quả âm tính.
+a) Trước khi tiến hành xét nghiệm, xác suất không mắc bệnh Y của bà N là bao nhiêu?
+b) Sau khi xét nghiệm cho kết quả âm tính, xác suất không mắc bệnh Y của bà N là bao nhiêu?}{1}{Gọi $A$: "Bà N mắc bệnh Y", $B$: "Xét nghiệm cho kết quả âm tính".
+a) Trước xét nghiệm: $P(\overline{A}) = 1 - 0{,}005 = 0{,}995 = 99{,}5\%$.
+b) $P(B|\overline{A}) = 0{,}97, P(B|A) = 1 - 0{,}94 = 0{,}06$.
+Theo công thức Bayes:
+$P(\overline{A}|B) = \frac{0{,}995 \times 0{,}97}{0{,}995 \times 0{,}97 + 0{,}005 \times 0{,}06} = \frac{0{,}96515}{0{,}96545} \approx 0{,}9997 = 99{,}97\%$.}
+
+\essay{Một căn bệnh có 1\% dân số mắc phải. Phương pháp chẩn đoán có tỉ lệ chính xác 99\% (dương tính 99\% ca mắc bệnh, âm tính 99\% ca không mắc bệnh). Nếu một người kiểm tra có kết quả dương tính, xác suất người đó thực sự bị bệnh là bao nhiêu?}{1}{Gọi $A$: "Người đó mắc bệnh", $B$: "Kết quả kiểm tra dương tính".
+$P(A) = 0{,}01 \Rightarrow P(\overline{A}) = 0{,}99$.
+$P(B|A) = 0{,}99, P(B|\overline{A}) = 1 - 0{,}99 = 0{,}01$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}01 \times 0{,}99}{0{,}01 \times 0{,}99 + 0{,}99 \times 0{,}01} = \frac{0{,}0099}{0{,}0198} = 0{,}5 = 50\%$.}
+
+\essay{Khi con bò bị bệnh bò điên thì xác suất phản ứng dương tính với xét nghiệm A là 70\%, khi không bị bệnh thì xác suất phản ứng dương tính là 10\%. Tỉ lệ bò bị mắc bệnh bò điên ở Hà Lan là 13 con trên 1 000 000 con. Hỏi khi một con bò có phản ứng dương tính với xét nghiệm A thì xác suất để nó bị mắc bệnh bò điên là bao nhiêu?}{1}{Gọi $A$: "Bò bị bệnh bò điên", $B$: "Xét nghiệm dương tính".
+$P(A) = \frac{13}{1000000} \Rightarrow P(\overline{A}) = \frac{999987}{1000000}$.
+$P(B|A) = 0{,}7, P(B|\overline{A}) = 0{,}1$.
+Theo công thức Bayes:
+$P(A|B) = \frac{13 \times 0{,}7}{13 \times 0{,}7 + 999987 \times 0{,}1} = \frac{9{,}1}{100007{,}8} = \frac{91}{1000078}$.}
+
+\essay{Một loại linh kiện do hai nhà máy I, II sản xuất với tỉ lệ phế phẩm lần lượt là 0,04 và 0,03. Trong một lô hàng có 80 linh kiện nhà máy I và 120 linh kiện nhà máy II. Lấy ngẫu nhiên 1 linh kiện.
+a) Tính xác suất để linh kiện lấy ra không phải là phế phẩm.
+b) Giả sử linh kiện lấy ra là phế phẩm. Hỏi xác suất linh kiện đó do nhà máy nào sản xuất là cao hơn?}{1}{Gọi $A$: "Linh kiện tốt", $M$: "Linh kiện do nhà máy I sản xuất".
+$P(M) = \frac{80}{200} = 0{,}4 \Rightarrow P(\overline{M}) = 0{,}6$.
+$P(\overline{A}|M) = 0{,}04 \Rightarrow P(A|M) = 0{,}96$.
+$P(\overline{A}|\overline{M}) = 0{,}03 \Rightarrow P(A|\overline{M}) = 0{,}97$.
+
+a) $P(A) = 0{,}4 \times 0{,}96 + 0{,}6 \times 0{,}97 = 0{,}966$.
+
+b) $P(M|\overline{A}) = \frac{0{,}4 \times 0{,}04}{1 - 0{,}966} = \frac{0{,}016}{0{,}034} = \frac{8}{17}$.
+$P(\overline{M}|\overline{A}) = \frac{0{,}6 \times 0{,}03}{0{,}034} = \frac{9}{17}$.
+Vì $\frac{9}{17} > \frac{8}{17}$ nên xác suất linh kiện phế phẩm do nhà máy II sản xuất là cao hơn.}
+
+\essay{Một lô bóng đèn gồm 12 bóng loại I và 8 bóng loại II. Xác suất để bóng loại I dùng được hơn 5 năm là 0,8; bóng loại II là 0,3. Chọn ngẫu nhiên 1 bóng đèn. Biết bóng này dùng được hơn 5 năm, tính xác suất đó là bóng loại I.}{1}{Gọi $A$: "Bóng loại I", $C$: "Bóng dùng được hơn 5 năm".
+$P(A) = \frac{12}{20} = 0{,}6 \Rightarrow P(\overline{A}) = 0{,}4$.
+$P(C) = 0{,}6 \times 0{,}8 + 0{,}4 \times 0{,}3 = 0{,}6$.
+Theo công thức Bayes:
+$P(A|C) = \frac{0{,}6 \times 0{,}8}{0{,}6} = 0{,}8 = 80\%$.}
+
+\essay{Khảo sát ở một trường đại học có 35\% số máy tính dùng hệ điều hành X. Tỉ lệ máy tính bị nhiễm virus ở máy dùng hệ điều hành X gấp 4 lần máy không dùng hệ điều hành X. Tính xác suất một máy tính sử dụng hệ điều hành X, biết rằng máy đó bị nhiễm virus.}{1}{Gọi $A$: "Máy tính dùng HĐH X", $B$: "Máy tính bị nhiễm virus".
+$P(A) = 0{,}35 \Rightarrow P(\overline{A}) = 0{,}65$.
+Gọi tỉ lệ máy không dùng HĐH X bị nhiễm virus là $a \Rightarrow P(B|\overline{A}) = a, P(B|A) = 4a$.
+$P(B) = 0{,}35 \times 4a + 0{,}65 \times a = 2{,}05a$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}35 \times 4a}{2{,}05a} = \frac{1{,}4}{2{,}05} = \frac{28}{41}$.}
+
+\essay{Chuồng I có 12 thỏ trắng, 13 thỏ nâu. Chuồng II có 14 thỏ trắng, 11 thỏ nâu. Tung con xúc xắc, nếu xuất hiện mặt 6 chấm thì chọn chuồng I, trái lại chọn chuồng II. Từ chuồng đã chọn bắt ngẫu nhiên 1 con thỏ.
+a) Giả sử bắt được thỏ trắng. Tính xác suất để đó là thỏ chuồng II.
+b) Giả sử bắt được thỏ nâu. Tính xác suất để đó là thỏ chuồng I.}{1}{Gọi $A$: "Chọn chuồng II" ($P(A) = \frac{5}{6}, P(\overline{A}) = \frac{1}{6}$).
+a) $B$: "Bắt được thỏ trắng". $P(B|A) = \frac{14}{25}, P(B|\overline{A}) = \frac{12}{25}$.
+$P(A|B) = \frac{\frac{5}{6} \times \frac{14}{25}}{\frac{5}{6} \times \frac{14}{25} + \frac{1}{6} \times \frac{12}{25}} = \frac{70}{70 + 12} = \frac{70}{82} = \frac{35}{41}$.
+
+b) $N$: "Bắt được thỏ nâu". $P(N|\overline{A}) = \frac{13}{25}, P(N|A) = \frac{11}{25}$.
+$P(\overline{A}|N) = \frac{\frac{1}{6} \times \frac{13}{25}}{\frac{1}{6} \times \frac{13}{25} + \frac{5}{6} \times \frac{11}{25}} = \frac{13}{13 + 55} = \frac{13}{68}$.}
+
+\essay{Một công nhân đi làm về có 2 cách: đi đường ngầm (xác suất $\frac{1}{3}$) hoặc đi qua cầu (xác suất $\frac{2}{3}$). Nếu đi đường ngầm thì 75\% trường hợp về trước 6h tối; nếu đi qua cầu thì 70\% trường hợp về trước 6h tối. Biết ông ta về nhà sau 6h tối, tính xác suất để ông ta đã đi lối cầu.}{1}{Gọi $A$: "Đi đường ngầm", $\overline{A}$: "Đi đường cầu" ($P(A) = \frac{1}{3}, P(\overline{A}) = \frac{2}{3}$).
+$B$: "Về nhà sau 6h tối". $P(B|A) = 1 - 0{,}75 = 0{,}25; P(B|\overline{A}) = 1 - 0{,}70 = 0{,}30$.
+Theo công thức Bayes:
+$P(\overline{A}|B) = \frac{\frac{2}{3} \times 0{,}3}{\frac{2}{3} \times 0{,}3 + \frac{1}{3} \times 0{,}25} = \frac{0{,}6}{0{,}6 + 0{,}25} = \frac{0{,}6}{0{,}85} = \frac{12}{17}$.}
+
+\essay{Bình A chứa 5 bi đỏ, 3 bi trắng, 8 bi xanh (tổng 16). Bình B chứa 3 bi đỏ, 5 bi trắng (tổng 8). Gieo con xúc xắc: nếu mặt 3 hoặc 5 xuất hiện thì chọn 1 bi từ B, trường hợp khác chọn 1 bi từ A. Nếu viên bi trắng được chọn, tính xác suất để mặt 5 của con xúc xắc xuất hiện.}{1}{Gọi $A$: "Gieo được mặt 3 hoặc 5" ($P(A) = \frac{2}{6} = \frac{1}{3} \Rightarrow P(\overline{A}) = \frac{2}{3}$).
+$B$: "Chọn được bi trắng". $P(B|A) = \frac{5}{8}, P(B|\overline{A}) = \frac{3}{16}$.
+$P(B) = \frac{1}{3} \times \frac{5}{8} + \frac{2}{3} \times \frac{3}{16} = \frac{5}{24} + \frac{1}{8} = \frac{1}{3}$.
+Gọi $C$: "Gieo được mặt 5" ($P(C) = \frac{1}{6} = \frac{1}{2}P(A)$).
+Theo công thức Bayes:
+$P(C|B) = \frac{1}{2} P(A|B) = \frac{1}{2} \times \frac{\frac{1}{3} \times \frac{5}{8}}{\frac{1}{3}} = \frac{5}{16}$.}
+
+\essay{Một thiết bị gồm ba linh kiện loại 1, 2, 3 chiếm tương ứng 35\%, 25\%, 40\% tổng số linh kiện. Tỉ lệ linh kiện bị hỏng tương ứng là 15\%, 25\%, 5\%. Thiết bị đang hoạt động bỗng nhiên bị hỏng. Theo bạn nhiều khả năng nhất linh kiện loại nào bị hỏng?}{1}{Gọi $A$: "Thiết bị bị hỏng", $A_i$: "Linh kiện thuộc loại $i$" ($P(A_1)=0{,}35, P(A_2)=0{,}25, P(A_3)=0{,}4$).
+$P(A) = 0{,}35 \times 0{,}15 + 0{,}25 \times 0{,}25 + 0{,}4 \times 0{,}05 = 0{,}135$.
+Theo công thức Bayes:
+$P(A_1|A) = \frac{0{,}35 \times 0{,}15}{0{,}135} \approx 0{,}389$.
+$P(A_2|A) = \frac{0{,}25 \times 0{,}25}{0{,}135} \approx 0{,}463$.
+$P(A_3|A) = \frac{0{,}4 \times 0{,}05}{0{,}135} \approx 0{,}148$.
+Vì $P(A_2|A)$ lớn nhất nên nhiều khả năng nhất là linh kiện loại 2 bị hỏng.}
+
+\essay{Một người có 3 chỗ câu cá ưa thích như nhau. Xác suất câu được cá ở mỗi chỗ lần lượt là 0,6; 0,7 và 0,8. Người đó đến một chỗ thả câu 3 lần và chỉ câu được 1 con cá. Tính xác suất để cá câu được ở chỗ thứ nhất.}{1}{Gọi $A_i$: "Chọn chỗ thứ $i$" ($P(A_1)=P(A_2)=P(A_3)=\frac{1}{3}$).
+$A$: "Thả 3 lần câu được 1 con cá".
+$P(A|A_1) = C_3^1 0{,}6(1-0{,}6)^2 = 0{,}288$.
+$P(A|A_2) = C_3^1 0{,}7(1-0{,}7)^2 = 0{,}189$.
+$P(A|A_3) = C_3^1 0{,}8(1-0{,}8)^2 = 0{,}096$.
+$P(A) = \frac{1}{3}(0{,}288 + 0{,}189 + 0{,}096) = 0{,}191$.
+Theo công thức Bayes:
+$P(A_1|A) = \frac{\frac{1}{3} \times 0{,}288}{0{,}191} = \frac{96}{191}$.}
+
+\essay{Hộp B có 6 lọ tốt, 4 lọ hỏng (tổng 10). Hộp C có 5 lọ tốt, 5 lọ hỏng (tổng 10). Lấy ngẫu nhiên 2 lọ từ B bỏ vào C, rồi lấy 1 lọ từ C thì được lọ hỏng. Tính xác suất để:
+a) Lọ hỏng đó là của hộp B bỏ sang.
+b) Hai lọ thuốc bỏ từ hộp B vào hộp C đều là lọ hỏng.}{1}{Gọi $C_k$: "Lấy $k$ lọ hỏng từ B bỏ vào C" ($k \in \{0, 1, 2\}$).
+$P(C_0) = \frac{C_6^2}{C_{10}^2} = \frac{1}{3}, P(C_1) = \frac{C_6^1 C_4^1}{C_{10}^2} = \frac{8}{15}, P(C_2) = \frac{C_4^2}{C_{10}^2} = \frac{2}{15}$.
+$D$: "Lấy được lọ hỏng từ C".
+$P(D|C_0) = \frac{5}{12}, P(D|C_1) = \frac{6}{12} = \frac{1}{2}, P(D|C_2) = \frac{7}{12}$.
+$P(D) = \frac{1}{3} \times \frac{5}{12} + \frac{8}{15} \times \frac{1}{2} + \frac{2}{15} \times \frac{7}{12} = \frac{29}{60}$.
+
+a) $M$: "Lọ hỏng lấy từ C là của B bỏ sang".
+$P(M|C_0) = 0, P(M|C_1) = \frac{1}{12}, P(M|C_2) = \frac{2}{12}$.
+$P(M|D) = \frac{P(C_1)P(M|C_1) + P(C_2)P(M|C_2)}{P(D)} = \frac{\frac{8}{15} \times \frac{1}{12} + \frac{2}{15} \times \frac{2}{12}}{29/60} = \frac{4}{29}$.
+
+b) $P(C_2|D) = \frac{P(C_2)P(D|C_2)}{P(D)} = \frac{\frac{2}{15} \times \frac{7}{12}}{29/60} = \frac{42}{261}$.}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% BÀI TOÁN 5: BÀI TẬP TỔNG HỢP
+% -------------------------------------------------------------------------
+\begin{lesson}{Bài toán 5: Bài tập tổng hợp}{Ứng dụng kết hợp các công thức xác suất có điều kiện, xác suất toàn phần và công thức Bayes}
+
+Các bài toán tổng hợp thực tế về xác suất có điều kiện.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Bài toán 5}
+
+\essay{Hộp I chứa 5 bi trắng, 5 bi đen. Hộp II chứa 6 bi trắng, 4 bi đen. Lấy ngẫu nhiên 1 bi từ I sang II, rồi lấy ngẫu nhiên 1 bi từ II.
+a) Tính xác suất để viên bi lấy ra từ hộp II là bi trắng.
+b) Giả sử viên bi lấy ra từ hộp II là bi trắng, tính xác suất để viên bi đó thuộc hộp I.}{1}{Gọi $A$: "Bi lấy ra từ hộp II là bi trắng", $B$: "Bi chuyển từ hộp I là bi trắng".
+$P(B) = \frac{5}{10} = \frac{1}{2} \Rightarrow P(\overline{B}) = \frac{1}{2}$.
+$P(A|B) = \frac{7}{11}, P(A|\overline{B}) = \frac{6}{11}$.
+
+a) $P(A) = \frac{1}{2} \times \frac{7}{11} + \frac{1}{2} \times \frac{6}{11} = \frac{13}{22}$.
+
+b) Gọi $N$: "Viên bi trắng lấy ra từ hộp II thuộc hộp I".
+$P(N|B) = \frac{1}{11}, P(N|\overline{B}) = 0$.
+$P(N|A) = \frac{P(B)P(N|B) + P(\overline{B})P(N|\overline{B})}{P(A)} = \frac{\frac{1}{2} \times \frac{1}{11}}{13/22} = \frac{1}{13}$.}
+
+\essay{Một máy gồm hai bộ phận hoạt động độc lập nhau, xác suất bộ phận thứ nhất bị hỏng là 0,1; bộ phận thứ hai bị hỏng là 0,15. Máy sẽ ngừng hoạt động khi chỉ cần một bộ phận bị hỏng. Giả sử máy ngừng hoạt động. Tính xác suất để chỉ có một bộ phận bị hỏng.}{1}{Gọi $A_1, A_2$ là biến cố bộ phận 1, 2 bị hỏng ($P(A_1) = 0{,}1, P(A_2) = 0{,}15$).
+$A$: "Máy ngừng hoạt động", $B$: "Chỉ có một bộ phận bị hỏng".
+$P(A) = P(A_1 \cup A_2) = 0{,}1 + 0{,}15 - 0{,}1 \times 0{,}15 = 0{,}235$.
+$P(B) = P(A_1\overline{A_2}) + P(\overline{A_1}A_2) = 0{,}1 \times 0{,}85 + 0{,}9 \times 0{,}15 = 0{,}22$.
+Vì $B \subset A$ nên $P(B|A) = \frac{P(B)}{P(A)} = \frac{0{,}22}{0{,}235} = \frac{44}{47}$.}
+
+\essay{Hai kẻ trộm đeo mặt nạ bị cảnh sát đuổi bắt bèn vứt mặt nạ đi và trà trộn vào một đám đông có 58 người (tổng cộng 60 người). Dùng máy phát hiện nói dối: xác suất kẻ trộm bị máy nghi có tội là 90\%, người vô tội bị nghi có tội là 1\%. Lấy ngẫu nhiên một người thì bị máy nghi có tội. Tính xác suất để người đó là kẻ trộm.}{1}{Gọi $A$: "Người được chọn là kẻ trộm" ($P(A) = \frac{2}{60} = \frac{1}{30} \Rightarrow P(\overline{A}) = \frac{29}{30}$).
+$B$: "Máy nghi là có tội". $P(B|A) = 0{,}9, P(B|\overline{A}) = 0{,}01$.
+$P(B) = \frac{1}{30} \times 0{,}9 + \frac{29}{30} \times 0{,}01 = \frac{119}{3000}$.
+Theo công thức Bayes:
+$P(A|B) = \frac{\frac{1}{30} \times 0{,}9}{119/3000} = \frac{90}{119}$.}
+
+\essay{Một hộp có 15 quả bóng bàn, trong đó có 9 quả mới. Lần 1 lấy ra 3 quả để thi đấu rồi hoàn trả vào hộp. Lần 2 lấy ra 3 quả để thi đấu. Tính xác suất để cả 3 quả lấy ra ở lần hai đều mới.}{1}{Gọi $A_i$: "Có $i$ quả mới trong 3 quả lấy ra ở lần 1" ($i \in \{0,1,2,3\}$).
+$P(A_0) = \frac{C_6^3}{C_{15}^3} = \frac{4}{91}, P(A_1) = \frac{C_9^1 C_6^2}{C_{15}^3} = \frac{27}{91}, P(A_2) = \frac{C_9^2 C_6^1}{C_{15}^3} = \frac{216}{455}, P(A_3) = \frac{C_9^3}{C_{15}^3} = \frac{12}{65}$.
+$B$: "Cả 3 quả lấy ra lần 2 đều mới".
+$P(B|A_0) = \frac{C_9^3}{C_{15}^3} = \frac{12}{65}, P(B|A_1) = \frac{C_8^3}{C_{15}^3} = \frac{8}{65}, P(B|A_2) = \frac{C_7^3}{C_{15}^3} = \frac{1}{13}, P(B|A_3) = \frac{C_6^3}{C_{15}^3} = \frac{4}{91}$.
+Áp dụng công thức xác suất toàn phần:
+$P(B) = \sum P(A_i)P(B|A_i) = \frac{528}{5915} \approx 0{,}0893$.}
+
+\essay{Thùng 1 có 7 sách tự nhiên và 5 sách xã hội (tổng 12). Thùng 2 có 3 sách tự nhiên và 3 sách xã hội (tổng 6). Vận chuyển thùng 1 bị rơi mất 2 quyển. Sau đó chuyển một số sách từ thùng 1 sang thùng 2 để số sách 2 thùng bằng nhau (mỗi thùng 8 quyển, tức chuyển 2 quyển từ thùng 1 sang thùng 2).
+a) Tính xác suất để số sách tự nhiên và xã hội ở thùng 2 vẫn bằng nhau.
+b) Nếu số sách tự nhiên và xã hội ở thùng 2 bằng nhau thì xác suất thùng 1 bị mất 2 sách tự nhiên là bao nhiêu?}{1}{Gọi $A_i$: "Trong 2 quyển rơi mất có $i$ quyển tự nhiên" ($i \in \{0,1,2\}$).
+$P(A_0) = \frac{C_5^2}{C_{12}^2} = \frac{5}{33}, P(A_1) = \frac{C_7^1 C_5^1}{C_{12}^2} = \frac{35}{66}, P(A_2) = \frac{C_7^2}{C_{12}^2} = \frac{7}{22}$.
+$B$: "Chuyển 1 tự nhiên và 1 xã hội sang thùng 2".
+$P(B|A_0) = \frac{C_7^1 C_3^1}{C_{10}^2} = \frac{7}{15}, P(B|A_1) = \frac{C_6^1 C_4^1}{C_{10}^2} = \frac{8}{15}, P(B|A_2) = \frac{C_5^1 C_5^1}{C_{10}^2} = \frac{5}{9}$.
+
+a) $P(B) = \frac{5}{33} \times \frac{7}{15} + \frac{35}{66} \times \frac{8}{15} + \frac{7}{22} \times \frac{5}{9} = \frac{35}{66}$.
+
+b) $P(A_2|B) = \frac{P(A_2)P(B|A_2)}{P(B)} = \frac{\frac{7}{22} \times \frac{5}{9}}{35/66} = \frac{1}{3}$.}
+
+\essay{Xác suất để hai ngày liên tiếp có mưa là 0,5; không mưa cả hai ngày là 0,3. Các sự kiện một ngày mưa một ngày không mưa là đồng khả năng. Tính xác suất để ngày thứ hai có mưa, biết ngày đầu không mưa.}{1}{Gọi $A$: "Ngày đầu mưa", $B$: "Ngày thứ hai mưa".
+$P(AB) = 0{,}5, P(\overline{A}\overline{B}) = 0{,}3$.
+$P(A\overline{B}) = P(\overline{A}B) = \frac{1 - 0{,}5 - 0{,}3}{2} = 0{,}1$.
+$P(B|\overline{A}) = \frac{P(\overline{A}B)}{P(\overline{A})} = \frac{0{,}1}{0{,}1 + 0{,}3} = \frac{0{,}1}{0{,}4} = 0{,}25$.}
+
+\essay{Một cửa hàng sách ước lượng: 30\% khách hỏi nhân viên, 20\% khách mua sách, 15\% khách thực hiện cả hai.
+a) Tính xác suất khách không thực hiện cả hai điều trên.
+b) Tính xác suất khách không mua sách, biết người này đã hỏi nhân viên.}{1}{Gọi $A$: "Khách hỏi nhân viên", $B$: "Khách mua sách".
+$P(A) = 0{,}3; P(B) = 0{,}2; P(AB) = 0{,}15$.
+
+a) $P(\overline{A}\overline{B}) = 1 - P(A \cup B) = 1 - (0{,}3 + 0{,}2 - 0{,}15) = 0{,}65$.
+
+b) $P(\overline{B}|A) = \frac{P(A\overline{B})}{P(A)} = \frac{P(A) - P(AB)}{P(A)} = \frac{0{,}3 - 0{,}15}{0{,}3} = 0{,}5$.}
+
+\essay{Khảo sát 1000 người: 80\% thích đi bộ, 60\% thích đi xe đạp, mọi người tham gia ít nhất 1 hoạt động. Gặp người thích đi xe đạp, xác suất người đó không thích đi bộ là bao nhiêu?}{1}{Gọi $A$: "Thích đi bộ", $B$: "Thích đi xe đạp".
+$P(A) = 0{,}8; P(B) = 0{,}6; P(A \cup B) = 1$.
+$P(AB) = P(A) + P(B) - P(A \cup B) = 0{,}8 + 0{,}6 - 1 = 0{,}4$.
+$P(\overline{A}B) = P(B) - P(AB) = 0{,}6 - 0{,}4 = 0{,}2$.
+$P(\overline{A}|B) = \frac{P(\overline{A}B)}{P(B)} = \frac{0{,}2}{0{,}6} = \frac{1}{3}$.}
+
+\essay{Thi tuyển đội tuyển gồm 3 vòng: Vòng 1 lấy 80\% thí sinh; vòng 2 lấy 70\% thí sinh qua vòng 1; vòng 3 lấy 45\% thí sinh qua vòng 2. Tính xác suất để thí sinh:
+a) Được vào đội tuyển.
+b) Bị loại ở vòng thứ ba.
+c) Bị loại ở vòng thứ hai, biết rằng thí sinh này bị loại.}{1}{Gọi $A_i$: "Thí sinh qua vòng $i$". $P(A_1) = 0{,}8, P(A_2|A_1) = 0{,}7, P(A_3|A_1A_2) = 0{,}45$.
+a) $P(\text{vào đội}) = P(A_1A_2A_3) = 0{,}8 \times 0{,}7 \times 0{,}45 = 0{,}252$.
+b) $P(\text{loại vòng 3}) = P(A_1A_2\overline{A_3}) = 0{,}8 \times 0{,}7 \times (1 - 0{,}45) = 0{,}308$.
+c) $A$: "Thí sinh bị loại" $\Rightarrow P(A) = 1 - 0{,}252 = 0{,}748$.
+Thí sinh bị loại ở vòng 2 là $A_1\overline{A_2} \Rightarrow P(A_1\overline{A_2}) = 0{,}8 \times (1 - 0{,}7) = 0{,}24$.
+Xác suất bị loại ở vòng 2 biết bị loại: $\frac{0{,}24}{0{,}748} = \frac{60}{187}$.}
+
+\essay{Trong kho rượu, số lượng rượu loại A và B bằng nhau. Cho 5 người nếm thử, xác suất đoán đúng của mỗi người là 0,8. Có 3 người kết luận loại A, 2 người kết luận loại B. Xác suất chai rượu thuộc loại A là bao nhiêu?}{1}{Gọi $A$: "Chai rượu loại A" ($P(A) = P(\overline{A}) = 0{,}5$).
+$H$: "3 người đoán A, 2 người đoán B".
+$P(H|A) = C_5^3 0{,}8^3 0{,}2^2 = 0{,}2048$.
+$P(H|\overline{A}) = C_5^2 0{,}8^2 0{,}2^3 = 0{,}0512$.
+$P(H) = 0{,}5(0{,}2048 + 0{,}0512) = 0{,}128$.
+$P(A|H) = \frac{0{,}5 \times 0{,}2048}{0{,}128} = \frac{0{,}1024}{0{,}128} = 0{,}8 = 80\%$.}
+
+\essay{Tại phòng khám chuyên khoa, tỷ lệ người đến khám có bệnh là 0,8. Nếu có bệnh thì chẩn đoán đúng với xác suất 0,9; nếu không có bệnh thì chẩn đoán đúng với xác suất 0,5. Tính xác suất để:
+a) Chẩn đoán có bệnh.
+b) Chẩn đoán đúng.}{1}{Gọi $A$: "Người có bệnh" ($P(A) = 0{,}8 \Rightarrow P(\overline{A}) = 0{,}2$).
+$B$: "Chẩn đoán có bệnh". $P(B|A) = 0{,}9, P(B|\overline{A}) = 1 - 0{,}5 = 0{,}5$.
+
+a) $P(B) = P(A)P(B|A) + P(\overline{A})P(B|\overline{A}) = 0{,}8 \times 0{,}9 + 0{,}2 \times 0{,}5 = 0{,}82$? Wait, let's check text on page 53:
+$P(A|B) = 0{,}9$ hay $P(B|A) = 0{,}9$?
+"Nếu khẳng định có bệnh thì đúng 9 trên 10 trường hợp $\Rightarrow P(A|B) = 0{,}9$; nếu khẳng định không bệnh thì đúng 5 trên 10 trường hợp $\Rightarrow P(\overline{A}|\overline{B}) = 0{,}5$".
+Từ đó giải được $P(B) = 0{,}75 = 75\%$.
+
+b) $P(\text{chẩn đoán đúng}) = P(B)P(A|B) + P(\overline{B})P(\overline{A}|\overline{B}) = 0{,}75 \times 0{,}9 + 0{,}25 \times 0{,}5 = 0{,}8 = 80\%$.}
+
+\essay{Công ty cần tuyển 2 nhân viên từ 6 người nộp đơn (4 nữ, 2 nam).
+a) Tính xác suất để cả 2 nữ đều được chọn, biết rằng ít nhất một nữ đã được chọn.
+b) Giả sử Ngân là một trong 4 người nữ. Tính xác suất để Ngân được chọn nếu biết ít nhất một nữ đã được chọn.}{1}{Số cách chọn 2 người: $n(\Omega) = C_6^2 = 15$.
+Gọi $A$: "Ít nhất một nữ được chọn", $n(A) = C_4^1 C_2^1 + C_4^2 = 8 + 6 = 14$.
+
+a) $B$: "Cả 2 nữ đều được chọn" $\Rightarrow n(B) = C_4^2 = 6$.
+$P(B|A) = \frac{n(B)}{n(A)} = \frac{6}{14} = \frac{3}{7}$.
+
+b) $C$: "Ngân được chọn". $n(C) = 1 \times C_2^1 + 1 \times C_3^1 = 2 + 3 = 5$.
+$P(C|A) = \frac{n(C)}{n(A)} = \frac{5}{14}$.}
+
+\essay{Hộp 1 có 7 bi xanh, 4 bi trắng. Hộp 2 có 3 bi xanh, 10 bi vàng. Xác suất chọn hộp 1 và 2 là như nhau. Chọn 1 viên đá cẩm thạch, nếu màu xanh thì được thưởng điện thoại.
+a) Tính xác suất được thưởng điện thoại.
+b) Trong trường hợp được thưởng điện thoại, xác suất chọn viên màu xanh từ hộp 1 là bao nhiêu?}{1}{Gọi $A$: "Chọn hộp 1" ($P(A) = P(\overline{A}) = \frac{1}{2}$).
+$B$: "Chọn được viên màu xanh". $P(B|A) = \frac{7}{11}, P(B|\overline{A}) = \frac{3}{13}$.
+
+a) $P(B) = \frac{1}{2} \times \frac{7}{11} + \frac{1}{2} \times \frac{3}{13} = \frac{62}{143} \approx 0{,}4336$.
+
+b) $P(A|B) = \frac{\frac{1}{2} \times \frac{7}{11}}{62/143} = \frac{91}{124} \approx 0{,}7339$.}
+
+\essay{Có 0,5\% dân số mắc bệnh X. Âm tính giả là 1\%, dương tính giả là 2\%.
+a) Xác suất một người chọn ngẫu nhiên có kết quả dương tính là bao nhiêu?
+b) Khi một người có kết quả dương tính, xác suất người đó thực sự mắc bệnh X là bao nhiêu?}{1}{Gọi $A$: "Mắc bệnh X" ($P(A) = 0{,}005 \Rightarrow P(\overline{A}) = 0{,}995$).
+$B$: "Kết quả dương tính". $P(B|A) = 1 - 0{,}01 = 0{,}99; P(B|\overline{A}) = 0{,}02$.
+
+a) $P(B) = 0{,}005 \times 0{,}99 + 0{,}995 \times 0{,}02 = 0{,}02485$.
+
+b) $P(A|B) = \frac{0{,}005 \times 0{,}99}{0{,}02485} = \frac{99}{497} \approx 0{,}1992 = 19{,}92\%$.}
+
+\essay{Phân xưởng 1 sản xuất 60\% và phân xưởng 2 sản xuất 40\% sản phẩm của nhà máy. Tỉ lệ phế phẩm tương ứng là 16\% và 20\%.
+a) Tính xác suất lấy được phế phẩm.
+b) Giả sử đã lấy được phế phẩm, tính xác suất phế phẩm đó do phân xưởng 1 sản xuất.
+c) Nếu lấy được sản phẩm tốt, khả năng sản phẩm đó do phân xưởng nào sản xuất là cao hơn?}{1}{Gọi $A_1, A_2$ là biến cố chọn sản phẩm của phân xưởng 1, 2 ($P(A_1) = 0{,}6, P(A_2) = 0{,}4$).
+$B$: "Sản phẩm là phế phẩm". $P(B|A_1) = 0{,}16, P(B|A_2) = 0{,}20$.
+
+a) $P(B) = 0{,}6 \times 0{,}16 + 0{,}4 \times 0{,}20 = 0{,}176 = \frac{22}{125}$.
+
+b) $P(A_1|B) = \frac{0{,}6 \times 0{,}16}{0{,}176} = \frac{6}{11} \approx 0{,}5455$.
+
+c) $P(\overline{B}) = 1 - 0{,}176 = 0{,}824$.
+$P(A_1|\overline{B}) = \frac{0{,}6 \times 0{,}84}{0{,}824} = \frac{63}{103} \approx 0{,}61$.
+$P(A_2|\overline{B}) = \frac{0{,}4 \times 0{,}80}{0{,}824} = \frac{40}{103} \approx 0{,}39$.
+Vì $P(A_1|\overline{B}) > P(A_2|\overline{B})$ nên sản phẩm tốt có khả năng do phân xưởng 1 sản xuất cao hơn.}
+
+\essay{Tỉ lệ khách hàng thân thiết của siêu thị là 35\%. Trong nhóm thân thiết, 74\% mua rau sạch. Trong nhóm còn lại, 28\% mua rau sạch.
+a) Tính tỉ lệ khách hàng mua rau sạch của siêu thị.
+b) Chọn được một khách hàng mua rau sạch. Tính xác suất người này là khách hàng thân thiết.}{1}{Gọi $A$: "Khách hàng thân thiết" ($P(A) = 0{,}35 \Rightarrow P(\overline{A}) = 0{,}65$).
+$B$: "Khách hàng mua rau sạch". $P(B|A) = 0{,}74, P(B|\overline{A}) = 0{,}28$.
+
+a) $P(B) = 0{,}35 \times 0{,}74 + 0{,}65 \times 0{,}28 = 0{,}259 + 0{,}182 = 0{,}441 = 44{,}1\%$.
+
+b) $P(A|B) = \frac{0{,}259}{0{,}441} = \frac{37}{63} \approx 0{,}5873 = 58{,}73\%$.}
+
+\essay{Chuồng I có 5 gà mái, 9 gà trống (tổng 14). Chuồng II có 4 gà mái, 6 gà trống (tổng 10). Chọn ngẫu nhiên 2 gà từ chuồng I cho vào chuồng II, rồi chọn ngẫu nhiên 2 gà từ chuồng II để làm thịt. Tính xác suất để:
+a) Hai con gà chọn ra là gà trống.
+b) Hai con gà chọn ra gồm một con trống và một con mái.}{1}{Gọi $A_i$: "Chuyển $i$ gà trống từ chuồng I sang II" ($i \in \{0, 1, 2\}$).
+$P(A_0) = \frac{C_5^2}{C_{14}^2} = \frac{10}{91}, P(A_1) = \frac{C_5^1 C_9^1}{C_{14}^2} = \frac{45}{91}, P(A_2) = \frac{C_9^2}{C_{14}^2} = \frac{36}{91}$.
+
+a) $A$: "Chọn được 2 gà trống từ chuồng II".
+$P(A) = \frac{C_5^2}{C_{14}^2}\frac{C_6^2}{C_{12}^2} + \frac{C_5^1 C_9^1}{C_{14}^2}\frac{C_7^2}{C_{12}^2} + \frac{C_9^2}{C_{14}^2}\frac{C_8^2}{C_{12}^2} \approx 0{,}35$.
+
+b) $B$: "Chọn được 1 gà trống và 1 gà mái từ chuồng II".
+$P(B) = \frac{C_5^2}{C_{14}^2}\frac{C_6^1 C_6^1}{C_{12}^2} + \frac{C_5^1 C_9^1}{C_{14}^2}\frac{C_5^1 C_7^1}{C_{12}^2} + \frac{C_9^2}{C_{14}^2}\frac{C_4^1 C_8^1}{C_{12}^2} \approx 0{,}51$.}
+
+\end{quiz}
+
+\end{document}

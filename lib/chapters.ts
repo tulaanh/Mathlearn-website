@@ -51,8 +51,9 @@ function mapChapter(row: any, itemRows: any[]): ChapterData {
 
 /** Lấy các chương (kèm items) — sắp theo position.
  *  Một query lồng duy nhất (chapters → chapter_items → documents) thay vì 2 query tuần tự.
- *  pathId: chỉ tải chương thuộc lộ trình đó (dùng cho trang chi tiết lộ trình). */
-export async function getChapters(options: { pathId?: string } = {}): Promise<ChapterData[]> {
+ *  pathId: chỉ tải chương thuộc lộ trình đó (dùng cho trang chi tiết lộ trình).
+ *  Bọc cache() để deduplicate request giữa các component và metadata. */
+export const getChapters = cache(async function getChapters(options: { pathId?: string } = {}): Promise<ChapterData[]> {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return [];
 
@@ -67,7 +68,7 @@ export async function getChapters(options: { pathId?: string } = {}): Promise<Ch
   if (error || !rows || rows.length === 0) return [];
 
   return rows.map((row: any) => mapChapter(row, row.chapter_items ?? []));
-}
+});
 
 /** Lấy chi tiết 1 chương theo id. Bọc cache() để metadata và trang dùng chung một lần tải. */
 export const getChapterDataById = cache(async function getChapterDataById(id: string): Promise<ChapterData | null> {

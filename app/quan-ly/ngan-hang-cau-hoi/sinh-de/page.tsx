@@ -1,11 +1,15 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getBankGrades } from "@/lib/question-bank";
 import { topics as allTopics } from "@/data/topics";
-import ExamMatrixGenerator from "@/components/ExamMatrixGenerator";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
+
+const ExamMatrixGenerator = dynamic(() => import("@/components/ExamMatrixGenerator"), {
+  loading: () => <div className="mx-auto max-w-4xl animate-pulse"><div className="h-96 rounded-2xl bg-slate-200 dark:bg-slate-800" /></div>,
+});
 
 export const metadata = { title: "Sinh đề theo ma trận" };
 

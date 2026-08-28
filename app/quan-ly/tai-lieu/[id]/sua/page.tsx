@@ -1,10 +1,15 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getDocumentById, getPublishedTestOptions } from "@/lib/documents";
-import DocumentEditor, { type TestOption } from "@/components/DocumentEditor";
+import { type TestOption } from "@/components/DocumentEditor";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
+
+const DocumentEditor = dynamic(() => import("@/components/DocumentEditor"), {
+  loading: () => <div className="mx-auto max-w-4xl animate-pulse"><div className="h-96 rounded-2xl bg-slate-200 dark:bg-slate-800" /></div>,
+});
 
 type Props = { params: Promise<{ id: string }> };
 

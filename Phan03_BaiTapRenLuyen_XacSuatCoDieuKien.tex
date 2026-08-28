@@ -1,0 +1,483 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{PHẦN III: BÀI TẬP RÈN LUYỆN - XÁC SUẤT CÓ ĐIỀU KIỆN}
+\docdesc{Bộ bài tập rèn luyện tổng hợp Xác suất có điều kiện gồm 21 câu trắc nghiệm nhiều phương án, 10 câu đúng sai và 14 câu trả lời ngắn - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Xác suất thống kê, Xác suất có điều kiện, Công thức Bayes}
+
+\begin{lesson}{Phần III: Bài tập rèn luyện}{Tập hợp các câu hỏi trắc nghiệm rèn luyện toàn diện chuyên đề Xác suất có điều kiện}
+
+Học sinh làm bài cẩn thận và đối chiếu đáp án chi tiết phía dưới.
+
+\end{lesson}
+\begin{quiz}{Phần I: Trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Cho $A, B$ là các biến cố của một phép thử $T$. Biết rằng $P(B) > 0$, xác suất của biến cố $A$ với điều kiện biến cố $B$ đã xảy ra được tính theo công thức nào sau đây?}{2}{1}{Theo định nghĩa xác suất có điều kiện: $P(A|B) = \frac{P(AB)}{P(B)}$.
+
+Chọn C.}
+	\option{$P(A|B) = \frac{P(A)}{P(B)}$.}
+	\option{$P(B|A) = \frac{P(AB)}{P(A)}$.}
+	\option{$P(A|B) = \frac{P(AB)}{P(B)}$.}
+	\option{$P(B|A) = \frac{P(B)}{P(A)}$.}
+\end{mcq}
+
+\begin{mcq}{Cho $P(A) = 0{,}2; P(B) = 0{,}5; P(B|A) = 0{,}8$. Khi đó $P(A|B)$ bằng}{0}{1}{Ta có $P(AB) = P(A)P(B|A) = 0{,}2 \times 0{,}8 = 0{,}16$.
+Do đó $P(A|B) = \frac{P(AB)}{P(B)} = \frac{0{,}16}{0{,}5} = 0{,}32$.
+
+Chọn A.}
+	\option{0{,}32.}
+	\option{0{,}3.}
+	\option{0{,}35.}
+	\option{0{,}31.}
+\end{mcq}
+
+\begin{mcq}{Cho $A, B$ là các biến cố thỏa mãn $P(\overline{A}B) = 0{,}35; P(A) = 0{,}25; P(B) = 0{,}6$. Giá trị của $P(B|\overline{A})$ bằng}{2}{1}{Ta có $P(\overline{A}) = 1 - P(A) = 1 - 0{,}25 = 0{,}75$.
+Khi đó $P(B|\overline{A}) = \frac{P(\overline{A}B)}{P(\overline{A})} = \frac{0{,}35}{0{,}75} = \frac{7}{15}$.
+
+Chọn C.}
+	\option{$\frac{1}{5}$.}
+	\option{$\frac{1}{3}$.}
+	\option{$\frac{7}{15}$.}
+	\option{$\frac{2}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Cho $P(A) = \frac{2}{5}; P(B|A) = \frac{1}{3}; P(B|\overline{A}) = \frac{1}{4}$. Giá trị của $P(AB)$ và $P(\overline{A}B)$ lần lượt là}{2}{1}{Ta có:
+$P(AB) = P(A)P(B|A) = \frac{2}{5} \times \frac{1}{3} = \frac{2}{15}$.
+$P(\overline{A}) = 1 - \frac{2}{5} = \frac{3}{5} \Rightarrow P(\overline{A}B) = P(\overline{A})P(B|\overline{A}) = \frac{3}{5} \times \frac{1}{4} = \frac{3}{20}$.
+
+Chọn C.}
+	\option{$\frac{1}{5}; \frac{3}{20}$.}
+	\option{$\frac{4}{15}; \frac{2}{7}$.}
+	\option{$\frac{2}{15}; \frac{3}{20}$.}
+	\option{$\frac{4}{15}; \frac{4}{21}$.}
+\end{mcq}
+
+\begin{mcq}{Bạn Tân có một túi gồm một số chiếc kẹo cùng loại, chỉ khác màu, trong đó có 6 chiếc kẹo màu đen, còn lại 4 chiếc kẹo màu trắng. Tân lấy ngẫu nhiên 1 chiếc kẹo trong túi để cho Trâm, rồi lại lấy ngẫu nhiên tiếp 1 chiếc kẹo nữa trong túi và cũng đưa cho Trâm. Xác suất để Trâm nhận được 2 chiếc kẹo màu trắng là}{1}{1}{Tổng số kẹo là $6 + 4 = 10$.
+Số cách chọn 2 kẹo màu trắng là $C_4^2 = 6$.
+Số cách chọn 2 kẹo bất kì là $C_{10}^2 = 45$.
+Xác suất để Trâm nhận được 2 kẹo màu trắng là $P = \frac{6}{45} = \frac{2}{15}$.
+
+Chọn B.}
+	\option{$\frac{1}{5}$.}
+	\option{$\frac{2}{15}$.}
+	\option{$\frac{3}{16}$.}
+	\option{$\frac{4}{17}$.}
+\end{mcq}
+
+\begin{mcq}{Một hộp kín đựng 20 tấm thẻ giống hệt nhau đánh số từ 1 đến 20. Một người rút ngẫu nhiên ra một tấm thẻ từ trong hộp. Người đó được thông báo rằng thẻ rút ra mang số chẵn. Tính xác suất để người đó rút ra được thẻ số 10.}{1}{1}{Trong 20 tấm thẻ có 10 thẻ mang số chẵn $\{2, 4, 6, 8, 10, 12, 14, 16, 18, 20\}$.
+Xác suất để rút được thẻ số 10 khi biết thẻ mang số chẵn là $P = \frac{1}{10}$.
+
+Chọn B.}
+	\option{$\frac{2}{5}$.}
+	\option{$\frac{1}{10}$.}
+	\option{$\frac{1}{5}$.}
+	\option{$\frac{3}{10}$.}
+\end{mcq}
+
+\begin{mcq}{Người ta nhập hai lô hàng vào kho. Lô thứ nhất chứa 10 sản phẩm, trong đó có 3 phế phẩm. Lô thứ hai có 4 phế phẩm và 8 sản phẩm tốt. Chọn ngẫu nhiên một sản phẩm từ tổng số 22 sản phẩm. Xác suất chọn được một sản phẩm tốt là}{0}{1}{Tổng số sản phẩm tốt ở cả hai lô là $(10 - 3) + 8 = 7 + 8 = 15$.
+Tổng số sản phẩm là $10 + 12 = 22$.
+Xác suất chọn được sản phẩm tốt là $P = \frac{15}{22}$.
+
+Chọn A.}
+	\option{$\frac{15}{22}$.}
+	\option{$\frac{7}{15}$.}
+	\option{$\frac{7}{22}$.}
+	\option{$\frac{83}{242}$.}
+\end{mcq}
+
+\begin{mcq}{Một bệnh viện có hai phòng khám là phòng A và phòng B với khả năng lựa chọn của bệnh nhân là như nhau. Tỉ lệ bệnh nhân nam có ở phòng A và phòng B lần lượt là 60\% và 40\%. Một người bệnh được chọn ngẫu nhiên từ hai phòng khám và biết người này là nam, xác suất để người bệnh được chọn đến từ phòng A là}{0}{1}{Áp dụng công thức Bayes:
+$P(A|\text{Nam}) = \frac{0{,}5 \times 0{,}6}{0{,}5 \times 0{,}6 + 0{,}5 \times 0{,}4} = \frac{0{,}3}{0{,}5} = 0{,}6$.
+
+Chọn A.}
+	\option{0{,}6.}
+	\option{0{,}5.}
+	\option{0{,}4.}
+	\option{0{,}3.}
+\end{mcq}
+
+\begin{mcq}{Ở một địa phương X, xác suất để một người lớn trên 40 tuổi mắc bệnh ung thư là 0,05. Xác suất bác sĩ chẩn đoán đúng một người mắc bệnh ung thư là 0,78 và chẩn đoán sai (không bị ung thư nhưng được chẩn đoán mắc bệnh) là 0,06. Xác suất để một người thật sự mắc bệnh ung thư khi nhận được kết quả chẩn đoán bị ung thư bằng}{0}{1}{Gọi $A$ là biến cố "Người đó mắc bệnh ung thư", $B$ là biến cố "Được chẩn đoán bị ung thư".
+$P(A) = 0{,}05 \Rightarrow P(\overline{A}) = 0{,}95$.
+$P(B|A) = 0{,}78, P(B|\overline{A}) = 0{,}06$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}05 \times 0{,}78}{0{,}05 \times 0{,}78 + 0{,}95 \times 0{,}06} = \frac{0{,}039}{0{,}096} = 0{,}40625$.
+
+Chọn A.}
+	\option{0{,}40625.}
+	\option{0{,}096.}
+	\option{0{,}904.}
+	\option{0{,}59375.}
+\end{mcq}
+
+\begin{mcq}{Chọn ngẫu nhiên một gia đình có 2 con. Biết rằng gia đình đó có con gái. Xác suất để gia đình đó có một con trai, một con gái là}{3}{1}{Không gian mẫu các gia đình có 2 con là $\Omega = \{TT, TG, GT, GG\}$.
+Biết gia đình có con gái $\Rightarrow$ tập kết quả thu hẹp là $\{TG, GT, GG\}$ (3 phần tử).
+Biến cố có một trai một gái là $\{TG, GT\}$ (2 phần tử).
+Xác suất là $P = \frac{2}{3}$.
+
+Chọn D.}
+	\option{$\frac{2}{5}$.}
+	\option{$\frac{3}{5}$.}
+	\option{$\frac{3}{4}$.}
+	\option{$\frac{2}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Gieo hai con xúc xắc cân đối. Biết rằng có ít nhất một con xúc xắc xuất hiện mặt 5 chấm. Xác suất để tổng số chấm xuất hiện trên hai con xúc xắc bằng 7 là}{1}{1}{Số kết quả có ít nhất một mặt 5 chấm là 11 kết quả.
+Trong các kết quả đó, các cặp có tổng bằng 7 là $(5;2)$ và $(2;5)$ (2 kết quả).
+Vậy xác suất là $P = \frac{2}{11}$.
+
+Chọn B.}
+	\option{$\frac{3}{11}$.}
+	\option{$\frac{2}{11}$.}
+	\option{$\frac{4}{13}$.}
+	\option{$\frac{3}{13}$.}
+\end{mcq}
+
+\begin{mcq}{Tung hai con xúc xắc cân đối. Biết rằng tổng số chấm xuất hiện trên hai con xúc xắc bằng 8. Xác suất để ít nhất có một con xúc xắc xuất hiện mặt 3 chấm là}{0}{1}{Các kết quả có tổng số chấm bằng 8 là: $\{(2;6), (3;5), (4;4), (5;3), (6;2)\}$ (5 kết quả).
+Các kết quả có ít nhất một mặt 3 chấm là $(3;5)$ và $(5;3)$ (2 kết quả).
+Vậy xác suất là $P = \frac{2}{5}$.
+
+Chọn A.}
+	\option{$\frac{2}{5}$.}
+	\option{$\frac{3}{5}$.}
+	\option{$\frac{3}{7}$.}
+	\option{$\frac{4}{7}$.}
+\end{mcq}
+
+\begin{mcq}{Một lớp 12 có 40 học sinh. Trong đó có 22 em đăng kí thi ĐHQG, 25 em đăng kí thi ĐHBK, 3 em không đăng kí thi cả hai trường. Chọn ngẫu nhiên một học sinh. Biết rằng em đó đăng kí thi ĐHQG. Xác suất em đó đăng kí thi ĐHBK là}{3}{1}{Số học sinh thi ít nhất một trường là $40 - 3 = 37$.
+Số học sinh đăng kí cả hai trường là $22 + 25 - 37 = 10$.
+Biết học sinh đăng kí ĐHQG (22 em), xác suất em đó đăng kí ĐHBK là $P = \frac{10}{22} = \frac{5}{11}$.
+
+Chọn D.}
+	\option{$\frac{6}{11}$.}
+	\option{$\frac{7}{12}$.}
+	\option{$\frac{8}{13}$.}
+	\option{$\frac{5}{11}$.}
+\end{mcq}
+
+\begin{mcq}{Chuồng I có 6 thỏ đen và 10 thỏ trắng. Chuồng II có 8 thỏ đen và 4 thỏ trắng. Lấy ngẫu nhiên 1 thỏ từ chuồng I cho vào chuồng II, rồi từ chuồng II lấy ra 1 thỏ. Xác suất để con thỏ lấy ra là con thỏ trắng bằng}{1}{1}{Áp dụng công thức xác suất toàn phần:
+$P(\text{Trắng}) = \frac{10}{16} \times \frac{5}{13} + \frac{6}{16} \times \frac{4}{13} = \frac{50 + 24}{208} = \frac{74}{208} = \frac{37}{104}$.
+
+Chọn B.}
+	\option{$\frac{5}{13}$.}
+	\option{$\frac{37}{104}$.}
+	\option{$\frac{4}{13}$.}
+	\option{$\frac{35}{104}$.}
+\end{mcq}
+
+\begin{mcq}{Tỉ lệ người mắc bệnh là 0,01\%. Nếu mắc bệnh thì xác suất xét nghiệm dương tính là 90\%, nếu không mắc bệnh thì xác suất xét nghiệm dương tính là 5\%. Khi một người có kết quả xét nghiệm dương tính thì khả năng mắc bệnh của người đó là}{2}{1}{Gọi $A$ là biến cố "Mắc bệnh", $B$ là biến cố "Xét nghiệm dương tính".
+$P(A) = 0{,}0001 \Rightarrow P(\overline{A}) = 0{,}9999$.
+$P(B|A) = 0{,}90, P(B|\overline{A}) = 0{,}05$.
+Theo công thức Bayes:
+$P(A|B) = \frac{0{,}0001 \times 0{,}90}{0{,}0001 \times 0{,}90 + 0{,}9999 \times 0{,}05} = \frac{0{,}00009}{0{,}050085} \approx 0{,}1797\%$.
+
+Chọn C.}
+	\option{0{,}01\%.}
+	\option{4{,}9995\%.}
+	\option{0{,}1797\%.}
+	\option{0{,}001\%.}
+\end{mcq}
+
+\begin{mcq}{Đội I có 6 VĐV, đội II có 8 VĐV. Xác suất đạt HCV của mỗi VĐV đội I và đội II tương ứng là 0,65 và 0,55. Chọn ngẫu nhiên một VĐV. Giả sử VĐV được chọn đạt HCV. Tính xác suất để VĐV này thuộc đội I.}{1}{1}{Áp dụng công thức Bayes:
+$P(\text{Đội I}|\text{HCV}) = \frac{\frac{6}{14} \times 0{,}65}{\frac{6}{14} \times 0{,}65 + \frac{8}{14} \times 0{,}55} = \frac{3{,}9}{3{,}9 + 4{,}4} = \frac{39}{83}$.
+
+Chọn B.}
+	\option{$\frac{39}{140}$.}
+	\option{$\frac{39}{83}$.}
+	\option{$\frac{43}{83}$.}
+	\option{$\frac{37}{140}$.}
+\end{mcq}
+
+\begin{mcq}{Bạn An có một túi gồm 8 viên bi đen và 6 viên bi trắng. An lấy ngẫu nhiên một viên bi đưa cho Việt, rồi lại lấy ngẫu nhiên tiếp một viên nữa đưa cho Việt. Xác suất để Việt nhận được 2 viên bi trắng là}{1}{1}{Số cách lấy 2 viên bi trắng là $C_6^2 = 15$.
+Tổng số cách lấy 2 viên bi từ 14 viên là $C_{14}^2 = 91$.
+Xác suất là $P = \frac{15}{91}$.
+
+Chọn B.}
+	\option{$\frac{3}{7}$.}
+	\option{$\frac{15}{91}$.}
+	\option{$\frac{30}{91}$.}
+	\option{$\frac{15}{182}$.}
+\end{mcq}
+
+\begin{mcq}{Từ túi có 8 viên bi đen và 6 viên bi trắng, xác suất để Việt nhận được viên bi đen ở lần thứ nhất và viên bi trắng ở lần thứ hai là}{0}{1}{Xác suất lần 1 lấy bi đen là $\frac{8}{14} = \frac{4}{7}$.
+Xác suất lần 2 lấy bi trắng là $\frac{6}{13}$.
+Xác suất cần tìm là $P = \frac{4}{7} \times \frac{6}{13} = \frac{24}{91}$.
+
+Chọn A.}
+	\option{$\frac{24}{91}$.}
+	\option{$\frac{4}{13}$.}
+	\option{$\frac{9}{13}$.}
+	\option{$\frac{67}{91}$.}
+\end{mcq}
+
+\begin{mcq}{Xác suất bắn trúng bia 1 là 0,8 và bia 2 là 0,9. Xác suất bắn trúng cả hai bia là 0,75. Biết xạ thủ bắn không trúng bia 1, xác suất để xạ thủ đó bắn trúng bia 2 là}{3}{1}{Gọi $A_1, A_2$ là biến cố bắn trúng bia 1, bia 2.
+$P(\overline{A_1}) = 1 - 0{,}8 = 0{,}2$.
+$P(\overline{A_1}A_2) = P(A_2) - P(A_1A_2) = 0{,}9 - 0{,}75 = 0{,}15$.
+$P(A_2|\overline{A_1}) = \frac{P(\overline{A_1}A_2)}{P(\overline{A_1})} = \frac{0{,}15}{0{,}2} = \frac{3}{4}$.
+
+Chọn D.}
+	\option{$\frac{41}{50}$.}
+	\option{$\frac{9}{50}$.}
+	\option{$\frac{1}{4}$.}
+	\option{$\frac{3}{4}$.}
+\end{mcq}
+
+\begin{mcq}{Thống kê kết quả 37 trận bóng đá: Sân nhà thắng 11, hòa 5, thua 3; Sân khách thắng 6, hòa 8, thua 4. Chọn ngẫu nhiên một trận. Tính xác suất để đó là trận đá trên sân nhà nếu biết rằng trận đó thắng.}{0}{1}{Tổng số trận thắng là $11 + 6 = 17$.
+Số trận thắng trên sân nhà là 11.
+Xác suất là $P = \frac{11}{17}$.
+
+Chọn A.}
+	\option{$\frac{11}{17}$.}
+	\option{$\frac{6}{17}$.}
+	\option{$\frac{11}{19}$.}
+	\option{$\frac{8}{19}$.}
+\end{mcq}
+
+\begin{mcq}{Khảo sát 400 người: Thích cam & chuối 191; Thích cam & không thích chuối 34; Không thích cam & thích chuối 149; Không thích cả hai 26. Chọn ngẫu nhiên một người. Tính xác suất để người này không thích cam, biết rằng người này thích chuối.}{1}{1}{Tổng số người thích chuối là $191 + 149 = 340$.
+Số người thích chuối nhưng không thích cam là 149.
+Xác suất là $P = \frac{149}{340}$.
+
+Chọn B.}
+	\option{$\frac{191}{225}$.}
+	\option{$\frac{149}{340}$.}
+	\option{$\frac{191}{340}$.}
+	\option{$\frac{34}{225}$.}
+\end{mcq}
+
+\end{quiz}
+
+\begin{quiz}{Phần II: Trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho hai đồng xu cân đối và đồng chất. Tung lần lượt từng đồng xu. Xét các biến cố $A$: "Đồng xu thứ hai xuất hiện mặt sấp (S)"; $B$: "Đồng xu thứ nhất xuất hiện mặt ngửa (N)". Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Theo định nghĩa xác suất có điều kiện.
+- b) Đúng. $P(AB) = \frac{1}{2} \times \frac{1}{2} = \frac{1}{4}$.
+- c) Sai. $P(B) = \frac{1}{2} \ne \frac{1}{4}$.
+- d) Đúng. $P(A|B) = \frac{P(AB)}{P(B)} = \frac{1/4}{1/2} = \frac{1}{2}$.}
+	\statement{true}{Xác suất để đồng xu thứ hai xuất hiện mặt S, biết rằng đồng xu thứ nhất xuất hiện mặt N, là xác suất có điều kiện $P(A|B)$.}
+	\statement{true}{$P(AB) = \frac{1}{4}$.}
+	\statement{false}{$P(B) = \frac{1}{4}$.}
+	\statement{true}{Xác suất để đồng xu thứ hai xuất hiện mặt S, biết rằng đồng xu thứ nhất xuất hiện mặt N, là $\frac{1}{2}$.}
+\end{truefalse}
+
+\begin{truefalse}{Lớp 12A có 40 học sinh chia thành hai phòng: Phòng 1 có 11 nam, 9 nữ; Phòng 2 có 8 nam, 12 nữ. Chọn ngẫu nhiên 1 học sinh. Xét $A$: "Học sinh ở phòng 2", $B$: "Học sinh là nữ". Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Biến cố tích $AB$ là "Học sinh nữ ở phòng 2".
+- b) Sai. $n(AB) = 12 \Rightarrow P(AB) = \frac{12}{40} = \frac{3}{10}$.
+- c) Đúng. Tổng số nữ là $9 + 12 = 21 \Rightarrow P(B) = \frac{21}{40}$.
+- d) Đúng. $P(A|B) = \frac{n(AB)}{n(B)} = \frac{12}{21} = \frac{4}{7}$.}
+	\statement{true}{Biến cố học sinh được chọn là học sinh nữ ở phòng 2 là $AB$.}
+	\statement{false}{$P(AB) \ne \frac{3}{10}$.}
+	\statement{true}{$P(B) = \frac{21}{40}$.}
+	\statement{true}{$P(A|B) = \frac{4}{7}$.}
+\end{truefalse}
+
+\begin{truefalse}{Một lô mũ thời trang phải qua 2 lần kiểm tra chất lượng. Bình quân 96\% sản phẩm qua lần 1 và 91\% sản phẩm qua lần 1 sẽ tiếp tục qua lần 2. Xét $A$: "Qua lần 1", $B$: "Qua lần 2". Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. $P(B|A)$ là xác suất qua lần 2 biết đã qua lần 1.
+- b) Đúng. Đủ tiêu chuẩn là qua cả hai lần, tức biến cố $BA$ hay $AB$.
+- c) Sai. Theo giả thiết $P(B|A) = 0{,}91$.
+- d) Đúng. $P(AB) = P(A)P(B|A) = 0{,}96 \times 0{,}91 = 0{,}8736$.}
+	\statement{true}{Xác suất để chiếc mũ thời trang qua được lần kiểm tra thứ hai, biết rằng đã qua được lần kiểm tra thứ nhất, là xác suất có điều kiện $P(B|A)$.}
+	\statement{true}{Xác suất để một chiếc mũ thời trang đủ tiêu chuẩn xuất khẩu là $P(BA)$.}
+	\statement{false}{$P(B|A) > 0{,}91$.}
+	\statement{true}{Xác suất để một chiếc mũ thời trang đủ tiêu chuẩn xuất khẩu là 0,8736.}
+\end{truefalse}
+
+\begin{truefalse}{Một kho hàng có 24 thùng loại I và 26 thùng loại II (tổng 50 thùng). Có 95\% thùng loại I và 80\% thùng loại II đã được kiểm định. Chọn ngẫu nhiên 1 thùng. Xét $A$: "Thùng loại I", $B$: "Thùng đã kiểm định". Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. $P(A) = \frac{24}{50} = 0{,}48, P(\overline{A}) = 0{,}52$.
+- b) Sai. $P(B|A) = 0{,}95 \ne 0{,}8$.
+- c) Sai. $P(B|\overline{A}) = 0{,}80 \ne 0{,}95$.
+- d) Đúng. $P(B) = 0{,}48 \times 0{,}95 + 0{,}52 \times 0{,}80 = 0{,}872$.}
+	\statement{true}{$P(A) = 0{,}48$ và $P(\overline{A}) = 0{,}52$.}
+	\statement{false}{$P(B|A) = 0{,}8$.}
+	\statement{false}{$P(B|\overline{A}) = 0{,}95$.}
+	\statement{true}{$P(B) = 0{,}872$.}
+\end{truefalse}
+
+\begin{truefalse}{Một bộ lọc thư rác chặn đúng thư rác với xác suất 0,95 và chặn nhầm thư đúng với xác suất 0,01. Tỉ lệ thư rác là 3\%. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Tỉ lệ thư đúng là $100\% - 3\% = 97\%$.
+- b) Đúng. $P(\text{rác}|\text{bị chặn}) = \frac{0{,}03 \times 0{,}95}{0{,}03 \times 0{,}95 + 0{,}97 \times 0{,}01} = \frac{0{,}0285}{0{,}0382} \approx 74{,}61\%$.
+- c) Đúng. $P(\text{đúng}|\text{không chặn}) = \frac{0{,}97 \times 0{,}99}{1 - 0{,}0382} \approx 98{,}84\%$.
+- d) Đúng. Tỉ lệ thư đúng trong số thư bị chặn là $100\% - 74{,}61\% = 25{,}39\%$.}
+	\statement{false}{Tỉ lệ thư đúng là 95\%.}
+	\statement{true}{Chọn ngẫu nhiên một thư bị chặn thì xác suất để đó là thư rác là 74,61\%.}
+	\statement{true}{Chọn ngẫu nhiên một thư không bị chặn thì xác suất đó là thư đúng là 98,84\%.}
+	\statement{true}{Trong số các thư bị chặn, thư đúng chiếm 25,39\%.}
+\end{truefalse}
+
+\begin{truefalse}{Một nhóm 25 học sinh gồm 14 em khá Toán, 16 em khá Vật lí, 1 em không khá cả hai môn. Chọn ngẫu nhiên 1 học sinh. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Số hs khá cả 2 môn là $14 + 16 - 24 = 6 \Rightarrow P = \frac{6}{25} \ne \frac{24}{25}$.
+- b) Đúng. Số hs khá Toán nhưng không khá Lý là $14 - 6 = 8 \Rightarrow P = \frac{8}{25}$.
+- c) Đúng. $P(\text{Khá Toán}|\text{Khá Lý}) = \frac{6}{16} = \frac{3}{8}$.
+- d) Đúng. Có $14 + 16 - (25 - 1) = 6$ học sinh.}
+	\statement{false}{Xác suất để học sinh đó vừa học khá môn Toán, vừa học khá môn Vật lí là $\frac{24}{25}$.}
+	\statement{true}{Xác suất để học sinh đó học khá môn Toán nhưng không học khá môn Vật lí là $\frac{8}{25}$.}
+	\statement{true}{Xác suất để học sinh đó vừa học khá môn Toán, biết rằng học sinh đó học khá môn Vật lí là $\frac{3}{8}$.}
+	\statement{true}{Có 6 học sinh vừa học khá môn Toán, vừa học khá môn Vật lí.}
+\end{truefalse}
+
+\begin{truefalse}{Khoa Toán-Tin có 60\% nam và 40\% nữ. Tỉ lệ thường trú ở TP.HCM trong số nam là 70\%, trong số nữ là 30\%. Tổng số sinh viên là 600. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. $P(\text{HCM}) = 0{,}6 \times 0{,}7 + 0{,}4 \times 0{,}3 = 0{,}54 = 54\%$.
+- b) Đúng. $P(\text{Nam}|\text{HCM}) = \frac{0{,}42}{0{,}54} = \frac{7}{9} \approx 77{,}78\%$.
+- c) Sai. $P(\text{Nữ}|\text{HCM}) = 100\% - 77{,}78\% = 22{,}22\% \ne 20{,}22\%$.
+- d) Đúng. Xác suất có ít nhất 1 bạn ở TPHCM khi chọn 2 sv là $1 - \frac{C_{276}^2}{C_{600}^2} \approx 78{,}88\%$.}
+	\statement{true}{Chọn ngẫu nhiên một sinh viên của khoa thì xác suất sinh viên đó là sinh viên thường trú ở TP.HCM là 54\%.}
+	\statement{true}{Nếu biết rằng sinh viên vừa chọn thường trú ở TP.HCM thì xác suất để sinh viên đó là nam là 77,78\%.}
+	\statement{false}{Nếu biết rằng sinh viên vừa chọn thường trú ở TP.HCM thì xác suất để sinh viên đó là nữ là 20,22\%.}
+	\statement{true}{Chọn ngẫu nhiên 2 sinh viên từ khoa thì xác suất để có ít nhất một sinh viên thường trú ở TP.HCM là 78,88\%.}
+\end{truefalse}
+
+\begin{truefalse}{Cho hai biến cố $A$ và $B$, với $P(\overline{A}) = 0{,}4; P(B) = 0{,}8; P(AB) = 0{,}4$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. $P(A) = 1 - 0{,}4 = 0{,}6$ và $P(\overline{B}) = 1 - 0{,}8 = 0{,}2$.
+- b) Đúng. $P(A|B) = \frac{P(AB)}{P(B)} = \frac{0{,}4}{0{,}8} = \frac{1}{2}$.
+- c) Đúng. $P(B|A) = \frac{P(AB)}{P(A)} = \frac{0{,}4}{0{,}6} = \frac{2}{3}$.
+- d) Sai. $P(A\overline{B}) = P(A) - P(AB) = 0{,}6 - 0{,}4 = 0{,}2 = \frac{1}{5} \ne \frac{3}{5}$.}
+	\statement{true}{$P(A) = 0{,}6$ và $P(\overline{B}) = 0{,}2$.}
+	\statement{true}{$P(A|B) = \frac{1}{2}$.}
+	\statement{true}{$P(B|A) = \frac{2}{3}$.}
+	\statement{false}{$P(A\overline{B}) = \frac{3}{5}$.}
+\end{truefalse}
+
+\begin{truefalse}{Một công ty đấu thầu 2 dự án. Khả năng thắng thầu dự án 1 là 0,5 và dự án 2 là 0,6. Khả năng thắng cả 2 dự án là 0,4. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. $P(A)P(B) = 0{,}5 \times 0{,}6 = 0{,}3 \ne P(AB) = 0{,}4$ nên $A, B$ không độc lập.
+- b) Đúng. $P(\text{đúng 1 dự án}) = P(A\overline{B}) + P(\overline{A}B) = (0{,}5-0{,}4) + (0{,}6-0{,}4) = 0{,}3$.
+- c) Sai. $P(B|A) = \frac{0{,}4}{0{,}5} = 0{,}8 \ne 0{,}4$.
+- d) Sai. $P(B|\overline{A}) = \frac{P(\overline{A}B)}{P(\overline{A})} = \frac{0{,}2}{0{,}5} = 0{,}4 \ne 0{,}8$.}
+	\statement{false}{$A$ và $B$ là hai biến độc lập.}
+	\statement{true}{Xác suất công ty thắng thầu đúng 1 dự án là 0,3.}
+	\statement{false}{Biết công ty thắng thầu dự án 1, xác suất công ty thắng thầu dự án 2 là 0,4.}
+	\statement{false}{Biết công ty không thắng thầu dự án 1, xác suất công ty thắng thầu dự án là 0,8.}
+\end{truefalse}
+
+\begin{truefalse}{Một chiếc hộp có 100 viên bi (70 tô màu, 30 không tô màu). Thành lấy ra viên bi đầu tiên và không hoàn lại, sau đó Minh lấy ra viên bi thứ 2. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Xác suất Thành lấy viên tô màu là $\frac{70}{100} = \frac{7}{10} \ne \frac{3}{7}$.
+- b) Đúng. Xác suất Minh lấy viên tô màu theo xác suất toàn phần là $\frac{7}{10}$.
+- c) Đúng. Khi Thành đã lấy 1 viên tô màu, hộp còn 69 viên tô màu trên 99 viên $\Rightarrow P = \frac{69}{99} = \frac{23}{33}$.
+- d) Đúng. Theo công thức Bayes: $P(\text{Thành màu}|\text{Minh không màu}) = \frac{\frac{70}{100} \times \frac{30}{99}}{30/100} = \frac{70}{99}$.}
+	\statement{false}{Xác suất để bạn Thành lấy ra viên bi có tô màu là $\frac{3}{7}$.}
+	\statement{true}{Xác suất để bạn Minh lấy ra viên bi có tô màu là $\frac{7}{10}$.}
+	\statement{true}{Xác suất để bạn Minh lấy ra viên bi có tô màu biết rằng bạn Thành đã lấy ra viên bi có tô màu là $\frac{23}{33}$.}
+	\statement{true}{Biết rằng bạn Minh lấy ra viên bi không tô màu, xác suất bạn Thành lấy ra viên bi có tô màu là $\frac{70}{99}$.}
+\end{truefalse}
+
+\end{quiz}
+
+\begin{quiz}{Phần III: Trắc nghiệm trả lời ngắn}
+
+\shortanswer{Tại nhà máy X sản xuất linh kiện điện tử, tỉ lệ sản phẩm đạt tiêu chuẩn là 80\%. Nếu đạt tiêu chuẩn thì xác suất được đóng dấu OTK là 0,99; nếu không đạt tiêu chuẩn thì xác suất không được đóng dấu OTK là 0,95. Chọn ngẫu nhiên một linh kiện điện tử của nhà máy X trên thị trường. Tính xác suất để linh kiện điện tử đó được đóng dấu OTK (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}8}{Theo công thức xác suất toàn phần:
+$P(\text{OTK}) = 0{,}8 \times 0{,}99 + 0{,}2 \times (1 - 0{,}95) = 0{,}792 + 0{,}01 = 0{,}802 \approx 0{,}80$.}
+
+\shortanswer{Chuồng I có 5 gà mái, 2 gà trống. Chuồng II có 3 gà mái, 5 gà trống. Tung con xúc xắc cân đối: nếu số chấm chia hết cho 3 thì chọn chuồng I, các trường hợp còn lại chọn chuồng II. Sau đó bắt ngẫu nhiên 1 con gà. Tính xác suất để bắt được con gà mái (kết quả tính theo phần trăm làm tròn đến hàng đơn vị).}{49}{Xác suất chia hết cho 3 (mặt 3, 6) là $P(I) = \frac{2}{6} = \frac{1}{3} \Rightarrow P(II) = \frac{2}{3}$.
+$P(\text{Mái}) = \frac{1}{3} \times \frac{5}{7} + \frac{2}{3} \times \frac{3}{8} = \frac{5}{21} + \frac{1}{4} = \frac{41}{84} \approx 48{,}81\% \approx 49\%$.}
+
+\shortanswer{Hộp A chứa 4 chip đỏ, 5 chip xanh. Hộp B chứa 6 chip đỏ, 3 chip xanh. Chọn ngẫu nhiên 1 chip từ A bỏ sang B, rồi chọn ngẫu nhiên 1 chip từ B. Trong trường hợp chip chọn từ B là màu đỏ, xác suất chuyển chip màu xanh từ A sang B là bao nhiêu? (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}52}{Theo công thức Bayes:
+$P(\text{Xanh}_A|\text{Đỏ}_B) = \frac{\frac{5}{9} \times \frac{6}{10}}{\frac{4}{9} \times \frac{7}{10} + \frac{5}{9} \times \frac{6}{10}} = \frac{30}{28 + 30} = \frac{30}{58} \approx 0{,}52$.}
+
+\shortanswer{Xác suất để một bệnh nhân nhiễm virus X là 0,05. Nếu nhiễm thì xét nghiệm dương tính với xác suất 0,95; nếu không nhiễm thì xét nghiệm âm tính với xác suất 0,98. Một bệnh nhân được chọn có kết quả dương tính. Xác suất để bệnh nhân đó thực sự bị nhiễm virus X là bao nhiêu? (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}71}{Theo công thức Bayes:
+$P(X|\text{Dương tính}) = \frac{0{,}05 \times 0{,}95}{0{,}05 \times 0{,}95 + 0{,}95 \times 0{,}02} = \frac{0{,}05}{0{,}07} = \frac{5}{7} \approx 0{,}71$.}
+
+\shortanswer{Trong 360,19 triệu liều vaccine P có 581 ca sốc phản vệ và 4 259 ca phản ứng phụ; trong 67,72 triệu liều vaccine A có 195 ca sốc phản vệ và 1 118 ca phản ứng phụ. Xét ngẫu nhiên một người trong số người bị phản ứng được thống kê ở trên. Xác suất để người đó thuộc trường hợp sốc phản vệ là bao nhiêu phần trăm? (kết quả làm tròn đến hàng đơn vị).}{13}{Tổng số ca phản ứng là $(581 + 4259) + (195 + 1118) = 4840 + 1313 = 6153$.
+Tổng số ca sốc phản vệ là $581 + 195 = 776$.
+Xác suất là $P = \frac{776}{6153} \approx 12{,}61\% \approx 13\%$.}
+
+\shortanswer{Một nhóm 50 học sinh có 23 bạn biết chơi cầu lông mà không biết chơi bóng đá và 21 bạn biết chơi bóng đá mà không biết chơi cầu lông. Mỗi học sinh đều biết chơi ít nhất một môn. Chọn ngẫu nhiên 1 học sinh. Tính xác suất học sinh này biết chơi bóng đá, biết rằng bạn ấy biết chơi cầu lông (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}21}{Số học sinh biết chơi cả hai môn là $50 - 23 - 21 = 6$.
+Tổng số học sinh biết chơi cầu lông là $23 + 6 = 29$.
+Xác suất là $P = \frac{6}{29} \approx 0{,}21$.}
+
+\shortanswer{Một hộp chứa 20 tấm thẻ đánh số $\{1; 2; \dots; 20\}$. Nam rút ngẫu nhiên 1 thẻ đưa cho Hà rồi Hà rút tiếp 1 thẻ. Tính xác suất để cả hai thẻ Hà nhận được đều ghi số nguyên tố (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}15}{Các số nguyên tố từ 1 đến 20 là $\{2, 3, 5, 7, 11, 13, 17, 19\}$ (8 số).
+Số cách Hà nhận được 2 thẻ nguyên tố là $C_8^2 = 28$.
+Tổng số cách rút 2 thẻ là $C_{20}^2 = 190$.
+Xác suất là $P = \frac{28}{190} = \frac{14}{95} \approx 0{,}15$.}
+
+\shortanswer{Giá sách có hai ngăn: Ngăn trên có 3 tiểu thuyết VN và 2 tiểu thuyết nước ngoài. Ngăn dưới có 4 tiểu thuyết VN và 1 tiểu thuyết nước ngoài. Tung xúc xắc: nếu 1 hoặc 2 thì chọn ngăn trên, trái lại chọn ngăn dưới. Lấy ngẫu nhiên 1 cuốn thì được tiểu thuyết nước ngoài. Xác suất để cuốn sách thuộc ngăn trên là bao nhiêu phần trăm?}{50}{Theo công thức Bayes:
+$P(\text{Trên}|\text{Ngoại}) = \frac{\frac{2}{6} \times \frac{2}{5}}{\frac{2}{6} \times \frac{2}{5} + \frac{4}{6} \times \frac{1}{5}} = \frac{4}{4 + 4} = 50\%$.}
+
+\shortanswer{Cặp song sinh cùng trứng luôn cùng giới tính; cặp khác trứng có xác suất cùng giới tính là 50\%. Thống kê cho thấy 34\% cặp cùng là trai và 30\% cặp cùng là gái. Chọn ngẫu nhiên 1 cặp sinh đôi có cùng giới tính. Tính xác suất để cặp sinh đôi này là cùng trứng (kết quả tính theo phần trăm làm tròn đến hàng đơn vị).}{44}{Tỉ lệ cặp cùng giới là $34\% + 30\% = 64\% = 0{,}64$.
+Gọi $p$ là tỉ lệ sinh đôi cùng trứng $\Rightarrow p \times 1 + (1-p) \times 0{,}5 = 0{,}64 \Rightarrow p = 0{,}28$.
+Xác suất cần tìm là $P = \frac{0{,}28}{0{,}64} = \frac{7}{16} \approx 43{,}75\% \approx 44\%$.}
+
+\shortanswer{Một hộp đựng 24 chai nước giải khát, trong đó có 2 chai trúng thưởng. Chọn ngẫu nhiên lần lượt 2 chai. Tính xác suất để cả hai chai đều trúng thưởng (kết quả làm tròn đến 3 chữ số thập phân).}{0{,}004}{Xác suất là $P = \frac{C_2^2}{C_{24}^2} = \frac{1}{276} \approx 0{,}004$.}
+
+\shortanswer{Ở một trại dưỡng lão, tỉ lệ người mắc bệnh tim mạch là 25\%. Tỉ lệ người hút thuốc trong số người mắc bệnh tim mạch gấp 2 lần tỉ lệ người hút thuốc trong số người không mắc bệnh tim mạch. Xác suất một người mắc bệnh tim mạch biết người đó hút thuốc là bao nhiêu phần trăm?}{40}{Theo công thức Bayes:
+$P(\text{Tim}|\text{Thuốc}) = \frac{0{,}25 \times 2a}{0{,}25 \times 2a + 0{,}75 \times a} = \frac{0{,}5}{1{,}25} = 40\%$.}
+
+\shortanswer{Giả sử 5\% email nhận được là rác. Bộ lọc lọc đúng email rác với xác suất 95\% và lọc nhầm 10\% email không phải rác. Chọn ngẫu nhiên 1 email trong số email bị lọc, ước tính xác suất để email này thực sự là rác (kết quả tính theo phần trăm làm tròn đến hàng phần mười).}{33{,}3}{Theo công thức Bayes:
+$P(\text{Rác}|\text{Lọc}) = \frac{0{,}05 \times 0{,}95}{0{,}05 \times 0{,}95 + 0{,}95 \times 0{,}10} = \frac{0{,}0475}{0{,}0475 + 0{,}095} = \frac{1}{3} \approx 33{,}3\%$.}
+
+\shortanswer{Khách hàng hủy xe: 80\% do khách và 20\% do hãng. Lý do từ khách: 70\% nhập nhầm địa chỉ và 20\% không có nhu cầu. Xác suất để khách hủy xe do nhập nhầm địa chỉ hoặc không có nhu cầu là bao nhiêu phần trăm?}{72}{Xác suất cần tìm là $P = 0{,}80 \times (0{,}70 + 0{,}20) = 0{,}80 \times 0{,}90 = 72\%$.}
+
+\shortanswer{Thống kê 98 hộ gia đình: số hộ có ít nhất 4 người là 58 hộ, trong đó có 10 hộ không có vật nuôi. Chọn ngẫu nhiên 1 hộ gia đình. Xác suất để hộ đó có ít nhất một vật nuôi biết rằng hộ đó có ít nhất 4 người là bao nhiêu? (kết quả làm tròn đến 2 chữ số thập phân).}{0{,}83}{Số hộ có ít nhất 1 vật nuôi trong số các hộ có $\ge 4$ người là $58 - 10 = 48$.
+Xác suất là $P = \frac{48}{58} \approx 0{,}83$.}
+
+\end{quiz}
+
+
+\end{document}

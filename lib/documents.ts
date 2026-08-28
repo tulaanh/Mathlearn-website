@@ -358,12 +358,14 @@ export async function getPublishedTestDocumentCards(topicId?: string, page = 1):
   return loadDocumentCards(publishedDocumentsQuery("test", topicId), true, page);
 }
 
-export async function getTeacherDocumentCards(page = 1): Promise<PagedDocs> {
+export async function getTeacherDocumentCards(page = 1, documentType?: "normal" | "test"): Promise<PagedDocs> {
   const { supabase, profile } = await getCurrentUser();
   if (!supabase || profile?.role !== "teacher") return { items: [], total: 0 };
-  const query = (client: any, columns: string): DocQueryResult => ({
-    builder: client.from("documents").select(columns, { count: "exact" }).order("updated_at", { ascending: false }),
-  });
+  const query = (client: any, columns: string): DocQueryResult => {
+    let builder = client.from("documents").select(columns, { count: "exact" }).order("updated_at", { ascending: false });
+    if (documentType) builder = builder.eq("document_type", documentType);
+    return { builder };
+  };
   return loadDocumentCards(query, false, page);
 }
 

@@ -1,0 +1,806 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{PHẦN III: BÀI TẬP RÈN LUYỆN - PHƯƠNG TRÌNH MẶT CẦU}
+\docdesc{Bộ bài tập rèn luyện tổng hợp Phương trình mặt cầu gồm Đề 1 và Đề 2 có đáp án và lời giải chi tiết - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hình học không gian, Oxyz, Phương trình mặt cầu}
+
+% =========================================================================
+% ĐỀ 1
+% =========================================================================
+
+\begin{lesson}{Đề số 1: Bài tập rèn luyện tổng hợp}{Đề số 1 gồm 25 câu trắc nghiệm nhiều phương án, 5 câu đúng sai và 7 câu trả lời ngắn}
+
+Học sinh làm bài cẩn thận và đối chiếu đáp án chi tiết phía dưới.
+
+\end{lesson}
+\begin{quiz}{Phần I: Trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S): (x+3)^2 + (y+1)^2 + (z-1)^2 = 2$. Tâm $(S)$ có tọa độ là}{2}{1}{Tâm của mặt cầu $(S)$ là $I(-3;-1;1)$.
+
+Chọn C.}
+	\option{$(3;1;-1)$.}
+	\option{$(3;-1;1)$.}
+	\option{$(-3;-1;1)$.}
+	\option{$(-3;1;-1)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, hỏi mặt cầu $(S): (x-5)^2 + (y-1)^2 + (z+2)^2 = 3$ có bán kính bằng}{0}{1}{Bán kính của mặt cầu là $R = \sqrt{3}$.
+
+Chọn A.}
+	\option{$\sqrt{3}$.}
+	\option{$2\sqrt{3}$.}
+	\option{$3$.}
+	\option{$9$.}
+\end{mcq}
+
+\begin{mcq}{Tìm tâm $I$ và bán kính của mặt cầu $(S): x^2 + y^2 + z^2 - 2x + 4y - 6z + 10 = 0$.}{0}{1}{Ta có $a = 1, b = -2, c = 3, d = 10$.
+Tâm $I(1;-2;3)$ và bán kính $R = \sqrt{1^2 + (-2)^2 + 3^2 - 10} = 2$.
+
+Chọn A.}
+	\option{$I(1;-2;3), R = 2$.}
+	\option{$I(-1;2;-3), R = 2$.}
+	\option{$I(-1;2;-3), R = 5$.}
+	\option{$I(1;-2;3), R = 4$.}
+\end{mcq}
+
+\begin{mcq}{Xác định tâm $I$ và bán kính $R$ của mặt cầu $(S): x^2 + y^2 + z^2 - 4x - 2y + 4z - 16 = 0$.}{2}{1}{Ta có $a = 2, b = 1, c = -2, d = -16$.
+Tâm $I(2;1;-2)$ và bán kính $R = \sqrt{2^2 + 1^2 + (-2)^2 - (-16)} = 5$.
+
+Chọn C.}
+	\option{$I(-2;-1;2), R = 5$.}
+	\option{$I(-2;-1;2), R = 5$.}
+	\option{$I(2;1;-2), R = 5$.}
+	\option{$I(4;2;-4), R = 13$.}
+\end{mcq}
+
+\begin{mcq}{Tìm độ dài đường kính $d$ của mặt cầu $(S): x^2 + y^2 + z^2 - 2y + 4z + 2 = 0$.}{0}{1}{Ta có $a = 0, b = 1, c = -2, d = 2$.
+Bán kính $R = \sqrt{0^2 + 1^2 + (-2)^2 - 2} = \sqrt{3}$.
+Độ dài đường kính $d = 2R = 2\sqrt{3}$.
+
+Chọn A.}
+	\option{$d = 2\sqrt{3}$.}
+	\option{$d = \sqrt{3}$.}
+	\option{$d = 2$.}
+	\option{$d = 1$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, tìm tất cả các giá trị của $m$ để phương trình $x^2 + y^2 + z^2 - 2x - 2y - 4z + m = 0$ là phương trình của một mặt cầu.}{3}{1}{Ta có $a = 1, b = 1, c = 2, d = m$.
+Điều kiện để phương trình là phương trình mặt cầu: $a^2 + b^2 + c^2 - d > 0 \Leftrightarrow 1^2 + 1^2 + 2^2 - m > 0 \Leftrightarrow m < 6$.
+
+Chọn D.}
+	\option{$m > 6$.}
+	\option{$m \ge 6$.}
+	\option{$m \le 6$.}
+	\option{$m < 6$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S): x^2 + y^2 + z^2 - 4x + 8y - 2mz + 6m = 0$ có đường kính bằng $12$ thì tổng các giá trị của tham số $m$ bằng}{3}{1}{Đường kính bằng $12 \Rightarrow$ bán kính $R = 6$.
+Ta có $a = 2, b = -4, c = m, d = 6m$.
+$R^2 = a^2 + b^2 + c^2 - d \Leftrightarrow 2^2 + (-4)^2 + m^2 - 6m = 36 \Leftrightarrow m^2 - 6m - 16 = 0$.
+Theo định lí Vi-ét, tổng các giá trị của $m$ là $m_1 + m_2 = 6$.
+
+Chọn D.}
+	\option{$-2$.}
+	\option{$2$.}
+	\option{$-6$.}
+	\option{$6$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(1;-2;3)$, đường kính bằng $4$ là}{0}{1}{Bán kính mặt cầu $R = \frac{4}{2} = 2$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y+2)^2 + (z-3)^2 = 4$.
+
+Chọn A.}
+	\option{$(x-1)^2 + (y+2)^2 + (z-3)^2 = 4$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+3)^2 = 16$.}
+	\option{$(x-1)^2 + (y+2)^2 + (z-3)^2 = 2$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+3)^2 = 16$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(1;-3;2)$ và đi qua điểm $A(5;-1;4)$ là}{3}{1}{Bán kính $R = IA = \sqrt{(5-1)^2 + (-1+3)^2 + (4-2)^2} = \sqrt{16 + 4 + 4} = \sqrt{24}$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y+3)^2 + (z-2)^2 = 24$.
+
+Chọn D.}
+	\option{$(x-1)^2 + (y+3)^2 + (z-2)^2 = \sqrt{24}$.}
+	\option{$(x+1)^2 + (y-3)^2 + (z+2)^2 = \sqrt{24}$.}
+	\option{$(x+1)^2 + (y-3)^2 + (z+2)^2 = 24$.}
+	\option{$(x-1)^2 + (y+3)^2 + (z-2)^2 = 24$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có đường kính $AB$ với $A(2;1;1), B(0;3;-1)$ là}{1}{1}{Tâm $I$ là trung điểm $AB \Rightarrow I(1;2;0)$.
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(0-2)^2 + (3-1)^2 + (-1-1)^2}}{2} = \frac{\sqrt{12}}{2} = \sqrt{3}$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y-2)^2 + z^2 = 3$.
+
+Chọn B.}
+	\option{$x^2 + (y-2)^2 + z^2 = 3$.}
+	\option{$(x-1)^2 + (y-2)^2 + z^2 = 3$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z+1)^2 = 9$.}
+	\option{$(x-1)^2 + (y-2)^2 + z^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có đường kính $AB$ với $A(1;2;3), B(-1;4;1)$ là}{1}{1}{Tâm $I$ là trung điểm $AB \Rightarrow I(0;3;2)$.
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(-1-1)^2 + (4-2)^2 + (1-3)^2}}{2} = \frac{\sqrt{12}}{2} = \sqrt{3}$.
+Phương trình mặt cầu $(S): x^2 + (y-3)^2 + (z-2)^2 = 3$.
+
+Chọn B.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-3)^2 = 12$.}
+	\option{$x^2 + (y-3)^2 + (z-2)^2 = 3$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+1)^2 = 12$.}
+	\option{$x^2 + (y-3)^2 + (z-2)^2 = 12$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có tâm $I(1;2;-4)$ và thể tích bằng $36\pi$. Phương trình của mặt cầu $(S)$ là}{0}{1}{Ta có $V = \frac{4}{3}\pi R^3 = 36\pi \Rightarrow R^3 = 27 \Rightarrow R = 3$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y-2)^2 + (z+4)^2 = 9$.
+
+Chọn A.}
+	\option{$(x-1)^2 + (y-2)^2 + (z+4)^2 = 9$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-4)^2 = 9$.}
+	\option{$(x+1)^2 + (y+2)^2 + (z-4)^2 = 9$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z+4)^2 = 3$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có tâm $I(1;2;0)$. Một mặt phẳng $(P)$ cắt $(S)$ theo giao tuyến là một đường tròn $(C)$, biết diện tích lớn nhất của $(C)$ bằng $3\pi$. Phương trình mặt cầu $(S)$ là}{1}{1}{Đường tròn $(C)$ có diện tích lớn nhất khi $(P)$ đi qua tâm $I$, khi đó bán kính đường tròn bằng bán kính mặt cầu $r = R$.
+Ta có $S_{(C)} = \pi R^2 = 3\pi \Rightarrow R^2 = 3$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y-2)^2 + z^2 = 3$.
+
+Chọn B.}
+	\option{$x^2 + (y-2)^2 + z^2 = 3$.}
+	\option{$(x-1)^2 + (y-2)^2 + z^2 = 3$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-4)^2 = 9$.}
+	\option{$(x-1)^2 + (y-2)^2 + z^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có tâm $I(1;1;1)$. Một mặt phẳng $(P)$ cắt $(S)$ theo giao tuyến là một đường tròn $(C)$, biết chu vi lớn nhất của $(C)$ bằng $2\pi\sqrt{2}$. Phương trình của mặt cầu $(S)$ là}{3}{1}{Chu vi $(C)$ lớn nhất khi $(P)$ đi qua tâm $I$, khi đó $r = R$.
+Ta có $C = 2\pi R = 2\pi\sqrt{2} \Rightarrow R = \sqrt{2} \Rightarrow R^2 = 2$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y-1)^2 + (z-1)^2 = 2$.
+
+Chọn D.}
+	\option{$(x-1)^2 + (y-1)^2 + (z-1)^2 = 4$.}
+	\option{$(x+1)^2 + (y+1)^2 + (z+1)^2 = 2$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+1)^2 = 9$.}
+	\option{$(x-1)^2 + (y-1)^2 + (z-1)^2 = 2$.}
+\end{mcq}
+
+\begin{mcq}{Tìm tâm $I$ và bán kính của mặt cầu $(S)$ đi qua 4 điểm $A(2;0;0), B(0;4;0), C(0;0;6), D(2;4;6)$? (Cách hỏi khác: Tìm tâm và bán kính của mặt cầu ngoại tiếp tứ diện $ABCD$).}{2}{1}{Tứ diện $ABCD$ có các đỉnh $A \in Ox, B \in Oy, C \in Oz$ và $D(2;4;6)$.
+Tâm của mặt cầu là trung điểm của đoạn nối gốc tọa độ $O$ và $D$: $I(1;2;3)$.
+Bán kính $R = OI = \sqrt{1^2 + 2^2 + 3^2} = \sqrt{14}$.
+
+Chọn C.}
+	\option{$I(1;2;3), R = 5$.}
+	\option{$I(-1;2;-3), R = 2$.}
+	\option{$I(1;2;3), R = \sqrt{14}$.}
+	\option{$I(1;3;1), R = \sqrt{11}$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đi qua $A(1;2;3), B(-2;1;5)$ và có tâm $I$ thuộc trục $Oz$ là}{0}{1}{Tâm $I \in Oz \Rightarrow I(0;0;c)$.
+Ta có $IA^2 = IB^2 \Leftrightarrow 1^2 + 2^2 + (3-c)^2 = (-2)^2 + 1^2 + (5-c)^2$
+$\Leftrightarrow 5 + 9 - 6c + c^2 = 5 + 25 - 10c + c^2 \Leftrightarrow 4c = 16 \Leftrightarrow c = 4 \Rightarrow I(0;0;4)$.
+Bán kính $R = IA = \sqrt{1^2 + 2^2 + (3-4)^2} = \sqrt{6}$.
+Phương trình mặt cầu $(S): x^2 + y^2 + (z-4)^2 = 6$.
+
+Chọn A.}
+	\option{$(S): x^2 + y^2 + (z-4)^2 = 6$.}
+	\option{$(S): x^2 + y^2 + (z-4)^2 = 14$.}
+	\option{$(S): x^2 + y^2 + (z-4)^2 = 16$.}
+	\option{$(S): x^2 + y^2 + (z-4)^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đi qua $A(1;2;3), B(4;-6;2)$ và tâm $I$ thuộc trục $Ox$ là}{3}{1}{Tâm $I \in Ox \Rightarrow I(a;0;0)$.
+Ta có $IA^2 = IB^2 \Leftrightarrow (1-a)^2 + 2^2 + 3^2 = (4-a)^2 + (-6)^2 + 2^2$
+$\Leftrightarrow a^2 - 2a + 14 = a^2 - 8a + 56 \Leftrightarrow 6a = 42 \Leftrightarrow a = 7 \Rightarrow I(7;0;0)$.
+Bán kính $R = IA = \sqrt{(1-7)^2 + 2^2 + 3^2} = \sqrt{36 + 4 + 9} = 7 \Rightarrow R^2 = 49$.
+Phương trình mặt cầu $(S): (x-7)^2 + y^2 + z^2 = 49$.
+
+Chọn D.}
+	\option{$(S): (x-7)^2 + y^2 + z^2 = 6$.}
+	\option{$(S): (x+7)^2 + y^2 + z^2 = 36$.}
+	\option{$(S): (x+7)^2 + y^2 + z^2 = 6$.}
+	\option{$(S): (x-7)^2 + y^2 + z^2 = 49$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đi qua $A(2;0;-2), B(-1;1;2)$ và có tâm $I$ thuộc trục $Oy$ là}{0}{1}{Tâm $I \in Oy \Rightarrow I(0;b;0)$.
+Ta có $IA^2 = IB^2 \Leftrightarrow 2^2 + (-b)^2 + (-2)^2 = (-1)^2 + (1-b)^2 + 2^2$
+$\Leftrightarrow b^2 + 8 = b^2 - 2b + 6 \Leftrightarrow 2b = -2 \Leftrightarrow b = -1 \Rightarrow I(0;-1;0)$.
+Bán kính $R = IA = \sqrt{2^2 + 1^2 + (-2)^2} = 3$.
+Phương trình mặt cầu $(S): x^2 + (y+1)^2 + z^2 = 9 \Leftrightarrow x^2 + y^2 + z^2 + 2y - 8 = 0$.
+
+Chọn A.}
+	\option{$(S): x^2 + y^2 + z^2 + 2y - 8 = 0$.}
+	\option{$(S): x^2 + y^2 + z^2 - 2y - 8 = 0$.}
+	\option{$(S): x^2 + y^2 + z^2 + 2y + 8 = 0$.}
+	\option{$(S): x^2 + y^2 + z^2 - 2y + 8 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đi qua $A(3;0;-1), B(6;-4;-2), C(7;-1;2)$ và tâm $I \in (Oxy)$ là}{1}{1}{Vì tâm $I \in (Oxy) \Rightarrow I(a;b;0)$.
+Phương trình mặt cầu có dạng: $x^2 + y^2 + z^2 - 2ax - 2by + d = 0$.
+Thay tọa độ $A, B, C$ vào phương trình:
+$\begin{cases} -6a + d = -10 \\ -12a + 8b + d = -56 \\ -14a + 2b + d = -54 \end{cases} \Leftrightarrow \begin{cases} a = 5 \\ b = -2 \\ d = 20 \end{cases} \Rightarrow I(5;-2;0)$.
+Bán kính $R = \sqrt{a^2 + b^2 - d} = \sqrt{25 + 4 - 20} = 3 \Rightarrow R^2 = 9$.
+Phương trình $(S): (x-5)^2 + (y+2)^2 + z^2 = 9$.
+
+Chọn B.}
+	\option{$(x+7)^2 + (y-2)^2 + z^2 = 25$.}
+	\option{$(x-5)^2 + (y+2)^2 + z^2 = 9$.}
+	\option{$(x+5)^2 + (y+1)^2 + z^2 = 36$.}
+	\option{$(x+7)^2 + (y-8)^2 + z^2 = 49$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đi qua $A(2;4;-3), B(6;9;6), C(-3;5;9)$ và tâm $I \in (Oyz)$ là}{1}{1}{Vì tâm $I \in (Oyz) \Rightarrow I(0;b;c)$.
+Phương trình $(S): x^2 + y^2 + z^2 - 2by - 2cz + d = 0$.
+Thay tọa độ $A, B, C$ vào phương trình:
+$\begin{cases} -8b + 6c + d = -29 \\ -18b - 12c + d = -153 \\ -10b - 18c + d = -115 \end{cases} \Leftrightarrow \begin{cases} b = 7 \\ c = 3 \\ d = 9 \end{cases} \Rightarrow I(0;7;3)$.
+Bán kính $R = \sqrt{b^2 + c^2 - d} = \sqrt{49 + 9 - 9} = 7 \Rightarrow R^2 = 49$.
+Phương trình $(S): x^2 + (y-7)^2 + (z-3)^2 = 49$.
+
+Chọn B.}
+	\option{$x^2 + (y+1)^2 + (z-2)^2 = 9$.}
+	\option{$x^2 + (y-7)^2 + (z-3)^2 = 49$.}
+	\option{$x^2 + (y-2)^2 + (z+5)^2 = 16$.}
+	\option{$x^2 + (y+6)^2 + (z-1)^2 = 36$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(1;-1;3)$ và tiếp xúc với trục hoành là}{2}{1}{Bán kính $R = d(I, Ox) = \sqrt{y_I^2 + z_I^2} = \sqrt{(-1)^2 + 3^2} = \sqrt{10} \Rightarrow R^2 = 10$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y+1)^2 + (z-3)^2 = 10$.
+
+Chọn C.}
+	\option{$(x+1)^2 + (y-1)^2 + (z+3)^2 = 10$.}
+	\option{$(x-1)^2 + (y+1)^2 + (z-3)^2 = 9$.}
+	\option{$(x-1)^2 + (y+1)^2 + (z-3)^2 = 10$.}
+	\option{$(x+1)^2 + (y-1)^2 + (z+3)^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(1;-2;3)$ và tiếp xúc với trục tung là}{1}{1}{Bán kính $R = d(I, Oy) = \sqrt{x_I^2 + z_I^2} = \sqrt{1^2 + 3^2} = \sqrt{10} \Rightarrow R^2 = 10$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y+2)^2 + (z-3)^2 = 10$.
+
+Chọn B.}
+	\option{$(x-1)^2 + (y+2)^2 + (z-3)^2 = \sqrt{10}$.}
+	\option{$(x-1)^2 + (y+2)^2 + (z-3)^2 = 10$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+3)^2 = 10$.}
+	\option{$(x-1)^2 + (y+2)^2 + (z-3)^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(2;1;-1)$ và tiếp xúc với mặt phẳng $(Oyz)$ là}{2}{1}{Bán kính $R = d(I, (Oyz)) = |x_I| = 2 \Rightarrow R^2 = 4$.
+Phương trình mặt cầu $(S): (x-2)^2 + (y-1)^2 + (z+1)^2 = 4$.
+
+Chọn C.}
+	\option{$(x+2)^2 + (y+1)^2 + (z-1)^2 = 4$.}
+	\option{$(x-2)^2 + (y-1)^2 + (z+1)^2 = 1$.}
+	\option{$(x-2)^2 + (y-1)^2 + (z+1)^2 = 4$.}
+	\option{$(x+2)^2 + (y-1)^2 + (z-3)^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ có tâm $I(1;2;3)$ và tiếp xúc với mặt phẳng $(Oxy)$ là}{3}{1}{Bán kính $R = d(I, (Oxy)) = |z_I| = 3 \Rightarrow R^2 = 9$.
+Phương trình mặt cầu $(S): (x-1)^2 + (y-2)^2 + (z-3)^2 = 9$.
+
+Chọn D.}
+	\option{$(x+1)^2 + (y+2)^2 + (z+3)^2 = 9$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-3)^2 = 14$.}
+	\option{$(x+1)^2 + (y+2)^2 + (z+3)^2 = 14$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-3)^2 = 9$.}
+\end{mcq}
+
+\begin{mcq}{Cho phương trình mặt cầu $(S): (x-1)^2 + (y-1)^2 + (z+1)^2 = 25$. Phương trình mặt cầu $(S')$ đối xứng với mặt cầu $(S)$ qua mặt phẳng $(Oxy)$ là}{1}{1}{Tâm của $(S)$ là $I(1;1;-1)$. Điểm đối xứng với $I$ qua $(Oxy)$ là $I'(1;1;1)$.
+Bán kính $R' = R = 5 \Rightarrow R'^2 = 25$.
+Phương trình mặt cầu $(S'): (x-1)^2 + (y-1)^2 + (z-1)^2 = 25$.
+
+Chọn B.}
+	\option{$(x-1)^2 + (y-1)^2 + (z+1)^2 = 25$.}
+	\option{$(x-1)^2 + (y-1)^2 + (z-1)^2 = 25$.}
+	\option{$(x+1)^2 + (y-1)^2 + (z-1)^2 = 25$.}
+	\option{$(x+1)^2 + (y+1)^2 + (z+1)^2 = 25$.}
+\end{mcq}
+
+\end{quiz}
+
+\begin{quiz}{Phần II: Trắc nghiệm đúng sai}
+
+\begin{truefalse}{Cho mặt cầu $(S): (x-1)^2 + (y-2)^2 + z^2 = 4$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Tâm của $(S)$ là $I(1;2;0)$.
+- b) Sai. Ta có $d(I, (\alpha)) = \frac{|1 + 2.2 - 3.0 + 2|}{\sqrt{1^2+2^2+(-3)^2}} = \frac{7}{\sqrt{14}} = \frac{\sqrt{14}}{2} \ne R = 2$.
+- c) Đúng. Đường thẳng $d$ đi qua $A(0;2;-2)$ và có VTCP $\vec{u}=(1;-3;0)$. Ta có $\vec{IA}=(-1;0;-2) \Rightarrow [\vec{IA},\vec{u}]=(-6;-2;3) \Rightarrow d(I,d) = \frac{|[\vec{IA},\vec{u}]|}{|\vec{u}|} = \frac{7}{\sqrt{10}} > \sqrt{2}$.
+- d) Đúng. Thay $M(0;1;2)$ vào VT: $(0-1)^2 + (1-2)^2 + 2^2 = 6 > 4$ nên $M$ nằm ngoài mặt cầu.}
+	\statement{true}{Tâm của $(S)$ có tọa độ $(1;2;0)$.}
+	\statement{false}{Mặt phẳng $(\alpha): x + 2y - 3z + 2 = 0$ tiếp xúc với $(S)$.}
+	\statement{true}{Khoảng cách từ tâm của $(S)$ đến đường thẳng $(d): \begin{cases} x = t \\ y = 2 - 3t \\ z = -2 \end{cases}$ lớn hơn $\sqrt{2}$.}
+	\statement{true}{Điểm $M(0;1;2)$ nằm ngoài mặt cầu $(S)$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho mặt cầu $(S): x^2 + (y+1)^2 + (z-1)^2 = 9$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Bán kính của $(S)$ là $R = \sqrt{9} = 3$.
+- b) Đúng. Tâm $I(0;-1;1)$, ta có $IM = \sqrt{(-1-0)^2 + (2+1)^2 + (-3-1)^2} = \sqrt{26}$.
+- c) Đúng. Thể tích $(S)$ là $V = \frac{4}{3}\pi R^3 = \frac{4}{3}\pi (3^3) = 36\pi$.
+- d) Đúng. Ta có $d(I, (\alpha)) = \frac{|1 - (-2)|}{1} = 3 = R \Rightarrow (S)$ tiếp xúc với $(\alpha)$.}
+	\statement{false}{Bán kính của $(S)$ bằng 9.}
+	\statement{true}{Khoảng cách từ tâm của $(S)$ đến điểm $M(-1;2;-3)$ bằng $\sqrt{26}$.}
+	\statement{true}{Thể tích $(S)$ bằng $36\pi$.}
+	\statement{true}{Mặt cầu $(S)$ tiếp xúc với mặt phẳng $(\alpha): z = -2$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho mặt cầu $(S): x^2 + 2x + y^2 - 4y + z^2 + 4z + 8 = 0$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Ta có $a=-1, b=2, c=-2, d=8 \Rightarrow R = \sqrt{1+4+4-8} = 1$. Diện tích mặt cầu $S = 4\pi R^2 = 4\pi$.
+- b) Sai. $d$ qua $A(1;2;-2)$, VTCP $\vec{u}=(1;0;-2)$. $\vec{IA}=(2;0;0) \Rightarrow [\vec{IA},\vec{u}]=(0;4;0) \Rightarrow d(I,d) = \frac{4}{\sqrt{5}} > \sqrt{3}$.
+- c) Sai. $IM = \sqrt{(-1+1)^2 + (2-2)^2 + (-3+2)^2} = 1 = R \Rightarrow M$ nằm trên mặt cầu.
+- d) Sai. $d(I, (\alpha)) = \frac{|2(-1) - 2 + 1|}{\sqrt{4+1}} = \frac{3}{\sqrt{5}} > R = 1 \Rightarrow$ mặt phẳng không cắt mặt cầu.}
+	\statement{true}{Diện tích $(S)$ bằng $4\pi$.}
+	\statement{false}{Khoảng cách từ tâm của $(S)$ đến đường thẳng $(d): \begin{cases} x = 1+t \\ y = 2 \\ z = -2-2t \end{cases}$ bé hơn $\sqrt{3}$.}
+	\statement{false}{Điểm $M(-1;2;-3)$ nằm ngoài mặt cầu $(S)$.}
+	\statement{false}{Giao tuyến giữa mặt cầu $(S)$ và mặt phẳng $(\alpha): 2x - y + 1 = 0$ là một đường tròn.}
+\end{truefalse}
+
+\begin{truefalse}{Cho mặt cầu $(S)$ có đường kính $AB$ với $A(1;2;3), B(-1;4;1)$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Tâm $I(0;3;2)$, bán kính $R = \sqrt{3}$. Thể tích $V = \frac{4}{3}\pi (\sqrt{3})^3 = 4\sqrt{3}\pi$.
+- b) Đúng. Thay tọa độ $I(0;3;2)$ vào phương trình đường thẳng $d$: $\frac{0}{2} = \frac{3-3}{-1} = \frac{2-2}{3} = 0$ (thỏa mãn).
+- c) Sai. $IM = \sqrt{(0-0)^2 + (0-3)^2 + (7-2)^2} = \sqrt{34} \ne \sqrt{3} \Rightarrow M$ không nằm trên $(S)$.
+- d) Sai. $d(I, (\alpha)) = \frac{|2.0 - 3 + 2.2 + 1|}{\sqrt{4+1+4}} = \frac{2}{3} \ne R = \sqrt{3}$.}
+	\statement{true}{Thể tích $(S)$ bằng $4\sqrt{3}\pi$.}
+	\statement{true}{Tọa độ tâm của $(S)$ nằm trên đường thẳng $(d): \frac{x}{2} = \frac{y-3}{-1} = \frac{2-z}{3}$.}
+	\statement{false}{Điểm $M(0;0;7)$ nằm trên mặt cầu $(S)$.}
+	\statement{false}{Mặt cầu $(S)$ tiếp xúc với mặt phẳng $(\alpha): 2x - y + 2z + 1 = 0$.}
+\end{truefalse}
+
+\begin{truefalse}{Cho mặt cầu $(S)$ có tâm $I(1;2;-3)$. Một mặt phẳng $(P)$ cắt $(S)$ theo giao tuyến là một đường tròn $(C)$, biết $(C)$ có diện tích lớn nhất và bằng $4\pi$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Diện tích $(C)$ lớn nhất bằng $4\pi \Rightarrow \pi R^2 = 4\pi \Rightarrow R = 2$.
+- b) Đúng. Ta có $IM = \sqrt{(1-1)^2 + (2-2)^2 + (-5+3)^2} = 2 = R \Rightarrow M \in (S)$.
+- c) Sai. $d$ qua $A(0;1;2)$, $\vec{u}=(1;2;3)$, $\vec{IA}=(-1;-1;5) \Rightarrow d(I,d) = \sqrt{\frac{117}{7}}$ không phải số nguyên.
+- d) Sai. $d(I, (Oxy)) = |z_I| = |-3| = 3 \ne R = 2$.}
+	\statement{true}{Bán kính $(S)$ bằng 2.}
+	\statement{true}{Điểm $M(1;2;-5)$ nằm trên mặt cầu $(S)$.}
+	\statement{false}{Khoảng cách từ tâm của $(S)$ đến đường thẳng $(d): \begin{cases} x = t \\ y = 1+2t \\ z = 2+3t \end{cases}$ là một số chia hết cho 2.}
+	\statement{false}{Mặt cầu $(S)$ tiếp xúc với mặt phẳng $(Oxy)$.}
+\end{truefalse}
+
+\end{quiz}
+
+\begin{quiz}{Phần III: Trắc nghiệm trả lời ngắn}
+
+\shortanswer{Trong không gian $Oxyz$, trong các phương trình sau đây có bao nhiêu phương trình là phương trình mặt cầu?
+a) $x^2 + y^2 + z^2 - 2x - 5z + 30 = 0$;
+b) $x^2 + y^2 + z^2 - 4x + 2y - 2z = 0$;
+c) $x^3 + y^3 + z^3 - 2x + 6y - 9z + 3 = 0$;
+d) $x^2 + y^2 + z^2 + 1 = 0$.}{1}{1}{- a) có $a^2+b^2+c^2-d = 1+0+\frac{25}{4}-30 < 0$ (Loại).
+- b) có $a^2+b^2+c^2-d = 4+1+1-0 = 6 > 0$ (Thỏa mãn).
+- c) là bậc 3 (Loại).
+- d) có $x^2+y^2+z^2 = -1 < 0$ (Loại).
+
+Vậy có duy nhất 1 phương trình là phương trình mặt cầu.}
+
+\shortanswer{Trong không gian $Oxyz$, cho mặt phẳng $(\alpha)$ có phương trình $(\alpha): x + 2y - 3z + 4 = 0$. Phương trình mặt cầu $(S)$ có tâm $I(-2;1;2)$ và tiếp xúc với $(\alpha)$ có bán kính bằng bao nhiêu?}{0{,}5}{1}{Bán kính mặt cầu $R = d(I, (\alpha)) = \frac{|-2 + 2.1 - 3.2 + 4|}{\sqrt{1^2 + 2^2 + (-3)^2}} = \frac{2}{\sqrt{14}} = \frac{\sqrt{14}}{7} \approx 0{,}5$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho ba điểm $A(1;2;-4), B(1;-3;1), C(2;2;3)$. Mặt cầu $(S)$ đi qua $A, B, C$ và có tâm thuộc mặt phẳng $(Oxy)$ có bán kính bằng bao nhiêu?}{5{,}1}{1}{Tâm $I \in (Oxy) \Rightarrow I(a;b;0)$.
+Giải hệ phương trình $IA^2 = IB^2 = IC^2$, ta tìm được $I(-2;1;0)$.
+Bán kính $R = IA = \sqrt{(1+2)^2 + (2-1)^2 + (-4-0)^2} = \sqrt{9 + 1 + 16} = \sqrt{26} \approx 5{,}1$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho mặt cầu $(S): x^2 + y^2 + z^2 - 6x + 4y - 2z + 5 = 0$. Mặt phẳng $(\alpha)$ chứa trục $Ox$ và cắt $(S)$ theo giao tuyến là một đường tròn có chu vi $4\pi$. Khoảng cách từ gốc tọa độ đến mặt phẳng $(\alpha)$ bằng bao nhiêu?}{0}{1}{Mặt phẳng $(\alpha)$ chứa trục $Ox$ nên mặt phẳng $(\alpha)$ đi qua gốc tọa độ $O(0;0;0)$.
+Do đó khoảng cách từ gốc tọa độ $O$ đến mặt phẳng $(\alpha)$ bằng $0$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho bốn điểm $A(3;-2;-2), B(3;2;0), C(0;2;1), D(-1;1;2)$. Bán kính của phương trình mặt cầu tâm $A$ và tiếp xúc với mặt phẳng $(BCD)$ bằng bao nhiêu?}{3{,}7}{1}{Ta có $\vec{BC} = (-3;0;1), \vec{BD} = (-4;-1;2) \Rightarrow \vec{n} = [\vec{BC}, \vec{BD}] = (1;2;3)$.
+Phương trình mặt phẳng $(BCD): 1(x-3) + 2(y-2) + 3(z-0) = 0 \Leftrightarrow x + 2y + 3z - 7 = 0$.
+Bán kính $R = d(A, (BCD)) = \frac{|3 + 2(-2) + 3(-2) - 7|}{\sqrt{1^2 + 2^2 + 3^2}} = \frac{14}{\sqrt{14}} = \sqrt{14} \approx 3{,}7$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho hai đường thẳng $d_1: \frac{x-1}{1} = \frac{y+2}{3} = \frac{z-3}{-1}$ và $d_2: \frac{x+2}{1} = \frac{2-y}{-3} = \frac{z+5}{-1}$. Trong tất cả mặt cầu tiếp xúc với hai đường thẳng trên, gọi $(S)$ là mặt cầu có bán kính nhỏ nhất. Khi đó bán kính của $(S)$ bằng bao nhiêu?}{3{,}7}{1}{Hai đường thẳng $d_1 \parallel d_2$ cùng có VTCP $\vec{u}=(1;3;-1)$.
+Lấy $M_1(1;-2;3) \in d_1, M_2(-2;2;-5) \in d_2 \Rightarrow \vec{M_1M_2} = (-3;4;-8)$.
+Khoảng cách giữa hai đường thẳng: $d(d_1,d_2) = \frac{|[\vec{M_1M_2},\vec{u}]|}{|\vec{u}|} = \frac{3\sqrt{66}}{\sqrt{11}} = 3\sqrt{6}$.
+Bán kính nhỏ nhất $R_{\min} = \frac{d(d_1,d_2)}{2} = \frac{3\sqrt{6}}{2} \approx 3{,}7$.}
+
+\shortanswer{Trong không gian hệ trục tọa độ $Oxyz$ (đơn vị trên mỗi trục là kilômét), đài kiểm soát không lưu sân bay Cam Ranh – Khánh Hòa ở vị trí $O(0;0;0)$ và được thiết kế phát hiện máy bay ở khoảng cách tối đa $600\text{ km}$. Một máy bay của hãng Việt Nam Airlines đang ở vị trí, chuyển động theo đường thẳng $d$ có phương trình $\begin{cases} x = -1000 + 100t \\ y = -200 + 80t \\ z = 10 \end{cases}$ ($t \in \mathbb{R}$) và hướng về đài kiểm soát không lưu (như hình vẽ bên dưới).
+
+\image{0.5}{}{de1_cau7.png}
+
+Tính khoảng cách ngắn nhất giữa máy bay với đài kiểm soát không lưu.}{468{,}6}{1}{Đường thẳng $d$ đi qua $A(-1000;-200;10)$ và có VTCP $\vec{u}=(100;80;0) = 20(5;4;0)$.
+Khoảng cách từ gốc tọa độ $O(0;0;0)$ đến đường thẳng $d$ là khoảng cách ngắn nhất:
+$d(O, d) = \frac{|[\vec{OA},\vec{u}_0]|}{|\vec{u}_0|} = \frac{\sqrt{(-40)^2 + 50^2 + (-3000)^2}}{\sqrt{5^2 + 4^2 + 0^2}} = \sqrt{\frac{9004100}{41}} \approx 468{,}6\text{ km}$.}
+
+\end{quiz}
+
+
+
+% =========================================================================
+% ĐỀ 2
+% =========================================================================
+
+\begin{lesson}{Đề số 2: Bài tập rèn luyện tổng hợp}{Đề số 2 gồm 18 câu trắc nghiệm nhiều phương án, 6 câu đúng sai và 11 câu trả lời ngắn}
+
+Học sinh làm bài cẩn thận và đối chiếu đáp án chi tiết phía dưới.
+
+\end{lesson}
+\begin{quiz}{Phần I: Trắc nghiệm nhiều phương án lựa chọn}
+
+\begin{mcq}{Cho điểm $M$ nằm ngoài mặt cầu $S(O;R)$. Khẳng định nào dưới đây đúng?}{2}{1}{Điểm $M$ nằm ngoài mặt cầu $S(O;R) \Leftrightarrow OM > R$.
+
+Chọn C.}
+	\option{$OM < R$.}
+	\option{$OM = R$.}
+	\option{$OM > R$.}
+	\option{$OM \le R$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S): x^2 + (y-2)^2 + (z+1)^2 = 6$. Đường kính của $(S)$ bằng}{2}{1}{Bán kính mặt cầu là $R = \sqrt{6}$.
+Độ dài đường kính bằng $2R = 2\sqrt{6}$.
+
+Chọn C.}
+	\option{$\sqrt{6}$.}
+	\option{$12$.}
+	\option{$2\sqrt{6}$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{Mặt cầu $(S): 3x^2 + 3y^2 + 3z^2 - 6x + 12y + 2 = 0$ có bán kính bằng}{3}{1}{Chia hai vế cho 3: $x^2 + y^2 + z^2 - 2x + 4y + \frac{2}{3} = 0$.
+Ta có $a = 1, b = -2, c = 0, d = \frac{2}{3}$.
+Bán kính $R = \sqrt{1^2 + (-2)^2 + 0^2 - \frac{2}{3}} = \sqrt{\frac{13}{3}}$.
+
+Chọn D.}
+	\option{$\frac{\sqrt{7}}{3}$.}
+	\option{$\frac{2\sqrt{7}}{3}$.}
+	\option{$\frac{\sqrt{21}}{3}$.}
+	\option{$\sqrt{\frac{13}{3}}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S): (x-2)^2 + (y+1)^2 + (z-3)^2 = 4$. Tâm của $(S)$ có tọa độ là}{3}{1}{Tâm của mặt cầu $(S)$ là $I(2;-1;3)$.
+
+Chọn D.}
+	\option{$(-2;1;-3)$.}
+	\option{$(-4;2;-6)$.}
+	\option{$(4;-2;6)$.}
+	\option{$(2;-1;3)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, mặt cầu $(S): (x+1)^2 + (y-2)^2 + z^2 = 9$ có bán kính bằng}{0}{1}{Bán kính của mặt cầu là $R = \sqrt{9} = 3$.
+
+Chọn A.}
+	\option{$3$.}
+	\option{$81$.}
+	\option{$9$.}
+	\option{$6$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S)$ có tâm $I(1;-4;0)$ và bán kính bằng $3$. Phương trình của $(S)$ là}{1}{1}{Phương trình mặt cầu $(S): (x-1)^2 + (y+4)^2 + z^2 = 3^2 = 9$.
+
+Chọn B.}
+	\option{$(x+1)^2 + (y-4)^2 + z^2 = 9$.}
+	\option{$(x-1)^2 + (y+4)^2 + z^2 = 9$.}
+	\option{$(x-1)^2 + (y+4)^2 + z^2 = 3$.}
+	\option{$(x+1)^2 + (y-4)^2 + z^2 = 3$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$ cho điểm $I(2;3;4)$ và $A(1;2;3)$. Phương trình mặt cầu tâm $I$ và đi qua $A$ có phương trình là:}{3}{1}{Bán kính $R = IA = \sqrt{(1-2)^2 + (2-3)^2 + (3-4)^2} = \sqrt{3} \Rightarrow R^2 = 3$.
+Phương trình mặt cầu $(S): (x-2)^2 + (y-3)^2 + (z-4)^2 = 3$.
+
+Chọn D.}
+	\option{$(x+2)^2 + (y+3)^2 + (z+4)^2 = 3$.}
+	\option{$(x+2)^2 + (y+3)^2 + (z+4)^2 = 9$.}
+	\option{$(x-2)^2 + (y-3)^2 + (z-4)^2 = 45$.}
+	\option{$(x-2)^2 + (y-3)^2 + (z-4)^2 = 3$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ trục tọa độ $Oxyz$, cho hai điểm $A(1;2;3), B(5;4;-1)$. Phương trình mặt cầu đường kính $AB$ là}{0}{1}{Tâm $I$ là trung điểm $AB \Rightarrow I(3;3;1)$.
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(5-1)^2 + (4-2)^2 + (-1-3)^2}}{2} = \frac{\sqrt{36}}{2} = 3 \Rightarrow R^2 = 9$.
+Phương trình mặt cầu $(S): (x-3)^2 + (y-3)^2 + (z-1)^2 = 9$.
+
+Chọn A.}
+	\option{$(x-3)^2 + (y-3)^2 + (z-1)^2 = 9$.}
+	\option{$(x-3)^2 + (y-3)^2 + (z-1)^2 = 6$.}
+	\option{$(x+3)^2 + (y+3)^2 + (z+1)^2 = 9$.}
+	\option{$(x-3)^2 + (y-3)^2 + (z-1)^2 = 36$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho hai điểm $M(3;-2;5), N(-1;6;-3)$. Mặt cầu đường kính $MN$ có phương trình là:}{3}{1}{Tâm $I$ là trung điểm $MN \Rightarrow I(1;2;1)$.
+Bán kính $R = \frac{MN}{2} = \frac{\sqrt{(-1-3)^2 + (6+2)^2 + (-3-5)^2}}{2} = \frac{\sqrt{144}}{2} = 6 \Rightarrow R^2 = 36$.
+Phương trình mặt cầu: $(x-1)^2 + (y-2)^2 + (z-1)^2 = 36$.
+
+Chọn D.}
+	\option{$(x+1)^2 + (y+2)^2 + (z+1)^2 = 6$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-1)^2 = 6$.}
+	\option{$(x+1)^2 + (y+2)^2 + (z+1)^2 = 36$.}
+	\option{$(x-1)^2 + (y-2)^2 + (z-1)^2 = 36$.}
+\end{mcq}
+
+\begin{mcq}{Cho hai điểm $A, B$ cố định trong không gian có độ dài $AB$ là $4$. Biết rằng tập hợp các điểm $M$ trong không gian sao cho $MA = 3MB$ là một mặt cầu. Bán kính mặt cầu đó bằng}{3}{1}{Gọi $E, F$ lần lượt là các điểm chia trong và chia ngoài của đoạn thẳng $AB$ theo tỉ số $k = 3$.
+Ta có $EA = 3EB \Rightarrow EB = \frac{AB}{4} = 1$.
+$FA = 3FB \Rightarrow FA - FB = 2FB = AB = 4 \Rightarrow FB = 2$.
+Đường kính của mặt cầu là $EF = EB + BF = 1 + 2 = 3$.
+Bán kính mặt cầu là $R = \frac{EF}{2} = \frac{3}{2}$.
+
+Chọn D.}
+	\option{$3$.}
+	\option{$\frac{9}{2}$.}
+	\option{$1$.}
+	\option{$\frac{3}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, mặt cầu $(S)$ qua bốn điểm $A(3;3;0), B(3;0;3), C(0;3;3), D(3;3;3)$. Phương trình mặt cầu $(S)$ là}{3}{1}{Tâm mặt cầu $I\left(\frac{3}{2}; \frac{3}{2}; \frac{3}{2}\right)$.
+Bán kính $R = ID = \sqrt{\left(3-\frac{3}{2}\right)^2 + \left(3-\frac{3}{2}\right)^2 + \left(3-\frac{3}{2}\right)^2} = \sqrt{\frac{27}{4}}$.
+Phương trình mặt cầu $(S): \left(x-\frac{3}{2}\right)^2 + \left(y-\frac{3}{2}\right)^2 + \left(z-\frac{3}{2}\right)^2 = \frac{27}{4}$.
+
+Chọn D.}
+	\option{$\left(x-\frac{3}{2}\right)^2 + \left(y-\frac{3}{2}\right)^2 + \left(z-\frac{3}{2}\right)^2 = \frac{3\sqrt{3}}{2}$.}
+	\option{$\left(x-\frac{3}{2}\right)^2 + \left(y+\frac{3}{2}\right)^2 + \left(z-\frac{3}{2}\right)^2 = \frac{27}{4}$.}
+	\option{$\left(x-\frac{3}{2}\right)^2 + \left(y-\frac{3}{2}\right)^2 + \left(z+\frac{3}{2}\right)^2 = \frac{27}{4}$.}
+	\option{$\left(x-\frac{3}{2}\right)^2 + \left(y-\frac{3}{2}\right)^2 + \left(z-\frac{3}{2}\right)^2 = \frac{27}{4}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x + 3y + z - 11 = 0$. Mặt cầu $(S)$ có tâm $I(1;-2;1)$ và tiếp xúc với mặt phẳng $(P)$ tại điểm $H$, khi đó $H$ có tọa độ là}{3}{1}{Đường thẳng $IH$ qua $I(1;-2;1)$ và vuông góc với $(P)$ nên nhận $\vec{n}=(2;3;1)$ làm VTCP: $\begin{cases} x = 1+2t \\ y = -2+3t \\ z = 1+t \end{cases}$.
+Thay vào phương trình mặt phẳng $(P)$:
+$2(1+2t) + 3(-2+3t) + (1+t) - 11 = 0 \Leftrightarrow 14t - 14 = 0 \Leftrightarrow t = 1$.
+Suy ra $H(3;1;2)$.
+
+Chọn D.}
+	\option{$H(-3;-1;-2)$.}
+	\option{$H(-1;-5;0)$.}
+	\option{$H(1;5;0)$.}
+	\option{$H(3;1;2)$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ trục tọa độ $Oxyz$ cho mặt phẳng $(\alpha)$ có phương trình $2x + y - z - 1 = 0$ và mặt cầu $(S)$ có phương trình $(x-1)^2 + (y-1)^2 + (z+2)^2 = 4$. Xác định bán kính $r$ của đường tròn là giao tuyến của mặt phẳng $(\alpha)$ và mặt cầu $(S)$.}{1}{1}{Tâm $I(1;1;-2)$, bán kính $R = 2$.
+Khoảng cách $d(I, (\alpha)) = \frac{|2.1 + 1 - (-2) - 1|}{\sqrt{2^2 + 1^2 + (-1)^2}} = \frac{4}{\sqrt{6}}$.
+Bán kính đường tròn giao tuyến là $r = \sqrt{R^2 - d^2} = \sqrt{4 - \frac{16}{6}} = \sqrt{\frac{8}{6}} = \frac{2\sqrt{3}}{3}$.
+
+Chọn B.}
+	\option{$r = \frac{2\sqrt{42}}{3}$.}
+	\option{$r = \frac{2\sqrt{3}}{3}$.}
+	\option{$r = \frac{2\sqrt{15}}{3}$.}
+	\option{$r = \frac{2\sqrt{7}}{3}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, cho điểm $I(-3;0;1)$. Mặt cầu $(S)$ có tâm $I$ và cắt mặt phẳng $(P): x - 2y - 2z - 1 = 0$ theo một thiết diện là một hình tròn. Diện tích của hình tròn này bằng $\pi$. Phương trình mặt cầu $(S)$ là}{2}{1}{Bán kính đường tròn giao tuyến $r = \sqrt{\frac{S}{\pi}} = 1$.
+Khoảng cách $d(I, (P)) = \frac{|-3 - 2.0 - 2.1 - 1|}{\sqrt{1^2 + (-2)^2 + (-2)^2}} = \frac{6}{3} = 2$.
+Bán kính mặt cầu $R = \sqrt{r^2 + d^2} = \sqrt{1^2 + 2^2} = \sqrt{5} \Rightarrow R^2 = 5$.
+Phương trình mặt cầu $(S): (x+3)^2 + y^2 + (z-1)^2 = 5$.
+
+Chọn C.}
+	\option{$(x+3)^2 + y^2 + (z-1)^2 = 4$.}
+	\option{$(x+3)^2 + y^2 + (z-1)^2 = 25$.}
+	\option{$(x+3)^2 + y^2 + (z-1)^2 = 5$.}
+	\option{$(x+3)^2 + y^2 + (z-1)^2 = 2$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, cho mặt phẳng $(P): x - 2y + 2z - 2 = 0$ và điểm $I(-1; 2; -1)$. Viết phương trình mặt cầu $(S)$ có tâm $I$ và cắt mặt phẳng $(P)$ theo giao tuyến là đường tròn có bán kính bằng $5$.}{3}{1}{Khoảng cách $d(I, (P)) = \frac{|-1 - 2.2 + 2.(-1) - 2|}{\sqrt{1^2 + (-2)^2 + 2^2}} = \frac{9}{3} = 3$.
+Bán kính mặt cầu $R = \sqrt{r^2 + d^2} = \sqrt{5^2 + 3^2} = \sqrt{34} \Rightarrow R^2 = 34$.
+Phương trình mặt cầu $(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 34$.
+
+Chọn D.}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 25$.}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 16$.}
+	\option{$(S): (x-1)^2 + (y+2)^2 + (z-1)^2 = 34$.}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 34$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, mặt phẳng $(P): 2x + 6y + z - 3 = 0$ cắt trục $Oz$ và đường thẳng $d: \frac{x-5}{1} = \frac{y}{2} = \frac{z-6}{-1}$ lần lượt tại $A$ và $B$. Phương trình mặt cầu đường kính $AB$ là}{1}{1}{$A = (P) \cap Oz \Rightarrow A(0;0;3)$.
+$B = (P) \cap d \Rightarrow B(4;-2;7)$.
+Tâm $I$ là trung điểm $AB \Rightarrow I(2;-1;5)$.
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{4^2 + (-2)^2 + 4^2}}{2} = 3 \Rightarrow R^2 = 9$.
+Phương trình $(S): (x-2)^2 + (y+1)^2 + (z-5)^2 = 9$.
+
+Chọn B.}
+	\option{$(x+2)^2 + (y-1)^2 + (z+5)^2 = 36$.}
+	\option{$(x-2)^2 + (y+1)^2 + (z-5)^2 = 9$.}
+	\option{$(x+2)^2 + (y-1)^2 + (z+5)^2 = 9$.}
+	\option{$(x-2)^2 + (y+1)^2 + (z-5)^2 = 36$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho đường thẳng $d: \frac{x}{2} = \frac{y-3}{1} = \frac{z-2}{1}$ và hai mặt phẳng $(P): x - 2y + 2z = 0; (Q): x - 2y + 3z - 5 = 0$. Mặt cầu $(S)$ có tâm $I$ là giao điểm của đường thẳng $(d)$ và mặt phẳng $(P)$. Mặt phẳng $(Q)$ tiếp xúc với mặt cầu $(S)$. Viết phương trình mặt cầu $(S)$.}{2}{1}{$I = d \cap (P) \Rightarrow I(2;4;3)$.
+Bán kính $R = d(I, (Q)) = \frac{|2 - 2.4 + 3.3 - 5|}{\sqrt{1^2 + (-2)^2 + 3^2}} = \frac{2}{\sqrt{14}} \Rightarrow R^2 = \frac{4}{14} = \frac{2}{7}$.
+Phương trình mặt cầu $(S): (x-2)^2 + (y-4)^2 + (z-3)^2 = \frac{2}{7}$.
+
+Chọn C.}
+	\option{$(S): (x+2)^2 + (y+4)^2 + (z+3)^2 = 1$.}
+	\option{$(S): (x-2)^2 + (y-4)^2 + (z-3)^2 = 6$.}
+	\option{$(S): (x-2)^2 + (y-4)^2 + (z-3)^2 = \frac{2}{7}$.}
+	\option{$(S): (x-2)^2 + (y+4)^2 + (z+4)^2 = 8$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho các điểm $I(1;0;0)$ và đường thẳng $d: \frac{x-1}{1} = \frac{y-1}{2} = \frac{z+2}{1}$. Phương trình mặt cầu $(S)$ có tâm $I$ và cắt đường thẳng $d$ tại hai điểm $A, B$ sao cho tam giác $IAB$ đều là}{1}{1}{Tam giác $IAB$ đều cạnh $AB = R$ nên khoảng cách $h = d(I,d) = \frac{R\sqrt{3}}{2} \Rightarrow R^2 = \frac{4h^2}{3}$.
+Lấy $M(1;1;-2) \in d \Rightarrow \vec{IM} = (0;1;-2)$. VTCP $\vec{u} = (1;2;1)$.
+$[\vec{IM},\vec{u}] = (5;-2;-1) \Rightarrow h = \frac{\sqrt{25+4+1}}{\sqrt{1+4+1}} = \sqrt{5}$.
+Suy ra $R^2 = \frac{4.5}{3} = \frac{20}{3}$.
+Phương trình mặt cầu $(S): (x-1)^2 + y^2 + z^2 = \frac{20}{3}$.
+
+Chọn B.}
+	\option{$(x+1)^2 + y^2 + z^2 = \frac{20}{3}$.}
+	\option{$(x-1)^2 + y^2 + z^2 = \frac{20}{3}$.}
+	\option{$(x-1)^2 + y^2 + z^2 = \frac{16}{4}$.}
+	\option{$(x-1)^2 + y^2 + z^2 = \frac{5}{3}$.}
+\end{mcq}
+
+\end{quiz}
+
+\begin{quiz}{Phần II: Trắc nghiệm đúng sai}
+
+\begin{truefalse}{Trong không gian với hệ toạ độ $Oxyz$, cho điểm $M(2;0;2)$ và mặt cầu $(S): x^2 + (y+2)^2 + (z-2)^2 = 8$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Thay $M(2;0;2)$ vào $(S)$: $2^2 + 2^2 + 0^2 = 8$ nên $M \in (S)$.
+- b) Đúng. $R = \sqrt{8} = 2\sqrt{2}$.
+- c) Đúng. Tâm của mặt cầu $(S)$ là $I(0;-2;2)$.
+- d) Sai. Khoảng cách $d(I, (Oxy)) = |z_I| = 2 < R = 2\sqrt{2}$ nên $(Oxy)$ cắt mặt cầu $(S)$ theo đường tròn.}
+	\statement{true}{Điểm $M(2;0;2)$ thuộc mặt cầu $(S)$.}
+	\statement{true}{Bán kính mặt cầu $(S)$ là $R = 2\sqrt{2}$.}
+	\statement{true}{Tọa độ tâm mặt cầu $(S)$ là $I(0;-2;2)$.}
+	\statement{false}{Mặt phẳng $(Oxy)$ và mặt cầu $(S)$ không có điểm chung.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian $Oxyz$, mặt cầu $(S): (x-1)^2 + (y+2)^2 + (z-4)^2 = 20$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Bán kính của mặt cầu là $R = \sqrt{20} = 2\sqrt{5}$.
+- b) Sai. Tâm của mặt cầu $(S)$ là $I(1;-2;4)$.
+- c) Đúng. $d(I, (P)) = \frac{|2.1 + 4 + 4|}{\sqrt{2^2 + 0^2 + 1^2}} = \frac{10}{\sqrt{5}} = 2\sqrt{5} = R \Rightarrow (S)$ tiếp xúc với $(P)$.
+- d) Đúng. $d(I, (Ozx)) = |y_I| = |-2| = 2 \Rightarrow r = \sqrt{R^2 - d^2} = \sqrt{20 - 4} = 4$.}
+	\statement{false}{Bán kính mặt cầu $(S)$ là 20.}
+	\statement{false}{Tọa độ tâm mặt cầu $(S)$ là $I(-1;2;-4)$.}
+	\statement{true}{Mặt cầu $(S)$ tiếp xúc với mặt phẳng $(P): 2x + z + 4 = 0$.}
+	\statement{true}{Mặt phẳng $(Ozx)$ cắt mặt cầu $(S)$ theo đường tròn giao tuyến có bán kính $r = 4$.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian với hệ tọa độ $Oxyz$, cho các phương trình sau:
+$(S_1): x^2 + y^2 + z^2 + x - 2y + 4z - 3 = 0$;
+$(S_2): 2x^2 + 2y^2 + 2z^2 - x - y - z = 0$;
+$(S_3): 2x^2 + 2y^2 + 2z^2 + 4x + 8y + 6z + 3 = 0$;
+$(S_4): x^2 + y^2 + z^2 - 2x + 4y - 4z + 10 = 0$.
+Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. $(S_1)$ có $a^2+b^2+c^2-d = \frac{1}{4} + 1 + 4 - (-3) = \frac{33}{4} > 0$.
+- b) Đúng. $(S_2)$ đưa về $x^2+y^2+z^2 - \frac{1}{2}x - \frac{1}{2}y - \frac{1}{2}z = 0$ có $a^2+b^2+c^2-d = \frac{3}{16} > 0$.
+- c) Sai. $(S_3)$ đưa về $x^2+y^2+z^2+2x+4y+3z+\frac{3}{2}=0$ có $a^2+b^2+c^2-d = 1+4+\frac{9}{4}-\frac{3}{2} = \frac{23}{4} > 0$ nên $(S_3)$ là phương trình mặt cầu.
+- d) Đúng. $(S_4)$ có $a^2+b^2+c^2-d = 1+4+4-10 = -1 < 0$ nên không phải là phương trình mặt cầu.}
+	\statement{true}{$(S_1)$ là phương trình của một mặt cầu.}
+	\statement{true}{$(S_2)$ là phương trình của một mặt cầu.}
+	\statement{false}{$(S_3)$ không phải là phương trình của một mặt cầu.}
+	\statement{true}{$(S_4)$ không phải là phương trình của một mặt cầu.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian với hệ trục tọa độ $Oxyz$, cho mặt cầu $(S)$ có tâm nằm trên mặt phẳng $Oxy$ và đi qua ba điểm $A(1;2;-4), B(1;-3;1), C(2;2;3)$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Sai. Tọa độ tâm là $I(-2;1;0)$.
+- b) Đúng. Bán kính $R = IA = \sqrt{(1+2)^2 + (2-1)^2 + (-4)^2} = \sqrt{26}$.
+- c) Đúng. Giao với $Ox (y=0, z=0)$: $x^2 + 4x - 21 = 0 \Leftrightarrow x = 3$ hoặc $x = -7$ (hai nghiệm trái dấu).
+- d) Sai. Bán kính đường tròn ngoại tiếp $\triangle ABC$ là $r = \frac{5\sqrt{170}}{17} \approx 3{,}83 > 3$.}
+	\statement{false}{Tọa độ tâm $I$ của mặt cầu $(S)$ là $I(2;-1;0)$.}
+	\statement{true}{Bán kính $R$ của mặt cầu $(S)$ là $R = \sqrt{26}$.}
+	\statement{true}{Mặt cầu $(S)$ cắt trục $Ox$ tại hai điểm phân biệt có hoành độ trái dấu.}
+	\statement{false}{Mặt phẳng $(ABC)$ cắt mặt cầu theo giao tuyến là đường tròn có bán kính bé hơn 3.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian với hệ trục tọa độ $Oxyz$, cho điểm $A(1;1;2), B(3;2;-3)$. Mặt cầu $(S)$ có tâm $I$ thuộc $Ox$ và đi qua hai điểm $A, B$. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Tâm $I(a;0;0) \in Ox$, từ $IA^2 = IB^2$ giải được $a = 4 \Rightarrow I(4;0;0)$.
+- b) Sai. Bán kính $R = IA = \sqrt{(1-4)^2 + 1^2 + 2^2} = \sqrt{14}$.
+- c) Đúng. Phương trình mặt cầu $(S): (x-4)^2 + y^2 + z^2 = 14 \Leftrightarrow x^2 + y^2 + z^2 - 8x + 2 = 0$.
+- d) Sai. Khoảng cách từ $I$ đến đoạn $AB$ bằng $\frac{\sqrt{26}}{2} \ne \sqrt{26}$.}
+	\statement{true}{Tọa độ tâm $(I)$ của mặt cầu $(S)$ là $I(4;0;0)$.}
+	\statement{false}{Bán kính $R$ của mặt cầu $(S)$ là $R = 14$.}
+	\statement{true}{Mặt cầu $(S)$ có phương trình $x^2 + y^2 + z^2 - 8x + 2 = 0$.}
+	\statement{false}{Khoảng cách từ tâm $I$ đến đoạn thẳng $AB$ bằng $\sqrt{26}$.}
+\end{truefalse}
+
+\begin{truefalse}{Trong không gian $Oxyz$, mặt cầu $(S)$ đi qua điểm $A(1;-1;4)$ và tiếp xúc với các mặt phẳng tọa độ. Xét tính đúng sai của các khẳng định sau:}{1}{- a) Đúng. Mặt cầu tiếp xúc với 3 mặt phẳng tọa độ nên $|a| = |b| = |c| = R$.
+- b) Đúng. Do $A(1;-1;4)$ nên tâm $I(R;-R;R)$. Thay $A$ vào giải được $R = 3 \Rightarrow (x-3)^2 + (y+3)^2 + (z-3)^2 = 9$.
+- c) Đúng. Trung điểm $AB$ là $I(3;-3;3)$ và độ dài $AB = 6 = 2R$ nên $AB$ là đường kính.
+- d) Sai. Cạnh hình lập phương ngoại tiếp là $2R = 6 \Rightarrow$ đường chéo bằng $6\sqrt{3} \ne 3\sqrt{3}$.}
+	\statement{true}{Nếu $I(a;b;c)$ là tâm của mặt cầu $(S)$ thì $|a| = |b| = |c|$.}
+	\statement{true}{Mặt cầu $(S)$ có phương trình $(x-3)^2 + (y+3)^2 + (z-3)^2 = 9$.}
+	\statement{true}{Mặt cầu $(S)$ đi qua điểm $B(5;-5;2)$ và nhận $AB$ là đường kính.}
+	\statement{false}{Mặt cầu $(S)$ nội tiếp một hình lập phương có độ dài đường chéo bằng $3\sqrt{3}$.}
+\end{truefalse}
+
+\end{quiz}
+
+\begin{quiz}{Phần III: Trắc nghiệm trả lời ngắn}
+
+\shortanswer{Trong không gian $Oxyz$, cho hai điểm $A(-1;0;1), B(1;-1;2)$. Tập hợp tất cả các điểm $M$ bất kì trong không gian thỏa mãn $\widehat{AMB} = 90^\circ$ là một mặt cầu $(S)$ có bán kính bằng bao nhiêu?}{1{,}2}{1}{Tập hợp điểm $M$ nhìn đoạn $AB$ dưới một góc vuông là mặt cầu đường kính $AB$.
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(1+1)^2 + (-1-0)^2 + (2-1)^2}}{2} = \frac{\sqrt{6}}{2} \approx 1{,}2$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho hai điểm $A(1;2;1), B(3;1;-2)$. Tập hợp tất cả các điểm $M$ bất kì trong không gian thỏa mãn $MA^2 + MB^2 = 30$ là một mặt cầu $(S)$ có đường kính bằng bao nhiêu?}{6{,}8}{1}{Gọi $I$ là trung điểm $AB \Rightarrow I(2; 1{,}5; -0{,}5)$.
+Ta có $MA^2 + MB^2 = 2MI^2 + \frac{AB^2}{2} \Leftrightarrow 30 = 2MI^2 + 7 \Leftrightarrow MI^2 = \frac{23}{2} \Rightarrow R = \sqrt{\frac{23}{2}}$.
+Đường kính mặt cầu $d = 2R = \sqrt{46} \approx 6{,}8$.}
+
+\shortanswer{Trong không gian với hệ trục tọa độ $Oxyz$, cho ba điểm $A(1;2;-4), B(1;-3;1), C(2;2;3)$. Tính đường kính của mặt cầu $(S)$ đi qua ba điểm trên và có tâm nằm trên mặt phẳng $(Oxy)$.}{10{,}2}{1}{Tâm mặt cầu là $I(-2;1;0)$, bán kính $R = \sqrt{26}$.
+Đường kính của mặt cầu là $d = 2R = 2\sqrt{26} \approx 10{,}2$.}
+
+\shortanswer{Trong không gian $Oxyz$, gọi $(S)$ là mặt cầu đi qua điểm $D(0;1;2)$ và tiếp xúc với các trục $Ox, Oy, Oz$ tại các điểm $A(a;0;0), B(0;b;0), C(0;0;c)$ trong đó $a, b, c \in \mathbb{R} \setminus \{0;1\}$. Tính bán kính của $(S)$.}{7{,}1}{1}{Do $(S)$ tiếp xúc với ba trục tọa độ tại $A(a;0;0), B(0;b;0), C(0;0;c)$ nên tâm $I(a;b;c)$ và $R^2 = a^2+b^2 = b^2+c^2 = c^2+a^2 \Rightarrow a^2 = b^2 = c^2 \Rightarrow R = |a|\sqrt{2}$.
+Phương trình $(S): (x-a)^2 + (y-b)^2 + (z-c)^2 = 2a^2$.
+$(S)$ đi qua $D(0;1;2) \Rightarrow a^2 + (1-b)^2 + (2-c)^2 = 2a^2 \Leftrightarrow (1-b)^2 + (2-c)^2 = b^2$.
+Với $b=c$ ta có $(1-b)^2 + (2-b)^2 = b^2 \Leftrightarrow b^2 - 6b + 5 = 0 \Leftrightarrow b = 5$ (do $b \neq 1$).
+Bán kính $R = 5\sqrt{2} \approx 7{,}1$.}
+
+\shortanswer{Trong không gian với hệ trục tọa độ $Oxyz$, cho ba điểm $A(1;0;0), C(0;0;3), B(0;2;0)$. Tập hợp các điểm $M$ thỏa mãn $MA^2 = MB^2 + MC^2$ là mặt cầu có bán kính là bao nhiêu?}{1{,}4}{1}{Gọi $M(x;y;z)$, ta có:
+$MA^2 = (x-1)^2 + y^2 + z^2 = x^2 + y^2 + z^2 - 2x + 1$
+$MB^2 = x^2 + (y-2)^2 + z^2 = x^2 + y^2 + z^2 - 4y + 4$
+$MC^2 = x^2 + y^2 + (z-3)^2 = x^2 + y^2 + z^2 - 6z + 9$
+$MA^2 = MB^2 + MC^2 \Leftrightarrow x^2 + y^2 + z^2 + 2x - 4y - 6z + 12 = 0$.
+Mặt cầu có tâm $I(-1;2;3)$ và bán kính $R = \sqrt{(-1)^2 + 2^2 + 3^2 - 12} = \sqrt{2} \approx 1{,}4$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho mặt cầu $(S)$ có phương trình $(x-3)^2 + (y+2)^2 + (z-1)^2 = 100$ và mặt phẳng $(\alpha)$ có phương trình $2x - 2y - z + 9 = 0$. Tính bán kính của đường tròn $(C)$ là giao tuyến của mặt phẳng $(\alpha)$ và mặt cầu $(S)$.}{8}{1}{Mặt cầu $(S)$ có tâm $I(3;-2;1)$, bán kính $R = 10$.
+Khoảng cách $d(I, (\alpha)) = \frac{|2.3 - 2(-2) - 1 + 9|}{\sqrt{2^2 + (-2)^2 + (-1)^2}} = \frac{18}{3} = 6$.
+Bán kính đường tròn giao tuyến $r = \sqrt{R^2 - d^2} = \sqrt{100 - 36} = 8$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - y - 2z - 1 = 0$ và điểm $M(1;-2;0)$. Mặt cầu tâm $M$, bán kính bằng $\sqrt{3}$ cắt phẳng $(P)$ theo giao tuyến là đường tròn có bán kính bằng bao nhiêu?}{1{,}4}{1}{Khoảng cách $d(M, (P)) = \frac{|2.1 - (-2) - 2.0 - 1|}{\sqrt{2^2 + (-1)^2 + (-2)^2}} = \frac{3}{3} = 1$.
+Bán kính đường tròn giao tuyến là $r = \sqrt{R^2 - d^2} = \sqrt{(\sqrt{3})^2 - 1^2} = \sqrt{2} \approx 1{,}4$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho mặt phẳng $(P): x + 2y - 2z + 3 = 0$ và mặt cầu $(S)$ có tâm $I(0;-2;1)$. Biết mặt phẳng $(P)$ cắt mặt cầu $(S)$ theo giao tuyến là một đường tròn có diện tích $2\pi$. Một đường thẳng bất kì cắt mặt cầu $(S)$ tại hai điểm $A, B$ sao cho $AB$ lớn nhất. Tính độ dài đoạn thẳng $AB$.}{3{,}5}{1}{Diện tích đường tròn $S = \pi r^2 = 2\pi \Rightarrow r^2 = 2$.
+Khoảng cách $d(I, (P)) = \frac{|0 + 2(-2) - 2.1 + 3|}{\sqrt{1^2 + 2^2 + (-2)^2}} = \frac{3}{3} = 1$.
+Bán kính mặt cầu $R = \sqrt{r^2 + d^2} = \sqrt{2 + 1} = \sqrt{3}$.
+Độ dài $AB$ lớn nhất khi $AB$ là đường kính của mặt cầu $\Rightarrow AB = 2R = 2\sqrt{3} \approx 3{,}5$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho bốn mặt cầu có bán kính lần lượt là $2, 3, 3, 2$ (đơn vị độ dài) tiếp xúc ngoài với nhau. Mặt cầu nhỏ nhất tiếp xúc ngoài với cả bốn mặt cầu nói trên có bán kính bằng bao nhiêu?}{0{,}5}{1}{Áp dụng định lý Soddy cho 5 mặt cầu tiếp xúc ngoài nhau với độ cong $k_i = \frac{1}{r_i}$:
+$k_1 = \frac{1}{2}, k_2 = \frac{1}{3}, k_3 = \frac{1}{3}, k_4 = \frac{1}{2}$.
+Ta có $S = \sum_{i=1}^4 k_i = \frac{5}{3}$ và $Q = \sum_{i=1}^4 k_i^2 = \frac{13}{18}$.
+Phương trình xác định độ cong $k_5$: $2k_5^2 - 2S k_5 + (3Q - S^2) = 0 \Leftrightarrow 36k_5^2 - 60k_5 - 11 = 0 \Rightarrow k_5 = \frac{11}{6}$.
+Bán kính mặt cầu nhỏ nhất: $r_5 = \frac{1}{k_5} = \frac{6}{11} \approx 0{,}5$.}
+
+\shortanswer{Trong không gian với hệ toạ độ $Oxyz$, cho điểm $A(1;-2;3)$ và đường thẳng $d$ có phương trình $3x - 2y + z - 7 = 0$. Bán kính mặt cầu tâm $A$, tiếp xúc với $d$ bằng bao nhiêu?}{0{,}8}{1}{Bán kính mặt cầu $R = d(A, d) = \frac{|3.1 - 2(-2) + 3 - 7|}{\sqrt{3^2 + (-2)^2 + 1^2}} = \frac{3}{\sqrt{14}} = \frac{3\sqrt{14}}{14} \approx 0{,}8$.}
+
+\shortanswer{Trong không gian $Oxyz$, cho đường thẳng $d: \frac{x+5}{2} = \frac{y-7}{-2} = \frac{z}{1}$ và điểm $M(4;1;6)$. Đường thẳng $d$ cắt mặt cầu $(S)$ có tâm $M$ tại hai điểm $A, B$ sao cho $AB = 6$. Đường kính của mặt cầu $(S)$ bằng bao nhiêu?}{8{,}5}{1}{Đường thẳng $d$ đi qua $N(-5;7;0)$ và có VTCP $\vec{u}=(2;-2;1)$.
+Ta có $\vec{MN} = (-9;6;-6) \Rightarrow [\vec{MN},\vec{u}] = (-6;-3;6)$.
+Khoảng cách từ $M$ đến $d$: $h = d(M,d) = \frac{\sqrt{(-6)^2 + (-3)^2 + 6^2}}{\sqrt{2^2 + (-2)^2 + 1^2}} = \frac{9}{3} = 3$.
+Bán kính mặt cầu $R = \sqrt{h^2 + \left(\frac{AB}{2}\right)^2} = \sqrt{3^2 + 3^2} = 3\sqrt{2}$.
+Đường kính mặt cầu: $D = 2R = 6\sqrt{2} \approx 8{,}5$.}
+
+\end{quiz}
+
+
+\end{document}

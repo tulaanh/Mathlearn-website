@@ -3,8 +3,9 @@ import type { LearningPathData } from "@/lib/path-types";
 import { getChapters } from "@/lib/chapters";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-/** Lấy tất cả lộ trình học kèm các chương con — sắp theo position */
-export async function getLearningPaths(): Promise<LearningPathData[]> {
+/** Lấy tất cả lộ trình học kèm các chương con — sắp theo position.
+ *  Bọc cache() để deduplicate request giữa các component và metadata. */
+export const getLearningPaths = cache(async function getLearningPaths(): Promise<LearningPathData[]> {
   const supabase = await createServerSupabaseClient();
   if (!supabase) return [];
 
@@ -39,7 +40,7 @@ export async function getLearningPaths(): Promise<LearningPathData[]> {
     updatedAt: row.updated_at,
     chapters: chaptersByPathId[row.id] ?? [],
   }));
-}
+});
 
 /** Lấy chi tiết 1 lộ trình theo id. Bọc cache() để metadata và trang dùng chung một lần tải. */
 export const getLearningPathById = cache(async function getLearningPathById(id: string): Promise<LearningPathData | null> {

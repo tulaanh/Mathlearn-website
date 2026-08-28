@@ -39,6 +39,15 @@ export default async function RootLayout({
     <html lang="vi" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Preconnect tới Supabase để giảm latency khi tải dữ liệu & ảnh */}
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <>
+            <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+            <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+          </>
+        )}
+        {/* Preconnect tới CDN KaTeX fonts */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
       </head>
       <body className="flex min-h-screen flex-col bg-[#f8fafc] text-slate-900 antialiased dark:bg-[#090d16] dark:text-slate-100">
         <ProfileProvider

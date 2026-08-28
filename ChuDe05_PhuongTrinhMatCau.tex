@@ -1,0 +1,639 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{CHỦ ĐỀ 05: PHƯƠNG TRÌNH MẶT CẦU - LÝ THUYẾT VÀ CÁC DẠNG TOÁN}
+\docdesc{Tóm tắt lý thuyết nền tảng và 6 dạng toán phương trình mặt cầu có ví dụ mẫu chi tiết - Toán 12 SGK Mới}
+\docgrade{12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hình học không gian, Oxyz, Phương trình mặt cầu}
+
+% =========================================================================
+% PHẦN I: TÓM TẮT LÝ THUYẾT
+% =========================================================================
+
+\begin{lesson}{Phần I: Tóm tắt lý thuyết}{Định nghĩa mặt cầu, đường kính, phương trình mặt cầu chính tắc và tổng quát}
+
+\textbf{1. Định nghĩa}
+
+- Trong không gian, cho điểm $I$ và số dương $R$. Mặt cầu tâm $I$, bán kính $R$, kí hiệu $S(I;R)$ hay $(S)$ là tập hợp các điểm $M$ trong không gian thỏa mãn $IM = R$.
+
+- Nếu hai điểm $M, N$ nằm trên mặt cầu $S(I;R)$ và đoạn thẳng $MN$ đi qua tâm $I$ thì $MN$ được gọi là một **đường kính** của mặt cầu. Khi đó độ dài đường kính bằng $2R$.
+
+- Vậy $S(I;R) = \{M \mid IM = R\}$.
+
+\image{0.5}{}{lt_1.png}
+
+\textbf{Chú ý:} Cho mặt cầu $S(I;R)$ và điểm $M$ bất kì trong không gian.
+- Nếu $IM = R$ thì ta nói điểm $M$ **nằm trên** mặt cầu $S(I;R)$.
+- Nếu $IM < R$ thì ta nói điểm $M$ **nằm trong** mặt cầu $S(I;R)$.
+- Nếu $IM > R$ thì ta nói điểm $M$ **nằm ngoài** mặt cầu $S(I;R)$.
+- Một mặt cầu được xác định khi ta biết tâm và bán kính hoặc biết một đường kính của nó.
+
+\textbf{2. Phương trình mặt cầu}
+
+Trong không gian $Oxyz$, mặt cầu $(S)$ tâm $I(a;b;c)$, bán kính $R$ có phương trình là:
+$$(x-a)^2 + (y-b)^2 + (z-c)^2 = R^2.$$
+
+\textbf{Chú ý:} Phương trình $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ với $a^2 + b^2 + c^2 - d > 0$ là phương trình của mặt cầu tâm $I(a;b;c)$, bán kính $R = \sqrt{a^2 + b^2 + c^2 - d}$.
+
+\end{lesson}
+
+% =========================================================================
+% PHẦN II: CÁC DẠNG TOÁN
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 1
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 1: Bài toán xác định tâm $I$, bán kính $R$ của mặt cầu cho trước}{Phương pháp nhận diện tâm và tính bán kính từ phương trình chính tắc hoặc tổng quát}
+
+\textbf{PHƯƠNG PHÁP}
+
+- **Loại 1.** Cho $(S): (x-a)^2 + (y-b)^2 + (z-c)^2 = R^2$. Khi đó:
+  1. Tâm $I(a;b;c)$ (đổi dấu số trong ngoặc).
+  2. Bán kính $R$ (rút căn bậc hai vế phải).
+
+- **Loại 2.** Cho $(S): x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$. Khi đó:
+  1. Tâm $I(a;b;c)$ (đổi dấu hệ số của $x, y, z$ và chia đôi).
+  2. Bán kính $R = \sqrt{a^2 + b^2 + c^2 - d}$.
+
+*Các ví dụ sau đây đều xét trong không gian $Oxyz$.*
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 1}
+
+\begin{mcq}{Cho mặt cầu $(S): (x-2)^2 + y^2 + (z+1)^2 = 4$. Tọa độ tâm $I$ của mặt cầu $(S)$ là}{1}{1}{Tọa độ tâm $I$ của mặt cầu $(S)$ là $I(2;0;-1)$.
+
+Chọn B.}
+	\option{$I(2;1;-1)$.}
+	\option{$I(2;0;-1)$.}
+	\option{$I(-2;0;1)$.}
+	\option{$I(-2;1;1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có phương trình $(x+4)^2 + (y-3)^2 + (z+1)^2 = 9$. Tọa độ tâm $I$ của mặt cầu $(S)$ là}{2}{1}{Tọa độ tâm $I$ của mặt cầu $(S)$ là $I(-4;3;-1)$.
+
+Chọn C.}
+	\option{$I(4;-3;1)$.}
+	\option{$I(-4;3;1)$.}
+	\option{$I(-4;3;-1)$.}
+	\option{$I(4;3;1)$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có phương trình $x^2 + y^2 + z^2 - 2x - 4y + 6z - 2 = 0$. Tìm tọa độ tâm $I$ và bán kính $R$ của mặt cầu $(S)$.}{0}{1}{Từ phương trình mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 4y + 6z - 2 = 0$
+$\Rightarrow \begin{cases} a = 1 \\ b = 2 \\ c = -3 \\ d = -2 \end{cases} \Rightarrow \begin{cases} I(1;2;-3) \\ R = \sqrt{1^2 + 2^2 + (-3)^2 - (-2)} = 4 \end{cases}$
+
+Vậy mặt cầu $(S)$ có tâm $I(1;2;-3)$ và bán kính $R = 4$.
+
+Chọn A.}
+	\option{$I(1;2;-3)$ và $R = 4$.}
+	\option{$I(-1;-2;3)$ và $R = 4$.}
+	\option{$I(1;2;-3)$ và $R = 16$.}
+	\option{$I(-1;-2;3)$ và $R = 16$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 4y + 4z - m = 0$ ($m$ là tham số). Biết mặt cầu có bán kính bằng $5$. Tìm $m$.}{2}{1}{Mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 4y + 4z - m = 0$ có bán kính bằng $5$
+$\Rightarrow R = \sqrt{a^2 + b^2 + c^2 - d} = \sqrt{1^2 + 2^2 + (-2)^2 - (-m)} = 5 \Leftrightarrow \sqrt{9+m} = 5 \Leftrightarrow m = 16$.
+
+Chọn C.}
+	\option{$m = 25$.}
+	\option{$m = 11$.}
+	\option{$m = 16$.}
+	\option{$m = -16$.}
+\end{mcq}
+
+\begin{mcq}{Mặt cầu $(S): x^2 + y^2 + z^2 - 4mx + 4y + 2mz + m^2 + 4m = 0$ có bán kính nhỏ nhất khi $m$ bằng}{0}{1}{\image{0.6}{}{lt_2.png} \image{0.6}{}{lt_3.png}}
+	\option{$\frac{1}{2}$.}
+	\option{$\frac{1}{3}$.}
+	\option{$\frac{\sqrt{3}}{2}$.}
+	\option{$0$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S): 2x^2 + 2y^2 + 2z^2 + 12x - 4y + 4 = 0$. Mặt cầu $(S)$ có đường kính $AB$. Biết điểm $A(-1;-1;0)$ thuộc mặt cầu $(S)$. Tọa độ điểm $B$ là}{3}{1}{Phương trình mặt cầu $(S): 2x^2 + 2y^2 + 2z^2 + 12x - 4y + 4 = 0 \Leftrightarrow x^2 + y^2 + z^2 + 6x - 2y + 2 = 0$.
+$\Rightarrow \begin{cases} a = -3 \\ b = 1 \\ c = 0 \end{cases} \Rightarrow \begin{cases} I(-3;1;0) \\ R = \sqrt{(-3)^2 + 1^2 + 0^2 - 2} = \sqrt{8} \end{cases}$
+
+Mặt cầu $(S)$ có tâm $I(-3;1;0)$ đường kính $AB$ với $A(-1;-1;0)$ nên $I$ là trung điểm của đoạn $AB$
+$\Rightarrow \begin{cases} x_B = 2x_I - x_A = 2.(-3) - (-1) = -5 \\ y_B = 2y_I - y_A = 2.1 - (-1) = 3 \\ z_B = 2z_I - z_A = 2.0 - 0 = 0 \end{cases}$
+
+Vậy điểm $B(-5;3;0)$.
+
+Chọn D.}
+	\option{$B(-5;3;-2)$.}
+	\option{$B(-11;5;0)$.}
+	\option{$B(-11;5;-4)$.}
+	\option{$B(-5;3;0)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 2
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 2: Tìm điều kiện để một phương trình là phương trình mặt cầu}{Quy trình xác định hệ số và kiểm tra điều kiện $a^2 + b^2 + c^2 - d > 0$}
+
+\textbf{PHƯƠNG PHÁP}
+
+Để phương trình $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ là phương trình mặt cầu, ta thực hiện các bước sau:
+1. Đưa hệ số trước $x^2, y^2, z^2$ về bằng $1$ (nếu có).
+2. Tìm $a, b, c$ (đổi dấu hệ số của $x, y, z$ và chia đôi) và $d$ (hệ số tự do).
+3. Kiểm tra:
+   - Nếu $a^2 + b^2 + c^2 - d > 0$ thì phương trình đã cho là phương trình mặt cầu.
+   - Nếu $a^2 + b^2 + c^2 - d \le 0$ thì phương trình đã cho không là phương trình mặt cầu.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 2}
+
+\begin{mcq}{Phương trình nào dưới đây là phương trình của một mặt cầu?}{1}{1}{Loại C, D vì phương trình không có dạng $(S): x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$.
+
+Cả 2 phương án A, B đều có dạng khai triển $(S): x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ nên ta kiểm tra điều kiện $a^2 + b^2 + c^2 - d > 0$ ở mỗi phương án:
+
+- Không chọn A vì: $a=1, b=-2, c=-\frac{3}{2}, d=8 \Rightarrow a^2+b^2+c^2-d = 1^2+(-2)^2+\left(-\frac{3}{2}\right)^2-8 = -\frac{3}{4} < 0$.
+- Chọn B vì: $a=1, b=-2, c=-\frac{3}{2}, d=7 \Rightarrow a^2+b^2+c^2-d = 1^2+(-2)^2+\left(-\frac{3}{2}\right)^2-7 = \frac{1}{4} > 0$.
+
+Chọn B.}
+	\option{$x^2 + y^2 + 2z^2 - 2x + 4y + 3z + 8 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 2x + 4y + 3z + 7 = 0$.}
+	\option{$x^2 + y^2 - 2x + 4y - 1 = 0$.}
+	\option{$x^2 + z^2 - 2x + 6z - 2 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình nào dưới đây là phương trình mặt cầu?}{2}{1}{Phương án C có dạng $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ với $a=-2, b=1, c=-\frac{1}{2}, d=-1$.
+
+Ta có $a^2+b^2+c^2-d = (-2)^2+1^2+\left(-\frac{1}{2}\right)^2-(-1) = \frac{25}{4} > 0$.
+
+Suy ra phương trình của phương án C là phương trình mặt cầu.
+
+Chọn C.}
+	\option{$x^2 + y^2 - z^2 + 4x - 2y + 6z + 5 = 0$.}
+	\option{$x^2 + y^2 + z^2 + 4x - 2y + 6z + 15 = 0$.}
+	\option{$x^2 + y^2 + z^2 + 4x - 2y + z - 1 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 2x + 2xy + 6z - 5 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho các phương trình sau:
+1. $(x-1)^2 + y^2 + z^2 = 1$.
+2. $x^2 + (2y-1)^2 + z^2 = 4$.
+3. $x^2 + y^2 + z^2 + 1 = 0$.
+4. $(2x+1)^2 + (2y-1)^2 + 4z^2 = 16$.
+5. $x^2 + y^2 + z^2 + xy + y - z - 1 = 0$.
+6. $x^2 + y^2 - 2x + y - z + 1 = 0$.
+7. $x^2 + y^2 + z^2 - 2x + 4z + 5 = 0$.
+8. $3x^2 + 3y^2 + 3z^2 + 6x + y - 3z + 2 = 0$.
+
+Có bao nhiêu phương trình là phương trình của một mặt cầu?}{3}{1}{- Phương trình 1 có dạng $(x-a)^2 + (y-b)^2 + (z-c)^2 = R^2$ nên là phương trình mặt cầu.
+- Phương trình 2, 3 không có dạng $(x-a)^2 + (y-b)^2 + (z-c)^2 = R^2$ nên không là phương trình mặt cầu.
+- Phương trình 4 biến đổi thành $\left(x+\frac{1}{2}\right)^2 + \left(y-\frac{1}{2}\right)^2 + z^2 = 4$ có dạng $(x-a)^2 + (y-b)^2 + (z-c)^2 = R^2$ nên là phương trình mặt cầu.
+- Phương trình 5, 6 không có dạng $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ nên không là phương trình mặt cầu.
+- Phương trình 7 có dạng $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ với $a=1, b=0, c=-2, d=5$ và $a^2+b^2+c^2-d = 1^2+0^2+(-2)^2-5 = 0$ nên không là phương trình mặt cầu.
+- Phương trình 8 biến đổi thành $x^2 + y^2 + z^2 + 2x + \frac{1}{3}y - z + \frac{2}{3} = 0$ với $a=-1, b=-\frac{1}{6}, c=\frac{1}{2}, d=\frac{2}{3}$ và $a^2+b^2+c^2-d = (-1)^2 + \left(-\frac{1}{6}\right)^2 + \left(\frac{1}{2}\right)^2 - \frac{2}{3} = \frac{11}{18} > 0$ nên là phương trình mặt cầu.
+
+Vậy có 3 phương trình là phương trình mặt cầu.
+
+Chọn D.}
+	\option{6.}
+	\option{5.}
+	\option{2.}
+	\option{3.}
+\end{mcq}
+
+\begin{mcq}{Cho phương trình $x^2 + y^2 + z^2 - 2mx - 2(m+2)y - 2(m+3)z + 16m + 13 = 0$. Tìm tất cả các giá trị thực của $m$ để phương trình trên là phương trình của một mặt cầu.}{0}{1}{Ta có $a = m, b = m+2, c = m+3, d = 16m+13$.
+
+Điều kiện để phương trình trên là phương trình mặt cầu là $a^2+b^2+c^2-d > 0$
+$\Leftrightarrow m^2 + (m+2)^2 + (m+3)^2 - 16m - 13 > 0 \Leftrightarrow 3m^2 - 6m > 0 \Leftrightarrow \begin{bmatrix} m < 0 \\ m > 2 \end{bmatrix}$.
+
+Chọn A.}
+	\option{$m < 0$ hay $m > 2$.}
+	\option{$m \le -2$ hay $m \ge 0$.}
+	\option{$m < -2$ hay $m > 0$.}
+	\option{$m \le 0$ hay $m \ge 2$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 3
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 3: Lập phương trình mặt cầu}{Phương pháp viết phương trình mặt cầu qua các yếu tố hình học cơ bản}
+
+\textbf{PHƯƠNG PHÁP}
+
+**Phương pháp chung:** Cần xác định được tọa độ tâm $I(a;b;c)$ và độ dài bán kính $R$ của mặt cầu $(S)$.
+
+**Các bài toán cơ bản:**
+1. **Mặt cầu có tâm $I(a;b;c)$ và đi qua điểm $A(x_A;y_A;z_A)$** thì bán kính:
+   $$R = IA = \sqrt{(x_A-x_I)^2 + (y_A-y_I)^2 + (z_A-z_I)^2}.$$
+2. **Mặt cầu $(S)$ có đường kính $AB$** thì:
+   - Tâm $I(a;b;c)$ là trung điểm của $AB$ hay $I\left(\frac{x_A+x_B}{2}; \frac{y_A+y_B}{2}; \frac{z_A+z_B}{2}\right)$.
+   - Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(x_B-x_A)^2 + (y_B-y_A)^2 + (z_B-z_A)^2}}{2}$.
+3. **Mặt cầu qua bốn điểm $A, B, C, D$ không đồng phẳng** (ngoại tiếp tứ diện $ABCD$):
+   - *Cách 1:* Gọi tâm $I$ có dạng $I(a;b;c)$, giải hệ điều kiện $IA = IB = IC = ID$.
+   - *Cách 2:* Gọi $(S)$ có dạng $x^2 + y^2 + z^2 - 2ax - 2by - 2cz + d = 0$ (*). Thay tọa độ 4 điểm $A,B,C,D$ vào (*), ta được hệ phương trình 4 ẩn số $a,b,c,d$. Giải tìm $a,b,c,d$. Suy ra tâm $I(a;b;c)$, bán kính $R = \sqrt{a^2+b^2+c^2-d}$.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 3}
+
+\begin{mcq}{Mặt cầu tâm $I(3;-1;0)$, bán kính $R = 5$ có phương trình là}{2}{1}{Phương trình mặt cầu tâm $I(3;-1;0)$, bán kính $R = 5$ là $(x-3)^2 + (y+1)^2 + z^2 = 25$.
+
+Chọn C.}
+	\option{$(x+3)^2 + (y-1)^2 + z^2 = 5$.}
+	\option{$(x-3)^2 + (y+1)^2 + z^2 = 5$.}
+	\option{$(x-3)^2 + (y+1)^2 + z^2 = 25$.}
+	\option{$(x+3)^2 + (y-1)^2 + z^2 = 25$.}
+\end{mcq}
+
+\begin{mcq}{Viết phương trình mặt cầu $(S)$ có tâm $I(-1;1;-2)$ và đi qua điểm $A(2;1;2)$.}{2}{1}{Mặt cầu $(S)$ có tâm $I(-1;1;-2)$ và bán kính $R = IA = \sqrt{(2+1)^2 + (1-1)^2 + (2+2)^2} = 5$.
+
+Phương trình mặt cầu $(S): (x+1)^2 + (y-1)^2 + (z+2)^2 = 25$.
+
+Chọn C.}
+	\option{$(S): (x-1)^2 + (y+1)^2 + (z-2)^2 = 5$.}
+	\option{$(S): (x-2)^2 + (y-1)^2 + (z-2)^2 = 25$.}
+	\option{$(S): (x+1)^2 + (y-1)^2 + (z+2)^2 = 25$.}
+	\option{$(S): x^2 + y^2 + z^2 + 2x - 2y + 4z + 1 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Phương trình mặt cầu $(S)$ đường kính $AB$ với $A(4;-3;5), B(2;1;3)$ là}{1}{1}{Mặt cầu $(S)$ có đường kính $AB \Rightarrow$ tâm là trung điểm $I$ của $AB$ nên $I\left(\frac{4+2}{2}; \frac{-3+1}{2}; \frac{5+3}{2}\right) \Leftrightarrow I(3;-1;4)$.
+
+Bán kính $R = \frac{AB}{2} = \frac{\sqrt{(2-4)^2 + (1+3)^2 + (3-5)^2}}{2} = \sqrt{6}$.
+
+Phương trình mặt cầu $(S): (x-3)^2 + (y+1)^2 + (z-4)^2 = 6 \Leftrightarrow x^2 + y^2 + z^2 - 6x + 2y - 8z + 20 = 0$.
+
+Chọn B.}
+	\option{$x^2 + y^2 + z^2 + 6x + 2y - 8z - 26 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 6x + 2y - 8z + 20 = 0$.}
+	\option{$x^2 + y^2 + z^2 + 6x - 2y + 8z - 20 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 6x + 2y - 8z + 26 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ tâm $I$ nằm trên mặt phẳng $(Oxy)$ đi qua ba điểm $A(1;2;-4), B(1;-3;1), C(2;2;3)$. Tìm tọa độ tâm $I$.}{3}{1}{Vì tâm $I \in (Oxy) \Rightarrow I(a;b;0) \Rightarrow (S): x^2 + y^2 + z^2 - 2ax - 2by + d = 0$ (*).
+
+Vì ba điểm $A(1;2;-4), B(1;-3;1), C(2;2;3)$ đều thuộc $(S)$ nên ta có hệ phương trình:
+$\begin{cases} -2a - 4b + d = -21 \\ -2a + 6b + d = -11 \\ -4a - 4b + d = -17 \end{cases} \Leftrightarrow \begin{cases} a = -2 \\ b = 1 \\ d = -21 \end{cases}$
+
+Vậy phương trình mặt cầu $(S): x^2 + y^2 + z^2 + 4x - 2y - 21 = 0 \Rightarrow$ tâm $I(-2;1;0)$.
+
+Chọn D.}
+	\option{$I(2;-1;0)$.}
+	\option{$I(0;0;1)$.}
+	\option{$I(0;0;-2)$.}
+	\option{$I(-2;1;0)$.}
+\end{mcq}
+
+\begin{mcq}{Cho điểm $I(0;2;3)$. Viết phương trình mặt cầu $(S)$ tâm $I$ tiếp xúc với trục $Oy$.}{3}{1}{Phương trình trục $Oy: \begin{cases} x = 0 \\ y = t \\ z = 0 \end{cases}$.
+
+Vì mặt cầu tiếp xúc với trục $Oy$ nên mặt cầu có bán kính $R = d(I, Oy)$.
+
+Gọi $H$ là hình chiếu của điểm $I$ lên trục $Oy \Rightarrow H(0;2;0)$.
+$\Rightarrow R = d(I, Oy) = IH = \sqrt{(0-0)^2 + (2-2)^2 + (0-3)^2} = 3$.
+
+Phương trình mặt cầu tâm $I$ tiếp xúc với trục $Oy$ là: $x^2 + (y-2)^2 + (z-3)^2 = 9$.
+
+Chọn D.}
+	\option{$x^2 + (y+2)^2 + (z+3)^2 = 2$.}
+	\option{$x^2 + (y+2)^2 + (z+3)^2 = 3$.}
+	\option{$x^2 + (y-2)^2 + (z-3)^2 = 4$.}
+	\option{$x^2 + (y-2)^2 + (z-3)^2 = 9$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 4
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 4: Vị trí tương đối giữa điểm và mặt cầu}{Phương pháp so sánh khoảng cách từ tâm đến điểm với bán kính mặt cầu}
+
+\textbf{PHƯƠNG PHÁP}
+
+Xét điểm $M(x_0;y_0;z_0)$ và mặt cầu $(S): (x-a)^2 + (y-b)^2 + (z-c)^2 - R^2 = 0$ (1). Thay tọa độ điểm $M$ vào vế trái của (1), nếu:
+- Kết quả bằng $0$ thì $M \in (S)$.
+- Kết quả ra số âm thì $M$ nằm trong $(S)$.
+- Kết quả ra số dương thì $M$ nằm ngoài $(S)$.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 4}
+
+\begin{mcq}{Cho điểm $M(1;-1;3)$ và mặt cầu $(S)$ có phương trình $(x-1)^2 + (y+2)^2 + z^2 = 9$. Khẳng định đúng là}{0}{1}{Thay tọa độ điểm $M(1;-1;3)$ vào phương trình mặt cầu $(S)$ ta được: $(1-1)^2 + (-1+2)^2 + 3^2 = 10 > 9$.
+
+Suy ra điểm $M$ nằm ngoài $(S)$.
+
+Chọn A.}
+	\option{$M$ nằm ngoài $(S)$.}
+	\option{$M$ nằm trong $(S)$.}
+	\option{$M$ nằm trên $(S)$.}
+	\option{$M$ trùng với tâm của $(S)$.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 4y - 6z = 0$ và ba điểm $O(0;0;0), A(1;2;3), B(2;-1;-1)$. Trong số ba điểm trên số điểm nằm trên mặt cầu là}{3}{1}{Lần lượt thay tọa độ 3 điểm $O(0;0;0), A(1;2;3), B(2;-1;-1)$ vào mặt cầu $(S)$ ta được:
+
+- Điểm $O$: $0^2 + 0^2 + 0^2 - 2.0 - 4.0 - 6.0 = 0 \Rightarrow O \in (S)$.
+- Điểm $A$: $1^2 + 2^2 + 3^2 - 2.1 - 4.2 - 6.3 = -14 < 0 \Rightarrow A$ nằm trong $(S)$.
+- Điểm $B$: $2^2 + (-1)^2 + (-1)^2 - 2.2 - 4.(-1) - 6.(-1) = 12 > 0 \Rightarrow B$ nằm ngoài $(S)$.
+
+Vậy có 1 điểm nằm trên mặt cầu.
+
+Chọn D.}
+	\option{2.}
+	\option{0.}
+	\option{3.}
+	\option{1.}
+\end{mcq}
+
+\begin{mcq}{Cho mặt cầu $(S)$ có tâm là gốc tọa độ $O$ và điểm $M(2;1;-2)$ thuộc mặt cầu $(S)$. Điểm nào sau đây nằm trong mặt cầu $(S)$?}{3}{1}{Mặt cầu $(S)$ có bán kính $R = OM = \sqrt{(2-0)^2 + (1-0)^2 + (-2-0)^2} = 3$.
+
+Xét điểm $T\left(\sqrt{2}; -\frac{1}{2}; -\frac{3}{4}\right)$, ta có $OT = \sqrt{(\sqrt{2}-0)^2 + \left(-\frac{1}{2}-0\right)^2 + \left(-\frac{3}{4}-0\right)^2} = \frac{3\sqrt{5}}{4} < 3$.
+
+Vậy điểm $T\left(\sqrt{2}; -\frac{1}{2}; -\frac{3}{4}\right)$ nằm trong mặt cầu $(S)$.
+
+Chọn D.}
+	\option{$E(-1;2;5)$.}
+	\option{$K\left(-\frac{1}{3}; -1; \frac{\sqrt{71}}{3}\right)$.}
+	\option{$L\left(0; \frac{9}{2}; 0\right)$.}
+	\option{$T\left(\sqrt{2}; -\frac{1}{2}; -\frac{3}{4}\right)$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 5
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 5: Vị trí tương đối giữa mặt phẳng và mặt cầu}{Quan hệ khoảng cách từ tâm đến mặt phẳng và bán kính thiết diện}
+
+\textbf{PHƯƠNG PHÁP}
+
+Cho mặt cầu $S(I;R)$ và mặt phẳng $(P)$. Gọi $H$ là hình chiếu vuông góc của $I$ lên $(P)$ và có $d = IH$ là khoảng cách từ $I$ đến mặt phẳng $(P)$. Khi đó:
+- **Nếu $d > R$:** Mặt cầu và mặt phẳng không có điểm chung.
+\image{0.45}{}{lt_4.png}
+- **Nếu $d = R$:** Mặt phẳng tiếp xúc mặt cầu. Lúc đó $(P)$ là mặt phẳng tiếp diện của $(S)$ và $H$ là tiếp điểm.
+\image{0.45}{}{lt_5.png}
+- **Nếu $d < R$:** Mặt phẳng $(P)$ cắt mặt cầu theo thiết diện là đường tròn có tâm $H$ và bán kính $r = \sqrt{R^2 - IH^2}$.
+\image{0.45}{}{lt_6.png}
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 5}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, cho mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 2y - 2z - 22 = 0$ và mặt phẳng $(P): 3x - 2y + 6z + 14 = 0$. Khoảng cách từ tâm $I$ của mặt cầu $(S)$ đến mặt phẳng $(P)$ bằng}{2}{1}{Mặt cầu $(S)$ có tâm $I(1;1;1)$. Vậy $d(I, (P)) = \frac{|3.1 - 2.1 + 6.1 + 14|}{\sqrt{9 + 4 + 36}} = \frac{21}{7} = 3$.
+
+Chọn C.}
+	\option{2.}
+	\option{4.}
+	\option{3.}
+	\option{1.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S): x^2 + y^2 + z^2 = 1$ và mặt phẳng $(P): x + 2y - 2z + 1 = 0$. Tìm bán kính $r$ đường tròn giao tuyến của $(S)$ và $(P)$.}{1}{1}{\image{0.6}{}{lt_7.png}}
+	\option{$r = \frac{1}{3}$.}
+	\option{$r = \frac{2\sqrt{2}}{3}$.}
+	\option{$r = \frac{1}{2}$.}
+	\option{$r = \frac{\sqrt{2}}{2}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S): x^2 + y^2 + z^2 - 2x - 4y - 6z = 0$. Đường tròn giao tuyến của $(S)$ với mặt phẳng $(Oxy)$ có bán kính là}{1}{1}{\image{0.6}{}{lt_8.png}}
+	\option{$r = 3$.}
+	\option{$r = \sqrt{5}$.}
+	\option{$r = \sqrt{6}$.}
+	\option{$r = \sqrt{14}$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, cho mặt cầu $(S)$ tâm $I(a;b;c)$ bán kính bằng $1$, tiếp xúc mặt phẳng $(Oxz)$. Khẳng định nào sau đây luôn đúng?}{2}{1}{Phương trình mặt phẳng $(Oxz): y = 0$.
+
+Vì mặt cầu $(S)$ tâm $I(a;b;c)$ bán kính bằng $1$ tiếp xúc với $(Oxz)$ nên ta có:
+$d(I, (Oxz)) = 1 \Leftrightarrow |b| = 1$.
+
+Chọn C.}
+	\option{$|a| = 1$.}
+	\option{$a+b+c=1$.}
+	\option{$|b| = 1$.}
+	\option{$|c| = 1$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian $Oxyz$, viết phương trình mặt cầu có tâm $I(2;1;-4)$ và tiếp xúc với mặt phẳng $(\alpha): x - 2y + 2z - 7 = 0$.}{2}{1}{Mặt cầu cần tìm có bán kính $R = d(I, (\alpha)) = \frac{|2 - 2.1 + 2.(-4) - 7|}{\sqrt{1^2 + (-2)^2 + 2^2}} = 5$.
+
+Phương trình mặt cầu cần tìm là $(x-2)^2 + (y-1)^2 + (z+4)^2 = 25 \Leftrightarrow x^2 + y^2 + z^2 - 4x - 2y + 8z - 4 = 0$.
+
+Chọn C.}
+	\option{$x^2 + y^2 + z^2 + 4x + 2y - 8z - 4 = 0$.}
+	\option{$x^2 + y^2 + z^2 + 4x - 2y + 8z - 4 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 4x - 2y + 8z - 4 = 0$.}
+	\option{$x^2 + y^2 + z^2 - 4x - 2y - 8z - 4 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, cho mặt cầu $(S)$ có tâm $I(3;2;-1)$ và đi qua điểm $A(2;1;2)$. Mặt phẳng nào dưới đây tiếp xúc với $(S)$ tại $A$?}{1}{1}{Gọi $(P)$ là mặt phẳng cần tìm.
+
+Khi đó $(P)$ tiếp xúc với $(S)$ tại $A$ khi và chỉ khi $(P)$ đi qua $A(2;1;2)$ và nhận vectơ $\vec{IA} = (-1;-1;3)$ làm vectơ pháp tuyến.
+
+Vậy phương trình mặt phẳng $(P)$ là $-x - y + 3z - 3 = 0 \Leftrightarrow x + y - 3z + 3 = 0$.
+
+Chọn B.}
+	\option{$x + y + 3z - 9 = 0$.}
+	\option{$x + y - 3z + 3 = 0$.}
+	\option{$x + y - 3z - 8 = 0$.}
+	\option{$x - y - 3z + 3 = 0$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, cho mặt phẳng $(P): x - 2y + 2z - 2 = 0$ và điểm $I(-1;2;-1)$. Viết phương trình mặt cầu $(S)$ có tâm $I$ và cắt mặt phẳng $(P)$ theo giao tuyến là đường tròn có bán kính bằng $5$.}{3}{1}{\image{0.6}{}{lt_9.png}}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 25$.}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 16$.}
+	\option{$(S): (x-1)^2 + (y+2)^2 + (z-1)^2 = 34$.}
+	\option{$(S): (x+1)^2 + (y-2)^2 + (z+1)^2 = 34$.}
+\end{mcq}
+
+\begin{mcq}{Trong không gian với hệ tọa độ $Oxyz$, mặt cầu $(S)$ có tâm $I(-1;2;1)$ và tiếp xúc với mặt phẳng $(P): x - 2y - 2z - 2 = 0$ có phương trình là}{2}{1}{Vì mặt cầu tâm $I(-1;2;1)$ tiếp xúc với mặt phẳng $(P): x - 2y - 2z - 2 = 0$ nên bán kính $R = d(I, (P)) = \frac{|-1 - 2.2 - 2.1 - 2|}{\sqrt{1^2 + (-2)^2 + (-2)^2}} = 3 \Rightarrow (S): (x+1)^2 + (y-2)^2 + (z-1)^2 = 9$.
+
+Chọn C.}
+	\option{$(x+1)^2 + (y-2)^2 + (z-1)^2 = 3$.}
+	\option{$(x-1)^2 + (y+2)^2 + (z+1)^2 = 9$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z-1)^2 = 9$.}
+	\option{$(x+1)^2 + (y-2)^2 + (z+1)^2 = 3$.}
+\end{mcq}
+
+\end{quiz}
+
+% -------------------------------------------------------------------------
+% DẠNG TOÁN 6
+% -------------------------------------------------------------------------
+\begin{lesson}{Dạng toán 6: Bài toán thực tế}{Mô hình hóa hình học không gian vào thực tiễn: trạm phát sóng, rađa, bồn chứa, GPS}
+
+Các bài toán ứng dụng thực tiễn của phương trình mặt cầu trong đời sống và kỹ thuật.
+
+\end{lesson}
+
+\begin{quiz}{Ví dụ minh họa Dạng 6}
+
+\essay{Trong hệ trục tọa độ $Oxyz$ cho trước (đơn vị trên trục là mét), một trạm thu phát sóng 5G có bán kính vùng phủ sóng của trạm ở ngưỡng $600\text{ m}$ được đặt ở vị trí $I(200;450;60)$.
+
+\image{0.5}{}{lt_10.png}
+
+a) Lập phương trình mặt cầu mô tả ranh giới bên ngoài và bên trong của vùng phủ sóng.
+b) Nếu người dùng điện thoại đang ở vị trí $A(-100;50;10)$ thì có thể sử dụng dịch vụ của trạm này không? Vì sao?}{1}{a) Phương trình mặt cầu mô tả ranh giới bên ngoài và bên trong của vùng phủ sóng là:
+$(S): (x-200)^2 + (y-450)^2 + (z-60)^2 = 360000$
+Hay $(S): x^2 + y^2 + z^2 - 400x - 900y - 120z - 113900 = 0$.
+
+b) Thay tọa độ điểm $A(-100;50;10)$ vào phương trình mặt cầu $(S)$.
+Khi đó, ta được:
+$(-100)^2 + 50^2 + 10^2 - 400.(-100) - 900.50 - 120.10 - 113900 = -107500 < 0$
+$\Rightarrow$ Điểm $A$ nằm trong mặt cầu $(S)$.
+$\Rightarrow$ Người đứng ngay tại vị trí điểm $A$ vẫn có thể sử dụng dịch vụ của trạm này.}
+
+\essay{Giả sử người ta biểu diễn mô phỏng của tòa nhà Ericsson Globe ở phần Khởi động trong hệ trục tọa độ $Oxyz$ bởi một mặt cầu có tâm $I$, đường kính $110\text{ m}$ và $OA = 85\text{ m}$ như hình vẽ (đơn vị trên trục là mét). Hãy viết phương trình của mặt cầu này.
+
+\image{0.6}{}{lt_11.png}}{1}{Đường kính $110\text{ m} \Rightarrow R = IA = \frac{110}{2} = 55\text{ m}$.
+$OI = OA - IA = 85 - 55 = 30\text{ m} \Rightarrow I(0;0;30)$.
+Phương trình mặt cầu này là $(S): x^2 + y^2 + (z-30)^2 = 3025$.}
+
+\essay{Bạn Bình đố bạn Nam tìm được đường kính của quả bóng rổ, biết rằng nếu đặt quả bóng ở một góc căn phòng hình hộp chữ nhật, sao cho quả bóng chạm (tiếp xúc) với hai bức tường và nền nhà của căn phòng đó (khi đó khoảng cách từ tâm quả bóng đến hai bức tường và nền nhà đều bằng bán kính của quả bóng) thì có 1 điểm $M$ trên quả bóng với khoảng cách lần lượt đến hai bức tường và nền nhà là $17\text{ cm}, 18\text{ cm}$ và $21\text{ cm}$. Hãy giúp Nam xác định đường kính của quả bóng rổ đó. Biết rằng loại bóng rổ tiêu chuẩn có đường kính từ $23\text{ cm}$ đến $24{,}5\text{ cm}$.
+
+\image{0.6}{}{lt_12.png}}{1}{\image{0.6}{}{lt_13.png}}
+
+\essay{Hệ thống định vị toàn cầu (tên tiếng Anh là: Global Positioning System, viết tắt là GPS) là một hệ thống cho phép xác định chính xác vị trí của một vật thể trong không gian.
+
+Ta có thể mô phỏng cơ chế hoạt động của hệ thống GPS trong không gian như sau: Trong cùng một thời điểm, tọa độ của một điểm $M$ trong không gian sẽ được xác định bởi bốn vệ tinh cho trước, trên mỗi vệ tinh có một máy thu tín hiệu. Bằng cách so sánh sự sai lệch về thời gian nhận phản hồi tín hiệu đó, mỗi máy thu tín hiệu xác định được khoảng cách từ vệ tinh đến vị trí $M$ cần tìm tọa độ. Như vậy, điểm $M$ là giao điểm của bốn mặt cầu với tâm là bốn vệ tinh đã cho.
+
+Ta xét một ví dụ cụ thể như sau:
+Trong không gian với hệ tọa độ $Oxyz$, cho bốn vệ tinh $A(3;-1;6), B(1;4;8), C(7;9;6), D(7;-15;18)$. Tìm tọa độ của điểm $M$ trong không gian biết khoảng cách từ các vệ tinh đến điểm $M$ lần lượt là $MA = 6, MB = 7, MC = 12, MD = 24$.}{1}{Gọi tọa độ của $M$ là $(a;b;c)$. Khi đó, các số $a,b,c$ thỏa mãn các phương trình:
+$(a-3)^2 + (b+1)^2 + (c-6)^2 = 6^2 \Leftrightarrow a^2 + b^2 + c^2 - 6a + 2b - 12c + 10 = 0 \quad (1)$
+$(a-1)^2 + (b-4)^2 + (c-8)^2 = 7^2 \Leftrightarrow a^2 + b^2 + c^2 - 2a - 8b - 16c + 32 = 0 \quad (2)$
+$(a-7)^2 + (b-9)^2 + (c-6)^2 = 12^2 \Leftrightarrow a^2 + b^2 + c^2 - 14a - 18b - 12c + 22 = 0 \quad (3)$
+$(a-7)^2 + (b+15)^2 + (c-18)^2 = 24^2 \Leftrightarrow a^2 + b^2 + c^2 - 14a + 30b - 36c + 22 = 0 \quad (4)$
+
+Trừ tương ứng theo từng vế của $(4)$ cho $(3)$, $(3)$ cho $(1)$, $(2)$ cho $(1)$, ta có:
+$48b - 24c = 0 \Leftrightarrow c = 2b \quad (5)$
+$-8a - 20b + 12 = 0 \Leftrightarrow a = \frac{-5b+3}{2} \quad (6)$
+$4a - 10b - 4c + 22 = 0 \quad (7)$
+
+Thế $(5)$ và $(6)$ vào $(7)$, ta có $-10b + 6 - 10b - 8b + 22 = 0 \Leftrightarrow b = 1$.
+Suy ra $a = -1, c = 2$. Vậy $M(-1;1;2)$.}
+
+\essay{Phần mềm mô phỏng thiết bị thám hiểm đại dương có dạng hình cầu trong không gian $Oxyz$. Cho biết tâm mặt cầu là $I(360;200;400)$ và bán kính $r = 2\text{ m}$. Viết phương trình mặt cầu.
+
+\image{0.5}{}{lt_14.png}}{1}{Phương trình mặt cầu $(S): (x-360)^2 + (y-200)^2 + (z-400)^2 = 4$.}
+
+\essay{Người ta muốn thiết kế một bồn chứa khí hóa lỏng hình cầu bằng phần mềm 3D. Cho biết phương trình bề mặt của bồn chứa là $(S): (x-6)^2 + (y-6)^2 + (z-6)^2 = 25$. Phương trình mặt phẳng chứa nắp là $(P): z = 10$.
+
+\image{0.6}{}{lt_15.png}
+
+a) Tìm tâm và bán kính của bồn chứa.
+b) Tính khoảng cách từ tâm bồn chứa đến mặt phẳng chứa nắp.}{1}{a) Phương trình mặt của bồn chứa là $(S): (x-6)^2 + (y-6)^2 + (z-6)^2 = 25 \Rightarrow$ tâm của bồn chứa $I(6;6;6)$ và bán kính của bồn chứa $R = \sqrt{25} = 5$.
+
+b) Khoảng cách từ tâm bồn chứa đến mặt phẳng chứa nắp là:
+$d(I, (P)) = \frac{|6 - 10|}{\sqrt{0^2 + 0^2 + 1^2}} = 4$.}
+
+\essay{Trong không gian hệ trục tọa độ $Oxyz$ (đơn vị trên mỗi trục là kilômét) một trạm phát sóng rađa của Nga được đặt trên bán đảo Crimea ở vị trí $I(-2;1;-1)$ và được thiết kế phát hiện máy bay của địch ở khoảng cách tối đa $500\text{ km}$.
+
+\image{0.5}{}{lt_16.png}
+
+a) Sử dụng phương trình mặt cầu để mô tả ranh giới bên ngoài vùng phát sóng của rađa trong không gian.
+b) Hai chiếc máy bay do thám của Mỹ và Anh đang bay ở vị trí có tọa độ lần lượt là $M(-200;100;-250)$ và $N(350;-100;300)$. Hỏi rađa của Nga có thể phát hiện ra hai chiếc máy bay do thám của Mỹ và Anh không?}{1}{a) Phương trình mặt cầu để mô tả ranh giới bên ngoài vùng phát sóng của rađa trong không gian là:
+$(x+2)^2 + (y-1)^2 + (z+1)^2 = 250000$.
+
+b) Ta có: $IM = \sqrt{(-200+2)^2 + (100-1)^2 + (-250+1)^2} \approx 335{,}6 < 500$.
+Vì $IM < R$ nên điểm $M$ nằm trong mặt cầu.
+Vậy chiếc máy bay do thám của Mỹ có thể bị phát hiện bởi trạm rađa này.
+
+Ta có: $IN = \sqrt{(350+2)^2 + (-100-1)^2 + (300+1)^2} \approx 474 < 500$.
+Vì $IN < R$ nên điểm $N$ nằm trong mặt cầu.
+Vậy chiếc máy bay do thám của Anh có thể bị phát hiện bởi trạm rađa này.}
+
+\essay{Trong không gian hệ trục tọa độ $Oxyz$ (đơn vị trên mỗi trục là kilômét) một trạm phát sóng điện thoại của nhà mạng Vinaphone được đặt ở vị trí $I(1;-2;-3)$ và được thiết kế bán kính phủ sóng là $5000\text{ m}$.
+
+\image{0.5}{}{lt_17.png}
+
+a) Sử dụng phương trình mặt cầu để mô tả ranh giới bên ngoài vùng phủ sóng trong không gian.
+b) Nhà bạn Minh Hiền và bạn Trúc Linh có vị trí tọa độ lần lượt là $M(1;2;0)$ và $N(-3;1;0)$. Hỏi Minh Hiền và Trúc Linh dùng điện thoại tại nhà thì có thể sử dụng dịch vụ của trạm này không?}{1}{a) Phương trình mặt cầu để mô tả ranh giới bên ngoài vùng phủ sóng trong không gian là:
+$(x-1)^2 + (y+2)^2 + (z+3)^2 = 25$.
+
+b) Ta có: $IM = \sqrt{(1-1)^2 + (2+2)^2 + (0+3)^2} = 5$.
+Vì $IM = R = 5$ nên điểm $M(1;2;0)$ nằm trên mặt cầu.
+Vậy bạn Minh Hiền có thể sử dụng dịch vụ của trạm này.
+
+Ta có: $IN = \sqrt{(-3-1)^2 + (1+2)^2 + (0+3)^2} = \sqrt{34} > 5$.
+Vì $IN > R$ nên điểm $N(-3;1;0)$ nằm ngoài mặt cầu.
+Vậy bạn Trúc Linh không thể sử dụng dịch vụ của trạm này.}
+
+\end{quiz}
+
+\end{document}

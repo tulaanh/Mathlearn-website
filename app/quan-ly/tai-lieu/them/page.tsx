@@ -1,9 +1,13 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
-import DocumentEditor from "@/components/DocumentEditor";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
+
+const DocumentEditor = dynamic(() => import("@/components/DocumentEditor"), {
+  loading: () => <div className="mx-auto max-w-4xl animate-pulse"><div className="h-96 rounded-2xl bg-slate-200 dark:bg-slate-800" /></div>,
+});
 
 export const metadata = { title: "Thêm tài liệu" };
 
