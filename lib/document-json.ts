@@ -12,7 +12,7 @@ import type { EditorPreset } from "@/lib/document-templates";
  *   "grade": "Lớp 8",
  *   "status": "draft" | "published",
  *   "documentType": "normal" | "test",
- *   "topicIds": ["phuong-trinh"],
+ *   "topicIds": ["ham-so-va-do-thi"],
  *   "blocks": [
  *     { "type": "text",   "content": "..." },
  *     { "type": "image",  "altText": "...", "caption": "...", "fileName": "a.png",
@@ -448,7 +448,7 @@ export const SAMPLE_DOCUMENT_JSON = JSON.stringify(
     grade: "Lớp 8",
     status: "draft",
     documentType: "normal",
-    topicIds: ["phuong-trinh"],
+    topicIds: ["ham-so-va-do-thi"],
     blocks: [
       { type: "text", content: "Nhắc lại: phương trình bậc nhất một ẩn có dạng $ax + b = 0$ với $a \\neq 0$." },
       {

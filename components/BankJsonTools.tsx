@@ -4,6 +4,7 @@ import { useRef, useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { parseBankJson } from "@/lib/question-bank-json";
+import { topics } from "@/data/topics";
 
 const FORMAT_HINT = `{
   "version": 1,
@@ -14,7 +15,7 @@ const FORMAT_HINT = `{
       "type": "multiple_choice",
       "difficulty": "nhan_biet",
       "grade": "Lớp 8",
-      "topicIds": ["phuong-trinh"],
+      "topicIds": ["ham-so-va-do-thi"],
       "options": ["A", "B", "C", "D"],
       "correctIndex": 0,
       "points": 1,
@@ -31,7 +32,7 @@ const FORMAT_HINT = `{
 
 difficulty: nhan_biet | thong_hieu | van_dung | van_dung_cao
 type: multiple_choice | true_false | short_answer | essay
-topicIds hợp lệ: hang-dang-thuc, phan-tich-da-thuc, phan-thuc-dai-so, phuong-trinh, tam-giac-vuong.`;
+topicIds hợp lệ: ${topics.map((topic) => topic.id).join(", ")}.`;
 
 /** Nhập nhiều câu hỏi vào ngân hàng từ file/dán JSON. */
 export default function BankJsonTools() {
@@ -91,7 +92,7 @@ export default function BankJsonTools() {
         for (const topicId of __topicIds) topicRows.push({ question_id: data.id, topic_id: topicId });
       }
       if (topicRows.length) {
-        const validTopics = new Set(["hang-dang-thuc", "phan-tich-da-thuc", "phan-thuc-dai-so", "phuong-trinh", "tam-giac-vuong"]);
+        const validTopics = new Set(topics.map((topic) => topic.id));
         await supabase.from("question_bank_topics").insert(topicRows.filter((r) => validTopics.has(r.topic_id)));
       }
 

@@ -12,12 +12,12 @@ import type { Quiz } from "@/lib/types";
  *
  *  Ví dụ một bài test:
  *  {
- *    id: "toan-8-hang-dang-thuc",
+ *    id: "toan-8-ham-so-va-do-thi",
  *    title: "Toán lớp 8 – Hằng đẳng thức đáng nhớ",
  *    subject: "Toán",
  *    grade: "Lớp 8",
  *    description: "Mô tả ngắn về bài test.",
- *    topicIds: ["hang-dang-thuc"],
+ *    topicIds: ["ham-so-va-do-thi"],
  *    questions: [
  *      {
  *        id: "q1",

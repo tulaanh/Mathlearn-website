@@ -1,5 +1,6 @@
 import { EditorPreset } from "./document-templates";
 import { DocumentFormBlock, QuizQuestion } from "./document-types";
+import { topics } from "@/data/topics";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -88,14 +89,34 @@ function basename(filePath: string): string {
   return name;
 }
 
+function cleanLatexLineBreaksAndCommands(text: string): string {
+  // Thay thế \\ bên ngoài math mode ($...$ hoặc $$...$$) bằng xuống dòng tự nhiên
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+  return parts
+    .map((part, idx) => {
+      // Phần chẵn là văn bản ngoài math mode
+      if (idx % 2 === 0) {
+        return part.replace(/\\\\/g, "\n");
+      }
+      return part;
+    })
+    .join("");
+}
+
 function extractQuestionImageAndText(rawText: string): { text: string; imageCaption?: string; imageSourceName?: string } {
-  const imgRegex = /\\image\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}/;
-  const match = imgRegex.exec(rawText);
-  if (!match) return { text: rawText };
-  const caption = match[2]?.trim();
-  const sourceName = basename(match[3] ?? "");
-  const cleanText = rawText.replace(imgRegex, "").trim();
-  return { text: cleanText, imageCaption: caption || undefined, imageSourceName: sourceName || undefined };
+  const imgRegex = /\\image\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}/g;
+  let firstCaption: string | undefined;
+  let firstSourceName: string | undefined;
+  let match;
+  while ((match = imgRegex.exec(rawText)) !== null) {
+    if (!firstSourceName) {
+      firstCaption = match[2]?.trim() || undefined;
+      firstSourceName = basename(match[3] ?? "") || undefined;
+    }
+  }
+  let cleanText = rawText.replace(imgRegex, "").trim();
+  cleanText = cleanLatexLineBreaksAndCommands(cleanText).trim();
+  return { text: cleanText, imageCaption: firstCaption, imageSourceName: firstSourceName };
 }
 
 function extractAllImagesAndCleanText(rawText: string): {
@@ -110,7 +131,8 @@ function extractAllImagesAndCleanText(rawText: string): {
     const sourceName = basename(match[3] ?? "");
     images.push({ caption: caption || undefined, sourceName: sourceName || undefined });
   }
-  const cleanText = rawText.replace(imgRegex, "").trim();
+  let cleanText = rawText.replace(imgRegex, "").trim();
+  cleanText = cleanLatexLineBreaksAndCommands(cleanText).trim();
   return { text: cleanText, images };
 }
 
@@ -439,7 +461,7 @@ export const SAMPLE_DOCUMENT_LATEX = `\\documentclass[12pt,a4paper]{article}
 \\docgrade{Lớp 12}
 \\docstatus{draft}
 \\doctype{normal}
-\\doctopics{phuong-trinh}
+\\doctopics{ham-so-va-do-thi}
 
 \\begin{lesson}{PHẦN I. TÓM TẮT LÝ THUYẾT}{Định nghĩa và tính chất cơ bản}
 \\textbf{1. Định nghĩa:} Cho hàm số $y = f(x)$ xác định trên khoảng $K$.
@@ -515,11 +537,11 @@ export function parseLatexToPreset(texRaw: string): { ok: true; data: EditorPres
 
     const topicsMatch = tex.match(/\\doctopics\{(.+?)\}/) || tex.match(/\\topics\{(.+?)\}/);
     if (topicsMatch) {
-      const validTopics = ["hang-dang-thuc", "phan-tich-da-thuc", "phan-thuc-dai-so", "phuong-trinh", "tam-giac-vuong"];
+      const validTopics = new Set(topics.map((topic) => topic.id));
       preset.selectedTopics = topicsMatch[1]
         .split(",")
         .map((t) => t.trim())
-        .filter((t) => validTopics.includes(t));
+        .filter((t) => validTopics.has(t));
     }
 
     // Blocks

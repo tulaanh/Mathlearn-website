@@ -15,7 +15,7 @@ import { topics } from "@/data/topics";
  *       "type": "multiple_choice" | "true_false" | "short_answer" | "essay",
  *       "difficulty": "nhan_biet" | "thong_hieu" | "van_dung" | "van_dung_cao",
  *       "grade": "Lớp 8",
- *       "topicIds": ["phuong-trinh"],
+ *       "topicIds": ["ham-so-va-do-thi"],
  *       "options": ["A","B","C","D"],        // trắc nghiệm
  *       "correctIndex": 0,
  *       "statements": [{ "text": "...", "correct": true }],  // đúng/sai

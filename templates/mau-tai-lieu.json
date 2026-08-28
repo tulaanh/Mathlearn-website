@@ -5,7 +5,7 @@
   "grade": "Lớp 8",
   "status": "draft",
   "documentType": "normal",
-  "topicIds": ["tam-giac-vuong", "phuong-trinh"],
+  "topicIds": ["hinh-hoc-khong-gian", "ham-so-va-do-thi"],
   "blocks": [
     {
       "type": "text",

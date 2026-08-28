@@ -33,7 +33,7 @@ Copy một object mẫu và thay nội dung:
   subject: "Toán",                     // môn học
   grade: "Lớp 9",                      // khối lớp
   description: "Mô tả ngắn về bài test",
-  topicIds: ["hang-dang-thuc", "phan-tich-da-thuc"], // có thể có nhiều chủ đề
+  topicIds: ["ham-so-va-do-thi", "dao-ham", "nguyen-ham-va-tich-phan"], // có thể có nhiều chủ đề
   questions: [
     {
       id: "q1",                        // id câu hỏi, duy nhất trong bài
@@ -61,13 +61,13 @@ Danh mục chủ đề nằm trong **`data/topics.ts`**. Mỗi chủ đề có `
 Để gắn một bài kiểm tra vào nhiều chủ đề, thêm các id vào `topicIds` trong **`data/quizzes.ts`**:
 
 ```ts
-topicIds: ["phuong-trinh", "phan-thuc-dai-so", "hang-dang-thuc"]
+topicIds: ["ham-so-va-do-thi", "dao-ham", "nguyen-ham-va-tich-phan"]
 ```
 
 Bài học/tài liệu trong **`data/chapters.ts`** cũng dùng `topicIds` tùy chọn:
 
 ```ts
-topicIds: ["hang-dang-thuc", "phan-tich-da-thuc"]
+topicIds: ["ham-so-va-do-thi", "dao-ham", "nguyen-ham-va-tich-phan"]
 ```
 
 Các chủ đề chỉ dùng để phân loại. Nếu một bài thuộc nhiều chủ đề, bài chỉ được lưu và tính tiến trình một lần.

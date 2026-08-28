@@ -18,7 +18,7 @@ File phải là một **object JSON**, không phải một mảng. Các trườn
   "grade": "Lớp 8",
   "status": "draft",
   "documentType": "normal",
-  "topicIds": ["phuong-trinh"],
+  "topicIds": ["ham-so-va-do-thi"],
   "blocks": []
 }
 ```
@@ -41,11 +41,15 @@ Các trường không được liệt kê có thể bị bỏ qua khi nhập. JS
 `topicIds` là mảng chuỗi. Website hiện hỗ trợ các mã:
 
 ```text
-hang-dang-thuc
-phan-tich-da-thuc
-phan-thuc-dai-so
-phuong-trinh
-tam-giac-vuong
+ham-so-va-do-thi
+mu-va-logarit
+dao-ham
+nguyen-ham-va-tich-phan
+luong-giac
+day-so-va-gioi-han
+hinh-hoc-khong-gian
+vector-va-he-toa-do
+xac-suat-va-thong-ke
 ```
 
 Mã không hợp lệ sẽ bị bỏ qua, không làm file JSON bị lỗi.
@@ -254,7 +258,7 @@ Các nội dung rỗng sẽ không được xuất, ví dụ khối text rỗng,
   "grade": "Lớp 8",
   "status": "draft",
   "documentType": "test",
-  "topicIds": ["phuong-trinh"],
+  "topicIds": ["ham-so-va-do-thi"],
   "blocks": [
     {
       "type": "text",
@@ -322,7 +326,7 @@ Ngân hàng câu hỏi (`/quan-ly/ngan-hang-cau-hoi`) có định dạng nhập/
       "type": "multiple_choice",
       "difficulty": "nhan_biet",
       "grade": "Lớp 8",
-      "topicIds": ["phuong-trinh"],
+      "topicIds": ["ham-so-va-do-thi"],
       "options": ["3", "4", "5", "6"],
       "correctIndex": 1,
       "points": 1,

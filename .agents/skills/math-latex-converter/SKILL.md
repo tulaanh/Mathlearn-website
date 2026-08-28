@@ -13,7 +13,7 @@ Skill này hướng dẫn quy trình và chuẩn hóa cú pháp để chuyển �
 
 ## 1. Cấu Trúc Khung Tài Liệu Chuẩn
 
-Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu trúc như sau:
+Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu trúc như sau (tuyệt đối không dùng lệnh `\vspace`):
 
 ```latex
 \documentclass[12pt,a4paper]{article}
@@ -34,11 +34,11 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
 \newcommand{\doctype}[1]{\textbf{Loại:} #1}
 \newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
 
-\newenvironment{textblock}{\vspace{1em}}{}
+\newenvironment{textblock}{}{}
 
 \newenvironment{lesson}[2]{
-	\vspace{1em}\noindent\textbf{\Large #1}\\
-	\textit{#2}\vspace{0.5em}
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
 }{}
 
 \newcommand{\image}[3]{
@@ -49,11 +49,11 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
 }
 
 \newenvironment{quiz}[1]{
-	\vspace{1em}\noindent\textbf{\Large Kiểm tra: #1}
+	\noindent\textbf{\Large Kiểm tra: #1}
 }{}
 
 \newenvironment{mcq}[4]{
-	\vspace{1em}\noindent\textbf{Câu hỏi:} #1 \\
+	\noindent\textbf{Câu hỏi:} #1 \\
 	\ifthenelse{\boolean{showsolutions}}{
 		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
 	}{}
@@ -64,7 +64,7 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
 \newcommand{\option}[1]{\item #1}
 
 \newenvironment{truefalse}[3]{
-	\vspace{1em}\noindent\textbf{Đúng/Sai:} #1 \\
+	\noindent\textbf{Đúng/Sai:} #1 \\
 	\ifthenelse{\boolean{showsolutions}}{
 		\textit{(Điểm: #2) - Giải thích: #3}
 	}{}
@@ -75,24 +75,22 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
 \newcommand{\statement}[2]{\item [\textbf{#1}] #2}
 
 \newcommand{\shortanswer}[4]{
-    \vspace{1em}\noindent\textbf{Trả lời ngắn (Điểm: #3):}
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
 
     \noindent #1
 
 	\ifthenelse{\boolean{showsolutions}}{
-		\vspace{0.5em}
 		\noindent\textit{Đáp án: #2 - Giải thích:}
 		\noindent #4
 	}{}
 }
 
 \newcommand{\essay}[3]{
-    \vspace{1em}\noindent\textbf{Tự luận (Điểm: #2):}
+    \noindent\textbf{Tự luận (Điểm: #2):}
     
     \noindent #1
     
 	\ifthenelse{\boolean{showsolutions}}{
-		\vspace{0.5em}
 		\noindent\textbf{Gợi ý / Đáp án:}
 		\noindent #3
 	}{}
@@ -102,10 +100,10 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
 
 \doctitle{TIÊU ĐỀ TÀI LIỆU}
 \docdesc{Mô tả ngắn gọn về tài liệu}
-\docgrade{Lớp 12}
+\docgrade{Lớp 10}
 \docstatus{draft}
 \doctype{normal}
-\doctopics{}
+\doctopics{ham-so-va-do-thi}
 
 % --- NỘI DUNG TÀI LIỆU ---
 
@@ -120,12 +118,20 @@ Mỗi tài liệu LaTeX xuất ra phải có đầy đủ phần khai báo cấu
    - **Inline Math (trong dòng):** Bắt buộc dùng `$ ... $` (ví dụ: `$y = f(x)$`).
    - **Display Math (khối riêng):** Bắt buộc dùng `$$ ... $$` (ví dụ: `$$\lim_{x \to 0} f(x) = 1$$`).
    - **CẤM:** Không dùng `\(...\)` hay `\[...\]` vì bộ render website chỉ hỗ trợ `$ ... $` và `$$ ... $$`.
-   - **CẤM:** Không dùng `\par` bên trong nội dung hoặc lời giải (giao diện web sẽ bị hiển thị chữ `\par` thừa). Hãy dùng xuống dòng tự nhiên.
+   - **CẤM:** Không dùng `\vspace` hoặc `\par` ở bất kỳ đâu trong file. Hãy dùng xuống dòng tự nhiên.
 
-2. **Dấu phẩy số thập phân tiếng Việt:**
+2. **Quy tắc định dạng văn bản trong câu hỏi & lời giải:**
+   - **CẤM:** Không dùng `\begin{itemize}`, `\begin{enumerate}`, `\begin{center}`, `\begin{tabular}`, `\textit{...}`, `\textbf{...}` bên trong nội dung `{Đề bài}` hoặc `{Giải thích}` / `{Lời giải}` của các câu hỏi (`mcq`, `truefalse`, `shortanswer`, `essay`). Bộ phân tích câu hỏi không chạy `latexToMarkdown` cho các trường này, nên các lệnh này sẽ bị in nguyên văn ra màn hình.
+   - Thay vào đó, dùng định dạng Markdown chuẩn:
+     - Gạch đầu dòng: Dùng dấu `- ` đầu dòng.
+     - Chữ đậm: Dùng `**chữ đậm**`.
+     - Chữ nghiêng: Dùng `*chữ nghiêng*`.
+     - Xuống dòng: Nhấn Enter xuống dòng tự nhiên hoặc dùng `\\`.
+
+3. **Dấu phẩy số thập phân tiếng Việt:**
    - Sử dụng định dạng `0{,}5` hoặc `24{,}5` trong công thức toán để tránh bị KaTeX hiểu nhầm thành khoảng cách phân cách toạ độ.
 
-3. **Làm sạch văn bản đề bài:**
+4. **Làm sạch văn bản đề bài:**
    - Bỏ các mã nhận dạng như `[KID]`, `[MỨC ĐỘ 1]`,...
    - Không bọc `\textbf{Ví dụ 1:}` hay `\textbf{Câu 1:}` vào bên trong tham số đề bài, vì giao diện website sẽ tự động gắn nhãn và đánh số thứ tự.
 
@@ -190,18 +196,35 @@ Các câu hỏi trắc nghiệm, tự luận minh họa hoặc bài tập rèn l
 
 ---
 
-## 5. Quy Tắc Đánh Số & Chèn Ảnh (`\image`)
+## 5. Quy Tắc Xử Lý Lời Giải & Đánh Số Ảnh (`\image`)
 
 Cú pháp chèn ảnh: `\image{tỷ_lệ}{chú_thích}{tên_file}` (ví dụ: `\image{0.6}{}{lt_1.png}`).
 
-1. **Đánh số tăng dần liên tục:**
-   - Tất cả hình ảnh trong một file được đánh số tăng dần liên tục từ `lt_1.png`, `lt_2.png`, `lt_3.png`,... từ đầu đến cuối file theo thứ tự đọc (gặp ảnh nào là tăng số đó).
-2. **Ảnh đề bài:** Đặt ngay trong tham số `{Đề bài}` của câu hỏi.
-3. **Ảnh lời giải:** Đặt trong tham số `{Giải thích}` / `{Lời giải}` của câu hỏi.
-4. **Lời giải phân tách trên 2 trang sách:**
-   - Nếu lời giải của 1 ví dụ/câu hỏi kéo dài qua 2 trang trong tài liệu gốc, chèn liên tiếp đủ 2 ảnh tương ứng cho 2 trang đó:
+### A. Quy Tắc Xử Lý Lời Giải (QUAN TRỌNG)
+
+1. **Khi lời giải trong tài liệu CÓ CHỨA HÌNH ẢNH (đồ thị, hình vẽ hình học, bảng biến thiên, bảng biểu...):**
+   - **KHÔNG CẦN GÕ LỜI GIẢI BẰNG VĂN BẢN CHỮ.**
+   - Người dùng sẽ chụp/cắt toàn bộ phần lời giải đó thành ảnh để tải lên hệ thống.
+   - Ta chỉ cần đặt placeholder ảnh `\image{0.6}{}{lt_X.png}` vào tham số `{Lời giải}` / `{Giải thích}`.
+   - Ví dụ:
+   ```latex
+   \essay{Cho hình chóp $S.ABCD$ có đáy là hình vuông... Tính thể tích khối chóp.}{1}{\image{0.6}{}{lt_5.png}}
+   ```
+
+2. **Khi lời giải bị PHÂN TÁCH QUA NHIỀU TRANG (phân trang):**
+   - Nếu lời giải của một câu hỏi/ví dụ kéo dài qua 2 hay nhiều trang trong tài liệu gốc, bắt buộc chèn liên tiếp đủ các mã ảnh tương ứng cho từng trang:
    ```latex
    \essay{Đề bài...}{1}{\image{0.6}{}{lt_8.png} \image{0.6}{}{lt_9.png}}
    ```
-5. **Khi người dùng chưa cung cấp lời giải chữ:**
-   - Để trống phần giải thích `{}` hoặc chèn placeholder ảnh `{\image{0.6}{}{lt_X.png}}` theo đúng thứ tự.
+
+3. **Khi lời giải trong tài liệu KHÔNG CÓ HÌNH ẢNH (chỉ thuần chữ và công thức đại số):**
+   - **Bắt buộc gõ lại đầy đủ lời giải chi tiết** bằng mã nguồn LaTeX chuẩn KaTeX.
+   - Nhớ không dùng `\textbf{Lời giải:}`, `\textit`, `\vspace`, `\begin{itemize}` bên trong lời giải.
+
+### B. Quy Tắc Đánh Số Ảnh Liên Tục
+
+1. **Đánh số tăng dần liên tục:**
+   - Tất cả hình ảnh trong một file được đánh số tăng dần liên tục: `lt_1.png`, `lt_2.png`, `lt_3.png`, `lt_4.png`,... từ đầu đến cuối file theo thứ tự đọc (gặp ảnh nào trong lý thuyết, đề bài hay lời giải thì tăng số đó lên 1).
+2. **Ảnh trong lý thuyết:** Đặt trực tiếp trong khối `\begin{lesson}`.
+3. **Ảnh trong đề bài:** Đặt ngay trong tham số `{Đề bài}` của câu hỏi.
+4. **Ảnh trong lời giải:** Đặt trong tham số `{Giải thích}` / `{Lời giải}` của câu hỏi.

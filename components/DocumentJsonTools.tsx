@@ -5,6 +5,7 @@ import type { EditorPreset } from "@/lib/document-templates";
 import { parseDocumentJson, serializeDocumentJson, SAMPLE_DOCUMENT_JSON } from "@/lib/document-json";
 import { parseLatexToPreset, SAMPLE_DOCUMENT_LATEX } from "@/lib/latex-parser";
 import { isAcceptedImageFile, matchImagesToPreset } from "@/lib/tex-image-match";
+import { topics } from "@/data/topics";
 
 type Props = {
   /** Trạng thái hiện tại của trình soạn thảo (để xuất JSON). */
@@ -32,7 +33,7 @@ const JSON_FORMAT_HINT = `{
   "grade": "Lớp 8",
   "status": "draft",
   "documentType": "normal",
-  "topicIds": ["phuong-trinh"],
+  "topicIds": ["ham-so-va-do-thi"],
   "blocks": [
     { "type": "text", "content": "Văn bản, hỗ trợ công thức $LaTeX$" },
     { "type": "image", "altText": "Mô tả ảnh", "caption": "Chú thích",
@@ -59,7 +60,7 @@ const LATEX_SYNTAX_HINT = `\\documentclass[12pt,a4paper]{article}
 \\docgrade{Lớp 8}
 \\docstatus{draft}        % draft | published
 \\doctype{normal}         % normal (tài liệu học) | test (bài kiểm tra)
-\\doctopics{phuong-trinh} % Các ID chủ đề cách nhau bởi dấu phẩy
+\\doctopics{ham-so-va-do-thi} % Các ID chủ đề cách nhau bởi dấu phẩy
 
 % --- KHỐI BÀI GIẢNG / LÝ THUYẾT ---
 \\begin{lesson}{Tiêu đề bài giảng}{Mô tả bài giảng}
@@ -91,7 +92,7 @@ Nội dung bài giảng hỗ trợ công thức $y = ax + b$ và $$\\int f(x)dx$
 \\end{quiz}`;
 
 const TOPIC_IDS_HINT =
-  "topicIds hợp lệ: hang-dang-thuc, phan-tich-da-thuc, phan-thuc-dai-so, phuong-trinh, tam-giac-vuong.";
+   `topicIds hợp lệ: ${topics.map((topic) => topic.id).join(", ")}.`;
 
 /** Nhập/xuất tài liệu hỗ trợ cả định dạng LaTeX (.tex) và JSON (.json). */
 export default function DocumentJsonTools({ preset, onApply }: Props) {

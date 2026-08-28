@@ -182,11 +182,15 @@ create policy document_attached_tests_manage_teacher on public.document_attached
 using (public.is_teacher()) with check (public.is_teacher());
 
 insert into public.topics (id, name, description) values
-  ('hang-dang-thuc', 'Hằng đẳng thức', 'Nhận biết và vận dụng các hằng đẳng thức đáng nhớ.'),
-  ('phan-tich-da-thuc', 'Phân tích đa thức', 'Phân tích đa thức thành nhân tử bằng nhiều phương pháp.'),
-  ('phan-thuc-dai-so', 'Phân thức đại số', 'Rút gọn, thực hiện phép tính và giải bài toán với phân thức.'),
-  ('phuong-trinh', 'Phương trình', 'Giải và vận dụng phương trình bậc nhất một ẩn.'),
-  ('tam-giac-vuong', 'Tam giác vuông', 'Định lí Pythagore và các bài toán trong tam giác vuông.')
+  ('ham-so-va-do-thi', 'Hàm số và Đồ thị', 'Các bài toán về hàm số, đồ thị và tính chất của hàm số.'),
+  ('mu-va-logarit', 'Mũ và Logarit', 'Các bài toán về hàm mũ, phương trình mũ, hàm logarit và phương trình logarit.'),
+  ('dao-ham', 'Đạo hàm', 'Tính đạo hàm và vận dụng đạo hàm vào các bài toán.'),
+  ('nguyen-ham-va-tich-phan', 'Nguyên hàm và Tích phân', 'Tính nguyên hàm, tích phân và các bài toán ứng dụng.'),
+  ('luong-giac', 'Lượng giác', 'Các công thức, phương trình và bất phương trình lượng giác.'),
+  ('day-so-va-gioi-han', 'Dãy số và Giới hạn', 'Dãy số, cấp số cộng, cấp số nhân và giới hạn.'),
+  ('hinh-hoc-khong-gian', 'Hình học không gian', 'Các bài toán về quan hệ không gian, hình khối và thể tích.'),
+  ('vector-va-he-toa-do', 'Vector và Hệ tọa độ', 'Vector và phương pháp tọa độ trong hình học.'),
+  ('xac-suat-va-thong-ke', 'Xác suất và Thống kê', 'Các bài toán về xác suất, số liệu và thống kê.')
 on conflict (id) do update set name = excluded.name, description = excluded.description;
 
 insert into storage.buckets (id, name, public)

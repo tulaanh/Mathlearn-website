@@ -118,7 +118,7 @@ Công cụ nhập tài liệu chấp nhận file `.tex` (hoặc dán mã) theo c
 \docgrade{Lớp 8}
 \docstatus{draft}      % draft | published
 \doctype{normal}       % normal | test
-\doctopics{phuong-trinh,tam-giac-vuong}
+\doctopics{ham-so-va-do-thi,hinh-hoc-khong-gian}
 ```
 
 Tên rút gọn `\title`, `\description`, `\grade`, `\status`, `\type`, `\topics` cũng được nhận. Mã chủ đề hợp lệ giống JSON (xem Phần 2 của QUY-TAC-FILE-JSON.md); mã sai bị bỏ qua.
