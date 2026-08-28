@@ -12,6 +12,8 @@ import LazyMathText from "./LazyMathText";
 import DebouncedInput from "./DebouncedInput";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
 
+import ReportQuestionModal from "./ReportQuestionModal";
+
 const optionLabels = ["A", "B", "C", "D", "E", "F"];
 
 function usableOptions(opts?: QuizQuestion["options"]) {
@@ -48,6 +50,7 @@ type QuizQuestionRowProps = {
   onAnswer: (key: string, value: string) => void;
   onToggleExplanation: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
+  onReport: (question: QuizQuestion) => void;
 };
 
 /** Chỉ so sánh answer của riêng câu này để câu khác không phải re-render khi trả lời. */
@@ -59,7 +62,8 @@ function quizQuestionRowPropsEqual(prev: QuizQuestionRowProps, next: QuizQuestio
     prev.showExplanation !== next.showExplanation ||
     prev.onAnswer !== next.onAnswer ||
     prev.onToggleExplanation !== next.onToggleExplanation ||
-    prev.onZoomImage !== next.onZoomImage
+    prev.onZoomImage !== next.onZoomImage ||
+    prev.onReport !== next.onReport
   ) {
     return false;
   }
@@ -76,12 +80,29 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
   onAnswer,
   onToggleExplanation,
   onZoomImage,
+  onReport,
 }: QuizQuestionRowProps) {
   const qType = q.type || "multiple_choice";
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-      <div className="font-semibold text-slate-800 dark:text-slate-100">{qi + 1}. <LazyMathText inline text={q.text} /></div>
+    <div
+      id={`cau-${q.id}`}
+      className="scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1 font-semibold text-slate-800 dark:text-slate-100">
+          {qi + 1}. <LazyMathText inline text={q.text} />
+        </div>
+        <button
+          type="button"
+          onClick={() => onReport(q)}
+          title="Báo lỗi câu hỏi này (giải sai, đề sai, thiếu đề, đề mở...)"
+          className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50/80 px-2 py-1 text-[11px] font-semibold text-slate-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-rose-800 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
+        >
+          <span>🚩</span>
+          <span className="hidden sm:inline">Báo lỗi</span>
+        </button>
+      </div>
 
       {(() => {
         const imgSrc = resolveQuestionImageSrc(q);
@@ -247,13 +268,20 @@ const QuizQuestionRow = memo(function QuizQuestionRow({
   );
 }, quizQuestionRowPropsEqual);
 
-export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { type: "quiz" }> }) {
+export default function QuizBlock({
+  block,
+  documentInfo,
+}: {
+  block: Extract<DocumentBlock, { type: "quiz" }>;
+  documentInfo?: { id?: string; title?: string } | null;
+}) {
   const questions: QuizQuestion[] = Array.isArray(block.questions) ? block.questions : [];
   const blockKey = block.id || `${block.position}_${block.title}`;
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [visibleExplanations, setVisibleExplanations] = useState<Record<string, boolean>>({});
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
+  const [reportingQuestion, setReportingQuestion] = useState<QuizQuestion | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
 
   // Khôi phục câu trả lời từ localStorage khi load
@@ -285,6 +313,9 @@ export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { t
   }, []);
   const openZoom = useCallback((images: ZoomImageItem[], initialIndex: number) => {
     setZoomState({ images, initialIndex });
+  }, []);
+  const handleReport = useCallback((q: QuizQuestion) => {
+    setReportingQuestion(q);
   }, []);
 
   const responseCount = (q: QuizQuestion) => q.type === "true_false" ? statementsOf(q).length : (q.type === "essay" ? 0 : 1);
@@ -320,6 +351,7 @@ export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { t
             onAnswer={setAnswer}
             onToggleExplanation={toggleExplanation}
             onZoomImage={openZoom}
+            onReport={handleReport}
           />
         ))}
       </div>
@@ -365,6 +397,16 @@ export default function QuizBlock({ block }: { block: Extract<DocumentBlock, { t
           images={zoomState.images}
           initialIndex={zoomState.initialIndex}
           onClose={() => setZoomState(null)}
+        />
+      )}
+
+      {/* Modal báo lỗi câu hỏi */}
+      {reportingQuestion && (
+        <ReportQuestionModal
+          isOpen={!!reportingQuestion}
+          question={reportingQuestion}
+          documentInfo={documentInfo}
+          onClose={() => setReportingQuestion(null)}
         />
       )}
     </section>

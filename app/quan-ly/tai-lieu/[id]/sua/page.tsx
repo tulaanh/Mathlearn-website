@@ -11,7 +11,10 @@ const DocumentEditor = dynamic(() => import("@/components/DocumentEditor"), {
   loading: () => <div className="mx-auto max-w-4xl animate-pulse"><div className="h-96 rounded-2xl bg-slate-200 dark:bg-slate-800" /></div>,
 });
 
-type Props = { params: Promise<{ id: string }> };
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ questionId?: string; cau?: string }>;
+};
 
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
@@ -19,13 +22,15 @@ export async function generateMetadata({ params }: Props) {
   return { title: document ? `Sửa: ${document.title}` : "Không tìm thấy tài liệu" };
 }
 
-export default async function EditDocumentPage({ params }: Props) {
+export default async function EditDocumentPage({ params, searchParams }: Props) {
   if (!isSupabaseConfigured()) return <SupabaseConfigNotice />;
   const { user, profile } = await getCurrentUser();
   if (!user) redirect("/dang-nhap");
   if (profile?.role !== "teacher") redirect("/lo-trinh");
 
   const { id } = await params;
+  const sp = searchParams ? await searchParams : undefined;
+  const targetQuestionId = sp?.questionId || sp?.cau || null;
   const document = await getDocumentById(id);
   if (!document) notFound();
 
@@ -38,5 +43,23 @@ export default async function EditDocumentPage({ params }: Props) {
     }
   }
 
-  return <div className="mx-auto max-w-4xl"><Link href="/quan-ly/tai-lieu" className="mb-4 inline-block text-sm font-semibold text-indigo-600 hover:underline">← Về quản lý tài liệu</Link><div className="mb-7"><p className="mb-2 text-sm font-medium text-indigo-600">CHỈNH SỬA NỘI DUNG</p><h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">Sửa tài liệu</h1><p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Cập nhật thông tin, nội dung hoặc thay đổi bài kiểm tra đính kèm của tài liệu.</p></div><DocumentEditor initialData={document} testOptions={testOptions} /></div>;
+  return (
+    <div className="mx-auto max-w-4xl">
+      <Link href="/quan-ly/tai-lieu" className="mb-4 inline-block text-sm font-semibold text-indigo-600 hover:underline">
+        ← Về quản lý tài liệu
+      </Link>
+      <div className="mb-7">
+        <p className="mb-2 text-sm font-medium text-indigo-600">CHỈNH SỬA NỘI DUNG</p>
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white">Sửa tài liệu</h1>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          Cập nhật thông tin, nội dung hoặc thay đổi bài kiểm tra đính kèm của tài liệu.
+        </p>
+      </div>
+      <DocumentEditor
+        initialData={document}
+        testOptions={testOptions}
+        targetQuestionId={targetQuestionId}
+      />
+    </div>
+  );
 }

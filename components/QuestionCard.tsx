@@ -9,21 +9,36 @@ const QuestionCard = memo(function QuestionCard({
   index,
   selectedId,
   onSelect,
+  onReport,
 }: {
   question: Quiz["questions"][number];
   index: number;
   selectedId?: string;
   onSelect: (questionId: string, optionId: string) => void;
+  onReport?: (question: Quiz["questions"][number]) => void;
 }) {
   return (
     <fieldset className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-colors dark:border-slate-800/80 dark:bg-[#131b2e]">
       <legend className="sr-only">Câu {index + 1}</legend>
-      <p className="mb-4 font-semibold text-slate-900 dark:text-white">
-        <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
-          {index + 1}
-        </span>
-        <LazyMathText text={question.text} inline />
-      </p>
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <p className="font-semibold text-slate-900 dark:text-white">
+          <span className="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
+            {index + 1}
+          </span>
+          <LazyMathText text={question.text} inline />
+        </p>
+        {onReport && (
+          <button
+            type="button"
+            onClick={() => onReport(question)}
+            title="Báo lỗi câu hỏi này"
+            className="shrink-0 inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50/80 px-2 py-1 text-[11px] font-semibold text-slate-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-rose-800 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
+          >
+            <span>🚩</span>
+            <span className="hidden sm:inline">Báo lỗi</span>
+          </button>
+        )}
+      </div>
 
       <div className="grid gap-2.5">
         {question.options.map((option, i) => {

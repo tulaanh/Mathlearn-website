@@ -28,6 +28,7 @@ import LazyMathText from "./LazyMathText";
 import DebouncedInput from "./DebouncedInput";
 import QuestionPalette from "./QuestionPalette";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
+import ReportQuestionModal from "./ReportQuestionModal";
 import { documentProgressKey, useProgress } from "@/lib/progress";
 import {
   clearExamDraft,
@@ -66,6 +67,7 @@ export default function ExamRunner({
   const [flagged, setFlagged] = useState<Record<string, boolean>>({});
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
+  const [reportingQuestion, setReportingQuestion] = useState<QuizQuestion | null>(null);
   const [restoredDraftInfo, setRestoredDraftInfo] = useState<{
     answeredCount: number;
     timeStr: string;
@@ -134,6 +136,10 @@ export default function ExamRunner({
    *  đều re-render sau mỗi lần chọn đáp án/cắm cờ (bộ so sánh memo so sánh cả hàm này). */
   const openZoom = useCallback((images: ZoomImageItem[], initialIndex: number) => {
     setZoomState({ images, initialIndex });
+  }, []);
+
+  const handleReport = useCallback((q: QuizQuestion) => {
+    setReportingQuestion(q);
   }, []);
 
   /** Cuộn tới câu được chọn từ bảng câu hỏi và nháy viền để dễ nhận ra. */
@@ -255,6 +261,7 @@ export default function ExamRunner({
             onAnswer={setAnswer}
             onToggleFlag={toggleFlag}
             onZoomImage={openZoom}
+            onReport={handleReport}
           />
         ))}
         {questions.length === 0 && (
@@ -318,6 +325,16 @@ export default function ExamRunner({
           images={zoomState.images}
           initialIndex={zoomState.initialIndex}
           onClose={() => setZoomState(null)}
+        />
+      )}
+
+      {/* Modal báo lỗi câu hỏi */}
+      {reportingQuestion && (
+        <ReportQuestionModal
+          isOpen={!!reportingQuestion}
+          question={reportingQuestion}
+          documentInfo={{ id: document.id, title: document.title }}
+          onClose={() => setReportingQuestion(null)}
         />
       )}
     </article>
@@ -423,6 +440,7 @@ type ExamBlockProps = {
   onAnswer: (key: string, value: string) => void;
   onToggleFlag: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
+  onReport: (question: QuizQuestion) => void;
 };
 
 /** So sánh theo giá trị answer của riêng khối này thay vì identity object answers,
@@ -433,7 +451,8 @@ function examBlockPropsEqual(prev: ExamBlockProps, next: ExamBlockProps) {
     prev.result !== next.result ||
     prev.onAnswer !== next.onAnswer ||
     prev.onToggleFlag !== next.onToggleFlag ||
-    prev.onZoomImage !== next.onZoomImage
+    prev.onZoomImage !== next.onZoomImage ||
+    prev.onReport !== next.onReport
   ) {
     return false;
   }
@@ -452,6 +471,7 @@ const ExamBlock = memo(function ExamBlock({
   onAnswer,
   onToggleFlag,
   onZoomImage,
+  onReport,
 }: ExamBlockProps) {
   if (block.type === "text") {
     return <LazyMathText text={block.content} className="block text-base leading-8 text-slate-700 dark:text-slate-300" />;
@@ -504,6 +524,7 @@ const ExamBlock = memo(function ExamBlock({
           onAnswer={onAnswer}
           onToggleFlag={onToggleFlag}
           onZoomImage={onZoomImage}
+          onReport={onReport}
         />
       ))}
     </section>
@@ -519,6 +540,7 @@ type ExamQuestionCardProps = {
   onAnswer: (key: string, value: string) => void;
   onToggleFlag: (questionId: string) => void;
   onZoomImage: (images: ZoomImageItem[], initialIndex: number) => void;
+  onReport: (question: QuizQuestion) => void;
 };
 
 function examQuestionCardPropsEqual(prev: ExamQuestionCardProps, next: ExamQuestionCardProps) {
@@ -529,7 +551,8 @@ function examQuestionCardPropsEqual(prev: ExamQuestionCardProps, next: ExamQuest
     prev.onAnswer !== next.onAnswer ||
     prev.flagged !== next.flagged ||
     prev.onToggleFlag !== next.onToggleFlag ||
-    prev.onZoomImage !== next.onZoomImage
+    prev.onZoomImage !== next.onZoomImage ||
+    prev.onReport !== next.onReport
   ) {
     return false;
   }
@@ -546,6 +569,7 @@ const ExamQuestionCard = memo(function ExamQuestionCard({
   onAnswer,
   onToggleFlag,
   onZoomImage,
+  onReport,
 }: ExamQuestionCardProps) {
   const qType = questionType(question);
   const locked = !!result;
@@ -576,20 +600,30 @@ const ExamQuestionCard = memo(function ExamQuestionCard({
             <span className="ml-2 rounded-full bg-slate-100 px-2 py-0.5 align-middle text-[11px] font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">Tự luận</span>
           )}
         </div>
-        {!locked && (
+        <div className="flex shrink-0 items-center gap-1.5">
           <button
             type="button"
-            onClick={() => onToggleFlag(question.id)}
-            title={flagged ? "Bỏ đánh dấu xem sau" : "Đánh dấu để xem sau"}
-            className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
-              flagged
-                ? "border-amber-500 bg-amber-400 font-bold text-amber-950 hover:bg-amber-300 dark:border-amber-400 dark:text-amber-950"
-                : "border-slate-200 bg-white text-slate-500 hover:border-amber-400 hover:text-amber-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-amber-400 dark:hover:text-amber-400"
-            }`}
+            onClick={() => onReport(question)}
+            title="Báo lỗi câu hỏi này (giải sai, đề sai, thiếu đề, đề mở...)"
+            className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-500 transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-rose-800 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
           >
-            🔖 {flagged ? "Đang xem sau" : "Xem sau"}
+            🚩 <span className="hidden sm:inline">Báo lỗi</span>
           </button>
-        )}
+          {!locked && (
+            <button
+              type="button"
+              onClick={() => onToggleFlag(question.id)}
+              title={flagged ? "Bỏ đánh dấu xem sau" : "Đánh dấu để xem sau"}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                flagged
+                  ? "border-amber-500 bg-amber-400 font-bold text-amber-950 hover:bg-amber-300 dark:border-amber-400 dark:text-amber-950"
+                  : "border-slate-200 bg-white text-slate-500 hover:border-amber-400 hover:text-amber-600 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-amber-400 dark:hover:text-amber-400"
+              }`}
+            >
+              🔖 {flagged ? "Đang xem sau" : "Xem sau"}
+            </button>
+          )}
+        </div>
       </div>
 
       {(() => {

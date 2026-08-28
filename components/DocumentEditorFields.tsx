@@ -1,5 +1,5 @@
 "use client";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { DocumentFormBlock, DocumentType } from "@/lib/document-types";
 import type { TestOption } from "./DocumentEditor";
 import { topics } from "@/data/topics";
@@ -19,6 +19,7 @@ type Props = {
   attachedTestIds?: string[];
   toggleAttachedTest?: (v: string) => void;
   testOptions?: TestOption[];
+  targetQuestionId?: string | null;
   setTitle: (v: string) => void;
   setDescription: (v: string) => void;
   setGrade: (v: string) => void;
@@ -50,6 +51,7 @@ const BlockItem = memo(function BlockItem({
   index: i,
   isLast,
   isClosed,
+  targetQuestionId,
   toggle,
   updateBlock,
   patchBlock,
@@ -60,6 +62,7 @@ const BlockItem = memo(function BlockItem({
   index: number;
   isLast: boolean;
   isClosed: boolean;
+  targetQuestionId?: string | null;
   toggle: (k: string) => void;
   updateBlock: (i: number, v: Partial<DocumentFormBlock>) => void;
   patchBlock: PatchBlock;
@@ -97,7 +100,15 @@ const BlockItem = memo(function BlockItem({
               <textarea placeholder="Nội dung bài giảng (Markdown + LaTeX)" value={b.content} onChange={e => updateBlock(i, { content: e.target.value })} rows={10} className="w-full rounded-lg border p-3 dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
             </div>
           )}
-          {b.type === "quiz" && <QuizEditor blockIndex={i} block={b} updateBlock={updateBlock} patchBlock={patchBlock} />}
+          {b.type === "quiz" && (
+            <QuizEditor
+              blockIndex={i}
+              block={b}
+              targetQuestionId={targetQuestionId}
+              updateBlock={updateBlock}
+              patchBlock={patchBlock}
+            />
+          )}
         </div>
       )}
     </div>
@@ -113,6 +124,46 @@ export default function DocumentEditorFields(p: Props) {
     return n;
   }), []);
 
+  // Tự động mở khối chứa câu hỏi và cuộn đến câu hỏi khi có targetQuestionId
+  useEffect(() => {
+    if (!p.targetQuestionId) return;
+    const targetQId = p.targetQuestionId;
+
+    // 1. Tìm khối câu hỏi chứa câu cần sửa và mở ra nếu đang đóng
+    const targetBlockIndex = p.blocks.findIndex(
+      (b) => b.type === "quiz" && b.questions.some((q, qi) => q.id === targetQId || String(qi + 1) === targetQId),
+    );
+
+    if (targetBlockIndex >= 0) {
+      const k = blockKey(p.blocks[targetBlockIndex], targetBlockIndex);
+      setClosed((prev) => {
+        if (prev.has(k)) {
+          const next = new Set(prev);
+          next.delete(k);
+          return next;
+        }
+        return prev;
+      });
+    }
+
+    // 2. Cuộn mượt đến câu hỏi
+    const timer = setTimeout(() => {
+      const el =
+        document.getElementById(`cau-${targetQId}`) ||
+        document.getElementById(targetQId);
+
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        const textarea = el.querySelector("textarea");
+        if (textarea) {
+          textarea.focus();
+        }
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [p.targetQuestionId, p.blocks]);
+
   return <>
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900"><label className="block text-sm font-semibold dark:text-slate-200">{p.documentType === "test" ? "Tên bài kiểm tra" : "Tên tài liệu"}<input required value={p.title} onChange={e => p.setTitle(e.target.value)} className="mt-2 h-11 w-full rounded-xl border px-4 dark:border-slate-700 dark:bg-slate-950 dark:text-white" /></label><label className="mt-4 block text-sm font-semibold dark:text-slate-200">{p.documentType === "test" ? "Mô tả bài kiểm tra" : "Mô tả tài liệu"}<textarea value={p.description} onChange={e => p.setDescription(e.target.value)} rows={3} className="mt-2 w-full rounded-xl border p-3 dark:border-slate-700 dark:bg-slate-950 dark:text-white" /></label><div className="mt-4 grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold dark:text-slate-200">Khối lớp<select value={p.grade} onChange={e => p.setGrade(e.target.value)} className="mt-2 h-11 w-full rounded-xl border px-3 dark:border-slate-700 dark:bg-slate-950 dark:text-white">{grades.map(g => <option key={g}>{g}</option>)}</select></label><label className="text-sm font-semibold dark:text-slate-200">Trạng thái<select value={p.status} onChange={e => p.setStatus(e.target.value as "draft" | "published")} className="mt-2 h-11 w-full rounded-xl border px-3 dark:border-slate-700 dark:bg-slate-950 dark:text-white"><option value="draft">Lưu nháp</option><option value="published">Đăng công khai</option></select></label></div></section>
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900"><h2 className="font-bold dark:text-white">Loại nội dung</h2><p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Chọn cách hiển thị và mục đích sử dụng của nội dung.</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><button type="button" onClick={() => p.setDocumentType("normal")} className={`rounded-xl border p-4 text-left transition ${p.documentType === "normal" ? "border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200 dark:border-indigo-400 dark:bg-indigo-950/40 dark:ring-indigo-900" : "border-slate-200 hover:border-indigo-300 dark:border-slate-700"}`}><strong className="block dark:text-white">📚 Tài liệu học tập</strong><span className="mt-1 block text-xs font-normal text-slate-500 dark:text-slate-400">Nội dung để đọc và học theo chủ đề.</span></button><button type="button" onClick={() => p.setDocumentType("test")} className={`rounded-xl border p-4 text-left transition ${p.documentType === "test" ? "border-purple-500 bg-purple-50 ring-2 ring-purple-200 dark:border-purple-400 dark:bg-purple-950/40 dark:ring-purple-900" : "border-slate-200 hover:border-purple-300 dark:border-slate-700"}`}><strong className="block dark:text-white">📝 Bài kiểm tra</strong><span className="mt-1 block text-xs font-normal text-slate-500 dark:text-slate-400">Bài làm trên trình duyệt, chấm điểm thang 10.</span></button></div></section>
@@ -127,6 +178,7 @@ export default function DocumentEditorFields(p: Props) {
         index={i}
         isLast={i === p.blocks.length - 1}
         isClosed={closed.has(blockKey(b, i))}
+        targetQuestionId={p.targetQuestionId}
         toggle={toggle}
         updateBlock={p.updateBlock}
         patchBlock={p.patchBlock}

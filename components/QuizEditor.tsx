@@ -12,6 +12,7 @@ type QuizQuestion = QuizBlock["questions"][number];
 type Props = {
   blockIndex: number;
   block: QuizBlock;
+  targetQuestionId?: string | null;
   updateBlock: (index: number, value: Partial<DocumentFormBlock>) => void;
   patchBlock: (index: number, patch: (block: DocumentFormBlock) => DocumentFormBlock) => void;
 };
@@ -29,7 +30,7 @@ function makeQuestion(type: QuizQuestion["type"] = "multiple_choice"): QuizQuest
 
 const getStatements = (q: QuizQuestion) => q.statements ?? (q.options ?? []).map((o) => ({ id: o.id, text: o.text, correctVal: o.correctVal === "false" ? "false" as const : "true" as const }));
 
-const QuizEditor = memo(function QuizEditor({ blockIndex, block, updateBlock, patchBlock }: Props) {
+const QuizEditor = memo(function QuizEditor({ blockIndex, block, targetQuestionId, updateBlock, patchBlock }: Props) {
   const questions = block.questions ?? [];
   const [pickerOpen, setPickerOpen] = useState(false);
 
@@ -86,7 +87,15 @@ const QuizEditor = memo(function QuizEditor({ blockIndex, block, updateBlock, pa
       <input placeholder="Mô tả ngắn (tùy chọn)" value={block.description ?? ""} onChange={(e) => updateBlock(blockIndex, { description: e.target.value })} className="h-10 w-full rounded-lg border border-slate-300 px-3 dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
       <div className="rounded-lg border border-purple-100 bg-purple-50/50 p-3 text-sm text-purple-800 dark:border-purple-950 dark:bg-purple-950/20 dark:text-purple-200">Dạng <strong>Đúng / Sai</strong> gồm một đề bài chung và nhiều mệnh đề. Học sinh sẽ trả lời từng mệnh đề.</div>
       {questions.map((q, qi) => (
-        <QuestionEditor key={q.id} question={q} qi={qi} updateQuestion={updateQuestion} removeQuestion={removeQuestion} changeType={changeType} />
+        <QuestionEditor
+          key={q.id}
+          question={q}
+          qi={qi}
+          isTarget={Boolean(targetQuestionId && (targetQuestionId === q.id || targetQuestionId === String(qi + 1)))}
+          updateQuestion={updateQuestion}
+          removeQuestion={removeQuestion}
+          changeType={changeType}
+        />
       ))}
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={addQuestion} className="rounded-lg border border-indigo-300 px-3 py-2 text-xs font-bold text-indigo-600 dark:border-indigo-800 dark:text-indigo-300">+ Thêm câu hỏi</button>
@@ -101,12 +110,14 @@ const QuizEditor = memo(function QuizEditor({ blockIndex, block, updateBlock, pa
 const QuestionEditor = memo(function QuestionEditor({
   question: q,
   qi,
+  isTarget,
   updateQuestion,
   removeQuestion,
   changeType,
 }: {
   question: QuizQuestion;
   qi: number;
+  isTarget?: boolean;
   updateQuestion: (index: number, fn: (question: QuizQuestion) => void) => void;
   removeQuestion: (index: number) => void;
   changeType: (index: number, type: NonNullable<QuizQuestion["type"]>) => void;
@@ -116,7 +127,20 @@ const QuestionEditor = memo(function QuestionEditor({
   const pointTable = trueFalsePointTable(q);
 
   return (
-    <div className="space-y-3 rounded-lg bg-slate-50 p-4 dark:bg-slate-800/60">
+    <div
+      id={`cau-${q.id}`}
+      className={`space-y-3 rounded-xl p-4 transition-all scroll-mt-28 ${
+        isTarget
+          ? "border-2 border-rose-500 bg-rose-50/80 ring-4 ring-rose-500/25 dark:border-rose-500 dark:bg-rose-950/40 dark:ring-rose-500/30"
+          : "bg-slate-50 dark:bg-slate-800/60"
+      }`}
+    >
+      {isTarget && (
+        <div className="flex items-center gap-2 rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-bold text-white shadow-xs animate-pulse">
+          <span>🚩</span>
+          <span>Câu hỏi cần sửa theo phản hồi báo lỗi từ học sinh</span>
+        </div>
+      )}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2 dark:border-slate-700">
         <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Câu hỏi số {qi + 1}</p>
         <div className="flex items-center gap-2">

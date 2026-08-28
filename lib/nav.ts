@@ -16,6 +16,7 @@ const teacherNavItems: NavItem[] = [
   { href: "/quan-ly/chuong", label: "Quản lý chương", icon: "📑" },
   { href: "/quan-ly/tai-lieu", label: "Quản lý tài liệu", icon: "✎" },
   { href: "/quan-ly/ngan-hang-cau-hoi", label: "Ngân hàng câu hỏi", icon: "🏦" },
+  { href: "/quan-ly/bao-loi", label: "Báo lỗi nội dung", icon: "🚩" },
 ];
 
 export function getNavItems(role?: string): NavItem[] {

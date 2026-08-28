@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { DocumentBlock, DocumentFormBlock, DocumentType, StudyDocument } from "@/lib/document-types";
 import type { EditorPreset } from "@/lib/document-templates";
@@ -56,8 +56,23 @@ function toFormBlocks(blocks: DocumentBlock[]): DocumentFormBlock[] {
 
 export type TestOption = { id: string; title: string; grade: string };
 
-export default function DocumentEditor({ initialData, testOptions = [] }: { initialData?: StudyDocument; testOptions?: TestOption[] }) {
+export default function DocumentEditor({
+  initialData,
+  testOptions = [],
+  targetQuestionId: propTargetQuestionId,
+}: {
+  initialData?: StudyDocument;
+  testOptions?: TestOption[];
+  targetQuestionId?: string | null;
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const targetQuestionId =
+    propTargetQuestionId ||
+    searchParams?.get("questionId") ||
+    searchParams?.get("cau") ||
+    null;
+
   const [title, setTitle] = useState(initialData?.title ?? ""); 
   const [description, setDescription] = useState(initialData?.description ?? ""); 
   const [grade, setGrade] = useState(initialData?.grade ?? "Lớp 8"); 
@@ -396,6 +411,7 @@ export default function DocumentEditor({ initialData, testOptions = [] }: { init
         attachedTestIds={attachedTestIds}
         toggleAttachedTest={toggleAttachedTest}
         testOptions={testOptions}
+        targetQuestionId={targetQuestionId}
         setTitle={setTitle} 
         setDescription={setDescription} 
         setGrade={setGrade} 

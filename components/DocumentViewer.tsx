@@ -68,7 +68,13 @@ export default function DocumentViewer({
             );
           }
           if (block.type === "quiz") {
-            return <QuizBlock key={block.id ?? block.position} block={block} />;
+            return (
+              <QuizBlock
+                key={block.id ?? block.position}
+                block={block}
+                documentInfo={{ id: document.id, title: document.title }}
+              />
+            );
           }
 
           const src = getDocumentImageUrl(block.storagePath);

@@ -4,10 +4,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { Quiz } from "@/lib/types";
 import QuestionCard from "./QuestionCard";
+import ReportQuestionModal from "./ReportQuestionModal";
 
 export default function QuizRunner({ quiz }: { quiz: Quiz }) {
   const router = useRouter();
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [reportingQuestion, setReportingQuestion] = useState<Quiz["questions"][number] | null>(null);
 
   const total = quiz.questions.length;
   const answeredCount = Object.keys(answers).length;
@@ -52,6 +54,7 @@ export default function QuizRunner({ quiz }: { quiz: Quiz }) {
             index={index}
             selectedId={answers[question.id]}
             onSelect={handleSelect}
+            onReport={(q) => setReportingQuestion(q)}
           />
         ))}
       </div>
@@ -79,6 +82,16 @@ export default function QuizRunner({ quiz }: { quiz: Quiz }) {
           </button>
         </div>
       </div>
+
+      {/* Modal báo lỗi câu hỏi */}
+      {reportingQuestion && (
+        <ReportQuestionModal
+          isOpen={!!reportingQuestion}
+          question={{ id: reportingQuestion.id, text: reportingQuestion.text }}
+          documentInfo={{ id: quiz.id, title: quiz.title }}
+          onClose={() => setReportingQuestion(null)}
+        />
+      )}
     </div>
   );
 }
