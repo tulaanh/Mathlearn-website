@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
-import { getBankGrades, getBankQuestions, getBankStats, BANK_PAGE_SIZE } from "@/lib/question-bank";
+import { getBankOverview, getBankQuestions, BANK_PAGE_SIZE } from "@/lib/question-bank";
 import type { QuestionDifficulty } from "@/lib/question-bank-types";
 import type { QuestionType } from "@/lib/document-types";
 import { DIFFICULTY_META } from "@/lib/question-bank-types";
@@ -62,21 +62,23 @@ export default async function StudentQuestionBankPage({ searchParams }: Props) {
     : "";
 
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
-  const [questionsPage, stats, grades] = await Promise.all([
-    getBankQuestions(
-      {
-        search: sp.q,
-        grade: sp.grade,
-        topicId: sp.topic,
-        difficulty,
-        type,
-      },
-      page,
-      BANK_PAGE_SIZE,
-    ),
-    getBankStats(),
-    getBankGrades(),
+  const [questionsPage, overview] = await Promise.all([
+    isSavedTab
+      ? Promise.resolve({ items: [], total: 0 })
+      : getBankQuestions(
+          {
+            search: sp.q,
+            grade: sp.grade,
+            topicId: sp.topic,
+            difficulty,
+            type,
+          },
+          page,
+          BANK_PAGE_SIZE,
+        ),
+    getBankOverview(),
   ]);
+  const { stats, grades } = overview;
 
   const questions = questionsPage.items;
   const isTeacher = profile?.role === "teacher";

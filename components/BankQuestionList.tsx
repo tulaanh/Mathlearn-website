@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -38,7 +38,9 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -54,7 +56,9 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
     else params.delete(key);
     params.delete("page"); // đổi bộ lọc thì quay về trang 1
     const qs = params.toString();
-    router.push(qs ? `/quan-ly/ngan-hang-cau-hoi?${qs}` : "/quan-ly/ngan-hang-cau-hoi");
+    startTransition(() => {
+      router.push(qs ? `/quan-ly/ngan-hang-cau-hoi?${qs}` : "/quan-ly/ngan-hang-cau-hoi");
+    });
   };
 
   const toggleSelect = (id: string) => {
@@ -66,9 +70,14 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
     });
   };
 
+  const visibleQuestions = useMemo(
+    () => questions.filter((q) => !hiddenIds.has(q.id)),
+    [questions, hiddenIds],
+  );
+
   const selectedQuestions = useMemo(
-    () => questions.filter((q) => selectedIds.has(q.id)),
-    [questions, selectedIds],
+    () => visibleQuestions.filter((q) => selectedIds.has(q.id)),
+    [visibleQuestions, selectedIds],
   );
 
   async function removeQuestion(id: string) {
@@ -80,11 +89,46 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
       if (!supabase) throw new Error("Website chưa được cấu hình Supabase.");
       const { error: deleteError } = await supabase.from("question_bank").delete().eq("id", id);
       if (deleteError) throw new Error(deleteError.message);
+      setHiddenIds((current) => new Set(current).add(id));
       setSelectedIds((current) => {
         const next = new Set(current);
         next.delete(id);
         return next;
       });
+      router.refresh();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** Xóa hàng loạt các câu hỏi đang được chọn khỏi ngân hàng. */
+  async function removeSelectedQuestions() {
+    if (!selectedQuestions.length) return;
+    const count = selectedQuestions.length;
+    if (!window.confirm(`Bạn có chắc muốn xóa ${count} câu hỏi đã chọn không? Hành động này không thể hoàn tác.`)) return;
+
+    setBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const supabase = createClient();
+      if (!supabase) throw new Error("Website chưa được cấu hình Supabase.");
+      const { error: deleteError } = await supabase
+        .from("question_bank")
+        .delete()
+        .in("id", selectedQuestions.map((question) => question.id));
+      if (deleteError) throw new Error(deleteError.message);
+
+      const deletedIds = new Set(selectedQuestions.map((question) => question.id));
+      setHiddenIds((current) => new Set([...current, ...deletedIds]));
+      setSelectedIds((current) => {
+        const next = new Set(current);
+        deletedIds.forEach((id) => next.delete(id));
+        return next;
+      });
+      setMessage(`Đã xóa ${count} câu hỏi khỏi ngân hàng.`);
       router.refresh();
     } catch (err) {
       setError((err as Error).message);
@@ -150,8 +194,8 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
   }
 
   function exportSelected() {
-    if (!selectedQuestions.length && !questions.length) return;
-    const data = selectedQuestions.length ? selectedQuestions : questions;
+    if (!selectedQuestions.length && !visibleQuestions.length) return;
+    const data = selectedQuestions.length ? selectedQuestions : visibleQuestions;
     const json = serializeBankJson(data);
     const blob = new Blob([json], { type: "application/json;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -166,7 +210,12 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
   }
 
   return (
-    <div className="space-y-5">
+    <div className={`relative space-y-5 transition-opacity ${isPending ? "opacity-60" : ""}`} aria-busy={isPending}>
+      {isPending && (
+        <div className="sticky top-20 z-20 mx-auto w-fit rounded-full bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-lg">
+          Đang cập nhật bộ lọc…
+        </div>
+      )}
       {/* Bộ lọc */}
       <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
         <form
@@ -198,27 +247,30 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
       </div>
 
       {/* Thanh hành động khi có lựa chọn */}
-      {(selectedIds.size > 0 || questions.length > 0) && (
+      {(selectedIds.size > 0 || visibleQuestions.length > 0) && (
         <div className="sticky top-2 z-10 flex flex-wrap items-center gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/95 p-3 shadow-sm backdrop-blur dark:border-indigo-900 dark:bg-indigo-950/80">
           <label className="flex items-center gap-2 text-xs font-bold text-indigo-800 dark:text-indigo-200">
             <input
               type="checkbox"
-              checked={questions.length > 0 && selectedIds.size === questions.length}
-              onChange={(e) => setSelectedIds(e.target.checked ? new Set(questions.map((q) => q.id)) : new Set())}
+              checked={visibleQuestions.length > 0 && visibleQuestions.every((q) => selectedIds.has(q.id))}
+              onChange={(e) => setSelectedIds(e.target.checked ? new Set(visibleQuestions.map((q) => q.id)) : new Set())}
               className="h-4 w-4"
             />
-            Chọn tất cả ({questions.length})
+            Chọn tất cả ({visibleQuestions.length})
           </label>
           {selectedIds.size > 0 && (
             <>
               <button disabled={busy} onClick={createTestFromSelected} className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-bold text-white hover:bg-indigo-700 disabled:opacity-60">
-                📝 Tạo đề từ {selectedIds.size} câu đã chọn
+                📝 Tạo đề từ {selectedQuestions.length} câu đã chọn
+              </button>
+              <button disabled={busy} onClick={removeSelectedQuestions} className="rounded-lg bg-red-600 px-4 py-2 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-60">
+                🗑 Xóa {selectedQuestions.length} câu đã chọn
               </button>
               <button disabled={busy} onClick={() => setSelectedIds(new Set())} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-600 dark:border-slate-600 dark:text-slate-300">Bỏ chọn</button>
             </>
           )}
           <button disabled={busy} onClick={exportSelected} className="ml-auto rounded-lg border border-indigo-300 px-3 py-2 text-xs font-bold text-indigo-600 dark:border-indigo-800 dark:text-indigo-300">
-            ⬇ Xuất JSON {selectedIds.size > 0 ? `(${selectedIds.size} câu)` : `(mọi kết quả lọc)`}
+            ⬇ Xuất JSON {selectedQuestions.length > 0 ? `(${selectedQuestions.length} câu)` : `(mọi kết quả lọc)`}
           </button>
         </div>
       )}
@@ -227,14 +279,14 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
       {message && <p className="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">{message}</p>}
 
       {/* Danh sách câu hỏi */}
-      {questions.length === 0 ? (
+      {visibleQuestions.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-300 p-12 text-center dark:border-slate-700">
           <p className="text-sm text-slate-500">Không có câu hỏi nào khớp bộ lọc.</p>
           <Link href="/quan-ly/ngan-hang-cau-hoi/them" className="mt-4 inline-block font-semibold text-indigo-600">Thêm câu hỏi đầu tiên →</Link>
         </div>
       ) : (
         <div className="space-y-3">
-          {questions.map((q, index) => {
+          {visibleQuestions.map((q, index) => {
             const meta = getDifficultyMeta(q.difficulty);
             const qType = q.type || "multiple_choice";
             const selected = selectedIds.has(q.id);

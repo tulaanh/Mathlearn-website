@@ -1,0 +1,409 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{ĐỀ 01 - KHẢO SÁT HÀM SỐ ÔN THI 2026 (CÂU 1 - 45)}
+\docdesc{Tuyển tập câu hỏi trắc nghiệm Khảo sát hàm số từ các đề thi thử tốt nghiệp THPT năm học 2025 - 2026 có lời giải chi tiết.}
+\docgrade{Lớp 12}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{ham-so-va-do-thi}
+
+\begin{quiz}{Trắc nghiệm nhiều lựa chọn}
+
+\begin{mcq}{(THPT Lê Thánh Tông HCM 2026) Tiệm cận ngang của đồ thị hàm số $y = \frac{2x-3}{x+1}$ là đường thẳng có phương trình:}{2}{1}{Để tìm tiệm cận ngang của đồ thị hàm số $y = \frac{2x-3}{x+1}$, ta tính giới hạn của hàm số khi $x \to \pm\infty$.\\$$\lim_{x \to \pm\infty} y = \lim_{x \to \pm\infty} \frac{2x-3}{x+1} = \lim_{x \to \pm\infty} \frac{x\left(2-\frac{3}{x}\right)}{x\left(1+\frac{1}{x}\right)} = \lim_{x \to \pm\infty} \frac{2-\frac{3}{x}}{1+\frac{1}{x}} = \frac{2-0}{1+0} = 2.$$\\Vậy tiệm cận ngang của đồ thị hàm số là đường thẳng $y = 2$.}
+	\option{$y = -1$.}
+	\option{$x = -1$.}
+	\option{$y = 2$.}
+	\option{$x = 2$.}
+\end{mcq}
+
+\begin{mcq}{(THPT ĐH-KHTN HN 2026) Cho hàm số $f(x) = x^3 - 3x + 2$. Giá trị cực đại của hàm số đã cho bằng}{3}{1}{\image{0.6}{}{lt_1.png}}
+	\option{$-1$.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$4$.}
+\end{mcq}
+
+\begin{mcq}{(THPT ĐH-KHTN HN 2026) Cho hàm số $f(x)$ có $f(1)=3$ và $f'(1)=2$. Giá trị của $\lim_{x\to 1}\frac{f^2(x)-9}{x-1}$ bằng}{0}{1}{Ta có: $\lim_{x\to 1} \frac{f^2(x)-9}{x-1} = \lim_{x\to 1}\frac{[f(x)-3][f(x)+3]}{x-1} = \lim_{x\to 1}\frac{[f(x)-f(1)]}{x-1} \cdot \lim_{x\to 1}[f(x)+3] = f'(1) \cdot [f(1)+3] = 2 \cdot (3+3) = 12$.}
+	\option{$12$.}
+	\option{$6$.}
+	\option{$2$.}
+	\option{$18$.}
+\end{mcq}
+
+\begin{mcq}{(THPT ĐH-KHTN HN 2026) Tiệm cận xiên của đồ thị hàm số $y = \frac{2x^2+x}{x+1}$ là:}{3}{1}{Ta có: $y = \frac{2x^2+x}{x+1} = 2x-1 + \frac{1}{x+1}$.\\Vì $\lim_{x \to \pm\infty} \left[y - (2x-1)\right] = \lim_{x \to \pm\infty} \frac{1}{x+1} = 0$ nên tiệm cận xiên của đồ thị hàm số là $y = 2x-1$.}
+	\option{$y = 2x+1$.}
+	\option{$y = 2x-3$.}
+	\option{$y = 2x$.}
+	\option{$y = 2x-1$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Đồng Hỷ - Thái Nguyên 2026) Cho hàm số $y = \frac{x+2026}{x-2025}$ có đồ thị $(C)$. Đồ thị $(C)$ có đường tiệm cận đứng là}{0}{1}{Tập xác định: $D = \mathbb{R} \setminus \{2025\}$.\\Vì $\lim_{x \to 2025^+} \frac{x+2026}{x-2025} = +\infty$ nên đồ thị $(C)$ có đường tiệm cận đứng là $x = 2025$.}
+	\option{$x = 2025$.}
+	\option{$x = -2024$.}
+	\option{$x = 1$.}
+	\option{$x = 6$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Đồng Hỷ - Thái Nguyên 2026) Giá trị lớn nhất của hàm số $y = x^3 - 3x + 1$ trên đoạn $[-2;2]$ là}{2}{1}{Tập xác định: $D = \mathbb{R}$.\\Ta có $y' = 3x^2 - 3 = 0 \Leftrightarrow x = 1$ hoặc $x = -1$.\\Xét trên $[-2;2]$: $y(-2) = -1$, $y(2) = 3$, $y(-1) = 3$, $y(1) = -1$.\\Vậy giá trị lớn nhất của hàm số trên $[-2;2]$ là $3$.}
+	\option{$2$.}
+	\option{$-1$.}
+	\option{$3$.}
+	\option{$-2$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Đồng Hỷ - Thái Nguyên 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như sau:\image{0.6}{}{lt_2.png}Điểm cực đại của hàm số $y=f(x)$ là}{2}{1}{Dựa vào bảng biến thiên, điểm cực đại của hàm số là $x = 3$.}
+	\option{$y = 2$.}
+	\option{$x = 2$.}
+	\option{$x = 3$.}
+	\option{$y = -1$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Đồng Hỷ - Thái Nguyên 2026) Hàm số nào sau đây có đồ thị là đường cong như hình vẽ?\image{0.6}{}{lt_3.png}}{3}{1}{Đồ thị hàm số đi qua điểm $(0;-1)$ (Loại A, C) và điểm $(2;3)$ (Loại B). Do đó ta chọn D.}
+	\option{$y = x - \frac{1}{x-1}$.}
+	\option{$y = -x + \frac{1}{x-1}$.}
+	\option{$y = -x - \frac{1}{x-1}$.}
+	\option{$y = x + \frac{1}{x-1}$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Trần Phú - Hải Phòng 2026) Đồ thị của hàm số nào dưới đây có dạng như đường cong trong hình vẽ?\image{0.6}{}{lt_4.png}}{1}{1}{Đồ thị có tiệm cận đứng là $x = 1$, tiệm cận ngang là $y = 1$ nên đồ thị trên là của hàm số $y = \frac{x+1}{x-1}$.}
+	\option{$y = \frac{2x-1}{2x+1}$.}
+	\option{$y = \frac{x+1}{x-1}$.}
+	\option{$y = \frac{2x+1}{2x-1}$.}
+	\option{$y = \frac{2x+1}{x-1}$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Trần Phú - Hải Phòng 2026) Cho hàm số $y = f(x)$ liên tục trên $\mathbb{R}$ và có đồ thị là đường cong trong hình dưới đây. Hàm số đã cho đồng biến trên khoảng nào dưới đây?\image{0.6}{}{lt_5.png}}{0}{1}{Quan sát đồ thị, nhận thấy hàm số đã cho đồng biến trên khoảng $(0;1)$.}
+	\option{$(0;1)$.}
+	\option{$(-1;1)$.}
+	\option{$(-\infty;1)$.}
+	\option{$(0;+\infty)$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Trần Phú - Hải Phòng 2026) Số điểm cực tiểu của đồ thị hàm số $y = \frac{1}{5}x^5 - \frac{3}{4}x^4 + \frac{2}{3}x^3 + \frac{1}{2}$ là}{3}{1}{\image{0.6}{}{lt_6.png}}
+	\option{$0$.}
+	\option{$3$.}
+	\option{$2$.}
+	\option{$1$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Gia Thiều - Hà Nội 2026) Cho hàm số $f(x)$ xác định trên $\mathbb{R}$ thỏa mãn đồng thời hai điều kiện: $f(x)$ là hàm số lẻ và $f(x)=x^2$ với mọi $x \le 0$. Giá trị của $f(2)$ bằng}{0}{1}{Do $f(x)$ là hàm số lẻ nên $f(2) = -f(-2)$.\\Vì $-2 \le 0$ nên $f(-2) = (-2)^2 = 4 \Rightarrow f(2) = -4$.}
+	\option{$-4$.}
+	\option{$-2$.}
+	\option{$0$.}
+	\option{$4$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Gia Thiều - Hà Nội 2026) Giá trị cực tiểu của hàm số $y = 4x^3 - 6x^2 + 11$ bằng}{2}{1}{Ta có $y' = 12x^2 - 12x = 12x(x-1)$.\\$y' = 0 \Leftrightarrow x = 0$ hoặc $x = 1$.\\Đạo hàm đổi dấu từ âm sang dương tại $x = 1$ nên hàm số đạt cực tiểu tại $x = 1$.\\Giá trị cực tiểu là $y(1) = 4(1)^3 - 6(1)^2 + 11 = 9$.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$9$.}
+	\option{$11$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Gia Thiều - Hà Nội 2026) Hàm số $y = -2x^3 + 9x^2 + 24x - 114$ đồng biến trên khoảng nào dưới đây?}{0}{1}{Ta có $y' = -6x^2 + 18x + 24$.\\$y' > 0 \Leftrightarrow -6x^2 + 18x + 24 > 0 \Leftrightarrow -1 < x < 4$.\\Vậy hàm số đồng biến trên khoảng $(-1;4)$.}
+	\option{$(-1;4)$.}
+	\option{$(-4;-1)$.}
+	\option{$(-\infty;-1)$.}
+	\option{$(4;+\infty)$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Gia Thiều - Hà Nội 2026) Cho hàm số $f(x)$ liên tục trên $[-1;5]$ và có đồ thị như hình vẽ bên (các điểm cực trị của đồ thị thể hiện rõ trên hình). Gọi $M$ và $m$ lần lượt là giá trị lớn nhất và nhỏ nhất của hàm số đã cho trên $[-1;5]$. Giá trị của $M-m$ bằng\image{0.6}{}{lt_7.png}}{2}{1}{Trên $[-1;5]$, ta có $M = \max_{[-1;5]} f(x) = 3$ và $m = \min_{[-1;5]} f(x) = -2$.\\Giá trị của $M - m = 3 - (-2) = 5$.}
+	\option{$1$.}
+	\option{$4$.}
+	\option{$5$.}
+	\option{$6$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Gia Thiều - Hà Nội 2026) Tiệm cận ngang của đồ thị hàm số $y = \frac{2x-4}{x+2}$ là đường thẳng có phương trình}{0}{1}{Ta có $\lim_{x \to \pm\infty} \frac{2x-4}{x+2} = 2$ nên đường thẳng $y = 2$ là tiệm cận ngang của đồ thị hàm số.}
+	\option{$y = 2$.}
+	\option{$y = -2$.}
+	\option{$x = 2$.}
+	\option{$x = -2$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Bắc Ninh 2026) Đường tiệm cận ngang của đồ thị hàm số $y = \frac{3x-1}{1-x}$ có phương trình là}{1}{1}{Ta có $\lim_{x \to \pm\infty} \frac{3x-1}{1-x} = -3$ nên $y = -3$ là đường tiệm cận ngang của đồ thị hàm số.}
+	\option{$x = -3$.}
+	\option{$y = -3$.}
+	\option{$x = 3$.}
+	\option{$y = 3$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Bắc Ninh 2026) Cho hàm số $y = f(x)$ liên tục và có đồ thị trên đoạn $[-4;3]$ như hình vẽ. Giá trị nhỏ nhất của hàm số $y = f(x)$ trên đoạn $[0;3]$ là\image{0.6}{}{lt_8.png}}{3}{1}{Quan sát đồ thị trên đoạn $[0;3]$, điểm thấp nhất có tung độ bằng $-2$. Vậy $\min_{[0;3]} f(x) = -2$.}
+	\option{$-4$.}
+	\option{$-3$.}
+	\option{$1$.}
+	\option{$-2$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Bắc Ninh 2026) Cho hàm số $y = f(x)$ liên tục trên $\mathbb{R}$ và có bảng xét dấu đạo hàm như hình vẽ sau\image{0.6}{}{lt_9.png}Số điểm cực tiểu của đồ thị hàm số $y = f(x)$ là}{2}{1}{Dựa vào bảng xét dấu đạo hàm, đạo hàm đổi dấu từ âm sang dương đúng 1 lần (tại $x = 0$) nên hàm số có 1 điểm cực tiểu.}
+	\option{$2$.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Phú Thọ 2026) Cho hàm số bậc ba $y = ax^3+bx^2+cx+d$ ($a \ne 0$) có đồ thị như hình vẽ\image{0.6}{}{lt_10.png}Hàm số nghịch biến trên khoảng nào trong các khoảng dưới đây?}{1}{1}{Quan sát đồ thị, ta thấy trên khoảng $(-1;1)$ đường cong đồ thị đi xuống từ trái sang phải, do đó hàm số nghịch biến trên khoảng $(-1;1)$.}
+	\option{$(-\infty;-1)$.}
+	\option{$(-1;1)$.}
+	\option{$(1;+\infty)$.}
+	\option{$(-4;0)$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Phú Thọ 2026) Điểm cực tiểu của hàm số $y = \frac{1}{3}x^3 - 2x^2 + 3x - 1$ là}{1}{1}{\image{0.6}{}{lt_11.png}}
+	\option{$x = \frac{1}{3}$.}
+	\option{$x = 3$.}
+	\option{$x = -1$.}
+	\option{$x = 1$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Phú Thọ 2026) Đường thẳng nào dưới đây là đường tiệm cận xiên của đồ thị hàm số $y = 2x - 5 + \frac{10}{x+3}$?}{0}{1}{Ta có $\lim_{x \to \pm\infty} [y - (2x-5)] = \lim_{x \to \pm\infty} \frac{10}{x+3} = 0$ nên đường tiệm cận xiên của đồ thị hàm số là $y = 2x-5$.}
+	\option{$y = 2x-5$.}
+	\option{$y = x+3$.}
+	\option{$y = 2x$.}
+	\option{$y = 2x+3$.}
+\end{mcq}
+
+\begin{mcq}{(Sở Phú Thọ 2026) Cho hàm số $y = \frac{3x+7}{x+1}$. Giá trị lớn nhất của hàm số đã cho trên đoạn $[0;3]$ bằng}{1}{1}{Tập xác định: $D = \mathbb{R}\setminus\{-1\}$.\\Ta có $y' = \frac{3\cdot 1 - 7\cdot 1}{(x+1)^2} = \frac{-4}{(x+1)^2} < 0, \forall x \ne -1$.\\Do đó hàm số nghịch biến trên $[0;3]$, suy ra $\max_{[0;3]} y = y(0) = 7$.}
+	\option{$3$.}
+	\option{$7$.}
+	\option{$4$.}
+	\option{$0$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Lê Thánh Tông - Đà Nẵng 2026) Đường cong trong hình vẽ bên là đồ thị hàm số nào trong các hàm số được cho bởi các phương án $A, B, C, D$ dưới đây?\image{0.6}{}{lt_12.png}}{1}{1}{Đồ thị hàm số có tiệm cận đứng $x = 1$ và tiệm cận ngang $y = 1$. Do đó đồ thị là của hàm số $y = \frac{x+1}{x-1}$.}
+	\option{$y = \frac{2x-1}{x-1}$.}
+	\option{$y = \frac{x+1}{x-1}$.}
+	\option{$y = \frac{2x-2}{2x+1}$.}
+	\option{$y = \frac{-x+1}{x+1}$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Lê Thánh Tông - Đà Nẵng 2026) Cho hàm số $y=f(x)$ xác định trên $\mathbb{R}$, có bảng biến thiên như hình vẽ dưới đây. Hàm số $y=f(x)$ nghịch biến trên khoảng nào trong các khoảng sau?\image{0.6}{}{lt_13.png}}{3}{1}{Dựa vào bảng biến thiên, hàm số nghịch biến trên $(-\infty;0)$ và $(1;+\infty)$. Vì $(2;+\infty) \subset (1;+\infty)$ nên hàm số nghịch biến trên khoảng $(2;+\infty)$.}
+	\option{$(0;1)$.}
+	\option{$(-\infty;22)$.}
+	\option{$(0;+\infty)$.}
+	\option{$(2;+\infty)$.}
+\end{mcq}
+
+\begin{mcq}{(Chuyên Lê Thánh Tông - Đà Nẵng 2026) Cho hàm số $f(x)$ có đạo hàm $f'(x) = x^2(x-1)(x-2)^3$, $\forall x \in \mathbb{R}$. Hàm số $f(x)$ có bao nhiêu điểm cực đại?}{2}{1}{\image{0.6}{}{lt_14.png}}
+	\option{$2$.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm liên trường Hải Phòng 2026) Đồ thị có hình vẽ dưới đây là của hàm số nào?\image{0.6}{}{lt_15.png}}{2}{1}{Quan sát đồ thị:\\- Tiệm cận đứng $x = -1$ (Loại D vì có TCĐ $x = -\frac{1}{2}$).\\- Tiệm cận ngang $y = -1$.\\- Đồ thị cắt trục tung tại $(0;1)$. Thay $x = 0$ vào đáp án C được $y = 1$ (Thỏa mãn).}
+	\option{$y = \frac{-x+2}{x+1}$.}
+	\option{$y = \frac{-x}{x+1}$.}
+	\option{$y = \frac{-x+1}{x+1}$.}
+	\option{$y = \frac{-2x+1}{2x+1}$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm liên trường Hải Phòng 2026) Cho hàm số $y = f(x)$ có đồ thị như hình bên. Hàm số đã cho đạt giá trị nhỏ nhất trên đoạn $[-1;1]$ tại\image{0.6}{}{lt_16.png}}{0}{1}{Từ đồ thị hàm số ta thấy giá trị nhỏ nhất của hàm số trên đoạn $[-1;1]$ là $-4$ tại $x = -1$.}
+	\option{$x = -1$.}
+	\option{$x = 0$.}
+	\option{$x = -4$.}
+	\option{$x = 1$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm liên trường Hải Phòng 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như hình bên dưới.\image{0.6}{}{lt_17.png}Đồ thị hàm số $y=f(x)$ có tổng số bao nhiêu đường tiệm cận đứng và ngang?}{0}{1}{Từ bảng biến thiên ta thấy:\\- $\lim_{x \to -\infty} y = -1 \Rightarrow y = -1$ là tiệm cận ngang.\\- $\lim_{x \to 1^-} y = +\infty \Rightarrow x = 1$ là tiệm cận đứng.\\Vậy đồ thị hàm số có tổng cộng 2 đường tiệm cận đứng và ngang.}
+	\option{$2$.}
+	\option{$0$.}
+	\option{$1$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm liên trường Hải Phòng 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như sau:\image{0.6}{}{lt_18.png}Hàm số $f(x)$ đạt cực tiểu tại điểm}{3}{1}{Dựa vào bảng biến thiên, hàm số $f(x)$ đạt cực tiểu tại điểm $x = 3$.}
+	\option{$y = 0$.}
+	\option{$x = -4$.}
+	\option{$y = -4$.}
+	\option{$x = 3$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Cho hàm số $f(x)$ có bảng xét dấu của đạo hàm như sau:\image{0.6}{}{lt_19.png}Hàm số đã cho nghịch biến trên khoảng nào dưới đây?}{0}{1}{Do $f'(x) < 0, \forall x \in (-3;0)$ nên hàm số nghịch biến trên khoảng $(-3;0)$.}
+	\option{$(-3;0)$.}
+	\option{$(0;+\infty)$.}
+	\option{$(0;2)$.}
+	\option{$(-\infty;-3)$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Bảng biến thiên sau đây là của hàm số nào?\image{0.6}{}{lt_20.png}}{2}{1}{Dựa vào bảng biến thiên ta có: Đồ thị hàm số có tiệm cận đứng $x = -1$ và tiệm cận ngang $y = 2$ (loại B và D).\\Xét phương án A: $y' = \frac{-1}{(x+1)^2} < 0, \forall x \ne -1$ (loại vì trên BBT $y' > 0$).\\Xét phương án C: $y' = \frac{3}{(x+1)^2} > 0, \forall x \ne -1$ (chọn).}
+	\option{$y = \frac{2x+3}{x+1}$.}
+	\option{$y = \frac{2x-1}{x-1}$.}
+	\option{$y = \frac{2x-1}{x+1}$.}
+	\option{$y = \frac{x+1}{2x-1}$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Đường cong trong hình sau là của hàm số nào dưới đây?\image{0.6}{}{lt_21.png}}{3}{1}{Vì đường cong trong hình bên có dạng hàm bậc ba với hệ số $a > 0$, đi qua điểm $(1;2)$ và có hai điểm cực trị $(-2;2)$, $(0;-2)$ nên đó là đồ thị của hàm số $y = x^3 + 3x^2 - 2$.}
+	\option{$y = -x^3 - 3x^2 - 2$.}
+	\option{$y = x^3 - 3x^2 - 2$.}
+	\option{$y = 2x^3 + 6x^2 - 2$.}
+	\option{$y = x^3 + 3x^2 - 2$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm trường Hà Tĩnh 2026) Tìm giá trị lớn nhất của hàm số $y = \frac{2x+3}{x-1}$ trên đoạn $[2;4]$.}{2}{1}{Hàm số xác định và liên tục trên $[2;4]$.\\Ta có $y' = \frac{-5}{(x-1)^2} < 0, \forall x \in [2;4]$.\\Do đó hàm số nghịch biến trên $[2;4]$, suy ra $\max_{[2;4]} y = y(2) = 7$.}
+	\option{$8$.}
+	\option{$\frac{9}{2}$.}
+	\option{$7$.}
+	\option{$\frac{11}{3}$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm trường Hà Tĩnh 2026) Giá trị lớn nhất của hàm số $y = 3\sin 2x - 1$ là}{0}{1}{Ta có $-1 \le \sin 2x \le 1 \Leftrightarrow -3 \le 3\sin 2x \le 3 \Leftrightarrow -4 \le 3\sin 2x - 1 \le 2$.\\Vậy giá trị lớn nhất của hàm số là $y_{\max} = 2$.}
+	\option{$2$.}
+	\option{$5$.}
+	\option{$4$.}
+	\option{$3$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm trường Hà Tĩnh 2026) Cho hàm số $f(x) = ax^3+bx^2+cx+d$ có đồ thị như hình sau đây. Số nghiệm dương của phương trình $2f(x)-3 = 0$ là:\image{0.6}{}{lt_22.png}}{3}{1}{Biến đổi phương trình: $2f(x)-3 = 0 \Leftrightarrow f(x) = \frac{3}{2} = 1{,}5$.\\Đường thẳng nằm ngang $y = 1{,}5$ cắt đồ thị tại 3 điểm, trong đó có 2 giao điểm có hoành độ dương ($x > 0$). Vậy phương trình có 2 nghiệm dương.}
+	\option{$1$.}
+	\option{$0$.}
+	\option{$3$.}
+	\option{$2$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm trường Hà Tĩnh 2026) Cho hàm số $y=f(x)$ có bảng biến thiên như sau:\image{0.6}{}{lt_23.png}Giá trị cực đại của hàm số $y=f(x)$ là}{0}{1}{Dựa vào bảng biến thiên, giá trị cực đại của hàm số là $y_{\text{CĐ}} = -3$.}
+	\option{$y = -3$.}
+	\option{$y = -6$.}
+	\option{$x = -7$.}
+	\option{$x = -4$.}
+\end{mcq}
+
+\begin{mcq}{(Cụm trường Hà Tĩnh 2026) Đường tiệm cận xiên của đồ thị hàm số $y = x+4+\frac{x-1}{x-2}$ là}{2}{1}{Ta có $y = x+4+\frac{x-1}{x-2} = x+4+1+\frac{1}{x-2} = x+5+\frac{1}{x-2}$.\\Vì $\lim_{x \to \pm\infty} [y - (x+5)] = \lim_{x \to \pm\infty} \frac{1}{x-2} = 0$ nên đường tiệm cận xiên là $y = x+5$.}
+	\option{$y = x+4$.}
+	\option{$x = 2$.}
+	\option{$y = x+5$.}
+	\option{$y = x+3$.}
+\end{mcq}
+
+\begin{mcq}{(Liên trường Nghệ An 2026) Cho hàm số $y = \frac{ax+2}{x+c}$ có đồ thị như hình sau đây. Tính giá trị của biểu thức $P = 2a-c$\image{0.6}{}{lt_24.png}}{0}{1}{Dựa vào đồ thị ta có:\\- Tiệm cận đứng $x = 2 \Rightarrow -c = 2 \Leftrightarrow c = -2$.\\- Tiệm cận ngang $y = 1 \Rightarrow a = 1$.\\Vậy $P = 2a - c = 2(1) - (-2) = 4$.}
+	\option{$4$.}
+	\option{$-4$.}
+	\option{$-5$.}
+	\option{$5$.}
+\end{mcq}
+
+\begin{mcq}{(Liên trường Nghệ An 2026) Bạn Hải có một tấm bìa hình vuông cạnh 40 cm. Bạn muốn cắt bỏ ở bốn góc bốn hình vuông nhỏ bằng nhau để gấp và dán lại thành một hộp hình hộp chữ nhật không có nắp (tham khảo hình vẽ).\image{0.6}{}{lt_25.png}Để hộp có thể tích lớn nhất thì độ dài cạnh của hình vuông nhỏ bị cắt là:}{2}{1}{\image{0.6}{}{lt_26.png}}
+	\option{$6\text{ cm}$.}
+	\option{$5\text{ cm}$.}
+	\option{$\frac{20}{3}\text{ cm}$.}
+	\option{$\frac{10}{3}\text{ cm}$.}
+\end{mcq}
+
+\begin{mcq}{(Liên trường Nghệ An 2026) Hàm số nào sau đây nghịch biến trên $\mathbb{R}$?}{3}{1}{Xét hàm số $y = e^{-x}$ có tập xác định $D = \mathbb{R}$ và đạo hàm $y' = -e^{-x} < 0, \forall x \in \mathbb{R}$. Do đó hàm số $y = e^{-x}$ nghịch biến trên $\mathbb{R}$.}
+	\option{$y = \left(\frac{2026}{2025}\right)^x$.}
+	\option{$y = \log_{\frac{1}{2}} x$.}
+	\option{$y = \frac{2x-1}{x-1}$.}
+	\option{$y = e^{-x}$.}
+\end{mcq}
+
+\begin{mcq}{(Liên trường Nghệ An 2026) Cho hàm số $f(x) = ax^3+bx^2+cx+d$ có đồ thị như hình sau đây\image{0.6}{}{lt_27.png}Điểm cực đại của hàm số $y=f(x)$ là}{1}{1}{Từ đồ thị, ta xác định được điểm cực đại của đồ thị hàm số là $(2;3)$. Vậy điểm cực đại của hàm số là $x = 2$.}
+	\option{$x = 0$.}
+	\option{$x = 2$.}
+	\option{$y = 3$.}
+	\option{$M(2;3)$.}
+\end{mcq}
+
+\begin{mcq}{(Liên trường Nghệ An 2026) Đường tiệm cận đứng của đồ thị hàm số $y = \frac{2x+3}{x-1}$ là}{3}{1}{Vì $\lim_{x \to 1^+} \frac{2x+3}{x-1} = +\infty$ nên đường thẳng $x = 1$ là đường tiệm cận đứng của đồ thị hàm số.}
+	\option{$x = 2$.}
+	\option{$y = 1$.}
+	\option{$y = 2$.}
+	\option{$x = 1$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Cho hàm số $y=f(x)$ có đạo hàm $f'(x) = x^2(x+1)^2(2x-1)$. Số điểm cực trị của hàm số $y=f(x)$ là}{3}{1}{Phương trình $f'(x) = 0 \Leftrightarrow x^2(x+1)^2(2x-1) = 0$ có nghiệm đơn $x = \frac{1}{2}$ và hai nghiệm bội chẵn $x = 0, x = -1$. Vì đạo hàm chỉ đổi dấu 1 lần khi qua $x = \frac{1}{2}$ nên hàm số có đúng 1 điểm cực trị.}
+	\option{$3$.}
+	\option{$0$.}
+	\option{$2$.}
+	\option{$1$.}
+\end{mcq}
+
+\begin{mcq}{(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Giá trị nhỏ nhất của hàm số $y = x^3-3x+5$ trên đoạn $[2;4]$ là}{3}{1}{Hàm số liên tục trên $[2;4]$. Ta có $y' = 3x^2 - 3 = 0 \Leftrightarrow x = \pm 1 \notin [2;4]$.\\Ta tính $y(2) = 7, y(4) = 57$.\\Vậy giá trị nhỏ nhất của hàm số trên đoạn $[2;4]$ là $7$ tại $x = 2$.}
+	\option{$\min_{[2;4]} y = 5$.}
+	\option{$\min_{[2;4]} y = 0$.}
+	\option{$\min_{[2;4]} y = 3$.}
+	\option{$\min_{[2;4]} y = 7$.}
+\end{mcq}
+
+\end{quiz}
+
+\end{document}

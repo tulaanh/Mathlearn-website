@@ -325,12 +325,14 @@ Ngân hàng câu hỏi (`/quan-ly/ngan-hang-cau-hoi`) có định dạng nhập/
       "text": "Nội dung câu hỏi, có thể dùng $LaTeX$.",
       "type": "multiple_choice",
       "difficulty": "nhan_biet",
-      "grade": "Lớp 8",
+      "grade": "Lớp 12",
       "topicIds": ["ham-so-va-do-thi"],
+      "imageFileName": "lt_1.png",
       "options": ["3", "4", "5", "6"],
       "correctIndex": 1,
       "points": 1,
-      "explanation": "Giải thích (tùy chọn)."
+      "explanation": "Giải thích (tùy chọn).",
+      "explanationImageFileName": "lt_2.png"
     }
   ]
 }
@@ -344,6 +346,9 @@ Ngân hàng câu hỏi (`/quan-ly/ngan-hang-cau-hoi`) có định dạng nhập/
 | `difficulty` | Một trong: `nhan_biet`, `thong_hieu`, `van_dung`, `van_dung_cao`. Nếu thiếu hoặc không hợp lệ, mặc định `nhan_biet`; tên tiếng Việt ("Nhận biết", "Vận dụng cao"...) cũng được nhận diện. |
 | `grade` | Khối lớp dạng chuỗi; nếu thiếu dùng `Lớp 8`. |
 | `topicIds` | Chỉ giữ lại mã chủ đề hợp lệ (xem Phần 2). |
+| `imageFileName` / `imageSourceName` | *(Tùy chọn)* Tên file ảnh minh họa đề bài (`lt_1.png`) để tải lên cùng lúc khi nhập JSON. |
+| `explanationImageFileName` / `explanationImageSourceName` | *(Tùy chọn)* Tên file ảnh minh họa lời giải (`lt_2.png`) để tải lên cùng lúc khi nhập JSON. |
+| `explanationImages` | *(Tùy chọn)* Mảng danh sách nhiều file ảnh lời giải `[ "lt_2.png", "lt_3.png" ]`. |
 
 Khi nhập, câu bị lỗi sẽ bị bỏ qua và hệ thống báo rõ từng lỗi theo số thứ tự; các câu hợp lệ vẫn được thêm vào ngân hàng.
 

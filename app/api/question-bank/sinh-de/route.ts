@@ -27,9 +27,16 @@ export async function POST(request: Request) {
     matrix[d] = Number.isInteger(value) && value > 0 ? Math.min(value, 100) : 0;
   }
 
+  const topicIds = Array.isArray(body.topicIds)
+    ? body.topicIds.filter((topicId): topicId is string => typeof topicId === "string" && topicId.length > 0).slice(0, 50)
+    : [];
+  if (!topicIds.length) {
+    return NextResponse.json({ error: "Hãy chọn ít nhất một chủ đề." }, { status: 400 });
+  }
+
   const result = await pickRandomQuestionsByMatrix(matrix, {
     grade: typeof body.grade === "string" ? body.grade : undefined,
-    topicId: typeof body.topic === "string" ? body.topic : undefined,
+    topicIds,
     type: typeof body.type === "string" && isQuestionType(body.type) ? body.type : undefined,
   });
 

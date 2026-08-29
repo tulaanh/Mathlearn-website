@@ -35,6 +35,25 @@ function asText(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
 
+function countUnescapedDollars(value: string): number {
+  let count = 0;
+  let backslashes = 0;
+  for (const char of value) {
+    if (char === "\\") {
+      backslashes += 1;
+      continue;
+    }
+    if (char === "$" && backslashes % 2 === 0) count += 1;
+    backslashes = 0;
+  }
+  return count;
+}
+
+function validateMathText(value: string, label: string): void {
+  if (!value.includes("$") || countUnescapedDollars(value) % 2 === 0) return;
+  throw new Error(`${label} chứa công thức LaTeX chưa đóng dấu $...$.`);
+}
+
 /** Xuất danh sách câu hỏi ngân hàng ra chuỗi JSON. */
 export function serializeBankJson(questions: BankQuestion[]): string {
   return JSON.stringify(
@@ -143,6 +162,7 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
 
   const text = asText(q.text).trim();
   if (!text) throw new Error('thiếu "text".');
+  validateMathText(text, `${context} — đề bài`);
 
   const type = (asText(q.type).trim() || "multiple_choice") as QuestionType;
   if (!["multiple_choice", "true_false", "short_answer", "essay"].includes(type)) {
@@ -164,29 +184,38 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
   const points =
     typeof q.points === "number" && Number.isFinite(q.points) && q.points > 0 ? q.points : 1;
   const explanation = asText(q.explanation).trim() || undefined;
+  if (explanation) validateMathText(explanation, `${context} — lời giải`);
 
   const imageStoragePath = asText(q.imageStoragePath || q.storagePath).trim() || undefined;
+  const imageSourceName = asText(q.imageSourceName || q.imageFileName || q.fileName || q.image).trim() || undefined;
   const imageCaption = asText(q.imageCaption).trim() || undefined;
   const imageUrl = asText(q.imageUrl).trim() || undefined;
   const explanationImageStoragePath = asText(q.explanationImageStoragePath || q.explanationStoragePath).trim() || undefined;
+  const explanationImageSourceName = asText(q.explanationImageSourceName || q.explanationImageFileName || q.explanationFileName || q.explanationImage).trim() || undefined;
   const explanationImageCaption = asText(q.explanationImageCaption).trim() || undefined;
   const explanationImageUrl = asText(q.explanationImageUrl).trim() || undefined;
 
   const rawExplanationImages = Array.isArray(q.explanationImages) ? q.explanationImages : [];
   const explanationImages = rawExplanationImages.map((item) => {
+    if (typeof item === "string" && item.trim()) {
+      return { sourceName: item.trim() };
+    }
     const it = typeof item === "object" && item !== null ? (item as Record<string, unknown>) : {};
     return {
+      ...(asText(it.sourceName || it.fileName || it.imageFileName).trim() ? { sourceName: asText(it.sourceName || it.fileName || it.imageFileName).trim() } : {}),
       ...(asText(it.storagePath || it.explanationImageStoragePath).trim() ? { storagePath: asText(it.storagePath || it.explanationImageStoragePath).trim() } : {}),
       ...(asText(it.caption || it.explanationImageCaption).trim() ? { caption: asText(it.caption || it.explanationImageCaption).trim() } : {}),
       ...(asText(it.url || it.explanationImageUrl).trim() ? { url: asText(it.url || it.explanationImageUrl).trim() } : {}),
     };
-  }).filter((it) => it.storagePath || it.url);
+  }).filter((it) => it.sourceName || it.storagePath || it.url);
 
   const imageProps = {
     ...(imageStoragePath ? { imageStoragePath } : {}),
+    ...(imageSourceName ? { imageSourceName } : {}),
     ...(imageCaption ? { imageCaption } : {}),
     ...(imageUrl ? { imageUrl } : {}),
     ...(explanationImageStoragePath ? { explanationImageStoragePath } : {}),
+    ...(explanationImageSourceName ? { explanationImageSourceName } : {}),
     ...(explanationImageCaption ? { explanationImageCaption } : {}),
     ...(explanationImageUrl ? { explanationImageUrl } : {}),
     ...(explanationImages.length > 0 ? { explanationImages } : {}),
@@ -198,6 +227,7 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
       .filter(Boolean);
     if (optionTexts.length < 2) throw new Error('trắc nghiệm cần ít nhất 2 đáp án trong "options".');
     if (optionTexts.length > OPTION_IDS.length) optionTexts.length = OPTION_IDS.length;
+    optionTexts.forEach((optionText, index) => validateMathText(optionText, `${context} — phương án ${index + 1}`));
     const correctIndex =
       typeof q.correctIndex === "number" && Number.isInteger(q.correctIndex) &&
       q.correctIndex >= 0 && q.correctIndex < optionTexts.length
@@ -228,6 +258,7 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
       };
     }).filter((s) => s.text);
     if (!statements.length) throw new Error('"true_false" cần ít nhất một mệnh đề không rỗng.');
+    statements.forEach((statement, index) => validateMathText(statement.text, `${context} — mệnh đề ${index + 1}`));
     const trueFalsePoints = Array.isArray(q.trueFalsePoints)
       ? q.trueFalsePoints.filter((v): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0)
       : undefined;
@@ -247,6 +278,8 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
   }
 
   if (type === "short_answer") {
+    const correctAnswer = asText(q.correctAnswer ?? q.correct_answer).trim();
+    if (correctAnswer) validateMathText(correctAnswer, `${context} — đáp án ngắn`);
     return {
       id: "",
       text,
@@ -255,7 +288,7 @@ function convertBankQuestion(rawItem: unknown, context: string): BankQuestion {
       grade,
       topicIds,
       points,
-      correctAnswer: asText(q.correctAnswer ?? q.correct_answer),
+      correctAnswer,
       ...(explanation ? { explanation } : {}),
       ...imageProps,
     };

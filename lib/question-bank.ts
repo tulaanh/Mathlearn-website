@@ -17,6 +17,7 @@ export type BankQuestionFilters = {
   search?: string;
   grade?: string;
   topicId?: string;
+  topicIds?: string[];
   difficulty?: QuestionDifficulty | "";
   type?: QuestionType | "";
 };
@@ -114,59 +115,62 @@ export type BankStats = {
   byDifficulty: Record<QuestionDifficulty, number>;
 };
 
-export async function getBankStats(): Promise<BankStats> {
-  const supabase = await createServerSupabaseClient();
-  const empty: BankStats = {
-    total: 0,
-    byDifficulty: { nhan_biet: 0, thong_hieu: 0, van_dung: 0, van_dung_cao: 0 },
-  };
-  if (!supabase) return empty;
+export type BankOverview = {
+  stats: BankStats;
+  grades: string[];
+};
 
-  // Đếm bằng SQL (head count) thay vì tải toàn bộ bảng về JS.
-  const difficulties: QuestionDifficulty[] = ["nhan_biet", "thong_hieu", "van_dung", "van_dung_cao"];
-  const [totalRes, ...difficultyResults] = await Promise.all([
-    supabase.from("question_bank").select("id", { count: "exact", head: true }),
-    ...difficulties.map((d) =>
-      supabase
-        .from("question_bank")
-        .select("id", { count: "exact", head: true })
-        .eq("difficulty", d),
-    ),
-  ]);
-
-  const stats = { ...empty };
-  stats.total = totalRes.count ?? 0;
-  difficulties.forEach((d, i) => {
-    stats.byDifficulty[d] = difficultyResults[i]?.count ?? 0;
-  });
-  return stats;
-}
+const EMPTY_BANK_STATS: BankStats = {
+  total: 0,
+  byDifficulty: { nhan_biet: 0, thong_hieu: 0, van_dung: 0, van_dung_cao: 0 },
+};
 
 const KNOWN_GRADES = ["Lớp 6", "Lớp 7", "Lớp 8", "Lớp 9", "Lớp 10", "Lớp 11", "Lớp 12"];
 
-/** Danh sách khối lớp đang có trong ngân hàng (cho bộ lọc): đếm head-count từng khối thay vì tải toàn bộ. */
-export async function getBankGrades(): Promise<string[]> {
+/**
+ * Tải số liệu đầu trang bằng một query nhẹ chỉ lấy difficulty/grade.
+ * Trước đây mỗi lần đổi bộ lọc phải chạy 5 query đếm mức độ và tối đa 7 query đếm khối.
+ */
+export async function getBankOverview(): Promise<BankOverview> {
   const supabase = await createServerSupabaseClient();
-  if (!supabase) return [];
-  const results = await Promise.all(
-    KNOWN_GRADES.map((grade) =>
-      supabase
-        .from("question_bank")
-        .select("id", { count: "exact", head: true })
-        .eq("grade", grade)
-        .limit(1),
-    ),
-  );
-  return KNOWN_GRADES.filter((_, i) => (results[i]?.count ?? 0) > 0);
+  if (!supabase) return { stats: EMPTY_BANK_STATS, grades: [] };
+
+  const { data: rows, error } = await supabase.from("question_bank").select("difficulty, grade");
+  if (error || !rows) return { stats: EMPTY_BANK_STATS, grades: [] };
+
+  const stats: BankStats = {
+    total: rows.length,
+    byDifficulty: { ...EMPTY_BANK_STATS.byDifficulty },
+  };
+  const grades = new Set<string>();
+  for (const row of rows) {
+    if (isQuestionDifficulty(row.difficulty)) stats.byDifficulty[row.difficulty] += 1;
+    if (typeof row.grade === "string" && row.grade) grades.add(row.grade);
+  }
+
+  return {
+    stats,
+    grades: KNOWN_GRADES.filter((grade) => grades.has(grade)),
+  };
+}
+
+export async function getBankStats(): Promise<BankStats> {
+  return (await getBankOverview()).stats;
+}
+
+/** Danh sách khối lớp đang có trong ngân hàng (cho bộ lọc). */
+export async function getBankGrades(): Promise<string[]> {
+  return (await getBankOverview()).grades;
 }
 
 /**
  * Chọn ngẫu nhiên câu hỏi theo ma trận mức độ (server-side).
- * Mỗi mức độ chọn tối đa `count` câu, ưu tiên khớp bộ lọc grade/topicId/type.
+ * Mỗi mức độ chọn tối đa `count` câu, ưu tiên khớp bộ lọc grade/topicIds/type.
+ * Với nhiều chủ đề, câu hỏi chỉ cần thuộc ít nhất một chủ đề được chọn.
  */
 export async function pickRandomQuestionsByMatrix(
   matrix: Partial<Record<QuestionDifficulty, number>>,
-  filters: Pick<BankQuestionFilters, "grade" | "topicId" | "type"> = {},
+  filters: Pick<BankQuestionFilters, "grade" | "topicId" | "topicIds" | "type"> = {},
 ): Promise<{ picked: BankQuestion[]; available: Record<string, number> }> {
   const supabase = await createServerSupabaseClient();
   const difficulties: QuestionDifficulty[] = ["nhan_biet", "thong_hieu", "van_dung", "van_dung_cao"];
@@ -176,14 +180,16 @@ export async function pickRandomQuestionsByMatrix(
   if (!supabase || !needed.length) return { picked: [], available };
 
   // Lấy liên kết chủ đề đúng một lần, dùng chung cho mọi mức độ.
-  let topicIds: string[] | null = null;
-  if (filters.topicId) {
+  // Nhiều chủ đề dùng OR: câu hỏi thuộc ít nhất một chủ đề là hợp lệ.
+  let topicQuestionIds: string[] | null = null;
+  const selectedTopicIds = filters.topicIds?.length ? filters.topicIds : filters.topicId ? [filters.topicId] : [];
+  if (selectedTopicIds.length) {
     const { data: links } = await supabase
       .from("question_bank_topics")
       .select("question_id")
-      .eq("topic_id", filters.topicId);
-    topicIds = (links ?? []).map((l: { question_id: string }) => l.question_id);
-    if (!topicIds.length) return { picked: [], available };
+      .in("topic_id", selectedTopicIds);
+    topicQuestionIds = [...new Set((links ?? []).map((l: { question_id: string }) => l.question_id))];
+    if (!topicQuestionIds.length) return { picked: [], available };
   }
 
   // Mỗi mức độ chỉ cần 1 query lấy id; available tính luôn từ độ dài danh sách
@@ -194,7 +200,7 @@ export async function pickRandomQuestionsByMatrix(
       let idQuery = supabase.from("question_bank").select("id").eq("difficulty", d);
       if (filters.grade) idQuery = idQuery.eq("grade", filters.grade);
       if (filters.type) idQuery = idQuery.eq("type", filters.type);
-      if (topicIds) idQuery = idQuery.in("id", topicIds);
+      if (topicQuestionIds) idQuery = idQuery.in("id", topicQuestionIds);
       const { data: idRows } = await idQuery;
       return [d, (idRows ?? []).map((r: any) => r.id as string)] as const;
     }),

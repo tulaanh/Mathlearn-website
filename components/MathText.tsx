@@ -6,20 +6,51 @@ import "katex/dist/katex.min.css";
 const katexCache = new Map<string, string>();
 const KATEX_CACHE_MAX = 500;
 
+function closeUnmatchedBraces(latex: string): string {
+  const openBraces: string[] = [];
+  let escaped = false;
+
+  for (const char of latex) {
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (char === "\\") {
+      escaped = true;
+    } else if (char === "{") {
+      openBraces.push(char);
+    } else if (char === "}" && openBraces.length > 0) {
+      openBraces.pop();
+    }
+  }
+
+  return latex + "}".repeat(openBraces.length);
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function renderKatex(latex: string, displayMode: boolean): string {
-  const key = `${displayMode ? 1 : 0}|${latex}`;
+  const normalizedLatex = closeUnmatchedBraces(latex.trim());
+  const key = `${displayMode ? 1 : 0}|${normalizedLatex}`;
   const cached = katexCache.get(key);
   if (cached !== undefined) return cached;
   let html: string;
   try {
-    html = katex.renderToString(latex.trim(), {
+    html = katex.renderToString(normalizedLatex, {
       displayMode,
       throwOnError: false,
       strict: false,
       output: "html",
     });
   } catch {
-    return latex;
+    html = `<span class=\"katex-error\">${escapeHtml(normalizedLatex)}</span>`;
   }
   if (katexCache.size >= KATEX_CACHE_MAX) {
     katexCache.delete(katexCache.keys().next().value as string);
@@ -30,7 +61,8 @@ function renderKatex(latex: string, displayMode: boolean): string {
 
 function renderInline(text: string): React.ReactNode[] {
   const elements: React.ReactNode[] = [];
-  const pattern = /\$([^$\n]+?)\$|\*\*([^\*]+?)\*\*/g;
+  // Cho phép dữ liệu cũ thiếu dấu $ đóng ở cuối dòng; công thức vẫn được đưa qua KaTeX.
+  const pattern = /\$([^$\n]+?)(\$|$)|\*\*([^*]+?)\*\*/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   let key = 0;
@@ -40,17 +72,17 @@ function renderInline(text: string): React.ReactNode[] {
       elements.push(<span key={key++}>{text.slice(lastIndex, match.index)}</span>);
     }
     if (match[1] !== undefined) {
-      // Inline math $...$
+      // Inline math $...$ (hoặc math span cũ bị thiếu dấu $ đóng).
       elements.push(
         <span
           key={key++}
-          className="inline-block mx-0.5"
+          className="mx-0.5 inline-block"
           dangerouslySetInnerHTML={{ __html: renderKatex(match[1], false) }}
         />
       );
-    } else if (match[2] !== undefined) {
+    } else if (match[3] !== undefined) {
       // Bold text **...**
-      elements.push(<strong key={key++} className="font-bold text-slate-900 dark:text-white">{match[2]}</strong>);
+      elements.push(<strong key={key++} className="font-bold text-slate-900 dark:text-white">{match[3]}</strong>);
     }
     lastIndex = pattern.lastIndex;
   }
@@ -79,8 +111,21 @@ function splitDisplayMath(text: string): { type: "text" | "block"; value: string
   return segments;
 }
 
+function cleanLatexLineBreaks(text: string): string {
+  // Thay thế \\ và \newline bên ngoài math mode ($...$ hoặc $$...$$) bằng \n
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g);
+  return parts
+    .map((part, idx) => {
+      if (idx % 2 === 0) {
+        return part.replace(/\\\\/g, "\n").replace(/\\newline/g, "\n");
+      }
+      return part;
+    })
+    .join("");
+}
+
 const MathText = React.memo(function MathText({ text, className }: { text: string; className?: string }) {
-  const cleanText = (text ?? "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const cleanText = cleanLatexLineBreaks(text ?? "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   const hasBlockElements = cleanText.includes("\n") || /^#|^[\*\-\+•]|\\item/m.test(cleanText) || cleanText.includes("$$");
 
   if (!hasBlockElements) {

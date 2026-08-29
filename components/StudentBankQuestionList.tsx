@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { BankQuestion } from "@/lib/question-bank-types";
@@ -64,6 +64,7 @@ export default function StudentBankQuestionList({
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
   const { savedQuestions, isSaved, toggleSave } = useSavedQuestions();
 
   // Trạng thái mở rộng lời giải từng câu
@@ -88,7 +89,9 @@ export default function StudentBankQuestionList({
     else params.delete(key);
     params.delete("page"); // reset về trang 1 khi đổi bộ lọc
     const qs = params.toString();
-    router.push(qs ? `/ngan-hang-cau-hoi?${qs}` : "/ngan-hang-cau-hoi");
+    startTransition(() => {
+      router.push(qs ? `/ngan-hang-cau-hoi?${qs}` : "/ngan-hang-cau-hoi");
+    });
   };
 
   const switchTab = (tab: "all" | "saved") => {
@@ -97,15 +100,19 @@ export default function StudentBankQuestionList({
     else params.delete("tab");
     params.delete("page");
     const qs = params.toString();
-    router.push(qs ? `/ngan-hang-cau-hoi?${qs}` : "/ngan-hang-cau-hoi");
+    startTransition(() => {
+      router.push(qs ? `/ngan-hang-cau-hoi?${qs}` : "/ngan-hang-cau-hoi");
+    });
   };
 
   const clearAllFilters = () => {
-    if (currentTab === "saved") {
-      router.push("/ngan-hang-cau-hoi?tab=saved");
-    } else {
-      router.push("/ngan-hang-cau-hoi");
-    }
+    startTransition(() => {
+      if (currentTab === "saved") {
+        router.push("/ngan-hang-cau-hoi?tab=saved");
+      } else {
+        router.push("/ngan-hang-cau-hoi");
+      }
+    });
   };
 
   // Lọc câu hỏi đã lưu nếu đang ở tab saved
@@ -151,7 +158,12 @@ export default function StudentBankQuestionList({
   };
 
   return (
-    <div className="space-y-5">
+    <div className={`relative space-y-5 transition-opacity ${isPending ? "opacity-60" : ""}`} aria-busy={isPending}>
+      {isPending && (
+        <div className="sticky top-20 z-20 mx-auto w-fit rounded-full bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-lg">
+          Đang cập nhật…
+        </div>
+      )}
       {/* Thanh tab: Tất cả câu hỏi vs Câu hỏi đã lưu */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3 dark:border-slate-800">
         <div className="flex items-center gap-2">

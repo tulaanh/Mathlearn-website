@@ -1,0 +1,846 @@
+{
+  "version": 1,
+  "kind": "question_bank",
+  "questions": [
+    {
+      "text": "(THPT Liên cấp đại học Hồng Đức 2026) Tiệm cận đứng của đồ thị hàm số $y = \\frac{2x+4}{x-1}$ là",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = 1$.",
+        "$x = -1$.",
+        "$x = 2$.",
+        "$x = -2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Vì $\\lim_{x \\to 1^+} \\frac{2x+4}{x-1} = +\\infty$ nên $x = 1$ là tiệm cận đứng của đồ thị hàm số."
+    },
+    {
+      "text": "(THPT Liên cấp đại học Hồng Đức 2026) Hàm số nào dưới đây có đồ thị như đường cong trong hình bên?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = \\frac{x^2-2x+3}{x-1}$.",
+        "$y = \\frac{x+1}{x-1}$.",
+        "$y = x^3-3x-1$.",
+        "$y = x^2+x-1$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Đây là hình ảnh đồ thị của hàm số bậc ba với hệ số $a > 0$, nên chọn đáp án C ($y = x^3 - 3x - 1$).",
+      "imageFileName": "lt_1.png"
+    },
+    {
+      "text": "(THPT Nguyễn Khuyến - LTT HCM 2026) Hàm số nào dưới đây đơn điệu trên tập xác định của nó?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = \\sqrt{x^3+x-5}$.",
+        "$y = \\frac{4x-2}{x-1}$.",
+        "$y = x^4+x^3+x+11$.",
+        "$y = \\cot 2x$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Xét hàm số $y = \\sqrt{x^3+x-5}$ có tập xác định $[a;+\\infty)$ với $a \\approx 1{,}516$.\nTa có $y' = \\frac{3x^2+1}{2\\sqrt{x^3+x-5}} > 0, \\forall x \\in (a;+\\infty)$.\nVậy hàm số đồng biến trên tập xác định của nó."
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Hình vẽ bên là đồ thị của hàm số $y = \\frac{ax+b}{cx+b}$. Đường tiệm cận đứng của đồ thị có phương trình là",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = 1$.",
+        "$x = 2$.",
+        "$y = 1$.",
+        "$y = 2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Quan sát đồ thị, đường tiệm cận đứng của đồ thị là $x = 1$.",
+      "imageFileName": "lt_2.png"
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Tìm giá trị lớn nhất của hàm số $y = \\frac{2x-1}{x+1}$ trên đoạn $[1;2]$.",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$\\max_{[1;2]} y = \\frac{1}{2}$.",
+        "$\\max_{[1;2]} y = -\\frac{1}{2}$.",
+        "$\\max_{[1;2]} y = -\\frac{1}{3}$.",
+        "$\\max_{[1;2]} y = 1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Ta có $y' = \\frac{3}{(x+1)^2} > 0, \\forall x \\in [1;2]$ nên hàm số đồng biến trên đoạn $[1;2]$.\nDo đó $\\max_{[1;2]} y = y(2) = 1$."
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Tiệm cận xiên của đồ thị hàm số $y = \\frac{-x^2-2x+5}{x+2}$ là",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = -x$.",
+        "$y = -x+1$.",
+        "$y = x+2$.",
+        "$x = -2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Ta có $y = \\frac{-x^2-2x+5}{x+2} = -x + \\frac{5}{x+2}$.\nVì $\\lim_{x \\to \\pm\\infty} [y - (-x)] = \\lim_{x \\to \\pm\\infty} \\frac{5}{x+2} = 0$ nên đường thẳng $y = -x$ là tiệm cận xiên của đồ thị hàm số đã cho."
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Cho hàm số có đồ thị như hình vẽ bên. Phát biểu nào sau đây sai?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "Hàm số đồng biến trên khoảng $(0;2)$.",
+        "Hàm số nghịch biến trên khoảng $(2;+\\infty)$.",
+        "Điểm cực đại của hàm số là 4.",
+        "Điểm cực tiểu của đồ thị hàm số là $(0;0)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Dựa vào đồ thị hàm số ta có các ý A, B, D đều đúng.\nĐiểm cực đại của hàm số là $x = 2$ (hoặc giá trị cực đại là $y = 4$), phát biểu \"Điểm cực đại của hàm số là 4\" là sai (nhầm lẫn giữa điểm cực đại và giá trị cực đại).",
+      "imageFileName": "lt_3.png"
+    },
+    {
+      "text": "(Cụm trường Nghệ An 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như hình vẽ bên. Mệnh đề nào dưới đây đúng?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$\\min_{\\mathbb{R}} y = 4$.",
+        "$y_{\\text{CT}} = 0$.",
+        "$\\max_{\\mathbb{R}} y = 5$.",
+        "$y_{\\text{CĐ}} = 5$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên, giá trị cực đại của hàm số là $y_{\\text{CĐ}} = 5$.",
+      "imageFileName": "lt_4.png"
+    },
+    {
+      "text": "(Cụm trường Nghệ An 2026) Tiệm cận đứng của đồ thị hàm số $y = \\frac{5}{x-1}$ là đường thẳng có phương trình",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = 5$.",
+        "$y = 0$.",
+        "$y = 1$.",
+        "$x = 1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Ta có $\\lim_{x \\to 1^+} y = +\\infty$ nên $x = 1$ là đường tiệm cận đứng của đồ thị hàm số."
+    },
+    {
+      "text": "(Cụm trường Nghệ An 2026) Số giao điểm của đồ thị hai hàm số $y = x^2-3x-1$ và $y = x^3-1$ là",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$1$.",
+        "$0$.",
+        "$3$.",
+        "$2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Xét phương trình hoành độ giao điểm: $x^3 - 1 = x^2 - 3x - 1 \\Leftrightarrow x^3 - x^2 + 3x = 0 \\Leftrightarrow x(x^2 - x + 3) = 0 \\Leftrightarrow x = 0$.\nVậy đồ thị hai hàm số có đúng 1 giao điểm."
+    },
+    {
+      "text": "(Cụm trường Nghệ An 2026) Cho hàm số $y = f(x)$ xác định và liên tục trên khoảng $(-\\infty;+\\infty)$, có bảng biến thiên như hình sau:Mệnh đề nào sau đây đúng?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "Hàm số nghịch biến trên khoảng $(-\\infty;-1)$.",
+        "Hàm số nghịch biến trên khoảng $(-\\infty;2)$.",
+        "Hàm số đồng biến trên khoảng $(1;+\\infty)$.",
+        "Hàm số đồng biến trên khoảng $(-1;+\\infty)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên ta có hàm số đồng biến trên khoảng $(-\\infty;-1)$ và $(1;+\\infty)$. Vậy đáp án C đúng.",
+      "imageFileName": "lt_5.png"
+    },
+    {
+      "text": "(Cụm trường Nghệ An 2026) Đường cong trong hình dưới là đồ thị của hàm số nào?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = -x^3+3x^2-4$.",
+        "$y = -x^3+3x^2+1$.",
+        "$y = x^3-3x^2+1$.",
+        "$y = -x^3+2x^2-1$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Đồ thị hàm số đã cho có dạng hàm số bậc ba $y = ax^3+bx^2+cx+d \\Rightarrow y' = 3ax^2+2bx+c$.\nĐồ thị đi qua điểm $(0;1) \\Rightarrow d = 1$.\nĐi qua điểm $(2;5) \\Rightarrow 8a+4b+2c+d = 5$.\nCó điểm cực trị tại $x = 0 \\Rightarrow y'(0) = c = 0$.\nCó điểm cực trị tại $x = 2 \\Rightarrow y'(2) = 12a+4b+c = 0$.\nGiải hệ ta được $a = -1, b = 3, c = 0, d = 1 \\Rightarrow y = -x^3+3x^2+1$.",
+      "imageFileName": "lt_6.png"
+    },
+    {
+      "text": "(THPT Bãi Cháy - Quảng Ninh 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như hình vẽ dưới đây:Đồ thị hàm số $y = f(x)$ có bao nhiêu đường tiệm cận?",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$2$.",
+        "$3$.",
+        "$1$.",
+        "$4$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên, ta có:\n- $\\lim_{x \\to 1^+} y = +\\infty$ và $\\lim_{x \\to 1^-} y = -\\infty$ nên đường thẳng $x = 1$ là đường tiệm cận đứng của đồ thị hàm số.\n- $\\lim_{x \\to -\\infty} y = -1$ nên đường thẳng $y = -1$ là đường tiệm cận ngang của đồ thị hàm số.\n- $\\lim_{x \\to +\\infty} y = 2$ nên đường thẳng $y = 2$ là đường tiệm cận ngang của đồ thị hàm số.\nVậy đồ thị hàm số có 3 đường tiệm cận.",
+      "imageFileName": "lt_7.png"
+    },
+    {
+      "text": "(THPT Bãi Cháy - Quảng Ninh 2026) Tích của giá trị nhỏ nhất và giá trị lớn nhất của hàm số $y = x+\\frac{4}{x}$ trên $[1;3]$ bằng",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$6$.",
+        "$\\frac{52}{3}$.",
+        "$\\frac{65}{3}$.",
+        "$20$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Trên $[1;3]$, $y' = 1 - \\frac{4}{x^2} = 0 \\Leftrightarrow x = 2$.\nTa có $y(1) = 5, y(2) = 4, y(3) = \\frac{13}{3} \\Rightarrow \\min_{[1;3]} y = 4, \\max_{[1;3]} y = 5$.\nTích của giá trị nhỏ nhất và giá trị lớn nhất của hàm số là $4\\cdot 5 = 20$."
+    },
+    {
+      "text": "(THPT Bãi Cháy - Quảng Ninh 2026) Cho hàm số $y = f(x)$ có đồ thị như hình vẽ dưới đây:Tiệm cận ngang của đồ thị hàm số là đường thẳng có phương trình",
+      "type": "multiple_choice",
+      "difficulty": "nhan_biet",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = -\\frac{1}{2}$.",
+        "$x = 1$.",
+        "$y = -\\frac{1}{2}$.",
+        "$y = 1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Tiệm cận ngang của đồ thị hàm số là đường thẳng có phương trình $y = 1$.",
+      "imageFileName": "lt_8.png"
+    },
+    {
+      "text": "(Liên trường Hà Nội 2026) Cho hàm số $y = f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu đạo hàm như sau:Hàm số $y = f(x)$ đồng biến trên khoảng nào trong các khoảng sau đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(0;1)$.",
+        "$(-3;0)$.",
+        "$(2;+\\infty)$.",
+        "$(-\\infty;-1)$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Nhìn bảng xét dấu ta thấy trong khoảng $(0;1)$ thì đạo hàm $y' > 0$, do đó hàm số đồng biến trên khoảng $(0;1)$.",
+      "imageFileName": "lt_9.png"
+    },
+    {
+      "text": "(Liên trường Hà Nội 2026) Cho đồ thị hàm số $y = \\frac{2x+1}{2-x}$ có đường tiệm cận ngang là đường thẳng có phương trình",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = -2$.",
+        "$x = -2$.",
+        "$y = 1$.",
+        "$x = 2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Đồ thị hàm số $y = \\frac{2x+1}{2-x}$ có đường tiệm cận ngang là $y = \\frac{2}{-1} = -2$."
+    },
+    {
+      "text": "(THPT Nguyễn Trung Thiên - Hà Tĩnh 2026) Tiệm cận đứng của đồ thị hàm số $y = \\frac{2x-2}{x+1}$ là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = -1$.",
+        "$x = 1$.",
+        "$x = -2$.",
+        "$x = 2$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Hàm số $y = \\frac{2x-2}{x+1}$ có tập xác định là $D = \\mathbb{R}\\setminus\\{-1\\}$. Ta có $\\lim_{x \\to (-1)^+} \\frac{2x-2}{x+1} = -\\infty$ (vì tử số tiến về $-4$ và mẫu số tiến về $0^+$). Do đó, đường thẳng $x = -1$ là tiệm cận đứng của đồ thị hàm số."
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Tìm hệ số $b, c$ để hàm số $y = \\frac{2}{cx+b}$ có đồ thị như hình vẽ sau:",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$\\begin{cases} b=2 \\\\ c=-1 \\end{cases}$.",
+        "$\\begin{cases} b=1 \\\\ c=-1 \\end{cases}$.",
+        "$\\begin{cases} b=2 \\\\ c=1 \\end{cases}$.",
+        "$\\begin{cases} b=-2 \\\\ c=1 \\end{cases}$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Đồ thị hàm số có tiệm cận đứng là $x = -\\frac{b}{c} = 2 \\Rightarrow b = -2c$.\nĐồ thị đi qua điểm $(0;-1) \\Rightarrow \\frac{2}{b} = -1 \\Rightarrow b = -2 \\Rightarrow c = 1$.\nVậy $b = -2, c = 1$.",
+      "imageFileName": "lt_10.png"
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Cho hàm số $y = f(x)$ có đồ thị như hình vẽ dưới đâyHàm số đã cho đồng biến trên khoảng nào trong các khoảng sau đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(-\\infty;1)$.",
+        "$(1;2)$.",
+        "$(2;+\\infty)$.",
+        "$(-1;1)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Từ đồ thị hàm số, ta thấy nhánh đồ thị đi lên từ trái sang phải trên $(2;+\\infty)$, do đó hàm số đồng biến trên $(2;+\\infty)$.",
+      "imageFileName": "lt_11.png"
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Cho hàm số $y = f(x)$ có bảng xét dấu đạo hàm như sauHàm số đã cho nghịch biến trên khoảng nào dưới đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(-\\infty;2)$.",
+        "$(3;4)$.",
+        "$(4;+\\infty)$.",
+        "$(1;3)$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Hàm số đã cho nghịch biến trên khoảng $(3;4)$ vì $y' < 0$ với mọi $x \\in (3;4)$.",
+      "imageFileName": "lt_12.png"
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Cho hàm số $y = f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu của đạo hàm như sau:Số điểm cực trị của hàm số đã cho là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$3$.",
+        "$4$.",
+        "$2$.",
+        "$5$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Dựa vào bảng xét dấu, đạo hàm đổi dấu 4 lần khi qua các điểm $x = -3, x = -2, x = 3, x = 5$. Do đó số điểm cực trị của hàm số đã cho là 4.",
+      "imageFileName": "lt_13.png"
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Hình vẽ sau đây là đồ thị của hàm số nào trong các hàm số dưới đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = x^3+2x+1$.",
+        "$y = x^3-2x+1$.",
+        "$y = -x^3+2x+1$.",
+        "$y = x^3-2x^2+1$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Dựa vào hình vẽ suy ra hệ số $a > 0$ (Loại C).\nĐồ thị của hàm số có 2 điểm cực trị nên phương trình $y' = 0$ có 2 nghiệm phân biệt (Loại A).\nĐồ thị của hàm số giao với trục $Ox$ là $y = 0 \\Leftrightarrow x^3-2x^2+1=0 \\Leftrightarrow x = 1, x \\approx -0{,}6, x \\approx 1{,}6$ (Loại D).\nVậy chọn B ($y = x^3 - 2x + 1$).",
+      "imageFileName": "lt_14.png"
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Cho hàm số $y = f(x)$ có đồ thị như hình vẽ bên dướiHàm số đã cho đồng biến trên khoảng nào dưới đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(0;2)$.",
+        "$(0;+\\infty)$.",
+        "$(2;+\\infty)$.",
+        "$(-\\infty;2)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Dựa vào đồ thị ta thấy, đồ thị hàm số đi lên từ trái sang phải trong khoảng $(2;+\\infty)$ nên hàm số đã cho đồng biến trên khoảng $(2;+\\infty)$.",
+      "imageFileName": "lt_15.png"
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Đồ thị hàm số $y = \\frac{x+3}{x-1}$ có đường tiệm cận đứng là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = 1$.",
+        "$x = -3$.",
+        "$x = 1$.",
+        "$x = -1$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Ta có: Tập xác định: $D = \\mathbb{R}\\setminus\\{1\\}$.\nVì $\\lim_{x \\to 1^+} \\frac{x+3}{x-1} = +\\infty$ nên đường thẳng $x = 1$ là đường tiệm cận đứng của đồ thị hàm số đã cho."
+    },
+    {
+      "text": "(THPT Nguyễn Trãi - Hà Nội 2026) Cho hàm số $y = f(x)$ có đồ thị trên đoạn $[-2;2]$ như hình vẽGọi giá trị lớn nhất và giá trị nhỏ nhất của hàm số trên đoạn $[-2;2]$ lần lượt là $M$ và $m$. Khi đó $M-m$ bằng",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$5$.",
+        "$-4$.",
+        "$0$.",
+        "$3$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Ta có: $M = 1, m = -4$. Vậy $M - m = 1 - (-4) = 5$.",
+      "imageFileName": "lt_16.png"
+    },
+    {
+      "text": "(THPT Trần Nhân Tông - Hà Nội 2026) Cho hàm số $y = \\frac{ax+b}{cx+d}$ ($ac \\ne 0; ad-bc \\ne 0$) có đồ thị như hình vẽ dưới đây. Trong các hệ số $a, b, c, d$ có bao nhiêu số dương?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$2$.",
+        "$1$.",
+        "$3$.",
+        "$0$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Tiệm cận đứng là: $x = 1$ nên $-\\frac{d}{c} = 1 \\Rightarrow d = -c$.\nTiệm cận ngang là: $y = -1$ nên $\\frac{a}{c} = -1 \\Rightarrow a = -c$.\nĐồ thị cắt trục tung tại điểm có tung độ bằng $-2$ nên $\\frac{b}{d} = -2 \\Rightarrow b = -2d = 2c$.\nTa xét 2 trường hợp dấu của $c$:\n- TH1: Nếu $c > 0$ thì $b > 0; a < 0; d < 0$ suy ra có 2 số dương.\n- TH2: Nếu $c < 0$ thì $b < 0; a > 0; d > 0$ suy ra có 2 số dương.\nVậy trong mọi trường hợp đều có 2 số dương.",
+      "imageFileName": "lt_17.png"
+    },
+    {
+      "text": "(THPT Trần Phú - Hà Nội 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như hình vẽ. Hàm số đã cho có bao nhiêu điểm cực trị.",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$2$.",
+        "$3$.",
+        "$1$.",
+        "$0$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên trên thì hàm số có hai điểm cực trị ($x = -1$ và $x = 1$).",
+      "imageFileName": "lt_18.png"
+    },
+    {
+      "text": "(THPT Trần Phú - Hà Nội 2026) Cho hàm số $y = f(x)$ liên tục trên $[-3;2]$ và có bảng biến thiên như hình dưới đây. Gọi $M$ và $m$ lần lượt là giá trị lớn nhất và giá trị nhỏ nhất của hàm số $y = f(x)$ trên $[-1;2]$. Giá trị của $M+m$ bằng bao nhiêu",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$2$.",
+        "$3$.",
+        "$4$.",
+        "$1$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên của hàm số, trên đoạn $[-1;2]$ ta thấy hàm số đạt GTLN tại $x = -1$ là $M = 3$, hàm số đạt GTNN tại $x = 0$ là $m = 0$. Suy ra $M + m = 3 + 0 = 3$.",
+      "imageFileName": "lt_19.png"
+    },
+    {
+      "text": "(Cụm Hải Phòng 2026) Cho hàm số $y = f(x)$ có bảng biến thiên như sau.Hàm số $y = f(x)$ đồng biến trên khoảng nào sau đây?",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(2;4)$.",
+        "$(3;+\\infty)$.",
+        "$(1;2)$.",
+        "$(0;1)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Từ bảng biến thiên, hàm số $y = f(x)$ đồng biến trên các khoảng $(1;2)$ và $(2;3)$.",
+      "imageFileName": "lt_20.png"
+    },
+    {
+      "text": "(Cụm Hải Phòng 2026) Cho hàm số $f(x)$ liên tục trên đoạn $[0;3]$ và có đồ thị như hình vẽ bên. Gọi $M$ và $m$ lần lượt là giá trị lớn nhất và nhỏ nhất của hàm số đã cho trên đoạn $[0;3]$. Giá trị của $M+m$ bằng",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$3$.",
+        "$5$.",
+        "$2$.",
+        "$1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Dựa vào đồ thị, ta có: $M = \\max_{[0;3]} f(x) = f(3) = 3$ và $m = \\min_{[0;3]} f(x) = f(2) = -2 \\Rightarrow M + m = 3 - 2 = 1$.",
+      "imageFileName": "lt_21.png"
+    },
+    {
+      "text": "(THPT Lê Quý Đôn - Đống Đa 2026) Giá trị lớn nhất của hàm số $y = \\frac{2x-5}{x-1}$ trên đoạn $[2;5]$ là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$-1$.",
+        "$\\frac{1}{2}$.",
+        "$\\frac{5}{4}$.",
+        "$1$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Ta có $y' = \\frac{3}{(x-1)^2} > 0, \\forall x \\in [2;5]$ nên hàm số đồng biến trên đoạn $[2;5] \\Rightarrow \\max_{[2;5]} y = y(5) = \\frac{5}{4}$."
+    },
+    {
+      "text": "(THPT Lê Quý Đôn - Đống Đa 2026) Giá trị nhỏ nhất của hàm số: $y = 4\\sin 2x - 3$ là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$1$.",
+        "$-11$.",
+        "$-7$.",
+        "$5$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Ta có $-1 \\le \\sin 2x \\le 1 \\Rightarrow -4 \\le 4\\sin 2x \\le 4 \\Rightarrow -7 \\le 4\\sin 2x - 3 \\le 1$.\nVậy giá trị nhỏ nhất của hàm số $y = 4\\sin 2x - 3$ là $-7$."
+    },
+    {
+      "text": "(THPT Lê Quý Đôn - Đống Đa 2026) Cho hàm số $y = f(x)$ liên tục trên $\\mathbb{R}$ và có bảng biến thiên như sauHàm số đạt cực đại tại điểm",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = 1$.",
+        "$x = -3$.",
+        "$x = -2$.",
+        "$x = 0$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên, ta thấy hàm số $y = f(x)$ đạt cực đại tại điểm $x = 0$.",
+      "imageFileName": "lt_22.png"
+    },
+    {
+      "text": "(THPT Lê Quý Đôn - Đống Đa 2026) Cho đồ thị hàm số như hình vẽ bên dưới. Đường tiệm cận ngang của đồ thị hàm số là",
+      "type": "multiple_choice",
+      "difficulty": "thong_hieu",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$x = 2$.",
+        "$y = 2$.",
+        "$x = 1$.",
+        "$y = 1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Đường tiệm cận ngang của đồ thị hàm số là $y = 1$.",
+      "imageFileName": "lt_23.png"
+    },
+    {
+      "text": "(Sở Lạng Sơn 2026) Cho hàm số $y = f(x)$ có đồ thị như bên dướiHàm số đã cho nghịch biến trên khoảng nào trong các khoảng sau đây?",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(0;2)$.",
+        "$(-1;1)$.",
+        "$(-1;0)$.",
+        "$(1;2)$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Từ đồ thị ta thấy hàm số nghịch biến trên khoảng $(-1;0)$.",
+      "imageFileName": "lt_24.png"
+    },
+    {
+      "text": "(Sở Thái Nguyên 2026) Tiệm cận ngang của đồ thị hàm số $y = \\frac{2x-5}{x+2}$ là đường thẳng có phương trình",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = 2$.",
+        "$y = -2$.",
+        "$y = \\frac{5}{2}$.",
+        "$y = \\frac{2}{5}$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Ta có $\\lim_{x \\to \\pm\\infty} y = \\lim_{x \\to \\pm\\infty} \\frac{2x-5}{x+2} = 2$ suy ra đường thẳng $y = 2$ là tiệm cận ngang của đồ thị hàm số."
+    },
+    {
+      "text": "(Sở Thái Nguyên 2026) Cho hàm số $f(x)$ có bảng biến thiên như hình vẽ. Giá trị cực tiểu của hàm số đã cho là",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = 2$.",
+        "$y = -1$.",
+        "$y = 0$.",
+        "$y = 1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Dựa vào bảng biến thiên ta thấy dấu của $f'(x)$ đổi dấu từ âm sang dương khi qua $x = 0$ nên giá trị cực tiểu của hàm số là $y_{\\text{CT}} = f(0) = 1$.",
+      "imageFileName": "lt_25.png"
+    },
+    {
+      "text": "(Sở Thái Nguyên 2026) Cho hàm số đa thức bậc bốn $y = f(x)$ có đồ thị như hình vẽ. Hàm số đã cho đồng biến trên khoảng nào dưới đây?",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$(-1;+\\infty)$.",
+        "$(-\\infty;-1)$.",
+        "$(-1;0)$.",
+        "$(-\\infty;1)$."
+      ],
+      "correctIndex": 1,
+      "points": 1,
+      "explanation": "Quan sát đồ thị ta thấy hàm số đồng biến trên các khoảng $(-\\infty;-1)$ và $(0;1)$.",
+      "imageFileName": "lt_26.png"
+    },
+    {
+      "text": "(Sở Thái Nguyên 2026) Đồ thị của hàm số nào dưới đây có dạng như đường cong trong hình vẽ?",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = \\frac{2x-1}{x+2}$.",
+        "$y = \\frac{x^2-1}{2x-1}$.",
+        "$y = -x^3+3x+1$.",
+        "$y = x^3-3x+1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Dựa vào hình dạng đồ thị ta có: đồ thị là của hàm số bậc 3: $y = ax^3+bx^2+cx+d$ và có hệ số $a > 0$ nên chọn đáp án D ($y = x^3 - 3x + 1$).",
+      "imageFileName": "lt_27.png"
+    },
+    {
+      "text": "(Cụm trường Thanh Hóa 2026) Đường tiệm cận ngang đồ thị hàm số $y = \\frac{3x-1}{x-2}$ là",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$y = 2$.",
+        "$x = 3$.",
+        "$y = 3$.",
+        "$x = 2$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "Ta có $\\lim_{x \\to \\pm\\infty} y = \\lim_{x \\to \\pm\\infty} \\frac{3x-1}{x-2} = 3$ suy ra đường thẳng $y = 3$ là tiệm cận ngang của đồ thị hàm số."
+    },
+    {
+      "text": "(Cụm trường Thanh Hóa 2026) Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = (x-1)(x-2)^2(x-3)^3$. Số điểm cực trị của hàm số $y = f(x)$ là",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$2$.",
+        "$3$.",
+        "$1$.",
+        "$0$."
+      ],
+      "correctIndex": 0,
+      "points": 1,
+      "explanation": "Điều kiện xác định: $D = \\mathbb{R}$.\n$y' = 0 \\Leftrightarrow (x-1)(x-2)^2(x-3)^3 = 0 \\Leftrightarrow \\begin{bmatrix} x = 1 \\\\ x = 2 \\\\ x = 3 \\end{bmatrix}$.\nTa có bảng biến thiên:\nDựa vào bảng biến thiên ta thấy hàm số có $2$ điểm cực trị (tại $x = 1$ và $x = 3$, qua $x=2$ đạo hàm không đổi dấu).",
+      "explanationImageFileName": "lt_28.png"
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Cho hàm số $y = f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu đạo hàm như hình vẽ bên dưới. Hàm số đã cho có bao nhiêu điểm cực đại?",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$3$.",
+        "$2$.",
+        "$0$.",
+        "$1$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Đạo hàm đổi dấu 1 lần từ dương sang âm và $y = f(x)$ liên tục trên $\\mathbb{R}$ nên hàm số có 1 điểm cực đại.",
+      "imageFileName": "lt_29.png"
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Cho hàm số $y = f(x)$ liên tục trên $[-1;+\\infty)$ và có đồ thị như hình vẽ. Tìm giá trị lớn nhất của hàm số $y = f(x)$ trên $[1;4]$.",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$0$.",
+        "$1$.",
+        "$4$.",
+        "$3$."
+      ],
+      "correctIndex": 3,
+      "points": 1,
+      "explanation": "Giá trị lớn nhất của hàm số $y = f(x)$ trên $[1;4]$ là $y = 3$ đạt khi $x = 1$ và $x = 3$.",
+      "imageFileName": "lt_30.png"
+    },
+    {
+      "text": "(THPT Lê Thánh Tông - HCM 2026) Biết rằng đồ thị hàm số $y = \\frac{ax+1}{bx-2}$ có tiệm cận đứng là $x=2$ và tiệm cận ngang là $y=3$. Hiệu $a-2b$ có giá trị là",
+      "type": "multiple_choice",
+      "difficulty": "van_dung",
+      "grade": "Lớp 12",
+      "topicIds": [
+        "ham-so-va-do-thi"
+      ],
+      "options": [
+        "$4$.",
+        "$0$.",
+        "$1$.",
+        "$5$."
+      ],
+      "correctIndex": 2,
+      "points": 1,
+      "explanation": "$y = \\frac{ax+1}{bx-2}$. Ta có tiệm cận đứng là $x = \\frac{2}{b} = 2 \\Rightarrow b = 1$.\nTiệm cận ngang là $y = \\frac{a}{b} = a = 3 \\Rightarrow a = 3$.\nSuy ra $a - 2b = 3 - 2 = 1$."
+    }
+  ]
+}
