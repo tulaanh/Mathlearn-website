@@ -33,5 +33,36 @@ export default function DocumentManageActions({ id, status, storagePaths }: { id
     setBusy(false);
   }
 
-  return <div className="mt-3 flex flex-wrap items-center gap-2"><Link href={`/quan-ly/tai-lieu/${id}/sua`} className="rounded-lg border border-emerald-300 px-3 py-2 text-xs font-bold text-emerald-600">✏️ Sửa</Link><button disabled={busy} onClick={changeStatus} className="rounded-lg border border-indigo-300 px-3 py-2 text-xs font-bold text-indigo-600 disabled:opacity-50">{status === "published" ? "Chuyển thành nháp" : "Đăng công khai"}</button><button disabled={busy} onClick={removeDocument} className="rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 disabled:opacity-50">Xóa</button>{error && <span className="text-xs text-red-600">{error}</span>}</div>;
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2">
+      <Link
+        href={`/tai-lieu/${id}/in`}
+        className="rounded-lg border border-purple-300 px-3 py-2 text-xs font-bold text-purple-600 transition hover:bg-purple-50 dark:border-purple-800 dark:text-purple-400 dark:hover:bg-purple-950"
+      >
+        🖨 In / PDF
+      </Link>
+      <Link
+        href={`/quan-ly/tai-lieu/${id}/sua`}
+        className="rounded-lg border border-emerald-300 px-3 py-2 text-xs font-bold text-emerald-600 transition hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-400 dark:hover:bg-emerald-950"
+      >
+        ✏️ Sửa
+      </Link>
+      <button
+        disabled={busy}
+        onClick={changeStatus}
+        className="rounded-lg border border-indigo-300 px-3 py-2 text-xs font-bold text-indigo-600 disabled:opacity-50 dark:border-indigo-800 dark:text-indigo-400"
+      >
+        {status === "published" ? "Chuyển thành nháp" : "Đăng công khai"}
+      </button>
+      <button
+        disabled={busy}
+        onClick={removeDocument}
+        className="rounded-lg border border-red-200 px-3 py-2 text-xs font-bold text-red-600 disabled:opacity-50 dark:border-red-900 dark:text-red-400"
+      >
+        Xóa
+      </button>
+      {error && <span className="text-xs text-red-600">{error}</span>}
+    </div>
+  );
 }
+

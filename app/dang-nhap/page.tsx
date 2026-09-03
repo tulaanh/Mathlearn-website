@@ -1,9 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import LoginForm from "@/components/LoginForm";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
-export const metadata = { title: "Đăng nhập" };
+export const metadata: Metadata = {
+  title: "Đăng nhập tài khoản",
+  description:
+    "Đăng nhập tài khoản MathLearn để truy cập các khóa học môn Toán, làm bài tập trắc nghiệm, tham gia sự kiện và theo dõi tiến độ học tập.",
+  openGraph: {
+    title: "Đăng nhập tài khoản",
+    description:
+      "Đăng nhập tài khoản MathLearn để truy cập các khóa học môn Toán, làm bài tập trắc nghiệm, tham gia sự kiện và theo dõi tiến độ học tập.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Đăng nhập tài khoản",
+    description:
+      "Đăng nhập tài khoản MathLearn để truy cập các khóa học môn Toán, làm bài tập trắc nghiệm, tham gia sự kiện và theo dõi tiến độ học tập.",
+  },
+};
 
 export default function LoginPage() {
   return (

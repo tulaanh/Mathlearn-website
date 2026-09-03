@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
@@ -10,7 +11,25 @@ import StudentBankQuestionList from "@/components/StudentBankQuestionList";
 import Pagination from "@/components/Pagination";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 
-export const metadata = { title: "Ngân hàng câu hỏi" };
+export const revalidate = 1800;
+export const metadata: Metadata = {
+  title: "Ngân hàng câu hỏi trắc nghiệm Toán",
+  description:
+    "Ngân hàng câu hỏi và bài tập Toán đa dạng cấp độ, phân loại theo khối lớp và chủ đề. Luyện tập trực tuyến, xem lời giải chi tiết và lưu câu hỏi yêu thích.",
+  openGraph: {
+    title: "Ngân hàng câu hỏi trắc nghiệm Toán",
+    description:
+      "Ngân hàng câu hỏi và bài tập Toán đa dạng cấp độ, phân loại theo khối lớp và chủ đề. Luyện tập trực tuyến, xem lời giải chi tiết và lưu câu hỏi yêu thích.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Ngân hàng câu hỏi trắc nghiệm Toán",
+    description:
+      "Ngân hàng câu hỏi và bài tập Toán đa dạng cấp độ, phân loại theo khối lớp và chủ đề. Luyện tập trực tuyến, xem lời giải chi tiết và lưu câu hỏi yêu thích.",
+  },
+};
 
 type Props = {
   searchParams: Promise<{

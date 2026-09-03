@@ -34,19 +34,19 @@ a {
   background-color: rgba(99, 102, 241, 0.35);
 }
 
-/* ─── Trang in / xuất PDF (app/tai-lieu/[id]/in) ─────────────────────────── */
+/* ─── Trang in / xuất PDF (app/tai-lieu/[id]/in & app/quiz/[id]/in) ────────── */
 
-/* Khổ giấy A4, lề 12mm cho mọi trang khi in */
+/* Khổ giấy A4, lề 10mm cho mọi trang khi in */
 @page {
   size: A4;
-  margin: 12mm;
+  margin: 10mm;
 }
 
 /* Bản xem trước trang in luôn nền trắng chữ đen để khớp với kết quả in,
-   kể cả khi website đang ở chế độ tối ( class .print-sheet trong DocumentPrintView ) */
+   kể cả khi website đang ở chế độ tối ( class .print-sheet trong DocumentPrintView & ExamPrintView ) */
 .print-sheet {
   background: #fff;
-  color: #1e293b;
+  color: #0f172a;
 }
 .dark .print-sheet * {
   color: inherit;
@@ -54,18 +54,31 @@ a {
   border-color: #cbd5e1;
 }
 
+/* Bố cục 2 cột khi in (tiết kiệm giấy cho đề trắc nghiệm) */
+.print-columns-2 {
+  column-count: 2;
+  column-gap: 20px;
+  column-rule: 1px dashed #cbd5e1;
+}
+
+.break-inside-avoid,
+.print-break-inside-avoid {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 @media print {
   html,
   body {
     background: #fff !important;
-    color: #1e293b !important;
+    color: #0f172a !important;
   }
 
   /* Bản in đơn sắc: bỏ nền màu, đổ bóng; giữ đúng màu in cho toàn bộ nội dung */
   .print-sheet,
   .print-sheet * {
     background: transparent !important;
-    color: #1e293b !important;
+    color: #0f172a !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
@@ -74,6 +87,18 @@ a {
   .print-sheet * {
     overflow: visible !important;
   }
+
+  /* Giữ viền bảng và đường kẻ nét đứt rõ ràng khi in */
+  .print-border {
+    border-color: #475569 !important;
+  }
+
+  .print-columns-2 {
+    column-count: 2 !important;
+    column-gap: 18px !important;
+    column-rule: 1px dashed #94a3b8 !important;
+  }
 }
+
 
 

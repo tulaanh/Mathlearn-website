@@ -3,11 +3,22 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { pickRandomQuestionsByMatrix } from "@/lib/question-bank";
 import type { QuestionDifficulty } from "@/lib/question-bank-types";
 import { isQuestionDifficulty } from "@/lib/question-bank-types";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 const DIFFICULTIES: QuestionDifficulty[] = ["nhan_biet", "thong_hieu", "van_dung", "van_dung_cao"];
 
 /** POST /api/question-bank/sinh-de — chọn ngẫu nhiên câu hỏi theo ma trận mức độ. */
 export async function POST(request: Request) {
+  // Rate limiting: 10 req/min (heavy operation)
+  const ip = getClientIp(request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 10 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   const { user, profile } = await getCurrentUser();
   if (!user || profile?.role !== "teacher") {
     return NextResponse.json({ error: "Chỉ giáo viên mới được sinh đề." }, { status: 403 });

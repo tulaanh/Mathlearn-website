@@ -117,6 +117,12 @@ function ResultBody({
 
         <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Link
+            href={`/quiz/${quiz.id}/in?mode=solution`}
+            className="rounded-xl border border-indigo-300 bg-white px-5 py-3 text-sm font-bold text-indigo-700 shadow-2xs transition-colors hover:bg-indigo-50 dark:border-indigo-800 dark:bg-slate-900 dark:text-indigo-300 dark:hover:bg-slate-800"
+          >
+            🖨 In đề & Lời giải (PDF)
+          </Link>
+          <Link
             href={`/quiz/${quiz.id}`}
             className="rounded-xl bg-indigo-600 px-6 py-3 font-semibold text-white hover:bg-indigo-700"
           >

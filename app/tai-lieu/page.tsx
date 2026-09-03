@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -10,7 +11,25 @@ import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { DOCS_PAGE_SIZE } from "@/lib/documents";
 
-export const metadata = { title: "Thư viện tài liệu" };
+export const revalidate = 600;
+export const metadata: Metadata = {
+  title: "Thư viện tài liệu học tập môn Toán",
+  description:
+    "Kho tài liệu môn Toán phong phú theo khối lớp và chủ đề. Bao gồm bài giảng lý thuyết, tài liệu hướng dẫn và tuyển tập bài tập có đáp án chi tiết.",
+  openGraph: {
+    title: "Thư viện tài liệu học tập môn Toán",
+    description:
+      "Kho tài liệu môn Toán phong phú theo khối lớp và chủ đề. Bao gồm bài giảng lý thuyết, tài liệu hướng dẫn và tuyển tập bài tập có đáp án chi tiết.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Thư viện tài liệu học tập môn Toán",
+    description:
+      "Kho tài liệu môn Toán phong phú theo khối lớp và chủ đề. Bao gồm bài giảng lý thuyết, tài liệu hướng dẫn và tuyển tập bài tập có đáp án chi tiết.",
+  },
+};
 
 type Props = { searchParams: Promise<{ topic?: string; page?: string }> };
 

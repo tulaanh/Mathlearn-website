@@ -228,3 +228,18 @@ Cú pháp chèn ảnh: `\image{tỷ_lệ}{chú_thích}{tên_file}` (ví dụ: `\
 2. **Ảnh trong lý thuyết:** Đặt trực tiếp trong khối `\begin{lesson}`.
 3. **Ảnh trong đề bài:** Đặt ngay trong tham số `{Đề bài}` của câu hỏi.
 4. **Ảnh trong lời giải:** Đặt trong tham số `{Giải thích}` / `{Lời giải}` của câu hỏi.
+
+---
+
+## 6. Công Cụ Cắt Ảnh Tự Động Với Bộ Lọc Smart Anti-Overcrop
+
+Để tự động cắt chuẩn xác toàn bộ hình vẽ, đồ thị, bảng biến thiên mà **không bao giờ bị cắt dính phần chữ bài làm / hệ phương trình**, sử dụng script:
+
+```bash
+python .agents/skills/math-latex-converter/scripts/auto_crop_figures.py "<file.pdf>" "<output_dir>/figures"
+```
+
+* **Bộ lọc thông minh 3 lớp:**
+  1. `figure`: Chỉ cắt khi đúng là đồ thị, hình không gian (chiều cao $\le 55\%$ trang).
+  2. `table / isolate_formula`: Chỉ cắt khi đúng là **Bảng biến thiên** ($w/h \ge 1.4$, chiều cao $80 - 380\text{px}$).
+  3. **Loại bỏ $100\%$:** Mọi khối hệ phương trình, bài giải đại số nhiều dòng (để dành cho AI gõ lại thành LaTeX KaTeX chuẩn).

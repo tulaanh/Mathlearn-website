@@ -1,11 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 
 export default function LogoutButton() {
   const router = useRouter();
   async function logout() {
+    // Import động để supabase-js không bị kéo vào client bundle của mọi trang
+    // chỉ vì nút đăng xuất nằm trong root layout.
+    const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
     if (supabase) await supabase.auth.signOut();
     router.push("/dang-nhap");

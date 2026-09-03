@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { deleteQuestionReport, updateQuestionReport } from "@/lib/reports";
 import type { ReportStatus } from "@/lib/report-types";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 type RouteProps = {
   params: Promise<{ id: string }>;
@@ -11,6 +12,16 @@ type RouteProps = {
  * PATCH /api/reports/[id] — Cập nhật trạng thái / ghi chú của báo lỗi (chỉ giáo viên).
  */
 export async function PATCH(request: Request, { params }: RouteProps) {
+  // Rate limiting: 30 req/min cho write
+  const ip = getClientIp(request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 30 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   const { user, profile } = await getCurrentUser();
   if (!user || profile?.role !== "teacher") {
     return NextResponse.json(
@@ -53,6 +64,16 @@ export async function PATCH(request: Request, { params }: RouteProps) {
  * DELETE /api/reports/[id] — Xóa báo lỗi (chỉ giáo viên).
  */
 export async function DELETE(_request: Request, { params }: RouteProps) {
+  // Rate limiting: 30 req/min cho write
+  const ip = getClientIp(_request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 30 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   const { user, profile } = await getCurrentUser();
   if (!user || profile?.role !== "teacher") {
     return NextResponse.json(

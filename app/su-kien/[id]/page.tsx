@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -10,10 +11,48 @@ import EventLeaderboard from "@/components/EventLeaderboard";
 import EventCountdown from "@/components/EventCountdown";
 
 export const dynamic = "force-dynamic";
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const event = await getEventById(id);
-  return { title: event?.title ?? "Sự kiện" };
+
+  if (!event) {
+    return {
+      title: "Không tìm thấy sự kiện",
+      description: "Sự kiện không tồn tại hoặc đã kết thúc trên hệ thống MathLearn.",
+      openGraph: {
+        title: "Không tìm thấy sự kiện",
+        description: "Sự kiện không tồn tại hoặc đã kết thúc trên hệ thống MathLearn.",
+        type: "website",
+        siteName: "MathLearn",
+      },
+      twitter: {
+        card: "summary",
+        title: "Không tìm thấy sự kiện",
+        description: "Sự kiện không tồn tại hoặc đã kết thúc trên hệ thống MathLearn.",
+      },
+    };
+  }
+
+  const title = event.title;
+  const description =
+    event.description?.trim() ||
+    `Tham gia sự kiện ${event.title}${event.grade ? ` ${event.grade}` : ""}. Giải toán, tích lũy điểm và tranh tài cùng bạn bè trên MathLearn.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      siteName: "MathLearn",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {

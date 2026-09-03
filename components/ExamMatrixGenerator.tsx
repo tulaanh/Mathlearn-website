@@ -54,7 +54,7 @@ export default function ExamMatrixGenerator({ grades, topics }: Props) {
   }
 
   /** Lưu đề đã sinh thành tài liệu kiểm tra nháp (giống luồng ghép đề thủ công). */
-  async function saveAsTest() {
+  async function saveAsTest(andPrint = false) {
     if (!picked.length) return;
     setSaving(true);
     setError("");
@@ -105,7 +105,11 @@ export default function ExamMatrixGenerator({ grades, topics }: Props) {
         await supabase.from("document_topics").insert(topicLinks.map((topicId) => ({ document_id: doc.id, topic_id: topicId })));
       }
 
-      router.push(`/quan-ly/tai-lieu/${doc.id}/sua`);
+      if (andPrint) {
+        router.push(`/quiz/${doc.id}/in`);
+      } else {
+        router.push(`/quan-ly/tai-lieu/${doc.id}/sua`);
+      }
     } catch (err) {
       setError((err as Error).message);
       setSaving(false);
@@ -176,8 +180,11 @@ export default function ExamMatrixGenerator({ grades, topics }: Props) {
             <h2 className="font-bold dark:text-white">Đề đã sinh — {totalPicked}/{totalWanted} câu</h2>
             <div className="flex flex-wrap gap-2">
               <button disabled={busy || saving} onClick={generate} className="rounded-lg border border-indigo-300 px-4 py-2 text-xs font-bold text-indigo-600 disabled:opacity-60 dark:border-indigo-800 dark:text-indigo-300">🔄 Chọn lại câu khác</button>
-              <button disabled={busy || saving} onClick={saveAsTest} className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 disabled:opacity-60">
-                {saving ? "Đang lưu..." : "💾 Lưu thành bài kiểm tra (nháp)"}
+              <button disabled={busy || saving} onClick={() => saveAsTest(true)} className="rounded-lg border border-purple-300 bg-purple-50 px-4 py-2 text-xs font-bold text-purple-700 hover:bg-purple-100 disabled:opacity-60 dark:border-purple-800 dark:bg-purple-950/40 dark:text-purple-300">
+                {saving ? "Đang lưu..." : "🖨 Lưu & Xuất PDF"}
+              </button>
+              <button disabled={busy || saving} onClick={() => saveAsTest(false)} className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 disabled:opacity-60">
+                {saving ? "Đang lưu..." : "💾 Lưu bài kiểm tra (nháp)"}
               </button>
             </div>
           </div>

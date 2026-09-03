@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
@@ -5,7 +6,24 @@ import { getEvents } from "@/lib/events";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 import EventCard from "@/components/EventCard";
 
-export const metadata = { title: "Sự kiện" };
+export const metadata: Metadata = {
+  title: "Sự kiện & Thử thách Toán học",
+  description:
+    "Tham gia các sự kiện, đấu trường và thử thách Toán học sôi động. Giải bài tập cùng bạn bè, leo bảng xếp hạng và nhận huy hiệu danh giá trên MathLearn.",
+  openGraph: {
+    title: "Sự kiện & Thử thách Toán học",
+    description:
+      "Tham gia các sự kiện, đấu trường và thử thách Toán học sôi động. Giải bài tập cùng bạn bè, leo bảng xếp hạng và nhận huy hiệu danh giá trên MathLearn.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Sự kiện & Thử thách Toán học",
+    description:
+      "Tham gia các sự kiện, đấu trường và thử thách Toán học sôi động. Giải bài tập cùng bạn bè, leo bảng xếp hạng và nhận huy hiệu danh giá trên MathLearn.",
+  },
+};
 export const dynamic = "force-dynamic";
 
 export default async function EventsPage() {

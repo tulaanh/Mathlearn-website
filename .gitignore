@@ -31,3 +31,26 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# python cache
+__pycache__/
+*.pyc
+
+# temporary & extraction workdirs
+.tmp/
+temp_marker/
+temp_pages/
+temp_page*.png
+all_pages/
+part*_raw.txt
+preview.html
+.commandcode/
+
+# binaries, zip archives and AI model weights
+*.exe
+*.dll
+*.pt
+*.bin
+*.zip
+.agents/**/bin/
+.agents/**/models/

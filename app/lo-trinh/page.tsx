@@ -1,8 +1,26 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getLearningPaths } from "@/lib/learning-paths";
 import PathCard from "@/components/PathCard";
 
-export const metadata = { title: "Lộ trình học" };
+export const metadata: Metadata = {
+  title: "Lộ trình học tập môn Toán",
+  description:
+    "Tổng hợp các lộ trình học tập môn Toán bám sát chương trình GDPT. Theo dõi tiến độ học theo từng chương và rèn luyện kỹ năng giải toán hiệu quả.",
+  openGraph: {
+    title: "Lộ trình học tập môn Toán",
+    description:
+      "Tổng hợp các lộ trình học tập môn Toán bám sát chương trình GDPT. Theo dõi tiến độ học theo từng chương và rèn luyện kỹ năng giải toán hiệu quả.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Lộ trình học tập môn Toán",
+    description:
+      "Tổng hợp các lộ trình học tập môn Toán bám sát chương trình GDPT. Theo dõi tiến độ học theo từng chương và rèn luyện kỹ năng giải toán hiệu quả.",
+  },
+};
 
 export default async function LearningPathsPage() {
   const paths = await getLearningPaths();

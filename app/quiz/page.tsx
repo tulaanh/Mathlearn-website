@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { topics } from "@/data/topics";
@@ -9,7 +10,24 @@ import Pagination from "@/components/Pagination";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 import { DOCS_PAGE_SIZE } from "@/lib/documents";
 
-export const metadata = { title: "Bài kiểm tra" };
+export const metadata: Metadata = {
+  title: "Đề kiểm tra & Luyện tập Toán trực tuyến",
+  description:
+    "Tổng hợp các bài kiểm tra, đề thi thử trắc nghiệm Toán bám sát chương trình. Hệ thống tự động chấm điểm ngay sau khi nộp bài và xem lời giải.",
+  openGraph: {
+    title: "Đề kiểm tra & Luyện tập Toán trực tuyến",
+    description:
+      "Tổng hợp các bài kiểm tra, đề thi thử trắc nghiệm Toán bám sát chương trình. Hệ thống tự động chấm điểm ngay sau khi nộp bài và xem lời giải.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Đề kiểm tra & Luyện tập Toán trực tuyến",
+    description:
+      "Tổng hợp các bài kiểm tra, đề thi thử trắc nghiệm Toán bám sát chương trình. Hệ thống tự động chấm điểm ngay sau khi nộp bài và xem lời giải.",
+  },
+};
 
 type Props = { searchParams: Promise<{ topic?: string; page?: string }> };
 

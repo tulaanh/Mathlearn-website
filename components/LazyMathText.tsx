@@ -1,7 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import MathText from "./MathText";
+
+// Import động để katex (~95KB gzip) tách thành chunk riêng,
+// chỉ tải khi phần tử sắp hiển thị trong viewport (xem IntersectionObserver bên dưới).
+// Không dùng ssr: false để giữ nguyên hành vi render hiện tại.
+const MathText = dynamic(() => import("./MathText"), {
+  loading: () => <span className="inline-block h-5 w-24 animate-pulse rounded bg-slate-100 align-middle dark:bg-slate-800" aria-hidden />,
+});
 
 type LazyMathTextProps = {
   text: string;

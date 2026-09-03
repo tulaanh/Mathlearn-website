@@ -3,6 +3,8 @@ import HomeTabs from "@/components/HomeTabs";
 import { CardGridSkeleton, SkeletonBar } from "@/components/Skeletons";
 import { getChapters } from "@/lib/chapters";
 
+export const revalidate = 3600;
+
 export default function HomePage() {
   // Bọc Suspense để bấm về trang chủ cũng chuyển trang ngay rồi tải dữ liệu sau
   // (app/loading.tsx ở gốc chỉ hiện khi tải trang lần đầu, không hiện khi điều hướng).

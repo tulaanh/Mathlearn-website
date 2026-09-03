@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -12,11 +13,51 @@ type Props = {
   searchParams: Promise<{ chuong?: string }>;
 };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   // getDocumentById được bọc cache() nên metadata và trang dùng chung một lần tải
   const document = await getDocumentById(id);
-  return { title: document?.title ?? "Tài liệu" };
+
+  if (!document) {
+    return {
+      title: "Không tìm thấy tài liệu",
+      description: "Tài liệu không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+      alternates: { canonical: `/tai-lieu/${id}` },
+      openGraph: {
+        title: "Không tìm thấy tài liệu",
+        description: "Tài liệu không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+        type: "website",
+        siteName: "MathLearn",
+      },
+      twitter: {
+        card: "summary",
+        title: "Không tìm thấy tài liệu",
+        description: "Tài liệu không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+      },
+    };
+  }
+
+  const title = document.title;
+  const description =
+    document.description?.trim() ||
+    `Đọc và học tài liệu ${document.title}${document.grade ? ` môn Toán ${document.grade}` : ""}. Tài liệu chi tiết kèm bài tập thực hành.`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `/tai-lieu/${id}` },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      siteName: "MathLearn",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function DocumentPage({ params, searchParams }: Props) {

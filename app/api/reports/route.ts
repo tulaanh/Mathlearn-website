@@ -2,11 +2,22 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { createQuestionReport, getQuestionReports, getReportStats } from "@/lib/reports";
 import type { CreateReportPayload, ReportErrorType, ReportStatus } from "@/lib/report-types";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 /**
  * POST /api/reports — Gửi báo lỗi câu hỏi (mọi người dùng hoặc khách).
  */
 export async function POST(request: Request) {
+  // Rate limiting: 20 req/min (public endpoint — cần bảo vệ chặt hơn)
+  const ip = getClientIp(request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 20 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   try {
     const body = await request.json();
     const { questionId, questionText, errorType } = body;
@@ -68,6 +79,16 @@ export async function POST(request: Request) {
  * GET /api/reports — Lấy danh sách báo lỗi (chỉ giáo viên).
  */
 export async function GET(request: Request) {
+  // Rate limiting: 30 req/min cho read
+  const ip = getClientIp(request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 30 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   const { user, profile } = await getCurrentUser();
   if (!user || profile?.role !== "teacher") {
     return NextResponse.json(

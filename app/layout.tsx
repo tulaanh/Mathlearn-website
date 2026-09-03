@@ -7,15 +7,32 @@ import AccountInfo from "@/components/AccountInfo";
 import MobileMenu from "@/components/MobileMenu";
 import { ProfileProvider } from "@/components/ProfileProvider";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { getSiteUrl } from "@/lib/site";
 import "./globals.css";
 
+const siteUrl = getSiteUrl();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "MathLearn – Học Toán Online",
     template: "%s | Học Tập Online",
   },
   description:
     "Website học tập môn Toán: học theo chương, ôn luyện bài tập và kiểm tra theo chủ đề.",
+  openGraph: {
+    title: "MathLearn – Học Toán Online",
+    description:
+      "Website học tập môn Toán: học theo chương, ôn luyện bài tập và kiểm tra theo chủ đề.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "MathLearn – Học Toán Online",
+    description:
+      "Website học tập môn Toán: học theo chương, ôn luyện bài tập và kiểm tra theo chủ đề.",
+  },
 };
 
 // Chạy trước khi trang hiển thị để áp dụng đúng theme, tránh bị "nháy" sáng/tối
@@ -46,10 +63,30 @@ export default async function RootLayout({
             <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
           </>
         )}
-        {/* Preconnect tới CDN KaTeX fonts */}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
       </head>
       <body className="flex min-h-screen flex-col bg-[#f8fafc] text-slate-900 antialiased dark:bg-[#090d16] dark:text-slate-100">
+        {/* JSON-LD: khai báo WebSite + SearchAction cho Google Sitelinks Searchbox */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "MathLearn",
+              alternateName: "MathLearn – Học Toán Online",
+              url: siteUrl,
+              inLanguage: "vi",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${siteUrl}/chuong?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
         <ProfileProvider
           userId={user?.id}
           initialProfile={

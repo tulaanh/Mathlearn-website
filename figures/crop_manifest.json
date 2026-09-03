@@ -1,0 +1,32 @@
+[
+  {
+    "figure_id": 1,
+    "filename": "lt_1.png",
+    "page": "Trang_01",
+    "class": "figure",
+    "confidence": 0.223,
+    "box": [
+      1000,
+      3112,
+      3028,
+      3892
+    ],
+    "width": 2028,
+    "height": 780
+  },
+  {
+    "figure_id": 2,
+    "filename": "lt_2.png",
+    "page": "Trang_02",
+    "class": "figure",
+    "confidence": 0.945,
+    "box": [
+      1002,
+      2801,
+      2337,
+      4140
+    ],
+    "width": 1335,
+    "height": 1339
+  }
+]

@@ -12,6 +12,10 @@ function extractBraced(str, pos) {
   let depth = 1;
   let start = pos;
   while (pos < str.length && depth > 0) {
+    if (str[pos] === '\\' && pos + 1 < str.length) {
+      pos += 2; // Skip escaped characters (\{ \} \\ etc.)
+      continue;
+    }
     if (str[pos] === '{') depth++;
     else if (str[pos] === '}') depth--;
     pos++;
@@ -30,6 +34,46 @@ function cleanLatexLineBreaks(text) {
       return part;
     })
     .join("");
+}
+
+function extractImages(text) {
+  let mainImage = undefined;
+  const allImages = [];
+  const regex = /\\image\{[^}]*\}\{[^}]*\}\{([^}]+)\}/g;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    allImages.push(match[1]);
+  }
+  if (allImages.length > 0) {
+    mainImage = allImages[0];
+  }
+  const cleanText = text.replace(/\\image\{[^}]*\}\{[^}]*\}\{[^}]+\}/g, '').trim();
+  return { cleanText, mainImage, allImages };
+}
+
+function extractDifficulty(text) {
+  let difficulty = null;
+  const match1 = text.match(/\[(NB|MỨC ĐỘ 1|Nhận biết)\]/i);
+  if (match1) { difficulty = 'nhan_biet'; text = text.replace(match1[0], ''); }
+  else {
+    const match2 = text.match(/\[(TH|MỨC ĐỘ 2|Thông hiểu)\]/i);
+    if (match2) { difficulty = 'thong_hieu'; text = text.replace(match2[0], ''); }
+    else {
+      const match3 = text.match(/\[(VD|MỨC ĐỘ 3|Vận dụng)\]/i);
+      if (match3) { difficulty = 'van_dung'; text = text.replace(match3[0], ''); }
+      else {
+        const match4 = text.match(/\[(VDC|MỨC ĐỘ 4|Vận dụng cao)\]/i);
+        if (match4) { difficulty = 'van_dung_cao'; text = text.replace(match4[0], ''); }
+      }
+    }
+  }
+  return { newText: text, extractedDiff: difficulty };
+}
+
+function cleanTextLabel(text) {
+  return text.replace(/^(?:\\textbf\{)?(?:Câu|Bài)\s*\d+[:.][\s}]*/i, '')
+             .replace(/^\[KID\]\s*/i, '')
+             .trim();
 }
 
 const inputTex = process.argv[2];
@@ -75,19 +119,20 @@ while (true) {
   const correctIndex = parseInt(correctIdxStr.trim(), 10) || 0;
   const points = parseInt(pointsStr.trim(), 10) || 1;
 
-  let imageFileName = undefined;
-  const imgMatch = text.match(/\\image\{[^}]*\}\{[^}]*\}\{([^}]+)\}/);
-  if (imgMatch) {
-    imageFileName = imgMatch[1];
-    text = text.replace(/\\image\{[^}]*\}\{[^}]*\}\{[^}]+\}/g, '').trim();
-  }
+  const diffResult = extractDifficulty(text);
+  text = diffResult.newText;
+  let extractedDiff = diffResult.extractedDiff;
 
-  let explanationImageFileName = undefined;
-  const expImgMatch = explanation.match(/\\image\{[^}]*\}\{[^}]*\}\{([^}]+)\}/);
-  if (expImgMatch) {
-    explanationImageFileName = expImgMatch[1];
-    explanation = explanation.replace(/\\image\{[^}]*\}\{[^}]*\}\{[^}]+\}/g, '').trim();
-  }
+  text = cleanTextLabel(text);
+
+  const imgRes = extractImages(text);
+  text = imgRes.cleanText;
+  const imageFileName = imgRes.mainImage;
+
+  const expImgRes = extractImages(explanation);
+  explanation = expImgRes.cleanText;
+  const explanationImageFileName = expImgRes.mainImage;
+  const explanationImages = expImgRes.allImages;
 
   text = cleanLatexLineBreaks(text).trim();
   explanation = cleanLatexLineBreaks(explanation).trim();
@@ -102,8 +147,12 @@ while (true) {
   }
 
   let difficulty = 'nhan_biet';
-  if (count > 15 && count <= 35) difficulty = 'thong_hieu';
-  if (count > 35) difficulty = 'van_dung';
+  if (extractedDiff) {
+    difficulty = extractedDiff;
+  } else {
+    if (count > 15 && count <= 35) difficulty = 'thong_hieu';
+    if (count > 35) difficulty = 'van_dung';
+  }
 
   const q = {
     text,
@@ -119,6 +168,7 @@ while (true) {
 
   if (imageFileName) q.imageFileName = imageFileName;
   if (explanationImageFileName) q.explanationImageFileName = explanationImageFileName;
+  if (explanationImages.length > 1) q.explanationImages = explanationImages;
 
   questions.push(q);
   searchPos = mcqEnd + '\\end{mcq}'.length;
@@ -139,23 +189,27 @@ if (tex.includes('\\begin{truefalse}')) {
     const [tfPointsStr, p2] = extractBraced(tfBlock, p); p = p2;
     const [rawTfExp, p3] = extractBraced(tfBlock, p); p = p3;
 
-    let tfText = cleanLatexLineBreaks(rawTfText.trim()).trim();
-    let tfExp = cleanLatexLineBreaks(rawTfExp.trim()).trim();
+    let tfText = rawTfText.trim();
+    let tfExp = rawTfExp.trim();
     const tfPoints = parseInt(tfPointsStr.trim(), 10) || 1;
 
-    let tfImageFileName = undefined;
-    const imgMatch = tfText.match(/\\image\{[^}]*\}\{[^}]*\}\{([^}]+)\}/);
-    if (imgMatch) {
-      tfImageFileName = imgMatch[1];
-      tfText = tfText.replace(/\\image\{[^}]*\}\{[^}]*\}\{[^}]+\}/g, '').trim();
-    }
+    const diffResult = extractDifficulty(tfText);
+    tfText = diffResult.newText;
+    let extractedDiff = diffResult.extractedDiff || 'van_dung_cao'; // fallback
 
-    let tfExpImage = undefined;
-    const expMatch = tfExp.match(/\\image\{[^}]*\}\{[^}]*\}\{([^}]+)\}/);
-    if (expMatch) {
-      tfExpImage = expMatch[1];
-      tfExp = tfExp.replace(/\\image\{[^}]*\}\{[^}]*\}\{[^}]+\}/g, '').trim();
-    }
+    tfText = cleanTextLabel(tfText);
+
+    const imgRes = extractImages(tfText);
+    tfText = imgRes.cleanText;
+    const tfImageFileName = imgRes.mainImage;
+
+    const expImgRes = extractImages(tfExp);
+    tfExp = expImgRes.cleanText;
+    const tfExpImage = expImgRes.mainImage;
+    const tfExpImagesAll = expImgRes.allImages;
+
+    tfText = cleanLatexLineBreaks(tfText).trim();
+    tfExp = cleanLatexLineBreaks(tfExp).trim();
 
     const rest = tfBlock.substring(p);
     const statements = [];
@@ -173,7 +227,7 @@ if (tex.includes('\\begin{truefalse}')) {
     const tfQ = {
       text: tfText,
       type: 'true_false',
-      difficulty: 'van_dung_cao',
+      difficulty: extractedDiff,
       grade,
       topicIds,
       statements,
@@ -183,9 +237,121 @@ if (tex.includes('\\begin{truefalse}')) {
 
     if (tfImageFileName) tfQ.imageFileName = tfImageFileName;
     if (tfExpImage) tfQ.explanationImageFileName = tfExpImage;
+    if (tfExpImagesAll.length > 1) tfQ.explanationImages = tfExpImagesAll;
 
     questions.push(tfQ);
     tfSearchPos = tfEnd + '\\end{truefalse}'.length;
+  }
+}
+
+// Short Answer
+// \shortanswer{Đề bài}{Đáp án}{Điểm}{Giải thích}
+if (tex.includes('\\shortanswer{')) {
+  let saSearchPos = 0;
+  while (true) {
+    const saStart = tex.indexOf('\\shortanswer{', saSearchPos);
+    if (saStart === -1) break;
+
+    let p = saStart + '\\shortanswer'.length;
+    const [rawText, p1] = extractBraced(tex, p); p = p1;
+    const [rawAnswer, p2] = extractBraced(tex, p); p = p2;
+    const [rawPoints, p3] = extractBraced(tex, p); p = p3;
+    const [rawExp, p4] = extractBraced(tex, p); p = p4;
+
+    let text = rawText.trim();
+    let correctAnswer = rawAnswer.trim();
+    let explanation = rawExp.trim();
+    const points = parseInt(rawPoints.trim(), 10) || 1;
+
+    const diffResult = extractDifficulty(text);
+    text = diffResult.newText;
+    let extractedDiff = diffResult.extractedDiff || 'van_dung_cao'; // fallback
+
+    text = cleanTextLabel(text);
+
+    const imgRes = extractImages(text);
+    text = imgRes.cleanText;
+    const imageFileName = imgRes.mainImage;
+
+    const expImgRes = extractImages(explanation);
+    explanation = expImgRes.cleanText;
+    const explanationImageFileName = expImgRes.mainImage;
+    const explanationImagesAll = expImgRes.allImages;
+
+    text = cleanLatexLineBreaks(text).trim();
+    explanation = cleanLatexLineBreaks(explanation).trim();
+
+    const saQ = {
+      text,
+      type: 'short_answer',
+      difficulty: extractedDiff,
+      grade,
+      topicIds,
+      correctAnswer,
+      points,
+      explanation: explanation || undefined
+    };
+
+    if (imageFileName) saQ.imageFileName = imageFileName;
+    if (explanationImageFileName) saQ.explanationImageFileName = explanationImageFileName;
+    if (explanationImagesAll.length > 1) saQ.explanationImages = explanationImagesAll;
+
+    questions.push(saQ);
+    saSearchPos = p;
+  }
+}
+
+// Essay
+// \essay{Đề bài}{Điểm}{Lời giải}
+if (tex.includes('\\essay{')) {
+  let esSearchPos = 0;
+  while (true) {
+    const esStart = tex.indexOf('\\essay{', esSearchPos);
+    if (esStart === -1) break;
+
+    let p = esStart + '\\essay'.length;
+    const [rawText, p1] = extractBraced(tex, p); p = p1;
+    const [rawPoints, p2] = extractBraced(tex, p); p = p2;
+    const [rawExp, p3] = extractBraced(tex, p); p = p3;
+
+    let text = rawText.trim();
+    let explanation = rawExp.trim();
+    const points = parseInt(rawPoints.trim(), 10) || 1;
+
+    const diffResult = extractDifficulty(text);
+    text = diffResult.newText;
+    let extractedDiff = diffResult.extractedDiff || 'van_dung_cao';
+
+    text = cleanTextLabel(text);
+
+    const imgRes = extractImages(text);
+    text = imgRes.cleanText;
+    const imageFileName = imgRes.mainImage;
+
+    const expImgRes = extractImages(explanation);
+    explanation = expImgRes.cleanText;
+    const explanationImageFileName = expImgRes.mainImage;
+    const explanationImagesAll = expImgRes.allImages;
+
+    text = cleanLatexLineBreaks(text).trim();
+    explanation = cleanLatexLineBreaks(explanation).trim();
+
+    const esQ = {
+      text,
+      type: 'essay',
+      difficulty: extractedDiff,
+      grade,
+      topicIds,
+      points,
+      explanation: explanation || undefined
+    };
+
+    if (imageFileName) esQ.imageFileName = imageFileName;
+    if (explanationImageFileName) esQ.explanationImageFileName = explanationImageFileName;
+    if (explanationImagesAll.length > 1) esQ.explanationImages = explanationImagesAll;
+
+    questions.push(esQ);
+    esSearchPos = p;
   }
 }
 

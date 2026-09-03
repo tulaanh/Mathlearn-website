@@ -1,8 +1,27 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getChapters } from "@/lib/chapters";
 import ChapterCardDynamic from "@/components/ChapterCardDynamic";
 
-export const metadata = { title: "Chương học" };
+export const revalidate = 3600;
+export const metadata: Metadata = {
+  title: "Chương học – Lộ trình học tập Toán",
+  description:
+    "Danh sách các chương học và chuyên đề môn Toán từ cơ bản đến nâng cao. Học lý thuyết, xem tài liệu và làm bài tập trắc nghiệm có lời giải.",
+  openGraph: {
+    title: "Chương học – Lộ trình học tập Toán",
+    description:
+      "Danh sách các chương học và chuyên đề môn Toán từ cơ bản đến nâng cao. Học lý thuyết, xem tài liệu và làm bài tập trắc nghiệm có lời giải.",
+    type: "website",
+    siteName: "MathLearn",
+  },
+  twitter: {
+    card: "summary",
+    title: "Chương học – Lộ trình học tập Toán",
+    description:
+      "Danh sách các chương học và chuyên đề môn Toán từ cơ bản đến nâng cao. Học lý thuyết, xem tài liệu và làm bài tập trắc nghiệm có lời giải.",
+  },
+};
 
 export default async function ChaptersPage() {
   const chapters = await getChapters();

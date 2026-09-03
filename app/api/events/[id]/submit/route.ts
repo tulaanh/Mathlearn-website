@@ -1,10 +1,21 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
 /** POST /api/events/:id/submit — server-side chấm bài và gây sát thương. */
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  // Rate limiting: 10 req/min (critical endpoint)
+  const ip = getClientIp(request);
+  const { success } = rateLimit(ip, { interval: 60_000, limit: 10 });
+  if (!success) {
+    return NextResponse.json(
+      { error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+      { status: 429, headers: { "Retry-After": "60" } },
+    );
+  }
+
   const { user, supabase } = await getCurrentUser();
   if (!user || !supabase) {
     return NextResponse.json({ error: "Cần đăng nhập để nộp bài." }, { status: 401 });

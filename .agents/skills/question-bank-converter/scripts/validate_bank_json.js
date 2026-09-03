@@ -7,16 +7,14 @@ const path = require('path');
 
 const VALID_TOPICS = new Set([
   'ham-so-va-do-thi',
-  'hinh-hoc-khong-gian',
-  'vecto-va-toa-do',
-  'thong-ke-va-xac-suat',
-  'nguyen-ham-va-tich-phan',
-  'phuong-trinh-luong-giac',
-  'day-so-cap-so',
-  'gioi-han-ham-so',
-  'dao-ham-va-ung-dung',
   'mu-va-logarit',
-  'so-phuc'
+  'dao-ham',
+  'nguyen-ham-va-tich-phan',
+  'luong-giac',
+  'day-so-va-gioi-han',
+  'hinh-hoc-khong-gian',
+  'vector-va-he-toa-do',
+  'xac-suat-va-thong-ke'
 ]);
 
 const VALID_DIFFICULTIES = new Set(['nhan_biet', 'thong_hieu', 'van_dung', 'van_dung_cao']);
@@ -41,9 +39,23 @@ function countUnescapedDollars(str) {
 function checkBalancedBraces(str, label) {
   let depth = 0;
   for (let i = 0; i < str.length; i++) {
-    if (str[i] === '{' && (i === 0 || str[i-1] !== '\\')) depth++;
-    else if (str[i] === '}' && (i === 0 || str[i-1] !== '\\')) depth--;
-    if (depth < 0) return `${label} dư dấu đóng ngoặc nhọn } tại vị trí ${i}`;
+    if (str[i] === '{' || str[i] === '}') {
+      // Count consecutive backslashes before this brace
+      let backslashCount = 0;
+      let j = i - 1;
+      while (j >= 0 && str[j] === '\\') {
+        backslashCount++;
+        j--;
+      }
+      // If odd number of backslashes, this brace is escaped (\{ or \})
+      if (backslashCount % 2 === 1) continue;
+
+      if (str[i] === '{') depth++;
+      else {
+        depth--;
+        if (depth < 0) return `${label} dư dấu đóng ngoặc nhọn } tại vị trí ${i}`;
+      }
+    }
   }
   if (depth > 0) return `${label} thiếu ${depth} dấu đóng ngoặc nhọn }`;
   return null;
@@ -106,6 +118,18 @@ rawQuestions.forEach((q, idx) => {
     errors++;
   }
 
+  if (!q.topicIds || !Array.isArray(q.topicIds) || q.topicIds.length === 0) {
+    console.warn(`${ctx}: Thiếu hoặc rỗng trường "topicIds"`);
+    warnings++;
+  } else {
+    q.topicIds.forEach(t => {
+      if (!VALID_TOPICS.has(t)) {
+        console.warn(`${ctx}: topicId không hợp lệ (${t})`);
+        warnings++;
+      }
+    });
+  }
+
   if (q.type === 'multiple_choice' || !q.type) {
     if (!Array.isArray(q.options) || q.options.length < 2) {
       console.error(`${ctx}: Cần ít nhất 2 options`);
@@ -130,20 +154,42 @@ rawQuestions.forEach((q, idx) => {
         errors++;
       }
     }
-  }
-
-  if (q.explanation) {
-    if (typeof q.explanation !== 'string') {
-      console.error(`${ctx} [explanation]: Phải là chuỗi string`);
+  } else if (q.type === 'true_false') {
+    if (!Array.isArray(q.statements) || q.statements.length === 0) {
+      console.error(`${ctx}: Cần ít nhất 1 statement cho câu hỏi true_false`);
       errors++;
     } else {
-      if (countUnescapedDollars(q.explanation) % 2 !== 0) {
-        console.error(`${ctx} [explanation]: Lệch dấu dollar $ (tổng $: ${countUnescapedDollars(q.explanation)})`);
-        errors++;
-      }
-      const braceErr = checkBalancedBraces(q.explanation, `${ctx} [explanation]`);
-      if (braceErr) { console.error(braceErr); errors++; }
+      q.statements.forEach((stmt, sIdx) => {
+        if (!stmt.text || typeof stmt.text !== 'string' || !stmt.text.trim()) {
+          console.error(`${ctx} [Statement ${sIdx + 1}]: Text rỗng`);
+          errors++;
+        } else {
+          if (countUnescapedDollars(stmt.text) % 2 !== 0) {
+            console.error(`${ctx} [Statement ${sIdx + 1}]: Lệch dấu dollar $`);
+            errors++;
+          }
+          const braceErr = checkBalancedBraces(stmt.text, `${ctx} [Statement ${sIdx + 1}]`);
+          if (braceErr) { console.error(braceErr); errors++; }
+        }
+      });
     }
+  } else if (q.type === 'short_answer') {
+    if (typeof q.correctAnswer !== 'string' || !q.correctAnswer.trim()) {
+      console.error(`${ctx}: Thiếu "correctAnswer" cho câu hỏi short_answer`);
+      errors++;
+    }
+  }
+
+  if (!q.explanation || typeof q.explanation !== 'string' || !q.explanation.trim()) {
+    console.warn(`${ctx}: Thiếu giải thích (explanation)`);
+    warnings++;
+  } else {
+    if (countUnescapedDollars(q.explanation) % 2 !== 0) {
+      console.error(`${ctx} [explanation]: Lệch dấu dollar $ (tổng $: ${countUnescapedDollars(q.explanation)})`);
+      errors++;
+    }
+    const braceErr = checkBalancedBraces(q.explanation, `${ctx} [explanation]`);
+    if (braceErr) { console.error(braceErr); errors++; }
   }
 });
 

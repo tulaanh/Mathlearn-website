@@ -9,7 +9,45 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const path = await getLearningPathById(id);
-  return { title: path ? path.title : "Không tìm thấy lộ trình" };
+
+  if (!path) {
+    return {
+      title: "Không tìm thấy lộ trình",
+      description: "Lộ trình học tập không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+      openGraph: {
+        title: "Không tìm thấy lộ trình",
+        description: "Lộ trình học tập không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+        type: "website",
+        siteName: "MathLearn",
+      },
+      twitter: {
+        card: "summary",
+        title: "Không tìm thấy lộ trình",
+        description: "Lộ trình học tập không tồn tại hoặc đã bị xóa trên hệ thống MathLearn.",
+      },
+    };
+  }
+
+  const title = path.title;
+  const description =
+    path.description?.trim() ||
+    `Khám phá lộ trình học tập ${path.title}${path.grade ? ` ${path.grade}` : ""} với hệ thống chương học, bài giảng và bài tập được sắp xếp bài bản.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      siteName: "MathLearn",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function LearningPathPage({ params }: Props) {

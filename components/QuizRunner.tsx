@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import type { Quiz } from "@/lib/types";
@@ -33,12 +34,20 @@ export default function QuizRunner({ quiz }: { quiz: Quiz }) {
     <div className="mx-auto max-w-3xl">
       {/* Tiêu đề bài test */}
       <div className="mb-6">
-        <a
-          href="/"
-          className="mb-3 inline-block text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400"
-        >
-          ← Về danh sách bài test
-        </a>
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <Link
+            href="/"
+            className="text-sm font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+          >
+            ← Về danh sách bài test
+          </Link>
+          <Link
+            href={`/quiz/${quiz.id}/in`}
+            className="flex items-center gap-1 rounded-lg border border-purple-300 bg-purple-50/60 px-3 py-1.5 text-xs font-bold text-purple-700 transition-colors hover:bg-purple-100 dark:border-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:hover:bg-purple-950/70"
+          >
+            🖨 Xuất PDF / In đề
+          </Link>
+        </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{quiz.title}</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
           {quiz.subject} • {quiz.grade} • {total} câu hỏi

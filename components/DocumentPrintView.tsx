@@ -120,6 +120,19 @@ function PrintQuestion({ question, index, showAnswers }: { question: QuizQuestio
 /** Bản trình bày chuẩn A4 để in hoặc lưu PDF qua hộp thoại in của trình duyệt. */
 export default function DocumentPrintView({ document }: { document: StudyDocument }) {
   const [showAnswers, setShowAnswers] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+
+  function handlePrint() {
+    const prevTitle = window.document.title;
+    try {
+      window.document.title = " ";
+      window.print();
+    } finally {
+      window.setTimeout(() => {
+        window.document.title = prevTitle;
+      }, 800);
+    }
+  }
 
   return (
     <div className="mx-auto max-w-3xl print:max-w-none">
@@ -132,6 +145,15 @@ export default function DocumentPrintView({ document }: { document: StudyDocumen
           <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
             <input
               type="checkbox"
+              checked={showHeader}
+              onChange={(e) => setShowHeader(e.target.checked)}
+              className="h-4 w-4 accent-indigo-600"
+            />
+            Hiện tiêu đề
+          </label>
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <input
+              type="checkbox"
               checked={showAnswers}
               onChange={(e) => setShowAnswers(e.target.checked)}
               className="h-4 w-4 accent-indigo-600"
@@ -140,7 +162,7 @@ export default function DocumentPrintView({ document }: { document: StudyDocumen
           </label>
           <button
             type="button"
-            onClick={() => window.print()}
+            onClick={handlePrint}
             className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-bold text-white hover:bg-indigo-700"
           >
             🖨 In / Lưu PDF
@@ -150,11 +172,13 @@ export default function DocumentPrintView({ document }: { document: StudyDocumen
 
       {/* Trang in: luôn nền trắng chữ đen kể cả khi web đang ở chế độ tối (xem .print-sheet trong globals.css) */}
       <article className="print-sheet rounded-2xl bg-white p-8 shadow-sm print:rounded-none print:p-0 print:shadow-none">
-        <header className="border-b border-slate-300 pb-4 text-center">
-          <h1 className="text-2xl font-extrabold uppercase tracking-tight">{document.title}</h1>
-          <p className="mt-1 text-sm">{[document.grade, ...document.topics.map((t) => t.name)].filter(Boolean).join(" · ")}</p>
-          {document.description && <p className="mt-1 text-sm italic">{document.description}</p>}
-        </header>
+        {showHeader && (
+          <header className="border-b border-slate-300 pb-4 text-center">
+            <h1 className="text-2xl font-extrabold uppercase tracking-tight">{document.title}</h1>
+            <p className="mt-1 text-sm">{[document.grade, ...document.topics.map((t) => t.name)].filter(Boolean).join(" · ")}</p>
+            {document.description && <p className="mt-1 text-sm italic">{document.description}</p>}
+          </header>
+        )}
 
         <div className="mt-6">
           {document.blocks.map((block) => {
