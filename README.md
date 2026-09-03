@@ -111,20 +111,6 @@ Tính năng chính:
 - **Chèn từ ngân hàng khi soạn tài liệu**: trong khối 🧩 Câu hỏi của trình soạn thảo có nút **"📚 Chèn từ ngân hàng câu hỏi"**.
 - **Nhập/xuất JSON**: định dạng riêng `{ version: 1, kind: "question_bank", questions: [...] }` — xem chi tiết ở `QUY-TAC-FILE-JSON.md` Phần 8.
 
-## ✂️ Phân vùng PDF và bàn giao Antigravity
-
-Công cụ **Khoanh vùng PDF** tại `/quan-ly/ngan-hang-cau-hoi/khoanh-vung` chỉ render PDF và tạo các vùng để giáo viên kiểm tra/chỉnh sửa. Tính năng nhận diện toàn bộ tài liệu không còn được sử dụng.
-
-Sau khi chỉnh vùng, bấm **Đóng gói gửi Antigravity**. File ZIP được tải về gồm:
-
-- `source.pdf`: PDF gốc.
-- `pages/`: ảnh từng trang theo đúng hệ tọa độ của `regions.json`.
-- `regions.json`: các vùng đã phân vùng/chỉnh sửa, gồm `kind`, `role`, `bbox` và thứ tự.
-- `crops/`: các crop PNG đã tạo riêng trước đó, nếu có.
-- `manifest.json` và `README.md`: mô tả định dạng gói và xác nhận full recognition/OCR chưa chạy.
-
-Antigravity có thể dùng gói này để nhận diện từng vùng theo nhu cầu, thay vì xử lý toàn bộ tài liệu trong website.
-
 Cấu trúc dữ liệu nằm ở bảng Supabase `question_bank` (+ `question_bank_topics`). Chạy thêm file **`supabase/migration-question-bank.sql`** trong SQL Editor để tạo bảng. Vì ngân hàng chứa đáp án đúng nên chỉ giáo viên đọc/ghi được dữ liệu này.
 
 ## 🔐 Đăng nhập và tài liệu

@@ -54,3 +54,8 @@ preview.html
 *.zip
 .agents/**/bin/
 .agents/**/models/
+
+# pdf layout & retype
+*pdf-layout*
+*retype*
+

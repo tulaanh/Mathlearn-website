@@ -67,7 +67,6 @@ export default async function QuestionBankPage({ searchParams }: Props) {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link href="/quan-ly/ngan-hang-cau-hoi/khoanh-vung" className="rounded-xl border border-emerald-300 px-5 py-3 text-sm font-bold text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-950/40">✂️ Khoanh vùng PDF</Link>
           <Link href="/quan-ly/ngan-hang-cau-hoi/sinh-de" className="rounded-xl border border-indigo-300 px-5 py-3 text-sm font-bold text-indigo-600 hover:bg-indigo-50 dark:border-indigo-800 dark:text-indigo-300 dark:hover:bg-indigo-950/40">⚙ Sinh đề theo ma trận</Link>
           <Link href="/quan-ly/ngan-hang-cau-hoi/them" className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white hover:bg-indigo-700">+ Thêm câu hỏi</Link>
         </div>
