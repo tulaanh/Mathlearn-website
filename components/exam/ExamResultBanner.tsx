@@ -2,7 +2,7 @@ import { memo, useMemo, useState } from "react";
 import Link from "next/link";
 import type { DocumentTestResult, QuizQuestion, DocumentTestAnswers } from "@/lib/document-types";
 import type { TestNextStep } from "@/lib/chapter-types";
-import { isUnitCorrect, questionType, statementKey, statementsOf } from "@/lib/exam-scoring";
+import { isQuestionCorrect } from "@/lib/exam-scoring";
 
 type ExamResultBannerProps = {
   documentId: string;
@@ -12,6 +12,7 @@ type ExamResultBannerProps = {
   onRetry: () => void;
   nextStep?: TestNextStep | null;
   onSaveBatch: (qs: QuizQuestion[]) => number;
+  onViewWrongQuestions?: () => void;
 };
 
 /** Bảng kết quả hiển thị sau khi nộp bài: điểm thang 10, phần trăm, số ý đúng và tính năng lưu câu hỏi. */
@@ -23,18 +24,12 @@ const ExamResultBanner = memo(function ExamResultBanner({
   onRetry,
   nextStep = null,
   onSaveBatch,
+  onViewWrongQuestions,
 }: ExamResultBannerProps) {
   const [saveMessage, setSaveMessage] = useState("");
 
   const wrongQuestions = useMemo(() => {
-    return questions.filter((q) => {
-      const qType = questionType(q);
-      if (qType === "essay") return false;
-      if (qType === "true_false") {
-        return !statementsOf(q).every((s) => isUnitCorrect(q, statementKey(q.id, s.id), answers));
-      }
-      return !isUnitCorrect(q, q.id, answers);
-    });
+    return questions.filter((q) => isQuestionCorrect(q, answers) === false);
   }, [questions, answers]);
 
   const handleSaveWrong = () => {
@@ -87,6 +82,20 @@ const ExamResultBanner = memo(function ExamResultBanner({
         </span>
       </div>
       <p className={`mt-4 text-sm font-semibold ${feedback.color}`}>{feedback.text}</p>
+
+      {/* Nút xem nhanh câu sai nếu có */}
+      {wrongQuestions.length > 0 && onViewWrongQuestions && (
+        <div className="mt-5">
+          <button
+            type="button"
+            onClick={onViewWrongQuestions}
+            className="inline-flex items-center gap-2 rounded-xl bg-rose-600 px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all hover:bg-rose-700 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <span>❌ Xem ngay {wrongQuestions.length} câu làm sai & lời giải chi tiết</span>
+            <span>↓</span>
+          </button>
+        </div>
+      )}
 
       {/* Tiện ích lưu câu hỏi vào ngân hàng câu hỏi */}
       <div className="mt-6 rounded-2xl border border-indigo-200/80 bg-white/90 p-4 text-left shadow-2xs backdrop-blur-xs dark:border-indigo-900/60 dark:bg-slate-900/90">

@@ -110,6 +110,18 @@ export function isUnitCorrect(q: QuizQuestion, key: string, answers: DocumentTes
   return value === q.correctOptionId;
 }
 
+/** Kiểm tra toàn bộ câu hỏi trả lời đúng hay sai (áp dụng cho trắc nghiệm, đúng/sai, trả lời ngắn).
+ *  Câu tự luận trả về null vì không tự chấm. */
+export function isQuestionCorrect(q: QuizQuestion, answers: DocumentTestAnswers): boolean | null {
+  const qType = questionType(q);
+  if (qType === "essay") return null;
+  if (qType === "true_false") {
+    return statementsOf(q).every((s) => isUnitCorrect(q, statementKey(q.id, s.id), answers));
+  }
+  return isUnitCorrect(q, q.id, answers);
+}
+
+
 /** Chấm điểm toàn bộ câu hỏi theo điểm tùy chỉnh của từng câu. */
 export function gradeQuestions(questions: QuizQuestion[], answers: DocumentTestAnswers) {
   let correctCount = 0;

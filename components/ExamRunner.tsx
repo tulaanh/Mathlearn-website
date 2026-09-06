@@ -12,6 +12,7 @@ import type { TestNextStep } from "@/lib/chapter-types";
 import {
   answeredUnits,
   gradeQuestions,
+  isQuestionCorrect,
   percentCorrect,
   questionType,
   scoreOutOf10,
@@ -47,6 +48,7 @@ export default function ExamRunner({
   const [answers, setAnswers] = useState<DocumentTestAnswers>({});
   const [result, setResult] = useState<DocumentTestResult | null>(null);
   const [flagged, setFlagged] = useState<Record<string, boolean>>({});
+  const [filterMode, setFilterMode] = useState<"all" | "wrong" | "correct">("all");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [zoomState, setZoomState] = useState<{ images: ZoomImageItem[]; initialIndex: number } | null>(null);
   const [reportingQuestion, setReportingQuestion] = useState<QuizQuestion | null>(null);
@@ -109,6 +111,9 @@ export default function ExamRunner({
       if (savedResult.answers) {
         setAnswers(savedResult.answers);
       }
+      if (savedResult.correctCount < savedResult.totalAutoGraded) {
+        setFilterMode("wrong");
+      }
     }
     setHasInitialized(true);
   }, [document.id]);
@@ -154,15 +159,57 @@ export default function ExamRunner({
     setReportingQuestion(q);
   }, []);
 
-  /** Cuộn tới câu được chọn từ bảng câu hỏi và nháy viền để dễ nhận ra. */
-  const jumpToQuestion = useCallback((questionId: string) => {
-    const el = window.document.getElementById(questionDomId(questionId));
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    const flash = ["ring-2", "ring-indigo-500", "ring-offset-2"];
-    el.classList.add(...flash);
-    window.setTimeout(() => el.classList.remove(...flash), 1200);
-    setPaletteOpen(false);
+  const gradeableQuestions = useMemo(
+    () => questions.filter((q) => questionType(q) !== "essay"),
+    [questions],
+  );
+
+  const wrongCount = useMemo(
+    () => (result ? gradeableQuestions.filter((q) => isQuestionCorrect(q, answers) === false).length : 0),
+    [result, gradeableQuestions, answers],
+  );
+
+  const correctCount = useMemo(
+    () => (result ? gradeableQuestions.filter((q) => isQuestionCorrect(q, answers) === true).length : 0),
+    [result, gradeableQuestions, answers],
+  );
+
+  /** Cuộn tới câu được chọn từ bảng câu hỏi và nháy viền để dễ nhận ra.
+   *  Nếu câu đó đang bị ẩn do bộ lọc thì tự động chuyển về tab "Tất cả". */
+  const jumpToQuestion = useCallback(
+    (questionId: string) => {
+      if (result) {
+        const targetQ = questions.find((q) => q.id === questionId);
+        if (targetQ) {
+          const isCorrect = isQuestionCorrect(targetQ, answers);
+          if (
+            (filterMode === "wrong" && isCorrect === true) ||
+            (filterMode === "correct" && isCorrect === false)
+          ) {
+            setFilterMode("all");
+          }
+        }
+      }
+
+      window.setTimeout(() => {
+        const el = window.document.getElementById(questionDomId(questionId));
+        if (!el) return;
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        const flash = ["ring-2", "ring-indigo-500", "ring-offset-2"];
+        el.classList.add(...flash);
+        window.setTimeout(() => el.classList.remove(...flash), 1200);
+      }, 60);
+      setPaletteOpen(false);
+    },
+    [questions, result, answers, filterMode],
+  );
+
+  const handleViewWrongQuestions = useCallback(() => {
+    setFilterMode("wrong");
+    const el = window.document.getElementById("exam-questions-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }, []);
 
   function handleSubmit() {
@@ -182,6 +229,13 @@ export default function ExamRunner({
     clearExamDraft(document.id);
     setRestoredDraftInfo(null);
 
+    // Tự động kích hoạt bộ lọc "Chỉ câu sai" nếu có câu làm sai
+    if (correctCount < totalAutoGraded) {
+      setFilterMode("wrong");
+    } else {
+      setFilterMode("all");
+    }
+
     // Lưu điểm tốt nhất vào tiến độ học tập trên chính trình duyệt này
     setPercent(`document-quiz:${document.id}`, finished.percent);
     // Nộp bài test đính kèm = hoàn thành tài liệu chứa nó
@@ -195,6 +249,7 @@ export default function ExamRunner({
     setAnswers({});
     setFlagged({});
     setResult(null);
+    setFilterMode("all");
     setRestoredDraftInfo(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -275,11 +330,92 @@ export default function ExamRunner({
           onRetry={handleRetry}
           nextStep={nextStep}
           onSaveBatch={handleSaveQuestionsBatch}
+          onViewWrongQuestions={handleViewWrongQuestions}
         />
       )}
 
       {/* Nội dung bài kiểm tra */}
-      <div className="space-y-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs dark:border-slate-800/80 dark:bg-[#131b2e] sm:p-8">
+      <div id="exam-questions-section" className="space-y-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs dark:border-slate-800/80 dark:bg-[#131b2e] sm:p-8">
+        {/* Bộ lọc câu hỏi sau khi nộp bài */}
+        {result && (
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-5 dark:border-slate-800">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Chế độ xem:
+              </span>
+              <div className="inline-flex flex-wrap rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+                {wrongCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setFilterMode("wrong")}
+                    className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+                      filterMode === "wrong"
+                        ? "bg-rose-500 text-white shadow-xs"
+                        : "text-rose-700 hover:bg-rose-100/60 dark:text-rose-300 dark:hover:bg-rose-950/40"
+                    }`}
+                  >
+                    <span>❌ Chỉ câu sai</span>
+                    <span
+                      className={`rounded-full px-1.5 py-0.2 text-[11px] ${
+                        filterMode === "wrong"
+                          ? "bg-rose-600 text-white"
+                          : "bg-rose-200/80 text-rose-800 dark:bg-rose-900/80 dark:text-rose-200"
+                      }`}
+                    >
+                      {wrongCount}
+                    </span>
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setFilterMode("all")}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+                    filterMode === "all"
+                      ? "bg-white text-slate-900 shadow-xs dark:bg-slate-900 dark:text-white"
+                      : "text-slate-600 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
+                  }`}
+                >
+                  <span>📋 Tất cả câu hỏi</span>
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[11px] ${
+                      filterMode === "all"
+                        ? "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200"
+                        : "bg-slate-200/60 text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                    }`}
+                  >
+                    {questions.length}
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFilterMode("correct")}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold transition-all ${
+                    filterMode === "correct"
+                      ? "bg-emerald-500 text-white shadow-xs"
+                      : "text-emerald-700 hover:bg-emerald-100/60 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+                  }`}
+                >
+                  <span>✓ Câu làm đúng</span>
+                  <span
+                    className={`rounded-full px-1.5 py-0.2 text-[11px] ${
+                      filterMode === "correct"
+                        ? "bg-emerald-600 text-white"
+                        : "bg-emerald-200/80 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-200"
+                    }`}
+                  >
+                    {correctCount}
+                  </span>
+                </button>
+              </div>
+            </div>
+            {filterMode === "wrong" && (
+              <span className="text-xs font-semibold text-rose-600 dark:text-rose-400">
+                Đang hiển thị {wrongCount} câu làm sai kèm lời giải chi tiết
+              </span>
+            )}
+          </div>
+        )}
+
         {document.blocks.length === 0 && <p className="text-sm text-slate-500">Bài kiểm tra chưa có nội dung.</p>}
         {document.blocks.map((block) => (
           <ExamBlock
@@ -288,6 +424,7 @@ export default function ExamRunner({
             answers={answers}
             flagged={flagged}
             result={result}
+            filterMode={filterMode}
             onAnswer={setAnswer}
             onToggleFlag={toggleFlag}
             onZoomImage={openZoom}
@@ -303,27 +440,38 @@ export default function ExamRunner({
         )}
       </div>
 
-      {/* Thanh nộp bài */}
-      {!result && (
-        <ExamHeaderNav
-          answered={answered}
-          total={total}
-          canSubmit={canSubmit}
-          paletteOpen={paletteOpen}
-          onTogglePalette={() => setPaletteOpen((v) => !v)}
-          onSubmit={handleSubmit}
-          quizBlocks={quizBlocks}
-          answers={answers}
-          flagged={flagged}
-          onJumpToQuestion={jumpToQuestion}
-        />
-      )}
+      {/* Thanh nộp bài hoặc thanh điều hướng trên Mobile */}
+      <ExamHeaderNav
+        answered={answered}
+        total={total}
+        canSubmit={canSubmit}
+        paletteOpen={paletteOpen}
+        onTogglePalette={() => setPaletteOpen((v) => !v)}
+        onSubmit={handleSubmit}
+        quizBlocks={quizBlocks}
+        answers={answers}
+        flagged={flagged}
+        onJumpToQuestion={jumpToQuestion}
+        result={result}
+        filterMode={filterMode}
+        onSelectFilter={setFilterMode}
+        wrongCount={wrongCount}
+        correctCount={correctCount}
+      />
       </div>
 
       {/* Bảng câu hỏi cố định bên phải (màn hình lớn) */}
       <aside className="sticky top-24 hidden w-72 shrink-0 lg:block print:hidden">
         <div className="max-h-[calc(100vh-120px)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs dark:border-slate-800/80 dark:bg-[#131b2e]">
-          <QuestionPalette quizBlocks={quizBlocks} answers={answers} flagged={flagged} onJump={jumpToQuestion} />
+          <QuestionPalette
+            quizBlocks={quizBlocks}
+            answers={answers}
+            flagged={flagged}
+            onJump={jumpToQuestion}
+            result={result}
+            filterMode={filterMode}
+            onSelectFilter={setFilterMode}
+          />
         </div>
       </aside>
 
