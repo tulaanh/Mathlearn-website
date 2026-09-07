@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { EventAttempt, EventSubmitResult, PublicEventQuestion } from "@/lib/event-types";
 import { getDifficultyMeta } from "@/lib/question-bank-types";
 import LazyMathText from "./LazyMathText";
+import { useStudyReminder } from "./StudyReminderProvider";
 
 const labels = ["A", "B", "C", "D", "E", "F"];
 
@@ -34,6 +35,14 @@ export default function EventActivityRunner({ eventId, activityId, activityTitle
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [now, setNow] = useState(() => Date.now());
+  const { setExamActive } = useStudyReminder();
+
+  // Đang làm hoạt động có giờ → hoãn lời nhắc học tập đến khi nộp bài
+  useEffect(() => {
+    if (!attempt || result) return;
+    setExamActive(`event-${activityId}`, true);
+    return () => setExamActive(`event-${activityId}`, false);
+  }, [attempt, result, activityId, setExamActive]);
 
   useEffect(() => {
     fetch(`/api/events/${activityId}/start`, { method: "POST" })

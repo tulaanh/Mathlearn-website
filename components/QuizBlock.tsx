@@ -14,6 +14,7 @@ import DebouncedInput from "./DebouncedInput";
 import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
 
 import ReportQuestionModal from "./ReportQuestionModal";
+import { useStudyReminder } from "./StudyReminderProvider";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F"];
 
@@ -308,6 +309,7 @@ export default function QuizBlock({
   const [hasInitialized, setHasInitialized] = useState(false);
   const [savedBatchMessage, setSavedBatchMessage] = useState("");
   const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
+  const { setExamActive } = useStudyReminder();
 
   const handleToggleSave = useCallback(
     (q: QuizQuestion) => {
@@ -343,6 +345,13 @@ export default function QuizBlock({
     }
     setHasInitialized(true);
   }, [blockKey]);
+
+  // Đang làm mini-quiz → hoãn lời nhắc học tập đến sau khi nộp
+  const reminderSource = `quiz-block-${blockKey}`;
+  useEffect(() => {
+    if (!submitted) setExamActive(reminderSource, true);
+    return () => setExamActive(reminderSource, false);
+  }, [submitted, reminderSource, setExamActive]);
 
   // Tự động lưu câu trả lời vào localStorage
   useEffect(() => {

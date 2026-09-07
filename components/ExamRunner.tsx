@@ -36,6 +36,7 @@ import ExamBlock from "./exam/ExamBlock";
 import ExamResultBanner from "./exam/ExamResultBanner";
 import ExamHeaderNav from "./exam/ExamHeaderNav";
 import { questionDomId } from "./exam/ExamQuestionCard";
+import { useStudyReminder } from "./StudyReminderProvider";
 
 /** Màn hình làm bài kiểm tra: tự động lưu bài làm dở và kết quả gần nhất. */
 export default function ExamRunner({
@@ -59,6 +60,7 @@ export default function ExamRunner({
   const [hasInitialized, setHasInitialized] = useState(false);
   const { setPercent } = useProgress();
   const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
+  const { setExamActive } = useStudyReminder();
 
   const handleToggleSave = useCallback(
     (q: QuizQuestion) => {
@@ -117,6 +119,13 @@ export default function ExamRunner({
     }
     setHasInitialized(true);
   }, [document.id]);
+
+  // Đang làm bài kiểm tra → hoãn lời nhắc học tập đến sau khi nộp bài
+  const examSource = `exam-${document.id}`;
+  useEffect(() => {
+    if (!result) setExamActive(examSource, true);
+    return () => setExamActive(examSource, false);
+  }, [result, examSource, setExamActive]);
 
   // Tự động lưu bài làm dở khi câu trả lời hoặc cờ thay đổi
   useEffect(() => {

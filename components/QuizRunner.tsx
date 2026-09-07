@@ -2,15 +2,24 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Quiz } from "@/lib/types";
 import QuestionCard from "./QuestionCard";
 import ReportQuestionModal from "./ReportQuestionModal";
+import { useStudyReminder } from "./StudyReminderProvider";
 
 export default function QuizRunner({ quiz }: { quiz: Quiz }) {
   const router = useRouter();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [reportingQuestion, setReportingQuestion] = useState<Quiz["questions"][number] | null>(null);
+  const { setExamActive } = useStudyReminder();
+
+  // Đang làm bài kiểm tra → hoãn lời nhắc học tập (nộp bài chuyển trang sẽ tự tắt cờ)
+  const quizSource = `quiz-${quiz.id}`;
+  useEffect(() => {
+    setExamActive(quizSource, true);
+    return () => setExamActive(quizSource, false);
+  }, [quizSource, setExamActive]);
 
   const total = quiz.questions.length;
   const answeredCount = Object.keys(answers).length;

@@ -5,6 +5,8 @@ import Sidebar from "@/components/Sidebar";
 import LogoutButton from "@/components/LogoutButton";
 import AccountInfo from "@/components/AccountInfo";
 import MobileMenu from "@/components/MobileMenu";
+import ReminderBellButton from "@/components/ReminderBellButton";
+import StudyReminderProvider from "@/components/StudyReminderProvider";
 import { ProfileProvider } from "@/components/ProfileProvider";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/site";
@@ -95,6 +97,7 @@ export default async function RootLayout({
               : null
           }
         >
+        <StudyReminderProvider>
         <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 shadow-xs backdrop-blur-md print:!hidden dark:border-slate-800/80 dark:bg-[#0d1322]/90">
           <div className="flex h-[72px] items-center gap-2 px-3 sm:gap-4 sm:px-7 lg:px-9">
             <Link href="/" className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-tight text-slate-950 sm:w-56 sm:gap-3 sm:text-xl dark:text-white">
@@ -106,7 +109,7 @@ export default async function RootLayout({
               <input aria-label="Tìm kiếm" placeholder="Tìm bài học, bài tập, chủ đề..." className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-12 pr-4 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 dark:border-slate-800 dark:bg-[#131b2e] dark:text-slate-100 dark:placeholder-slate-500 dark:focus:border-indigo-400 dark:focus:ring-indigo-500/20" />
             </div>
             <div className="ml-auto flex items-center gap-2 sm:gap-5">
-              <button aria-label="Thông báo" className="relative hidden text-2xl text-slate-600 hover:text-indigo-600 sm:block dark:text-slate-300 dark:hover:text-indigo-400">♧<span className="absolute -right-2 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">3</span></button>
+              <ReminderBellButton />
               <ThemeToggle />
               <div className="hidden items-center gap-3 border-l border-slate-200 pl-4 sm:flex dark:border-slate-800">
                 <AccountInfo email={user?.email} />
@@ -127,6 +130,7 @@ export default async function RootLayout({
         <footer className="border-t border-slate-200/80 bg-white py-6 text-center text-sm text-slate-500 print:!hidden dark:border-slate-800/80 dark:bg-[#0d1322] dark:text-slate-400">
           © {new Date().getFullYear()} MathLearn — Chúc các em học tốt! 🎓
         </footer>
+        </StudyReminderProvider>
         </ProfileProvider>
       </body>
     </html>
