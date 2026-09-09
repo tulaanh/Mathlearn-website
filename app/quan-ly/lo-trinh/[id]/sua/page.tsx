@@ -3,6 +3,9 @@ import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { getLearningPathById } from "@/lib/learning-paths";
+import { getTeacherChapters } from "@/lib/chapters";
+import { getAllTeacherDocumentCards } from "@/lib/documents";
+import { quizzes } from "@/data/quizzes";
 import SupabaseConfigNotice from "@/components/SupabaseConfigNotice";
 import PathEditor from "@/components/PathEditor";
 
@@ -21,8 +24,26 @@ export default async function EditPathPage({ params }: Props) {
   if (profile?.role !== "teacher") redirect("/lo-trinh");
 
   const { id } = await params;
-  const path = await getLearningPathById(id);
+  const [path, allChapters, documents] = await Promise.all([
+    getLearningPathById(id),
+    getTeacherChapters(),
+    getAllTeacherDocumentCards(),
+  ]);
+
   if (!path) notFound();
+
+  const docList = documents.map((d) => ({
+    id: d.id,
+    title: d.title,
+    documentType: d.documentType,
+    grade: d.grade,
+  }));
+
+  const quizList = quizzes.map((q) => ({
+    id: q.id,
+    title: q.title,
+    grade: q.grade,
+  }));
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -38,10 +59,15 @@ export default async function EditPathPage({ params }: Props) {
           Sửa lộ trình
         </h1>
         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Cập nhật tên, mô tả và khối lớp của lộ trình. Gán chương vào lộ trình tại trang Quản lý chương.
+          Cập nhật thông tin lộ trình, tạo thêm chương mới hoặc sắp xếp các chương trực tiếp tại đây.
         </p>
       </div>
-      <PathEditor initialData={path} />
+      <PathEditor
+        initialData={path}
+        availableChapters={allChapters}
+        documents={docList}
+        quizzes={quizList}
+      />
     </div>
   );
 }

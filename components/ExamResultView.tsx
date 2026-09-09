@@ -2,27 +2,81 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { DocumentTestResult } from "@/lib/document-types";
-import { loadExamResult } from "@/lib/exam-draft";
+import type { DocumentTestResult, DocumentTestAnswers } from "@/lib/document-types";
+import { loadExamResult, saveExamResult } from "@/lib/exam-draft";
+import { useProfile } from "./ProfileProvider";
 
 /**
  * Trang kết quả của bài kiểm tra (tài liệu loại 'test').
- * Đọc kết quả gần nhất từ localStorage / sessionStorage.
+ * Ưu tiên đọc kết quả từ localStorage theo userId, nếu chưa có thì nạp từ Database.
  */
 export default function ExamResultView({ documentId, title }: { documentId: string; title: string }) {
+  const { userId } = useProfile();
   const [result, setResult] = useState<DocumentTestResult | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const res = loadExamResult(documentId);
-      setResult(res);
-    } catch {
-      setResult(null);
-    } finally {
-      setLoading(false);
+    let isMounted = true;
+
+    async function fetchResult() {
+      // 1. Kiểm tra bộ nhớ local theo tài khoản
+      const localRes = loadExamResult(documentId, userId);
+      if (localRes) {
+        if (isMounted) {
+          setResult(localRes);
+          setLoading(false);
+        }
+        return;
+      }
+
+      // 2. Nếu chưa có trên máy và đã đăng nhập, nạp từ Database Supabase
+      if (userId) {
+        try {
+          const { createClient } = await import("@/lib/supabase/client");
+          const supabase = createClient();
+          if (supabase) {
+            const { data, error } = await supabase
+              .from("user_exam_results")
+              .select("*")
+              .eq("user_id", userId)
+              .eq("document_id", documentId)
+              .order("created_at", { ascending: false })
+              .limit(1)
+              .maybeSingle();
+
+            if (!error && data && isMounted) {
+              const dbResult: DocumentTestResult = {
+                answers: (data.answers as DocumentTestAnswers) || {},
+                correctCount: data.correct_count,
+                totalAutoGraded: data.total_questions,
+                earnedPoints: Number(data.earned_points),
+                totalPoints: Number(data.total_points),
+                percent: data.percent,
+                score: Number(data.score),
+              };
+              setResult(dbResult);
+              saveExamResult(documentId, dbResult, userId);
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (e) {
+          console.error("Lỗi khi nạp kết quả bài thi từ Database:", e);
+        }
+      }
+
+      if (isMounted) {
+        setResult(null);
+        setLoading(false);
+      }
     }
-  }, [documentId]);
+
+    fetchResult();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [documentId, userId]);
 
   if (loading) {
     return <p className="py-20 text-center text-slate-500 dark:text-slate-400">Đang tải kết quả…</p>;
@@ -33,7 +87,7 @@ export default function ExamResultView({ documentId, title }: { documentId: stri
       <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-900">
         <p className="mb-4 text-4xl">🤔</p>
         <h1 className="mb-2 text-xl font-bold dark:text-white">Chưa có kết quả nào</h1>
-        <p className="mb-6 text-sm text-slate-600 dark:text-slate-400">Bạn chưa nộp bài kiểm tra này trên trình duyệt hiện tại.</p>
+        <p className="mb-6 text-sm text-slate-600 dark:text-slate-400">Bạn chưa làm hoặc chưa nộp bài kiểm tra này.</p>
         <Link href={`/quiz/${documentId}`} className="inline-block rounded-xl bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700">
           Làm bài ngay
         </Link>
@@ -71,7 +125,9 @@ export default function ExamResultView({ documentId, title }: { documentId: stri
           📋 Chọn bài khác
         </Link>
       </div>
-      <p className="mt-4 text-xs text-slate-400">Kết quả chỉ lưu tạm trên trình duyệt của bạn.</p>
+      <p className="mt-4 text-xs text-slate-400">
+        {userId ? "✓ Kết quả đã được lưu đồng bộ vào tài khoản của bạn." : "Kết quả chỉ lưu tạm trên trình duyệt của bạn."}
+      </p>
     </div>
   );
 }

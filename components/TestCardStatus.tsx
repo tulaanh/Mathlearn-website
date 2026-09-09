@@ -1,9 +1,11 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { loadExamDraft, loadExamResult } from "@/lib/exam-draft";
+import { useProfile } from "./ProfileProvider";
 
 export default function TestCardStatus({ documentId }: { documentId: string }) {
+  const { userId } = useProfile();
   const [status, setStatus] = useState<{
     type: "completed" | "in_progress";
     score?: number;
@@ -11,15 +13,15 @@ export default function TestCardStatus({ documentId }: { documentId: string }) {
   } | null>(null);
 
   useEffect(() => {
-    // 1. Kiểm tra xem có bài làm dở không
-    const draft = loadExamDraft(documentId);
+    // 1. Kiểm tra xem có bài làm dở của tài khoản này không
+    const draft = loadExamDraft(documentId, userId);
     if (draft && Object.keys(draft.answers).length > 0) {
       setStatus({ type: "in_progress" });
       return;
     }
 
-    // 2. Kiểm tra xem đã có kết quả làm bài gần nhất chưa
-    const result = loadExamResult(documentId);
+    // 2. Kiểm tra xem đã có kết quả làm bài gần nhất của tài khoản này chưa
+    const result = loadExamResult(documentId, userId);
     if (result) {
       setStatus({
         type: "completed",
@@ -30,7 +32,7 @@ export default function TestCardStatus({ documentId }: { documentId: string }) {
     }
 
     setStatus(null);
-  }, [documentId]);
+  }, [documentId, userId]);
 
   if (!status) return null;
 

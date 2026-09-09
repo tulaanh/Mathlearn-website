@@ -1,0 +1,152 @@
+[
+  {
+    "figure_id": 1,
+    "filename": "lt_1.png",
+    "page": "Trang_01",
+    "class": "figure",
+    "confidence": 0.898,
+    "box": [
+      1641,
+      719,
+      2183,
+      976
+    ],
+    "width": 542,
+    "height": 257
+  },
+  {
+    "figure_id": 2,
+    "filename": "lt_2.png",
+    "page": "Trang_01",
+    "class": "figure",
+    "confidence": 0.89,
+    "box": [
+      1555,
+      1274,
+      2174,
+      1651
+    ],
+    "width": 619,
+    "height": 377
+  },
+  {
+    "figure_id": 3,
+    "filename": "lt_3.png",
+    "page": "Trang_02",
+    "class": "figure",
+    "confidence": 0.957,
+    "box": [
+      1662,
+      159,
+      2231,
+      821
+    ],
+    "width": 569,
+    "height": 662
+  },
+  {
+    "figure_id": 4,
+    "filename": "lt_4.png",
+    "page": "Trang_02",
+    "class": "figure",
+    "confidence": 0.923,
+    "box": [
+      1399,
+      1391,
+      2241,
+      2051
+    ],
+    "width": 842,
+    "height": 660
+  },
+  {
+    "figure_id": 5,
+    "filename": "lt_5.png",
+    "page": "Trang_03",
+    "class": "figure",
+    "confidence": 0.949,
+    "box": [
+      1261,
+      217,
+      2240,
+      1111
+    ],
+    "width": 979,
+    "height": 894
+  },
+  {
+    "figure_id": 6,
+    "filename": "lt_6.png",
+    "page": "Trang_03",
+    "class": "figure",
+    "confidence": 0.95,
+    "box": [
+      1470,
+      1941,
+      2234,
+      2700
+    ],
+    "width": 764,
+    "height": 759
+  },
+  {
+    "figure_id": 7,
+    "filename": "lt_7.png",
+    "page": "Trang_04",
+    "class": "figure",
+    "confidence": 0.959,
+    "box": [
+      1451,
+      157,
+      2238,
+      903
+    ],
+    "width": 787,
+    "height": 746
+  },
+  {
+    "figure_id": 8,
+    "filename": "lt_8.png",
+    "page": "Trang_04",
+    "class": "figure",
+    "confidence": 0.936,
+    "box": [
+      1694,
+      1224,
+      2234,
+      1794
+    ],
+    "width": 540,
+    "height": 570
+  },
+  {
+    "figure_id": 9,
+    "filename": "lt_9.png",
+    "page": "Trang_04",
+    "class": "figure",
+    "confidence": 0.954,
+    "box": [
+      1251,
+      2490,
+      2244,
+      3158
+    ],
+    "width": 993,
+    "height": 668
+  },
+  {
+    "figure_id": 10,
+    "filename": "lt_10.png",
+    "page": "Trang_05",
+    "class": "figure",
+    "confidence": 0.86,
+    "box": [
+      1494,
+      423,
+      2237,
+      1118
+    ],
+    "width": 743,
+    "height": 695
+  }
+]

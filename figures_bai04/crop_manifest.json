@@ -1,0 +1,467 @@
+[
+  {
+    "figure_id": 1,
+    "filename": "lt_1.png",
+    "page": "Trang_01",
+    "class": "figure",
+    "confidence": 0.94,
+    "box": [
+      1477,
+      1474,
+      2194,
+      2033
+    ],
+    "width": 717,
+    "height": 559
+  },
+  {
+    "figure_id": 2,
+    "filename": "lt_2.png",
+    "page": "Trang_02",
+    "class": "figure",
+    "confidence": 0.968,
+    "box": [
+      1415,
+      151,
+      2240,
+      975
+    ],
+    "width": 825,
+    "height": 824
+  },
+  {
+    "figure_id": 3,
+    "filename": "lt_3.png",
+    "page": "Trang_02",
+    "class": "figure",
+    "confidence": 0.96,
+    "box": [
+      1305,
+      1388,
+      2237,
+      2219
+    ],
+    "width": 932,
+    "height": 831
+  },
+  {
+    "figure_id": 4,
+    "filename": "lt_4.png",
+    "page": "Trang_03",
+    "class": "figure",
+    "confidence": 0.962,
+    "box": [
+      1404,
+      153,
+      2235,
+      976
+    ],
+    "width": 831,
+    "height": 823
+  },
+  {
+    "figure_id": 5,
+    "filename": "lt_5.png",
+    "page": "Trang_03",
+    "class": "figure",
+    "confidence": 0.945,
+    "box": [
+      1108,
+      1752,
+      2248,
+      2680
+    ],
+    "width": 1140,
+    "height": 928
+  },
+  {
+    "figure_id": 6,
+    "filename": "lt_6.png",
+    "page": "Trang_04",
+    "class": "figure",
+    "confidence": 0.705,
+    "box": [
+      1276,
+      392,
+      2245,
+      1941
+    ],
+    "width": 969,
+    "height": 1549
+  },
+  {
+    "figure_id": 7,
+    "filename": "lt_7.png",
+    "page": "Trang_05",
+    "class": "figure",
+    "confidence": 0.965,
+    "box": [
+      1501,
+      151,
+      2236,
+      995
+    ],
+    "width": 735,
+    "height": 844
+  },
+  {
+    "figure_id": 8,
+    "filename": "lt_8.png",
+    "page": "Trang_05",
+    "class": "figure",
+    "confidence": 0.944,
+    "box": [
+      1253,
+      1426,
+      2245,
+      2266
+    ],
+    "width": 992,
+    "height": 840
+  },
+  {
+    "figure_id": 9,
+    "filename": "lt_9.png",
+    "page": "Trang_06",
+    "class": "figure",
+    "confidence": 0.935,
+    "box": [
+      1536,
+      296,
+      2210,
+      724
+    ],
+    "width": 674,
+    "height": 428
+  },
+  {
+    "figure_id": 10,
+    "filename": "lt_10.png",
+    "page": "Trang_06",
+    "class": "figure",
+    "confidence": 0.921,
+    "box": [
+      1537,
+      928,
+      2211,
+      1357
+    ],
+    "width": 674,
+    "height": 429
+  },
+  {
+    "figure_id": 11,
+    "filename": "lt_11.png",
+    "page": "Trang_07",
+    "class": "figure",
+    "confidence": 0.965,
+    "box": [
+      1470,
+      158,
+      2264,
+      849
+    ],
+    "width": 794,
+    "height": 691
+  },
+  {
+    "figure_id": 12,
+    "filename": "lt_12.png",
+    "page": "Trang_08",
+    "class": "figure",
+    "confidence": 0.961,
+    "box": [
+      1537,
+      1386,
+      2261,
+      2014
+    ],
+    "width": 724,
+    "height": 628
+  },
+  {
+    "figure_id": 13,
+    "filename": "lt_13.png",
+    "page": "Trang_09",
+    "class": "figure",
+    "confidence": 0.955,
+    "box": [
+      1635,
+      658,
+      2260,
+      1353
+    ],
+    "width": 625,
+    "height": 695
+  },
+  {
+    "figure_id": 14,
+    "filename": "lt_14.png",
+    "page": "Trang_10",
+    "class": "figure",
+    "confidence": 0.951,
+    "box": [
+      1635,
+      156,
+      2259,
+      839
+    ],
+    "width": 624,
+    "height": 683
+  },
+  {
+    "figure_id": 15,
+    "filename": "lt_15.png",
+    "page": "Trang_10",
+    "class": "figure",
+    "confidence": 0.955,
+    "box": [
+      1503,
+      2068,
+      2257,
+      2958
+    ],
+    "width": 754,
+    "height": 890
+  },
+  {
+    "figure_id": 16,
+    "filename": "lt_16.png",
+    "page": "Trang_11",
+    "class": "figure",
+    "confidence": 0.936,
+    "box": [
+      1400,
+      2161,
+      2255,
+      2863
+    ],
+    "width": 855,
+    "height": 702
+  },
+  {
+    "figure_id": 17,
+    "filename": "lt_17.png",
+    "page": "Trang_12",
+    "class": "figure",
+    "confidence": 0.946,
+    "box": [
+      1176,
+      1812,
+      2274,
+      2701
+    ],
+    "width": 1098,
+    "height": 889
+  },
+  {
+    "figure_id": 18,
+    "filename": "lt_18.png",
+    "page": "Trang_14",
+    "class": "figure",
+    "confidence": 0.956,
+    "box": [
+      1438,
+      865,
+      2163,
+      1331
+    ],
+    "width": 725,
+    "height": 466
+  },
+  {
+    "figure_id": 19,
+    "filename": "lt_19.png",
+    "page": "Trang_14",
+    "class": "figure",
+    "confidence": 0.964,
+    "box": [
+      1709,
+      1607,
+      2192,
+      2178
+    ],
+    "width": 483,
+    "height": 571
+  },
+  {
+    "figure_id": 20,
+    "filename": "lt_20.png",
+    "page": "Trang_14",
+    "class": "figure",
+    "confidence": 0.966,
+    "box": [
+      1711,
+      2439,
+      2191,
+      3012
+    ],
+    "width": 480,
+    "height": 573
+  },
+  {
+    "figure_id": 21,
+    "filename": "lt_21.png",
+    "page": "Trang_15",
+    "class": "figure",
+    "confidence": 0.952,
+    "box": [
+      1772,
+      2129,
+      2252,
+      2698
+    ],
+    "width": 480,
+    "height": 569
+  },
+  {
+    "figure_id": 22,
+    "filename": "lt_22.png",
+    "page": "Trang_16",
+    "class": "figure",
+    "confidence": 0.961,
+    "box": [
+      1771,
+      162,
+      2253,
+      734
+    ],
+    "width": 482,
+    "height": 572
+  },
+  {
+    "figure_id": 23,
+    "filename": "lt_23.png",
+    "page": "Trang_17",
+    "class": "figure",
+    "confidence": 0.96,
+    "box": [
+      1169,
+      145,
+      2260,
+      1285
+    ],
+    "width": 1091,
+    "height": 1140
+  },
+  {
+    "figure_id": 24,
+    "filename": "lt_24.png",
+    "page": "Trang_19",
+    "class": "figure",
+    "confidence": 0.951,
+    "box": [
+      1423,
+      1876,
+      2240,
+      2710
+    ],
+    "width": 817,
+    "height": 834
+  },
+  {
+    "figure_id": 25,
+    "filename": "lt_25.png",
+    "page": "Trang_21",
+    "class": "figure",
+    "confidence": 0.962,
+    "box": [
+      1317,
+      743,
+      2244,
+      1577
+    ],
+    "width": 927,
+    "height": 834
+  },
+  {
+    "figure_id": 26,
+    "filename": "lt_26.png",
+    "page": "Trang_23",
+    "class": "figure",
+    "confidence": 0.946,
+    "box": [
+      1220,
+      145,
+      2246,
+      1288
+    ],
+    "width": 1026,
+    "height": 1143
+  },
+  {
+    "figure_id": 27,
+    "filename": "lt_27.png",
+    "page": "Trang_24",
+    "class": "figure",
+    "confidence": 0.96,
+    "box": [
+      1517,
+      1048,
+      2251,
+      1816
+    ],
+    "width": 734,
+    "height": 768
+  },
+  {
+    "figure_id": 28,
+    "filename": "lt_28.png",
+    "page": "Trang_25",
+    "class": "figure",
+    "confidence": 0.942,
+    "box": [
+      1598,
+      162,
+      2259,
+      744
+    ],
+    "width": 661,
+    "height": 582
+  },
+  {
+    "figure_id": 29,
+    "filename": "lt_29.png",
+    "page": "Trang_26",
+    "class": "figure",
+    "confidence": 0.963,
+    "box": [
+      1566,
+      161,
+      2259,
+      755
+    ],
+    "width": 693,
+    "height": 594
+  },
+  {
+    "figure_id": 30,
+    "filename": "lt_30.png",
+    "page": "Trang_27",
+    "class": "figure",
+    "confidence": 0.959,
+    "box": [
+      1449,
+      155,
+      2257,
+      919
+    ],
+    "width": 808,
+    "height": 764
+  },
+  {
+    "figure_id": 31,
+    "filename": "lt_31.png",
+    "page": "Trang_28",
+    "class": "figure",
+    "confidence": 0.86,
+    "box": [
+      1478,
+      151,
+      2249,
+      988
+    ],
+    "width": 771,
+    "height": 837
+  }
+]

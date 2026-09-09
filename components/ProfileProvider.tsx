@@ -9,9 +9,10 @@ type Profile = {
 
 type ProfileContextValue = {
   profile: Profile | null;
+  userId: string | null;
 };
 
-const ProfileContext = createContext<ProfileContextValue>({ profile: null });
+const ProfileContext = createContext<ProfileContextValue>({ profile: null, userId: null });
 
 /** Nhận profile từ server layout truyền xuống, không fetch lại từ client. */
 export function ProfileProvider({
@@ -26,7 +27,7 @@ export function ProfileProvider({
   const profile = userId ? (initialProfile ?? null) : null;
 
   return (
-    <ProfileContext.Provider value={{ profile }}>
+    <ProfileContext.Provider value={{ profile, userId: userId ?? null }}>
       {children}
     </ProfileContext.Provider>
   );

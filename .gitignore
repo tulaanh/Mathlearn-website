@@ -42,6 +42,7 @@ temp_marker/
 temp_pages/
 temp_page*.png
 all_pages/
+*_pages/
 part*_raw.txt
 preview.html
 .commandcode/

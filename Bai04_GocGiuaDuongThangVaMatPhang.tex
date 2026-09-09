@@ -1,0 +1,713 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{ifthen}
+
+\newboolean{showsolutions}
+\setboolean{showsolutions}{true}
+
+% --- ĐỊNH NGHĨA CÁC LỆNH ẢO CHO CÔNG CỤ LATEX2JSON CỦA WEBSITE ---
+\newcommand{\doctitle}[1]{\begin{center}\Large\textbf{#1}\end{center}}
+\newcommand{\docdesc}[1]{\textbf{Mô tả:} #1}
+\newcommand{\docgrade}[1]{\textbf{Lớp:} #1}
+\newcommand{\docstatus}[1]{\textbf{Trạng thái:} #1}
+\newcommand{\doctype}[1]{\textbf{Loại:} #1}
+\newcommand{\doctopics}[1]{\textbf{Chủ đề:} #1}
+
+\newenvironment{textblock}{}{}
+
+\newenvironment{lesson}[2]{
+	\noindent\textbf{\Large #1}\\
+	\textit{#2}
+}{}
+
+\newcommand{\image}[3]{
+	\begin{center}
+		\includegraphics[width=#1\textwidth]{#3} \\
+		\textit{#2}
+	\end{center}
+}
+
+\newenvironment{quiz}[1]{
+	\noindent\textbf{\Large Kiểm tra: #1}
+}{}
+
+\newenvironment{mcq}[4]{
+	\noindent\textbf{Câu hỏi:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Đáp án đúng: #2, Điểm: #3) - Giải thích: #4}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\option}[1]{\item #1}
+
+\newenvironment{truefalse}[3]{
+	\noindent\textbf{Đúng/Sai:} #1 \\
+	\ifthenelse{\boolean{showsolutions}}{
+		\textit{(Điểm: #2) - Giải thích: #3}
+	}{}
+	\begin{itemize}
+	}{
+	\end{itemize}
+}
+\newcommand{\statement}[2]{\item [\textbf{#1}] #2}
+
+\newcommand{\shortanswer}[4]{
+    \noindent\textbf{Trả lời ngắn (Điểm: #3):}
+
+    \noindent #1
+
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textit{Đáp án: #2 - Giải thích:}
+		\noindent #4
+	}{}
+}
+
+\newcommand{\essay}[3]{
+    \noindent\textbf{Tự luận (Điểm: #2):}
+    
+    \noindent #1
+    
+	\ifthenelse{\boolean{showsolutions}}{
+		\noindent\textbf{Gợi ý / Đáp án:}
+		\noindent #3
+	}{}
+}
+
+\begin{document}
+
+\doctitle{BÀI 4. GÓC GIỮA ĐƯỜNG THẲNG VÀ MẶT PHẲNG}
+\docdesc{Tóm tắt lý thuyết và hệ thống bài tập rèn luyện góc trong không gian: góc giữa hai đường thẳng, góc giữa đường thẳng và mặt phẳng, góc giữa hai mặt phẳng kèm hình vẽ DocLayout-YOLO - Hình học 11}
+\docgrade{11}
+\docstatus{draft}
+\doctype{normal}
+\doctopics{Hinh-hoc-khong-gian, Quan-he-vuong-goc, Goc-giua-duong-thang-va-mat-phang}
+
+% =========================================================================
+% PHẦN I: GÓC GIỮA HAI ĐƯỜNG THẲNG
+% =========================================================================
+
+\begin{lesson}{A. Góc giữa hai đường thẳng \& Dạng 4.1}{Định nghĩa và phương pháp xác định góc giữa hai đường thẳng}
+
+\textbf{Định nghĩa 1.} Góc giữa hai đường thẳng $a$ và $b$ trong không gian là góc giữa hai đường thẳng $a'$ và $b'$ cùng đi qua một điểm và lần lượt song song với $a$ và $b$.
+
+\textbf{DẠNG 4.1. Tính góc giữa hai đường thẳng}
+
+\textbf{Cách xác định góc giữa hai đường thẳng chéo nhau $a$ và $b$:}
+- Chọn điểm $O$ thích hợp, rồi kẻ hai đường thẳng đi qua $O$: $a' \parallel a$ và $b' \parallel b$.
+
+\image{0.6}{}{lt_1.png}
+
+\textbf{Các phương pháp tính góc:}
+- 1. Sử dụng hệ thức lượng trong tam giác:
+Xét $\triangle ABC$ với $a, b, c$ là độ dài 3 cạnh; $A, B, C$ là 3 góc của $\triangle ABC$:
++ Định lý sin:
+$$\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$$
++ Định lý cô-sin:
+$$\cos A = \frac{b^2 + c^2 - a^2}{2bc}$$
+
+- 2. Tính góc theo véc-tơ chỉ phương:
+$$\cos \varphi = \frac{|\vec{u}_1 \cdot \vec{u}_2|}{|\vec{u}_1| \cdot |\vec{u}_2|}$$
+*Chú ý:* $0^\circ \le \varphi \le 90^\circ$.
+
+- 3. $AB \perp CD \Leftrightarrow \vec{AB} \cdot \vec{CD} = 0$.
+
+- 4. Nếu $a$ và $b$ song song hoặc trùng nhau thì $\varphi = 0^\circ$.
+
+\end{lesson}
+
+\begin{quiz}{Bài tập rèn luyện: Dạng 4.1}
+
+\essay{Cho hình chóp $S.ABC$ có $SA = SB = SC = AB = AC = a, BC = a\sqrt{2}$. Tính góc giữa hai đường thẳng $SC$ và $AB$.}{1}{\image{0.6}{}{lt_2.png}
+- Gọi $E, F, G$ lần lượt là trung điểm của $BC, AC, SA$.
+- Ta có $EF \parallel AB$ và $FG \parallel SC$.
+- Do đó $(SC, AB) = (EF, FG) = \widehat{EFG}$ (hoặc bù với $\widehat{EFG}$).
+- Ta có $FE = \frac{1}{2}AB = \frac{a}{2}$, $FG = \frac{1}{2}SC = \frac{a}{2}$.
+- Xét $\triangle BAG$ và $\triangle CAG$:
+  Ta có $AB = AC = a$, $AG$ chung, $SB = SC \Rightarrow GB = GC$ (c-c-c).
+- Tam giác $GBC$ cân tại $G$ có $GE$ là trung tuyến nên đồng thời là đường cao:
+  $$GE = \sqrt{BG^2 - BE^2} = \sqrt{\left(\frac{a\sqrt{3}}{2}\right)^2 - \left(\frac{a\sqrt{2}}{2}\right)^2} = \frac{a}{2}$$
+  (với $BG = \frac{a\sqrt{3}}{2}$ là đường cao trong tam giác đều $SAB$).
+- Xét tam giác $EFG$ có $FE = FG = GE = \frac{a}{2}$.
+  Suy ra tam giác $EFG$ đều, do đó $\widehat{EFG} = 60^\circ$.
+- Vậy góc giữa hai đường thẳng $SC$ và $AB$ bằng $60^\circ$.}
+
+\essay{Cho hình hộp $ABCD.A'B'C'D'$ có độ dài tất cả các cạnh đều bằng $a > 0$ và $\widehat{BAD} = \widehat{DAA'} = \widehat{A'AB} = 60^\circ$. Gọi $M, N$ lần lượt là trung điểm của $AA', CD$. Chứng minh $MN \parallel (A'C'D)$ và tính cô-sin của góc tạo bởi hai đường thẳng $NM$ và $B'C$.}{1}{\image{0.6}{}{lt_3.png}
+- Gọi $I$ là trung điểm của $DC'$.
+- Trong tam giác $CDC'$, $NI$ là đường trung bình nên $NI \parallel CC'$ và $NI = \frac{1}{2}CC'$.
+- Mặt khác tính chất hình hộp ta có $CC' \parallel AA'$ và $CC' = AA'$.
+  Do đó $NI \parallel AA'$ và $NI = \frac{1}{2}AA' \Rightarrow NI \parallel MA'$ và $NI = MA'$.
+- Tứ giác $MNIA'$ là hình bình hành nên $MN \parallel IA'$.
+- Mà $IA' \subset (A'C'D)$ nên $MN \parallel (A'C'D)$.
+- Vì $MN \parallel IA'$ và $CB' \parallel DA'$ nên $(CB', MN) = (DA', IA') = \widehat{DA'I}$ (hoặc $180^\circ - \widehat{DA'I}$).
+- Tam giác $DAA'$ đều cạnh $a$ nên $DA' = a$.
+- Xét tam giác $ABC$ có $\widehat{ABC} = 120^\circ$:
+  $$AC^2 = AB^2 + BC^2 - 2AB \cdot BC \cdot \cos 120^\circ = 3a^2 \Rightarrow AC = a\sqrt{3}$$
+- Tương tự trong tam giác $A'AB'$ có $AB' = a\sqrt{3}$.
+- Do đó $A'C' = AC = a\sqrt{3}$ và $DC' = AB' = a\sqrt{3}$.
+- Trong tam giác $A'DC'$, $A'I$ là đường trung tuyến:
+  $$IA'^2 = \frac{DA'^2 + A'C'^2}{2} - \frac{DC'^2}{4} = \frac{a^2 + 3a^2}{2} - \frac{3a^2}{4} = \frac{5a^2}{4} \Rightarrow IA' = \frac{a\sqrt{5}}{2}$$
+- Trong tam giác $A'DI$, có $DI = \frac{a\sqrt{3}}{2}$:
+  $$\cos \widehat{DA'I} = \frac{DA'^2 + IA'^2 - DI^2}{2 \cdot DA' \cdot IA'} = \frac{a^2 + \frac{5a^2}{4} - \frac{3a^2}{4}}{2 \cdot a \cdot \frac{a\sqrt{5}}{2}} = \frac{3}{2\sqrt{5}} = \frac{3\sqrt{5}}{10} > 0$$
+- Kết luận: $\cos(MN, CB') = \cos \widehat{DA'I} = \frac{3\sqrt{5}}{10}$.}
+
+\essay{Cho hình lăng trụ tam giác đều $ABC.A'B'C'$ có $AB = 1, CC' = m$ ($m > 0$). Tìm $m$ biết rằng góc giữa hai đường thẳng $AB'$ và $BC'$ bằng $60^\circ$.}{1}{\image{0.6}{}{lt_4.png}
+- Trong mặt phẳng $(ABB'A')$, kẻ $BD \parallel AB'$ ($D \in A'B'$ kéo dài).
+- Khi đó $(AB', BC') = (BD, BC') = 60^\circ \Rightarrow \widehat{DBC'} = 60^\circ$ hoặc $\widehat{DBC'} = 120^\circ$.
+- Vì $ABC.A'B'C'$ là lăng trụ đều nên $BB' \perp (A'B'C')$.
+- Áp dụng định lý Pytago:
+  $$BD = \sqrt{DB'^2 + BB'^2} = \sqrt{1 + m^2}$$
+  $$BC' = \sqrt{C'B'^2 + BB'^2} = \sqrt{1 + m^2}$$
+- Trong $\triangle A'B'C'$ đều cạnh $1$, $\widehat{DB'C'} = 180^\circ - 60^\circ = 120^\circ$. Áp dụng định lý cô-sin cho $\triangle DB'C'$:
+  $$DC'^2 = DB'^2 + C'B'^2 - 2DB' \cdot C'B' \cdot \cos 120^\circ = 1 + 1 - 2\left(-\frac{1}{2}\right) = 3 \Rightarrow DC' = \sqrt{3}$$
+- **Trường hợp 1:** Nếu $\widehat{DBC'} = 60^\circ$, tam giác $BDC'$ cân có góc $60^\circ$ nên đều:
+  $$BD = DC' \Leftrightarrow \sqrt{m^2 + 1} = \sqrt{3} \Leftrightarrow m = \sqrt{2}\ (do\ m > 0)$$
+- **Trường hợp 2:** Nếu $\widehat{DBC'} = 120^\circ$, áp dụng định lý cô-sin cho $\triangle BDC'$:
+  $$DC'^2 = BD^2 + BC'^2 - 2BD \cdot BC' \cdot \cos 120^\circ \Rightarrow 3 = 3(1 + m^2) \Rightarrow m = 0\ (loại)$$
+- Vậy $m = \sqrt{2}$.}
+
+\essay{Cho lăng trụ $ABC.A'B'C'$ có độ dài cạnh bên bằng $2a$, đáy $ABC$ là tam giác vuông tại $A$, $AB = a, AC = a\sqrt{3}$ và hình chiếu vuông góc của đỉnh $A'$ trên mặt phẳng $(ABC)$ là trung điểm của cạnh $BC$. Tính cô-sin của góc giữa hai đường thẳng $AA', B'C'$.}{1}{\image{0.6}{}{lt_5.png}
+- Gọi $H$ là trung điểm $BC$, theo đề bài $A'H \perp (ABC)$.
+- Mà $(ABC) \parallel (A'B'C') \Rightarrow A'H \perp (A'B'C')$.
+- Tam giác $ABC$ vuông tại $A$:
+  $$BC = \sqrt{AB^2 + AC^2} = 2a \Rightarrow BH = a$$
+- Ta có $AA' \parallel BB'$ và $B'C' \parallel BC$ nên $(AA', B'C') = (BB', BC) = \widehat{B'BH}$ (hoặc bù).
+- Vì tam giác $ABC$ vuông tại $A$ nên $AH = \frac{BC}{2} = a$.
+- Trong tam giác vuông $A'HA$:
+  $$A'H = \sqrt{AA'^2 - AH^2} = \sqrt{4a^2 - a^2} = a\sqrt{3}$$
+- Trong tam giác $A'B'H$ vuông tại $A'$ (do $A'H \perp (A'B'C')$):
+  $$HB' = \sqrt{A'B'^2 + A'H^2} = \sqrt{a^2 + 3a^2} = 2a$$
+- Áp dụng định lý cô-sin cho tam giác $B'BH$:
+  $$\cos \widehat{B'BH} = \frac{BB'^2 + BH^2 - B'H^2}{2 \cdot BB' \cdot BH} = \frac{4a^2 + a^2 - 4a^2}{2 \cdot 2a \cdot a} = \frac{1}{4} > 0$$
+- Vậy cô-sin góc giữa hai đường thẳng $AA'$ và $B'C'$ là $\frac{1}{4}$.}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $2a$, $SA = a, SB = a\sqrt{3}$ và mặt phẳng $(SAB)$ vuông góc với mặt phẳng đáy. Gọi $M, N$ lần lượt là trung điểm của các cạnh $AB, BC$. Tính cô-sin của góc giữa hai đường thẳng $SM, DN$.}{1}{\image{0.6}{}{lt_6.png}
+- Hạ $SH \perp AB$ tại $H$. Vì $(SAB) \perp (ABCD)$ nên $SH \perp (ABCD)$.
+- Trong mặt phẳng $(ABCD)$, từ $M$ kẻ $ME \parallel DN$ với $E \in AD$. Góc giữa $SM$ và $DN$ là góc giữa $SM$ và $ME$.
+- Xét tam giác $SAB$ có $AB^2 = 4a^2$, $SA^2 + SB^2 = a^2 + 3a^2 = 4a^2 \Rightarrow \triangle SAB$ vuông tại $S$.
+- Hệ thức lượng trong $\triangle SAB$ vuông tại $S$:
+  $$\frac{1}{SH^2} = \frac{1}{SA^2} + \frac{1}{SB^2} = \frac{4}{3a^2} \Rightarrow SH = \frac{a\sqrt{3}}{2}$$
+- Tam giác $SHA$ vuông tại $H$:
+  $$HA = \sqrt{SA^2 - SH^2} = \frac{a}{2}$$
+- Gọi $K$ là trung điểm của $AD$, ta có $ME \parallel BK \parallel DN$.
+  Do đó $ME$ là đường trung bình của tam giác $ABK$:
+  $$AE = \frac{1}{2}AK = \frac{a}{2}, \quad ME = \frac{1}{2}BK = \frac{1}{2}\sqrt{AB^2 + AK^2} = \frac{a\sqrt{5}}{2}$$
+- Tam giác $HAE$ vuông tại $A$:
+  $$HE = \sqrt{AH^2 + AE^2} = \sqrt{\frac{a^2}{4} + \frac{a^2}{4}} = \frac{a\sqrt{2}}{2}$$
+- Tam giác $SHE$ vuông tại $H$:
+  $$SE = \sqrt{SH^2 + HE^2} = \sqrt{\frac{3a^2}{4} + \frac{2a^2}{4}} = \frac{a\sqrt{5}}{2}$$
+- Lại có $SM = \frac{AB}{2} = a$. Áp dụng định lý cô-sin cho tam giác $SME$:
+  $$\cos \widehat{SME} = \frac{SM^2 + ME^2 - SE^2}{2 \cdot SM \cdot ME} = \frac{a^2 + \frac{5a^2}{4} - \frac{5a^2}{4}}{2 \cdot a \cdot \frac{a\sqrt{5}}{2}} = \frac{1}{\sqrt{5}} = \frac{\sqrt{5}}{5} > 0$$
+- Vậy cô-sin của góc giữa hai đường thẳng $SM$ và $DN$ bằng $\frac{\sqrt{5}}{5}$.}
+
+\essay{Cho khối chóp $S.ABCD$ có $ABCD$ là hình vuông cạnh $a$, $SA = a\sqrt{3}$ và $SA$ vuông góc với mặt phẳng đáy. Tính cô-sin của góc giữa hai đường thẳng $SB, AC$.}{1}{\image{0.6}{}{lt_7.png}
+- Qua $B$ kẻ đường thẳng $Bx \parallel AC$, $Bx$ cắt đường thẳng $AD$ tại $F$.
+- Góc giữa $AC$ và $SB$ chính là góc giữa $Bx$ và $SB$.
+- Tứ giác $AFBC$ là hình bình hành nên $AF = BC = a$ và $FB = AC = a\sqrt{2}$.
+- Xét tam giác vuông $SAB$ và $SAF$:
+  $$SB = \sqrt{SA^2 + AB^2} = 2a, \quad SF = \sqrt{SA^2 + AF^2} = 2a$$
+  Do đó tam giác $SBF$ cân tại $S$.
+- Hạ $SH \perp FB$ tại $H \Rightarrow H$ là trung điểm $FB$:
+  $$HB = \frac{FB}{2} = \frac{a\sqrt{2}}{2}$$
+- Trong tam giác vuông $SHB$:
+  $$\cos \widehat{SBF} = \frac{HB}{SB} = \frac{\frac{a\sqrt{2}}{2}}{2a} = \frac{\sqrt{2}}{4} > 0$$
+- Vậy cô-sin của góc giữa hai đường thẳng $SB$ và $AC$ bằng $\frac{\sqrt{2}}{4}$.}
+
+\essay{Cho hình chóp $S.ABCD$ có tất cả các cạnh đều bằng $a$, đáy là hình vuông. Gọi $N$ là trung điểm $SB$. Tính góc giữa $AN$ và $CN$, $AN$ và $SD$.}{1}{\image{0.6}{}{lt_8.png}
+- Gọi $O = AC \cap BD$. Các tam giác $SAB, SBC$ đều cạnh $a$ nên $AN = CN = \frac{a\sqrt{3}}{2}$.
+- Đáy $ABCD$ là hình vuông cạnh $a \Rightarrow AC = a\sqrt{2}$.
+- Áp dụng định lý cô-sin cho tam giác $ANC$:
+  $$\cos \widehat{ANC} = \frac{AN^2 + CN^2 - AC^2}{2 \cdot AN \cdot CN} = \frac{\frac{3a^2}{4} + \frac{3a^2}{4} - 2a^2}{2 \cdot \frac{3a^2}{4}} = -\frac{1}{3} < 0$$
+  Suy ra $(AN, CN) = 180^\circ - \widehat{ANC} = \arccos\left(\frac{1}{3}\right)$.
+- Trong tam giác $BDS$, $ON$ là đường trung bình nên $ON \parallel SD \Rightarrow (AN, SD) = (AN, NO) = \widehat{ANO}$.
+- Ta có $ON = \frac{a}{2}, AO = \frac{a\sqrt{2}}{2}, AN = \frac{a\sqrt{3}}{2}$. Áp dụng định lý cô-sin cho $\triangle ANO$:
+  $$\cos \widehat{ANO} = \frac{AN^2 + ON^2 - AO^2}{2 \cdot AN \cdot ON} = \frac{\frac{3a^2}{4} + \frac{a^2}{4} - \frac{2a^2}{4}}{2 \cdot \frac{a\sqrt{3}}{2} \cdot \frac{a}{2}} = \frac{\sqrt{3}}{3} > 0$$
+  Suy ra $\widehat{ANO} = \arccos\left(\frac{\sqrt{3}}{3}\right)$.
+- Kết luận: $(AN, CN) = \arccos\left(\frac{1}{3}\right)$ và $(AN, SD) = \arccos\left(\frac{\sqrt{3}}{3}\right)$.}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN II: GÓC GIỮA ĐƯỜNG THẲNG VÀ MẶT PHẲNG
+% =========================================================================
+
+\begin{lesson}{C. Góc giữa đường thẳng và mặt phẳng \& Dạng 4.2}{Định nghĩa và phương pháp xác định, tính góc giữa đường thẳng và mặt phẳng}
+
+\textbf{Định nghĩa 2.} Góc giữa đường thẳng $d$ và mặt phẳng $(P)$ là góc giữa $d$ và hình chiếu của nó trên mặt phẳng $(P)$.
+Gọi $\alpha$ là góc giữa $d$ và mặt phẳng $(P)$ thì $0^\circ \le \alpha \le 90^\circ$.
+
+\textbf{DẠNG 4.2. Xác định và tính góc giữa đường thẳng và mặt phẳng}
+
+Để xác định góc giữa đường thẳng $d$ và mặt phẳng $(P)$ ta làm như sau:
+- Tìm giao điểm $A$ của $d$ và $(P)$.
+- Trên $d$ chọn điểm $B$ khác $A$, dựng $BH$ vuông góc $(P)$ tại điểm $H$.
+- Suy ra $AH$ là hình chiếu vuông góc của $d$ trên mặt phẳng $(P)$.
+- Vậy góc giữa $d$ và $(P)$ là góc $\widehat{BAH}$.
+
+\image{0.6}{}{lt_9.png}
+
+Nếu khi xác định góc giữa $d$ và $(P)$ khó quá (không chọn được điểm $B$ để dựng $BH \perp (P)$) thì ta sử dụng công thức sau:
+Gọi $\alpha$ là góc giữa $d$ và $(P)$, suy ra:
+$$\sin \alpha = \frac{d(M, (P))}{AM}$$
+Ta phải chọn điểm $M$ trên $d$ mà có thể tính được khoảng cách đến mặt phẳng $(P)$. Còn $A$ là giao điểm của $d$ và $(P)$.
+
+\image{0.6}{}{lt_10.png}
+
+\end{lesson}
+
+\begin{quiz}{Bài tập rèn luyện: Dạng 4.2}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy là hình vuông cạnh $a$, $SA$ vuông góc với đáy và $SA = a\sqrt{6}$. Tính góc giữa:
+
+a) $SC$ và $(ABCD)$.
+
+b) $SC$ và $(SAB)$.
+
+c) $AC$ và $(SBC)$.
+
+d) $SB$ và $(SAC)$.}{1}{\image{0.6}{}{lt_11.png}
+- **a) Góc giữa $SC$ và $(ABCD)$:**
+  Vì $SA \perp (ABCD)$ nên $AC$ là hình chiếu vuông góc của $SC$ lên $(ABCD)$.
+  Do đó $(SC, (ABCD)) = (SC, AC) = \widehat{SCA}$.
+  Xét tam giác vuông $SAC$: $AC = a\sqrt{2}$,
+  $$\tan \widehat{SCA} = \frac{SA}{AC} = \frac{a\sqrt{6}}{a\sqrt{2}} = \sqrt{3} \Rightarrow \widehat{SCA} = 60^\circ$$
+  Vậy $(SC, (ABCD)) = 60^\circ$.
+
+- **b) Góc giữa $SC$ và $(SAB)$:**
+  Ta có $BC \perp AB$ và $BC \perp SA \Rightarrow BC \perp (SAB)$.
+  Suy ra $SB$ là hình chiếu vuông góc của $SC$ lên $(SAB)$.
+  Do đó $(SC, (SAB)) = (SB, SC) = \widehat{CSB}$.
+  Xét tam giác vuông $SBC$ vuông tại $B$: $SB = \sqrt{SA^2 + AB^2} = a\sqrt{7}$,
+  $$\tan \widehat{CSB} = \frac{BC}{SB} = \frac{a}{a\sqrt{7}} = \frac{1}{\sqrt{7}} \Rightarrow \widehat{CSB} = \arctan\left(\frac{1}{\sqrt{7}}\right)$$
+  Vậy $(SC, (SAB)) = \arctan\left(\frac{1}{\sqrt{7}}\right)$.
+
+- **c) Góc giữa $AC$ và $(SBC)$:**
+  Hạ $AF \perp SB$ tại $F$. Vì $BC \perp (SAB) \Rightarrow AF \perp BC$, suy ra $AF \perp (SBC)$.
+  Do đó $FC$ là hình chiếu vuông góc của $AC$ lên $(SBC) \Rightarrow (AC, (SBC)) = \widehat{ACF}$.
+  Xét tam giác vuông $SAB$:
+  $$\frac{1}{AF^2} = \frac{1}{SA^2} + \frac{1}{AB^2} = \frac{1}{6a^2} + \frac{1}{a^2} = \frac{7}{6a^2} \Rightarrow AF = \frac{a\sqrt{42}}{7}$$
+  Xét tam giác $ACF$ vuông tại $F$:
+  $$\sin \widehat{ACF} = \frac{AF}{AC} = \frac{\frac{a\sqrt{42}}{7}}{a\sqrt{2}} = \frac{\sqrt{21}}{7} \Rightarrow \widehat{ACF} = \arcsin\left(\frac{\sqrt{21}}{7}\right)$$
+  Vậy $(AC, (SBC)) = \arcsin\left(\frac{\sqrt{21}}{7}\right)$.
+
+- **d) Góc giữa $SB$ và $(SAC)$:**
+  Gọi $O = AC \cap BD$. Ta có $BO \perp AC$ và $BO \perp SA \Rightarrow BO \perp (SAC)$.
+  Suy ra $SO$ là hình chiếu vuông góc của $SB$ lên $(SAC) \Rightarrow (SB, (SAC)) = \widehat{BSO}$.
+  Xét tam giác vuông $SAO$: $SO = \sqrt{SA^2 + AO^2} = \sqrt{6a^2 + \frac{a^2}{2}} = \frac{a\sqrt{13}}{\sqrt{2}}$.
+  Xét tam giác vuông $SBO$ vuông tại $O$:
+  $$\tan \widehat{BSO} = \frac{OB}{SO} = \frac{\frac{a}{\sqrt{2}}}{\frac{a\sqrt{13}}{\sqrt{2}}} = \frac{1}{\sqrt{13}} \Rightarrow \widehat{BSO} = \arctan\left(\frac{1}{\sqrt{13}}\right)$$
+  Vậy $(SB, (SAC)) = \arctan\left(\frac{1}{\sqrt{13}}\right)$.}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy là hình thoi. Biết $SD = a\sqrt{3}$, tất cả các cạnh còn lại đều bằng $a$.
+
+1. Chứng minh $(SBD)$ là mặt phẳng trung trực của $AC$ và $SBD$ là tam giác vuông.
+
+2. Xác định góc giữa $SD$ và mặt phẳng $(ABCD)$.}{1}{\image{0.6}{}{lt_12.png}
+- **1. Chứng minh $(SBD)$ là mặt phẳng trung trực của $AC$ và $\triangle SBD$ vuông:**
+  + Gọi $H$ là hình chiếu vuông góc của $S$ lên $(ABCD)$.
+    Vì $SA = SB = SC = a$ nên $HA = HB = HC$. Do đó $H$ thuộc đường trung trực của $AC$ trong đáy, tức $H \in BD$.
+  + Ta có $AC \perp BD$ và $AC \perp SH \Rightarrow AC \perp (SBD)$.
+  + Mà $O = AC \cap BD$ là trung điểm $AC$ và $O \in (SBD)$ nên $(SBD)$ là mặt phẳng trung trực của đoạn thẳng $AC$.
+  + Ta có $\triangle SAC = \triangle BAC$ (c-c-c) nên hai trung tuyến tương ứng $SO = BO = \frac{1}{2}BD$.
+    Tam giác $SBD$ có trung tuyến $SO = \frac{1}{2}BD$ nên vuông tại $S$.
+
+- **2. Xác định góc giữa $SD$ và mặt phẳng $(ABCD)$:**
+  + Vì $SH \perp (ABCD)$ nên $HD$ là hình chiếu vuông góc của $SD$ lên $(ABCD)$.
+    Do đó $(SD, (ABCD)) = (SD, HD) = \widehat{SDH}$.
+  + Xét tam giác $SBD$ vuông tại $S$:
+    $$\frac{1}{SH^2} = \frac{1}{SB^2} + \frac{1}{SD^2} = \frac{1}{a^2} + \frac{1}{3a^2} = \frac{4}{3a^2} \Rightarrow SH = \frac{a\sqrt{3}}{2}$$
+  + Xét tam giác $SHD$ vuông tại $H$:
+    $$\sin \widehat{SDH} = \frac{SH}{SD} = \frac{\frac{a\sqrt{3}}{2}}{a\sqrt{3}} = \frac{1}{2} \Rightarrow \widehat{SDH} = 30^\circ$$
+  + Vậy góc giữa $SD$ và mặt phẳng $(ABCD)$ bằng $30^\circ$.}
+
+\essay{Cho tam giác $ABC$ vuông tại $A$, $AB = a$ nằm trong mặt phẳng $(P)$. Cạnh $AC = a\sqrt{2}$ và tạo với $(P)$ một góc $60^\circ$. Tính góc giữa $BC$ và $(P)$.}{1}{\image{0.6}{}{lt_13.png}
+- Xét tam giác vuông $ABC$:
+  $$BC = \sqrt{AB^2 + AC^2} = \sqrt{a^2 + 2a^2} = a\sqrt{3}$$
+- Gọi $H$ là hình chiếu vuông góc của $C$ lên $(P)$. Khi đó $AH$ là hình chiếu vuông góc của $AC$ lên $(P)$.
+  Do đó $(AC, (P)) = (AC, AH) = \widehat{CAH} = 60^\circ$.
+- Xét tam giác vuông $CAH$:
+  $$\sin \widehat{CAH} = \frac{CH}{CA} \Rightarrow CH = CA \cdot \sin 60^\circ = a\sqrt{2} \cdot \frac{\sqrt{3}}{2} = \frac{a\sqrt{6}}{2}$$
+- Ta có $BH$ là hình chiếu vuông góc của $BC$ lên mặt phẳng $(P)$.
+  Do đó $(BC, (P)) = (BC, BH) = \widehat{CBH}$.
+- Xét tam giác vuông $BHC$:
+  $$\sin \widehat{CBH} = \frac{CH}{CB} = \frac{\frac{a\sqrt{6}}{2}}{a\sqrt{3}} = \frac{\sqrt{2}}{2} \Rightarrow \widehat{CBH} = 45^\circ$$
+- Vậy góc giữa $BC$ và $(P)$ bằng $45^\circ$.}
+
+\essay{Cho hình chóp $S.ABC$ có $SA = SB = SC = \frac{2a\sqrt{3}}{3}$ và đáy $ABC$ là tam giác đều cạnh $a$.
+
+1. Gọi $H$ là hình chiếu vuông góc của $S$ lên mặt phẳng $(ABC)$. Tính $SH$.
+
+2. Tính góc giữa $SA$ và $(ABC)$.}{1}{\image{0.6}{}{lt_14.png}
+- **1. Tính $SH$:**
+  + Vì $SA = SB = SC$ nên $H$ là tâm đường tròn ngoại tiếp của $\triangle ABC$.
+  + Vì tam giác $ABC$ đều cạnh $a$ nên $H$ là trọng tâm:
+    $$AH = \frac{2}{3}AF = \frac{2}{3} \cdot \frac{a\sqrt{3}}{2} = \frac{a\sqrt{3}}{3}$$
+  + Xét tam giác vuông $SAH$:
+    $$SH = \sqrt{SA^2 - AH^2} = \sqrt{\frac{4a^2}{3} - \frac{a^2}{3}} = a$$
+- **2. Tính góc giữa $SA$ và $(ABC)$:**
+  + Ta có $AH$ là hình chiếu vuông góc của $SA$ lên $(ABC)$, do đó $(SA, (ABC)) = (SA, AH) = \widehat{SAH}$.
+  + Trong tam giác vuông $SAH$:
+    $$\tan \widehat{SAH} = \frac{SH}{AH} = \frac{a}{\frac{a\sqrt{3}}{3}} = \sqrt{3} \Rightarrow \widehat{SAH} = 60^\circ$$
+  + Vậy góc giữa $SA$ và $(ABC)$ bằng $60^\circ$.}
+
+\essay{Cho hình chóp $S.ABCD$ có $SA$ vuông góc với đáy, $ABCD$ là hình thang đáy lớn $AD$, $AB = BC = DC = a$, $DA = 2a$. Vẽ $AH \perp SC$ và $M$ là trung điểm $SB$. Góc giữa $SB$ và mặt phẳng $(ABCD)$ là $45^\circ$. Tính góc:
+
+a) $(AM, (SBD))$;
+
+b) $(AH, (ABCD))$;
+
+c) $((SAD), (SBC))$.}{1}{\image{0.6}{}{lt_15.png}
+- **a) Tính góc $(AM, (SBD))$:**
+  + Đáy $ABCD$ là nửa lục giác đều nên nội tiếp đường tròn đường kính $AD$, suy ra:
+    $$AC = BD = \sqrt{AD^2 - AB^2} = a\sqrt{3}$$
+  + Ta có $BD \perp AB$ và $BD \perp SA \Rightarrow BD \perp (SAB)$.
+  + Góc giữa $SB$ và đáy là $\widehat{SBA} = 45^\circ \Rightarrow SA = AB = a$ (tam giác $SAB$ vuông cân tại $A$).
+  + Do đó $AM \perp SB$ (trung tuyến trong tam giác vuông cân).
+  + Lại có $BD \perp (SAB) \Rightarrow AM \perp BD$. Suy ra $AM \perp (SBD) \Rightarrow (AM, (SBD)) = 90^\circ$.
+
+- **b) Tính góc $(AH, (ABCD))$:**
+  + Trong tam giác $SAC$: kẻ $HI \parallel SA \Rightarrow HI \perp (ABCD)$.
+    Do đó $(AH, (ABCD)) = \widehat{HAI} = \widehat{HAC}$.
+  + Trong tam giác vuông $SAC$: $\tan \widehat{SCA} = \frac{SA}{AC} = \frac{a}{a\sqrt{3}} = \frac{1}{\sqrt{3}} \Rightarrow \widehat{SCA} = 30^\circ$.
+  + Trong tam giác vuông $HAC$: $\widehat{HAC} + \widehat{HCA} = 90^\circ \Rightarrow \widehat{HAC} = 60^\circ$.
+  + Vậy $(AH, (ABCD)) = 60^\circ$.
+
+- **c) Tính góc $((SAD), (SBC))$:**
+  + Giao tuyến là đường thẳng $Sx \parallel AD \parallel BC$.
+  + Kẻ $AK \perp BC$ tại $K \Rightarrow BC \perp (SAK) \Rightarrow BC \perp SK$.
+  + Suy ra $SA \perp Sx$ và $SK \perp Sx \Rightarrow ((SAD), (SBC)) = \widehat{ASK}$.
+  + Trong tam giác vuông $AKB$: $AK = AB \cdot \cos 30^\circ = \frac{a\sqrt{3}}{2}$.
+  + Trong tam giác vuông $SAK$:
+    $$\tan \widehat{ASK} = \frac{AK}{AS} = \frac{\sqrt{3}}{2} \Rightarrow \widehat{ASK} = \arctan\left(\frac{\sqrt{3}}{2}\right)$$
+  + Vậy $((SAD), (SBC)) = \arctan\left(\frac{\sqrt{3}}{2}\right)$.}
+
+\essay{Cho hình chóp $S.ABCD$ có $SA$ vuông góc với đáy $ABCD$, đáy là hình thang vuông tại $A$, có đáy lớn $AB$, $AB = 2a$, $AD = DC = a$. Vẽ $AH \perp SC$ và $M$ là trung điểm của $AB$. Góc giữa $(SDC)$ và $(ABC)$ là $60^\circ$. Tính:
+
+a) $(SD, (SAB))$;
+
+b) $((SAD), (SMC))$;
+
+c) Chứng minh $BC \perp (SAC)$.}{1}{\image{0.6}{}{lt_16.png}
+- **a) Tính góc $(SD, (SAB))$:**
+  + Ta có $CD \perp AD$ và $CD \perp SA \Rightarrow CD \perp (SAD) \Rightarrow CD \perp SD$.
+  + Do đó $((SCD), (ABCD)) = \widehat{SDA} = 60^\circ \Rightarrow SA = AD \cdot \tan 60^\circ = a\sqrt{3}$.
+  + Lại có $AD \perp (SAB)$ nên $SA$ là hình chiếu vuông góc của $SD$ lên $(SAB)$.
+  + Do đó $(SD, (SAB)) = \widehat{DSA} = 90^\circ - 60^\circ = 30^\circ$.
+
+- **b) Tính góc $((SAD), (SMC))$:**
+  + Ta có $AD \parallel CM$, giao tuyến là $Sx \parallel AD \parallel CM$.
+  + Ta có $DA \perp (SAB) \Rightarrow SA \perp Sx$ và $SM \perp Sx$. Do đó $((SAD), (SMC)) = \widehat{ASM}$.
+  + Trong tam giác $SAM$ vuông tại $A$:
+    $$\tan \widehat{ASM} = \frac{AM}{AS} = \frac{a}{a\sqrt{3}} = \frac{1}{\sqrt{3}} \Rightarrow \widehat{ASM} = 30^\circ$$
+
+- **c) Chứng minh $BC \perp (SAC)$:**
+  + Tứ giác $ACDM$ là hình vuông nên $CM = a$. Trong tam giác $ACB$ có trung tuyến $CM = \frac{1}{2}AB = a$, suy ra $\triangle ACB$ vuông tại $C \Rightarrow BC \perp AC$.
+  + Lại có $BC \perp SA \Rightarrow BC \perp (SAC)$.}
+
+\essay{Cho hình vuông $ABCD$ và tam giác đều $SAB$ cạnh $a$ nằm trong hai mặt phẳng vuông góc với nhau. Gọi $I$ là trung điểm của $AB$.
+
+1. Chứng minh $SI \perp (ABCD)$ và tính góc hợp bởi $SC$ và mặt phẳng $(ABCD)$.
+
+2. Tính khoảng cách từ $B$ đến mặt phẳng $(SAD)$. Từ đó tính góc giữa $SC$ và mặt phẳng $(SAD)$.
+
+3. Gọi $J$ là trung điểm của $CD$, chứng minh $(SIJ) \perp (ABCD)$.
+
+4. Tính góc hợp bởi $SI$ và mặt phẳng $(SDC)$.
+
+5. Xác định và tính góc hợp bởi $SA$ và mặt phẳng $(SCD)$.}{1}{\image{0.6}{}{lt_17.png}
+- **1. Chứng minh $SI \perp (ABCD)$ và tính $(SC, (ABCD))$:**
+  + Vì $(SAB) \perp (ABCD)$ theo giao tuyến $AB$ và $\triangle SAB$ đều nên $SI \perp AB \Rightarrow SI \perp (ABCD)$.
+  + Suy ra $IC$ là hình chiếu vuông góc của $SC$ lên $(ABCD) \Rightarrow (SC, (ABCD)) = \widehat{SCI}$.
+  + Ta có $SI = \frac{a\sqrt{3}}{2}$, $IC = \sqrt{BC^2 + BI^2} = \frac{a\sqrt{5}}{2}$.
+  + Trong tam giác vuông $SCI$:
+    $$\tan \widehat{SCI} = \frac{SI}{CI} = \frac{\sqrt{15}}{5} \Rightarrow \widehat{SCI} = \arctan\left(\frac{\sqrt{15}}{5}\right)$$
+
+- **2. Khoảng cách từ $B$ đến $(SAD)$ và góc $(SC, (SAD))$:**
+  + Ta có $AD \perp (SAB) \Rightarrow (SAD) \perp (SAB)$ theo giao tuyến $SA$.
+  + Hạ $BH \perp SA \Rightarrow BH \perp (SAD) \Rightarrow d(B, (SAD)) = BH = \frac{a\sqrt{3}}{2}$.
+  + Kẻ $Hx \parallel AD$, qua $C$ kẻ đường thẳng song song với $BH$ cắt $Hx$ tại $K \Rightarrow CK \perp (SAD)$ và $CK = BH = \frac{a\sqrt{3}}{2}$.
+  + Suy ra $(SC, (SAD)) = \widehat{CSK}$. Ta có $SC = \sqrt{SI^2 + IC^2} = a\sqrt{2}$.
+  + Xét tam giác vuông $CSK$:
+    $$\sin \widehat{CSK} = \frac{CK}{SC} = \frac{\sqrt{6}}{4} \Rightarrow \widehat{CSK} = \arcsin\left(\frac{\sqrt{6}}{4}\right)$$
+
+- **3. Chứng minh $(SIJ) \perp (ABCD)$:**
+  + Ta có $CD \perp IJ$ và $CD \perp SI \Rightarrow CD \perp (SIJ) \Rightarrow (ABCD) \perp (SIJ)$.
+
+- **4. Tính góc giữa $SI$ và $(SDC)$:**
+  + Hai mặt phẳng $(SCD)$ và $(SIJ)$ vuông góc theo giao tuyến $SJ$.
+  + Dựng $IL \perp SJ \Rightarrow IL \perp (SCD) \Rightarrow (SI, (SDC)) = \widehat{ISL}$.
+  + Trong $\triangle SIJ$ vuông tại $I$: $\frac{1}{IL^2} = \frac{1}{IS^2} + \frac{1}{IJ^2} = \frac{7}{3a^2} \Rightarrow IL = \frac{a\sqrt{21}}{7}$.
+  + Suy ra $\sin \widehat{ISL} = \frac{IL}{SI} = \frac{2\sqrt{7}}{7} \Rightarrow \widehat{ISL} = \arcsin\left(\frac{2\sqrt{7}}{7}\right)$.
+
+- **5. Tính góc giữa $SA$ và $(SCD)$:**
+  + Dựng $AP \parallel IL$ với $P \in (SCD) \Rightarrow AP \perp (SCD)$ và $AP = IL = \frac{a\sqrt{21}}{7}$.
+  + Suy ra $(SA, (SCD)) = \widehat{ASP}$.
+  + Trong tam giác vuông $SAP$: $\sin \widehat{ASP} = \frac{AP}{SA} = \frac{\sqrt{21}}{7} \Rightarrow \widehat{ASP} = \arcsin\left(\frac{\sqrt{21}}{7}\right)$.}
+
+\end{quiz}
+
+% =========================================================================
+% PHẦN III: GÓC GIỮA HAI MẶT PHẲNG
+% =========================================================================
+
+\begin{lesson}{E. Góc giữa hai mặt phẳng \& Dạng 4.3}{Định nghĩa, phương pháp và các trường hợp đặc biệt tính góc giữa hai mặt phẳng}
+
+\textbf{Định nghĩa 3.} Góc giữa hai mặt phẳng là góc giữa hai đường thẳng lần lượt vuông góc với hai mặt phẳng.
+
+\textbf{DẠNG 4.3. Tính góc giữa hai mặt phẳng}
+
+Để tìm góc giữa hai mặt phẳng, đầu tiên tìm giao tuyến của hai mặt phẳng. Sau đó tìm hai đường thẳng lần lượt thuộc hai mặt phẳng cùng vuông góc với giao tuyến tại một điểm. Góc giữa hai mặt phẳng là góc giữa hai đường thẳng vừa tìm.
+
+\image{0.6}{}{lt_18.png}
+
+\textbf{Những trường hợp đặc biệt dễ hay xảy ra:}
+
+- 1. Trường hợp 1: Hai tam giác cân $ACD$ và $BCD$ có chung cạnh đáy $CD$, thì góc giữa hai mặt phẳng $(ACD)$ và $(BCD)$ là góc $\widehat{AHB}$.
+
+\image{0.6}{}{lt_19.png}
+
+- 2. Trường hợp 2: Hai tam giác $ACD$ và $BCD$ bằng nhau có chung cạnh $CD$. Dựng $AH \perp CD \Rightarrow BH \perp CD$. Vậy góc giữa hai mặt phẳng $(ACD)$ và $(BCD)$ là góc $\widehat{AHB}$.
+
+\image{0.6}{}{lt_20.png}
+
+- 3. Trường hợp 3: Khi xác định góc giữa hai mặt phẳng khó quá, ta nên sử dụng công thức sau:
+$$\sin \varphi = \frac{d(A, (Q))}{d(A, a)}$$
+Với $\varphi$ là góc giữa hai mặt phẳng $(P)$ và mặt phẳng $(Q)$, $A$ là một điểm thuộc mặt phẳng $(P)$ và $a$ là giao tuyến của hai mặt phẳng $(P)$ và $(Q)$.
+
+- 4. Trường hợp 4: Có thể tìm góc giữa hai mặt phẳng bằng công thức diện tích hình chiếu:
+$$S' = S \cdot \cos \varphi$$
+
+- 5. Trường hợp 5: Tìm hai đường thẳng $d$ và $d'$ lần lượt vuông góc với mặt phẳng $(P)$ và mặt phẳng $(Q)$. Góc giữa hai mặt phẳng là góc giữa $d$ và $d'$.
+
+- 6. Trường hợp 6: Cách xác định góc giữa mặt phẳng bên và mặt phẳng đáy:
++ Bước 1: Xác định giao tuyến $d$.
++ Bước 2: Từ hình chiếu vuông góc của đỉnh, dựng $AH \perp d$.
++ Bước 3: Góc cần tìm là góc $\widehat{SHA}$ (với $S$ là đỉnh, $A$ là hình chiếu vuông góc của đỉnh trên mặt đáy).
+
+\end{lesson}
+
+\begin{quiz}{Bài tập rèn luyện: Dạng 4.3}
+
+\essay{Cho hình chóp $S.ABC$ có $SA$ vuông góc với mặt đáy $(ABC)$. Hãy xác định góc giữa mặt bên $(SBC)$ và mặt đáy $(ABC)$.}{1}{\image{0.6}{}{lt_21.png}
+- Ta có $BC$ là giao tuyến của mặt phẳng $(SBC)$ và $(ABC)$.
+- Từ hình chiếu của đỉnh là điểm $A$, dựng $AH \perp BC$.
+- Ta có $BC \perp SA$ và $BC \perp AH \Rightarrow BC \perp (SAH) \Rightarrow BC \perp SH$.
+- Kết luận: góc giữa hai mặt phẳng $(SBC)$ và $(ABC)$ là góc $\widehat{SHA}$.}
+
+\essay{Cho tứ diện $ABCD$ có $AD \perp (BCD)$ và $AB = 3a$. Biết $BCD$ là tam giác đều cạnh $2a$. Tính góc giữa hai mặt phẳng:
+
+a) $(ACD)$ và $(BCD)$.
+
+b) $(ABC)$ và $(DBC)$.}{1}{\image{0.6}{}{lt_22.png}
+- **a) Góc giữa hai mặt phẳng $(ACD)$ và $(BCD)$:**
+  Vì $AD$ vuông góc với $(BCD)$ nên hai mặt phẳng $(ACD)$ và $(BCD)$ vuông góc với nhau, suy ra góc giữa chúng bằng $90^\circ$.
+
+- **b) Góc giữa hai mặt phẳng $(ABC)$ và $(BCD)$:**
+  + Dựng $DE \perp BC$ tại $E$.
+  + Ta có $BC \perp AD$ và $BC \perp DE \Rightarrow BC \perp (ADE) \Rightarrow BC \perp AE$.
+  + Hai mặt phẳng $(ABC)$ và $(BCD)$ có giao tuyến $BC$, $DE \perp BC$ và $AE \perp BC$.
+    Nên góc giữa $(ABC)$ và $(DBC)$ là góc giữa $DE$ và $AE$, chính là góc $\widehat{AED}$.
+  + Tam giác $BCD$ đều nên $DE = \frac{2a\sqrt{3}}{2} = a\sqrt{3}$.
+  + Tam giác $ABD$ vuông tại $D$ có $AD = \sqrt{AB^2 - DB^2} = \sqrt{9a^2 - 4a^2} = a\sqrt{5}$.
+  + Trong tam giác $ADE$ vuông tại $D$:
+    $$\tan \widehat{AED} = \frac{AD}{DE} = \frac{a\sqrt{5}}{a\sqrt{3}} = \frac{\sqrt{15}}{3} \Rightarrow \widehat{AED} = \arctan\left(\frac{\sqrt{15}}{3}\right)$$
+  + Vậy góc giữa hai mặt phẳng bằng $\arctan\left(\frac{\sqrt{15}}{3}\right)$.}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy là hình vuông tâm $O$ cạnh $a$, $SA$ vuông góc với đáy $ABCD$, $SA = a\sqrt{3}$. Tính góc giữa các cặp mặt phẳng sau:
+
+a) $(SAB)$ và $(SBC)$.
+
+b) $(SAD)$ và $(SCD)$.
+
+c) $(SAB)$ và $(SCD)$.
+
+d) $(SBC)$ và $(SAD)$.
+
+e) $(SBD)$ và $(ABCD)$.
+
+f) $(SBD)$ và $(SAB)$.
+
+g) $(SBC)$ và $(ABCD)$.
+
+h) $(SCD)$ và $(ABCD)$.
+
+i) $(SBD)$ và $(SBC)$.
+
+j) $(SBC)$ và $(SCD)$.}{1}{\image{0.6}{}{lt_23.png}
+- **1. Góc giữa $(SAB)$ và $(SBC)$:**
+  $BC \perp AB, BC \perp SA \Rightarrow BC \perp (SAB) \Rightarrow (SBC) \perp (SAB)$. Góc bằng $90^\circ$.
+- **2. Góc giữa $(SAD)$ và $(SCD)$:**
+  $CD \perp AD, CD \perp SA \Rightarrow CD \perp (SAD) \Rightarrow (SCD) \perp (SAD)$. Góc bằng $90^\circ$.
+- **3. Góc giữa $(SAB)$ và $(SCD)$:**
+  Dựng $AH \perp SD \Rightarrow AH \perp (SCD)$. Lại có $AD \perp (SAB)$.
+  Góc giữa hai mặt phẳng là $\widehat{HAD} = \widehat{DSA}$.
+  $\tan \widehat{DSA} = \frac{AD}{AS} = \frac{1}{\sqrt{3}} \Rightarrow \widehat{DSA} = 30^\circ$.
+- **4. Góc giữa $(SBC)$ và $(SAD)$:**
+  Dựng $AI \perp SB \Rightarrow AI \perp (SBC)$. Lại có $AB \perp (SAD)$.
+  Góc giữa hai mặt phẳng là $\widehat{BAI} = \widehat{BSA} = 30^\circ$.
+- **5. Góc giữa $(SBD)$ và $(ABCD)$:**
+  $BD \perp (SAC) \Rightarrow BD \perp SO$ và $BD \perp AO$. Góc là $\widehat{SOA}$.
+  $\tan \widehat{SOA} = \frac{SA}{AO} = \frac{a\sqrt{3}}{\frac{a\sqrt{2}}{2}} = \sqrt{6} \Rightarrow \widehat{SOA} = \arctan(\sqrt{6})$.
+- **6. Góc giữa $(SBD)$ và $(SAB)$:**
+  Dựng $AJ \perp SO \Rightarrow AJ \perp (SBD)$. Lại có $AD \perp (SAB)$. Góc là $\widehat{DAJ}$.
+  Tính được $AJ = \frac{a\sqrt{21}}{7} \Rightarrow \cos \widehat{DAJ} = \frac{AJ}{AD} = \frac{\sqrt{21}}{7} \Rightarrow \widehat{DAJ} = \arccos\left(\frac{\sqrt{21}}{7}\right)$.
+- **7. Góc giữa $(SBC)$ và $(ABCD)$:**
+  $BC \perp AB, BC \perp SB \Rightarrow ((SBC), (ABCD)) = \widehat{SBA} = 60^\circ$.
+- **8. Góc giữa $(SCD)$ và $(ABCD)$:**
+  $CD \perp AD, CD \perp SD \Rightarrow ((SCD), (ABCD)) = \widehat{SDA} = 60^\circ$.
+- **9. Góc giữa $(SBD)$ và $(SBC)$:**
+  $AI \perp (SBC), AJ \perp (SBD) \Rightarrow ((SBC), (SBD)) = \widehat{IAJ}$.
+  Áp dụng định lý cô-sin tính được $\cos \widehat{IAJ} = \frac{2\sqrt{7}}{7} \Rightarrow \widehat{IAJ} = \arccos\left(\frac{2\sqrt{7}}{7}\right)$.
+- **10. Góc giữa $(SBC)$ và $(SCD)$:**
+  Dựng $BK \perp SC \Rightarrow DK \perp SC$. Góc là $(BK, DK)$.
+  Tính được $BK = DK = \frac{2a}{\sqrt{5}}, BD = a\sqrt{2}$.
+  $\cos \widehat{BKD} = -\frac{1}{4} \Rightarrow ((SBC), (SCD)) = \arccos\left(\frac{1}{4}\right)$.}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình chữ nhật $AB = a, BC = 2a$. Cạnh bên $SA$ vuông góc với đáy và $SA = a$. Tính góc giữa các mặt phẳng sau:
+
+a) Góc giữa mặt bên và mặt đáy.
+
+b) Góc giữa hai mặt bên liên tiếp.
+
+c) Góc giữa hai mặt bên đối diện.}{1}{\image{0.6}{}{lt_24.png}
+- **1. Góc giữa các mặt bên và mặt đáy:**
+  + $SA \perp (ABCD) \Rightarrow (SAB) \perp (ABCD)$ và $(SAD) \perp (ABCD)$, góc bằng $90^\circ$.
+  + $((SBC), (ABCD)) = \widehat{SBA} = 45^\circ$ (do tam giác $SAB$ vuông cân tại $A$).
+  + $((SCD), (ABCD)) = \widehat{SDA} = \arctan\left(\frac{SA}{AD}\right) = \arctan\left(\frac{1}{2}\right)$.
+
+- **2. Góc giữa hai mặt bên liên tiếp:**
+  + $((SAB), (SBC)) = 90^\circ$; $((SAB), (SAD)) = 90^\circ$; $((SAD), (SCD)) = 90^\circ$.
+  + Với $(SBC)$ và $(SCD)$: Dựng $AI \perp SB \Rightarrow AI \perp (SBC)$, $AH \perp SD \Rightarrow AH \perp (SCD)$.
+    Góc là $\widehat{IAH}$. Áp dụng định lý cô-sin:
+    $$\cos \widehat{IAH} = \frac{\sqrt{10}}{5} \Rightarrow \widehat{IAH} = \arccos\left(\frac{\sqrt{10}}{5}\right)$$
+
+- **3. Góc giữa hai mặt bên đối diện:**
+  + $((SAB), (SCD)) = \widehat{DAH} = \widehat{DSA} = \arctan(2)$.
+  + $((SBC), (SAD)) = \widehat{BAI} = \widehat{ASB} = 45^\circ$.}
+
+\essay{Cho hình chóp $S.ABCD$ có $SA$ vuông góc với đáy $ABCD$ là hình thang vuông tại $A$ và $D$, có $AB = 2a, AD = DC = a$, dựng $AH \perp SC$ ($H \in SC$), gọi $M$ là trung điểm của $AB$. Góc giữa hai mặt phẳng $(SCD)$ và $(ABCD)$ bằng $60^\circ$.
+
+a) Tính góc giữa $SD$ và $(SAB)$.
+
+b) Tính góc giữa $(SAD)$ và $(SMC)$.
+
+c) Tính góc giữa $(SBC)$ và $(ABCD)$.
+
+d) Tính góc giữa $(SBC)$ và $(SCD)$.}{1}{\image{0.6}{}{lt_25.png}
+- Ta có $CD \perp AD$ và $CD \perp SA \Rightarrow CD \perp (SAD) \Rightarrow CD \perp SD$.
+  Góc giữa $(SCD)$ và đáy là $\widehat{SDA} = 60^\circ \Rightarrow SA = a\sqrt{3}, SD = 2a$.
+- **1. Góc giữa $SD$ và $(SAB)$:**
+  $AD \perp (SAB) \Rightarrow (SD, (SAB)) = \widehat{DSA} = 30^\circ$.
+- **2. Góc giữa $(SAD)$ và $(SMC)$:**
+  Giao tuyến là $Sx \parallel AD \parallel CM$. $SA \perp Sx, SM \perp Sx \Rightarrow ((SAD), (SMC)) = \widehat{ASM}$.
+  $\tan \widehat{ASM} = \frac{AM}{SA} = \frac{a}{a\sqrt{3}} = \frac{1}{\sqrt{3}} \Rightarrow \widehat{ASM} = 30^\circ$.
+- **3. Góc giữa $(SBC)$ và $(ABCD)$:**
+  Tam giác $ABC$ có trung tuyến $CM = \frac{1}{2}AB \Rightarrow \triangle ABC$ vuông tại $C \Rightarrow BC \perp SC$.
+  Góc là $\widehat{SCA}$. Trong tam giác vuông $SAC$: $\tan \widehat{SCA} = \frac{SA}{AC} = \frac{a\sqrt{3}}{a\sqrt{2}} = \frac{\sqrt{6}}{2} \Rightarrow \widehat{SCA} = \arctan\left(\frac{\sqrt{6}}{2}\right)$.
+- **4. Tính góc giữa $(SBC)$ và $(SCD)$:**
+  $AH \perp SC \Rightarrow AH \perp (SBC)$; $AI \perp SD \Rightarrow AI \perp (SCD)$.
+  Góc giữa hai mặt phẳng là góc giữa $AH$ và $AI$.
+  Tính được $AI = \frac{a\sqrt{3}}{2}, AH = \frac{a\sqrt{30}}{5}, IH = \frac{3a}{2\sqrt{5}}$.
+  $\cos \widehat{IAH} = \frac{\sqrt{10}}{4} \Rightarrow \widehat{IAH} = \arccos\left(\frac{\sqrt{10}}{4}\right)$.}
+
+\essay{Cho hình chóp tứ giác đều $S.ABCD$ có cạnh đáy bằng $a$, mặt bên hợp với đáy góc $60^\circ$. Tính góc giữa các mặt phẳng:
+
+a) $(SAB)$ và $(SCD)$.
+
+b) $(SAB)$ và $(SBC)$.}{1}{\image{0.6}{}{lt_26.png}
+- Gọi $O$ là tâm đáy, $I, H$ là trung điểm $AB, CD$. Góc giữa $(SCD)$ và đáy là $\widehat{SHO} = 60^\circ \Rightarrow SO = \frac{a\sqrt{3}}{2}$.
+- **1. Góc giữa $(SAB)$ và $(SCD)$:**
+  Giao tuyến $Sx \parallel AB \parallel CD$. $SI \perp Sx, SH \perp Sx \Rightarrow ((SAB), (SCD)) = \widehat{ISH}$.
+  Tam giác $SIH$ cân có $\widehat{SHI} = 60^\circ$ nên là tam giác đều $\Rightarrow \widehat{ISH} = 60^\circ$.
+- **2. Góc giữa $(SAB)$ và $(SBC)$:**
+  Từ $A$ kẻ $AK \perp SB \Rightarrow CK \perp SB \Rightarrow ((SAB), (SBC)) = (AK, CK)$.
+  Tính được $AK = CK = \frac{2a}{\sqrt{5}}, AC = a\sqrt{2}$.
+  Áp dụng định lý cô-sin: $\cos \widehat{AKC} = -\frac{1}{4} \Rightarrow (AK, CK) = \arccos\left(\frac{1}{4}\right)$.}
+
+\essay{Cho tam giác đều $ABC$ cạnh $a$ nằm trong mặt phẳng $(P)$. Trên các đường thẳng vuông góc với $(P)$ vẽ từ $B$ và $C$ lấy các đoạn $BD = \frac{a\sqrt{2}}{2}, CE = a\sqrt{2}$ nằm cùng một bên đối với $(P)$.
+
+1. Chứng minh tam giác $ADE$ vuông. Tính diện tích tam giác này.
+
+2. Tính góc giữa hai mặt phẳng $(ADE)$ và $(P)$.}{1}{\image{0.6}{}{lt_27.png}
+- **1. Chứng minh tam giác $ADE$ vuông và tính diện tích:**
+  + Gọi $F$ là trung điểm $CE \Rightarrow FE = FC = \frac{a\sqrt{2}}{2}$.
+  + Áp dụng định lý Pytago: $AD^2 = \frac{3a^2}{2}, AE^2 = 3a^2, DE^2 = \frac{3a^2}{2}$.
+  + Ta có $AD^2 + DE^2 = AE^2 = 3a^2$, do đó tam giác $ADE$ vuông tại $D$.
+  + Diện tích: $S_{\triangle ADE} = \frac{1}{2}AD \cdot DE = \frac{3a^2}{4}$.
+- **2. Góc giữa $(ADE)$ và $(P)$:**
+  + Tam giác $ABC$ là hình chiếu vuông góc của $\triangle ADE$ lên $(P)$.
+  + Gọi $\varphi$ là góc giữa $(ADE)$ và $(P)$:
+    $$S_{\triangle ABC} = S_{\triangle ADE} \cdot \cos \varphi \Rightarrow \cos \varphi = \frac{S_{\triangle ABC}}{S_{\triangle ADE}} = \frac{\frac{a^2\sqrt{3}}{4}}{\frac{3a^2}{4}} = \frac{\sqrt{3}}{3}$$
+  + Vậy $\varphi = \arccos\left(\frac{\sqrt{3}}{3}\right)$.}
+
+\essay{Cho hình chóp $S.ABCD$ có đáy là hình vuông cạnh $a$. $SAB$ là tam giác đều và $(SAB) \perp (ABCD)$. Tính góc giữa:
+
+1. $(SCD)$ và $(ABCD)$.
+
+2. $(SCD)$ và $(SAD)$.}{1}{\image{0.6}{}{lt_28.png}
+- Gọi $E, F$ là trung điểm $AB, CD \Rightarrow SE \perp (ABCD)$.
+- **1. Góc giữa $(SCD)$ và $(ABCD)$:**
+  $CD \perp (SEF) \Rightarrow CD \perp SF$. Góc là $\widehat{SFE}$.
+  Trong $\triangle SEF$ vuông tại $E$: $\tan \widehat{SFE} = \frac{SE}{EF} = \frac{\frac{a\sqrt{3}}{2}}{a} = \frac{\sqrt{3}}{2} \Rightarrow \widehat{SFE} = \arctan\left(\frac{\sqrt{3}}{2}\right)$.
+- **2. Góc giữa $(SCD)$ và $(SAD)$:**
+  Dựng $EI \perp SF \Rightarrow EI \perp (SCD)$, tính được $EI = \frac{a\sqrt{21}}{7} = d(A, (SCD))$.
+  Dựng $AH \perp SD \Rightarrow AH = \frac{a\sqrt{2}}{2} = d(A, SD)$.
+  Gọi $\varphi$ là góc giữa $(SAD)$ và $(SCD)$:
+  $$\sin \varphi = \frac{d(A, (SCD))}{d(A, SD)} = \frac{\frac{a\sqrt{21}}{7}}{\frac{a\sqrt{2}}{2}} = \frac{\sqrt{42}}{7} \Rightarrow \varphi = \arcsin\left(\frac{\sqrt{42}}{7}\right)$$}
+
+\essay{Cho tứ diện $S.ABC$, hai mặt phẳng $(SAB)$ và $(SBC)$ vuông góc nhau, có $SA$ vuông góc với mặt phẳng $(ABC)$ biết $SB = a\sqrt{2}, \widehat{BSC} = 45^\circ, \widehat{ASB} = \alpha$.
+
+1. Chứng minh $BC$ vuông góc với $SB$.
+
+2. Xác định $\alpha$ để hai mặt phẳng $(SAC)$ và $(SBC)$ tạo với nhau một góc $60^\circ$.}{1}{\image{0.6}{}{lt_29.png}
+- **1. Chứng minh $BC \perp SB$:**
+  Vì $SA \perp (ABC)$ nên $(SAB) \perp (ABC)$. Lại có $(SAB) \perp (SBC)$.
+  Hai mặt phẳng $(ABC)$ và $(SBC)$ cùng vuông góc với $(SAB)$ nên giao tuyến $BC \perp (SAB) \Rightarrow BC \perp SB$.
+- **2. Xác định $\alpha$:**
+  Dựng $AE \perp SB, AF \perp SC \Rightarrow AE \perp (SBC) \Rightarrow ((SAC), (SBC)) = \widehat{AFE} = 60^\circ$.
+  Trong $\triangle AEF$ vuông tại $E$: $AE = EF \cdot \tan 60^\circ = EF\sqrt{3}$.
+  Trong $\triangle SAE$ vuông: $AE = SE \cdot \tan \alpha$.
+  Trong $\triangle SEF$ vuông: $EF = SE \cdot \sin 45^\circ = \frac{SE\sqrt{2}}{2}$.
+  Suy ra $SE \cdot \tan \alpha = \frac{SE\sqrt{2}}{2} \cdot \sqrt{3} \Rightarrow \tan \alpha = \frac{\sqrt{6}}{2} \Rightarrow \alpha = \arctan\left(\frac{\sqrt{6}}{2}\right)$.}
+
+\essay{Cho lăng trụ đứng $ABC.A'B'C'$ có đáy $ABC$ là tam giác cân với $AB = AC = a, \widehat{BAC} = 120^\circ, BB' = a$. Gọi $I$ là trung điểm của $CC'$.
+
+1. Chứng minh rằng tam giác $AB'I$ vuông ở $A$.
+
+2. Tính cosin của góc giữa hai mặt phẳng $(ABC)$ và $(AB'I)$.}{1}{\image{0.6}{}{lt_30.png}
+- **1. Chứng minh $\triangle AB'I$ vuông tại $A$:**
+  + Gọi $H$ là trung điểm $BC \Rightarrow AH \perp BC$, tính được $AH = \frac{a}{2}, BC = a\sqrt{3}$.
+  + Áp dụng định lý Pytago:
+    $IB'^2 = B'C'^2 + IC'^2 = 3a^2 + \frac{a^2}{4} = \frac{13a^2}{4}$.
+    $AB'^2 = AB^2 + BB'^2 = 2a^2$.
+    $AI^2 = AC^2 + IC^2 = a^2 + \frac{a^2}{4} = \frac{5a^2}{4}$.
+  + Ta có $AB'^2 + AI^2 = 2a^2 + \frac{5a^2}{4} = \frac{13a^2}{4} = IB'^2$, suy ra tam giác $AB'I$ vuông tại $A$.
+- **2. Tính cô-sin góc giữa $(ABC)$ và $(AB'I)$:**
+  + $S_{\triangle AB'I} = \frac{1}{2}AB' \cdot AI = \frac{a^2\sqrt{10}}{4}$.
+  + $S_{\triangle ABC} = \frac{1}{2}AH \cdot BC = \frac{a^2\sqrt{3}}{4}$.
+  + Gọi $\alpha$ là góc giữa hai mặt phẳng:
+    $$\cos \alpha = \frac{S_{\triangle ABC}}{S_{\triangle AB'I}} = \frac{\frac{a^2\sqrt{3}}{4}}{\frac{a^2\sqrt{10}}{4}} = \frac{\sqrt{30}}{10}$$}
+
+\essay{Trong mặt phẳng $(P)$ cho hình vuông $ABCD$ cạnh $a$. Lấy hai điểm $M, N$ thuộc $CB$ và $CD$. Đặt $CM = x, CN = y$. Trên đường thẳng vuông góc với mặt phẳng $(P)$ tại điểm $A$ lấy một điểm $S$. Tìm liên hệ giữa $x, y$ để:
+
+1. $((SAM), (SAN)) = 45^\circ$.
+
+2. $(SAM) \perp (SMN)$.}{1}{\image{0.6}{}{lt_31.png}
+- **1. Liên hệ để $((SAM), (SAN)) = 45^\circ$:**
+  + $SA \perp (ABCD) \Rightarrow SA \perp AM, SA \perp AN$.
+    Góc giữa $(SAM)$ và $(SAN)$ là $\widehat{MAN} = 45^\circ$.
+  + Ta có $\widehat{BAM} + \widehat{DAN} = 90^\circ - 45^\circ = 45^\circ$.
+    $$\tan(\widehat{BAM} + \widehat{DAN}) = 1 \Leftrightarrow \frac{\tan \widehat{BAM} + \tan \widehat{DAN}}{1 - \tan \widehat{BAM} \cdot \tan \widehat{DAN}} = 1$$
+  + Với $\tan \widehat{BAM} = \frac{a - x}{a}, \tan \widehat{DAN} = \frac{a - y}{a}$. Thay vào ta được:
+    $$a(2a - x - y) = a(x + y) - xy \Leftrightarrow 2a^2 = 2a(x + y) - xy$$
+- **2. Liên hệ để $(SAM) \perp (SMN)$:**
+  + Vì $(SAM) \perp (ABCD)$ và $(SAM) \perp (SMN)$ nên giao tuyến $MN \perp (SAM) \Rightarrow MN \perp AM \Rightarrow \widehat{AMN} = 90^\circ$.
+  + Suy ra $\widehat{CMN} = \widehat{BAM} \Rightarrow \tan \widehat{CMN} = \tan \widehat{BAM} \Leftrightarrow \frac{y}{x} = \frac{a - x}{a} \Leftrightarrow x^2 = a(x - y)$.}
+
+\end{quiz}
+
+\end{document}

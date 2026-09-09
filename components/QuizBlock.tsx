@@ -15,6 +15,7 @@ import ImageZoomModal, { type ZoomImageItem } from "./ImageZoomModal";
 
 import ReportQuestionModal from "./ReportQuestionModal";
 import { useStudyReminder } from "./StudyReminderProvider";
+import { useProfile } from "./ProfileProvider";
 
 const optionLabels = ["A", "B", "C", "D", "E", "F"];
 
@@ -308,6 +309,7 @@ export default function QuizBlock({
   const [reportingQuestion, setReportingQuestion] = useState<QuizQuestion | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
   const [savedBatchMessage, setSavedBatchMessage] = useState("");
+  const { userId } = useProfile();
   const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
   const { setExamActive } = useStudyReminder();
 
@@ -338,13 +340,13 @@ export default function QuizBlock({
 
   // Khôi phục câu trả lời từ localStorage khi load
   useEffect(() => {
-    const draft = loadQuizBlockDraft(blockKey);
+    const draft = loadQuizBlockDraft(blockKey, userId);
     if (draft) {
       if (draft.answers) setAnswers(draft.answers);
       if (draft.submitted) setSubmitted(true);
     }
     setHasInitialized(true);
-  }, [blockKey]);
+  }, [blockKey, userId]);
 
   // Đang làm mini-quiz → hoãn lời nhắc học tập đến sau khi nộp
   const reminderSource = `quiz-block-${blockKey}`;
@@ -357,11 +359,11 @@ export default function QuizBlock({
   useEffect(() => {
     if (!hasInitialized) return;
     if (Object.keys(answers).length > 0 || submitted) {
-      saveQuizBlockDraft(blockKey, { answers, submitted });
+      saveQuizBlockDraft(blockKey, { answers, submitted }, userId);
     } else {
-      clearQuizBlockDraft(blockKey);
+      clearQuizBlockDraft(blockKey, userId);
     }
-  }, [blockKey, answers, submitted, hasInitialized]);
+  }, [blockKey, answers, submitted, hasInitialized, userId]);
 
   /** Callback ổn định để QuizQuestionRow memo hoạt động: trả lời 1 câu không re-render cả block. */
   const setAnswer = useCallback((key: string, value: string) => {
@@ -444,7 +446,7 @@ export default function QuizBlock({
                 <button
                   type="button"
                   onClick={() => {
-                    clearQuizBlockDraft(blockKey);
+                    clearQuizBlockDraft(blockKey, userId);
                     setAnswers({});
                     setSubmitted(false);
                   }}

@@ -4,24 +4,30 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Quiz } from "@/lib/types";
 import { useProgress } from "@/lib/progress";
+import { useProfile } from "./ProfileProvider";
 import LazyMathText from "./LazyMathText";
 
 const letters = ["A", "B", "C", "D", "E", "F"];
 
 export default function ResultSummary({ quiz }: { quiz: Quiz }) {
+  const { userId } = useProfile();
   const [answers, setAnswers] = useState<Record<string, string> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
-      const raw = sessionStorage.getItem(`quiz-result-${quiz.id}`);
+      const userKey = userId ? `quiz-result-${userId}-${quiz.id}` : `quiz-result-${quiz.id}`;
+      let raw = sessionStorage.getItem(userKey);
+      if (!raw && !userId) {
+        raw = sessionStorage.getItem(`quiz-result-${quiz.id}`);
+      }
       setAnswers(raw ? (JSON.parse(raw) as Record<string, string>) : null);
     } catch {
       setAnswers(null);
     } finally {
       setLoading(false);
     }
-  }, [quiz.id]);
+  }, [quiz.id, userId]);
 
   if (loading) {
     return (

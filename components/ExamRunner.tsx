@@ -37,6 +37,7 @@ import ExamResultBanner from "./exam/ExamResultBanner";
 import ExamHeaderNav from "./exam/ExamHeaderNav";
 import { questionDomId } from "./exam/ExamQuestionCard";
 import { useStudyReminder } from "./StudyReminderProvider";
+import { useProfile } from "./ProfileProvider";
 
 /** Màn hình làm bài kiểm tra: tự động lưu bài làm dở và kết quả gần nhất. */
 export default function ExamRunner({
@@ -58,6 +59,7 @@ export default function ExamRunner({
     timeStr: string;
   } | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
+  const { userId } = useProfile();
   const { setPercent } = useProgress();
   const { isSaved, toggleSave, saveMultiple } = useSavedQuestions();
   const { setExamActive } = useStudyReminder();
@@ -93,8 +95,8 @@ export default function ExamRunner({
 
   // Khôi phục bài làm dở hoặc kết quả đã làm gần nhất khi mở bài thi
   useEffect(() => {
-    // 1. Ưu tiên khôi phục bài đang làm dở
-    const draft = loadExamDraft(document.id);
+    // 1. Ưu tiên khôi phục bài đang làm dở của tài khoản hiện tại
+    const draft = loadExamDraft(document.id, userId);
     if (draft && Object.keys(draft.answers).length > 0) {
       setAnswers(draft.answers);
       setFlagged(draft.flagged || {});
@@ -106,8 +108,8 @@ export default function ExamRunner({
       return;
     }
 
-    // 2. Nếu không có bài làm dở, xem có kết quả đã nộp gần nhất không
-    const savedResult = loadExamResult(document.id);
+    // 2. Nếu không có bài làm dở, xem có kết quả đã nộp gần nhất không (localStorage/sessionStorage)
+    const savedResult = loadExamResult(document.id, userId);
     if (savedResult) {
       setResult(savedResult);
       if (savedResult.answers) {
@@ -116,9 +118,50 @@ export default function ExamRunner({
       if (savedResult.correctCount < savedResult.totalAutoGraded) {
         setFilterMode("wrong");
       }
+      setHasInitialized(true);
+      return;
     }
-    setHasInitialized(true);
-  }, [document.id]);
+
+    // 3. Nếu trên máy chưa có kết quả nhưng đã đăng nhập, thử nạp từ Database Supabase
+    if (userId) {
+      import("@/lib/supabase/client").then(async ({ createClient }) => {
+        const supabase = createClient();
+        if (!supabase) {
+          setHasInitialized(true);
+          return;
+        }
+        const { data, error } = await supabase
+          .from("user_exam_results")
+          .select("*")
+          .eq("user_id", userId)
+          .eq("document_id", document.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (!error && data) {
+          const dbResult: DocumentTestResult = {
+            answers: (data.answers as DocumentTestAnswers) || {},
+            correctCount: data.correct_count,
+            totalAutoGraded: data.total_questions,
+            earnedPoints: Number(data.earned_points),
+            totalPoints: Number(data.total_points),
+            percent: data.percent,
+            score: Number(data.score),
+          };
+          setResult(dbResult);
+          if (dbResult.answers) setAnswers(dbResult.answers);
+          if (dbResult.correctCount < dbResult.totalAutoGraded) {
+            setFilterMode("wrong");
+          }
+          saveExamResult(document.id, dbResult, userId);
+        }
+        setHasInitialized(true);
+      }).catch(() => setHasInitialized(true));
+    } else {
+      setHasInitialized(true);
+    }
+  }, [document.id, userId]);
 
   // Đang làm bài kiểm tra → hoãn lời nhắc học tập đến sau khi nộp bài
   const examSource = `exam-${document.id}`;
@@ -134,13 +177,13 @@ export default function ExamRunner({
 
     if (Object.keys(answers).length > 0 || Object.keys(flagged).length > 0) {
       const timer = setTimeout(() => {
-        saveExamDraft(document.id, { answers, flagged });
+        saveExamDraft(document.id, { answers, flagged }, userId);
       }, 300);
       return () => clearTimeout(timer);
     } else {
-      clearExamDraft(document.id);
+      clearExamDraft(document.id, userId);
     }
-  }, [document.id, answers, flagged, result, hasInitialized]);
+  }, [document.id, answers, flagged, result, hasInitialized, userId]);
 
   const quizBlocks = useMemo(() => testQuizBlocks(document.blocks), [document.blocks]);
   const questions = useMemo(() => quizBlocks.flatMap((b) => b.questions), [quizBlocks]);
@@ -234,9 +277,36 @@ export default function ExamRunner({
       score: scoreOutOf10(earnedPoints, totalPoints),
     };
     setResult(finished);
-    saveExamResult(document.id, finished);
-    clearExamDraft(document.id);
+    saveExamResult(document.id, finished, userId);
+    clearExamDraft(document.id, userId);
     setRestoredDraftInfo(null);
+
+    // Lưu kết quả bài thi vào Database Supabase
+    if (userId) {
+      import("@/lib/supabase/client").then(({ createClient }) => {
+        const supabase = createClient();
+        if (supabase) {
+          supabase
+            .from("user_exam_results")
+            .insert({
+              user_id: userId,
+              document_id: document.id,
+              answers: finished.answers,
+              correct_count: finished.correctCount,
+              total_questions: finished.totalAutoGraded,
+              earned_points: finished.earnedPoints,
+              total_points: finished.totalPoints,
+              percent: finished.percent,
+              score: finished.score,
+            })
+            .then(({ error }) => {
+              if (error) {
+                console.error("Lỗi khi lưu kết quả bài thi vào Database:", error.message);
+              }
+            });
+        }
+      });
+    }
 
     // Tự động kích hoạt bộ lọc "Chỉ câu sai" nếu có câu làm sai
     if (correctCount < totalAutoGraded) {
@@ -245,7 +315,7 @@ export default function ExamRunner({
       setFilterMode("all");
     }
 
-    // Lưu điểm tốt nhất vào tiến độ học tập trên chính trình duyệt này
+    // Lưu điểm tốt nhất vào tiến độ học tập (tự động đồng bộ Database qua useProgress)
     setPercent(`document-quiz:${document.id}`, finished.percent);
     // Nộp bài test đính kèm = hoàn thành tài liệu chứa nó
     if (nextStep?.parentDocument) setPercent(documentProgressKey(nextStep.parentDocument.id), 100);
@@ -253,8 +323,8 @@ export default function ExamRunner({
   }
 
   function handleRetry() {
-    clearExamDraft(document.id);
-    clearExamResult(document.id);
+    clearExamDraft(document.id, userId);
+    clearExamResult(document.id, userId);
     setAnswers({});
     setFlagged({});
     setResult(null);

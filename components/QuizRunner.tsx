@@ -7,9 +7,11 @@ import type { Quiz } from "@/lib/types";
 import QuestionCard from "./QuestionCard";
 import ReportQuestionModal from "./ReportQuestionModal";
 import { useStudyReminder } from "./StudyReminderProvider";
+import { useProfile } from "./ProfileProvider";
 
 export default function QuizRunner({ quiz }: { quiz: Quiz }) {
   const router = useRouter();
+  const { userId } = useProfile();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [reportingQuestion, setReportingQuestion] = useState<Quiz["questions"][number] | null>(null);
   const { setExamActive } = useStudyReminder();
@@ -31,11 +33,10 @@ export default function QuizRunner({ quiz }: { quiz: Quiz }) {
 
   function handleSubmit() {
     if (!allAnswered) return;
-    // Lưu đáp án tạm thời để trang kết quả đọc lại
-    sessionStorage.setItem(
-      `quiz-result-${quiz.id}`,
-      JSON.stringify(answers),
-    );
+    // Lưu đáp án tạm thời để trang kết quả đọc lại (phân tách theo userId nếu có)
+    const key = userId ? `quiz-result-${userId}-${quiz.id}` : `quiz-result-${quiz.id}`;
+    sessionStorage.setItem(key, JSON.stringify(answers));
+    sessionStorage.setItem(`quiz-result-${quiz.id}`, JSON.stringify(answers));
     router.push(`/quiz/${quiz.id}/result`);
   }
 

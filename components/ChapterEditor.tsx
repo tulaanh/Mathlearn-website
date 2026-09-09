@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { ChapterData } from "@/lib/chapter-types";
 import ChapterItemPicker from "./ChapterItemPicker";
+import DocumentQuickCreateModal from "./DocumentQuickCreateModal";
+import DocumentFullEditorModal from "./DocumentFullEditorModal";
+import { saveStagedDocument, type StagedDocumentData } from "@/lib/staged-document-saver";
 
 interface ChapterEditorProps {
   initialData?: ChapterData;
@@ -13,16 +16,23 @@ interface ChapterEditorProps {
   paths?: { id: string; title: string }[];
 }
 
-interface ChapterEditorItem {
+export interface ChapterEditorItem {
   itemType: "document" | "quiz";
   documentId?: string;
   quizId?: string;
   documentType?: "normal" | "test";
   title: string;
   grade?: string;
+  isNew?: boolean;
+  stagedDoc?: StagedDocumentData;
 }
 
-export default function ChapterEditor({ initialData, documents, quizzes, paths = [] }: ChapterEditorProps) {
+export default function ChapterEditor({
+  initialData,
+  documents,
+  quizzes,
+  paths = [],
+}: ChapterEditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
@@ -41,15 +51,36 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
   });
 
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [quickDocOpen, setQuickDocOpen] = useState(false);
+  const [fullDocOpen, setFullDocOpen] = useState(false);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const existingDocumentIds = items.filter((i) => i.itemType === "document").map((i) => i.documentId!);
-  const existingQuizIds = items.filter((i) => i.itemType === "quiz").map((i) => i.quizId!);
+  const existingDocumentIds = items
+    .filter((i) => i.itemType === "document" && i.documentId && !i.isNew)
+    .map((i) => i.documentId!);
+  const existingQuizIds = items
+    .filter((i) => i.itemType === "quiz" && i.quizId)
+    .map((i) => i.quizId!);
 
   const addContent = (item: ChapterEditorItem) => {
     setItems((prev) => [...prev, item]);
     setPickerOpen(false);
+  };
+
+  const addStagedDoc = (stagedDoc: StagedDocumentData) => {
+    setItems((prev) => [
+      ...prev,
+      {
+        itemType: "document",
+        documentId: stagedDoc.tempId,
+        documentType: stagedDoc.documentType,
+        title: stagedDoc.title,
+        grade: stagedDoc.grade,
+        isNew: true,
+        stagedDoc,
+      },
+    ]);
   };
 
   const removeBlock = (index: number) => {
@@ -93,6 +124,21 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
         return;
       }
 
+      // 1. Lưu các tài liệu mới tạo (staged) vào CSDL trước để lấy ID thật
+      const preparedItems = [...items];
+      for (let i = 0; i < preparedItems.length; i++) {
+        const item = preparedItems[i];
+        if (item.isNew && item.stagedDoc) {
+          const realDocId = await saveStagedDocument(supabase, user.id, item.stagedDoc);
+          preparedItems[i] = {
+            ...item,
+            documentId: realDocId,
+            isNew: false,
+            stagedDoc: undefined,
+          };
+        }
+      }
+
       if (initialData) {
         // Edit mode
         const { error: chapterError } = await supabase
@@ -116,8 +162,8 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
         if (deleteError) throw deleteError;
 
         // Insert new items
-        if (items.length > 0) {
-          const insertRows = items.map((item, index) => ({
+        if (preparedItems.length > 0) {
+          const insertRows = preparedItems.map((item, index) => ({
             chapter_id: initialData.id,
             item_type: item.itemType,
             document_id: item.itemType === "document" ? item.documentId : null,
@@ -149,8 +195,8 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
         }
 
         // Insert items
-        if (items.length > 0) {
-          const insertRows = items.map((item, index) => ({
+        if (preparedItems.length > 0) {
+          const insertRows = preparedItems.map((item, index) => ({
             chapter_id: newChapter.id,
             item_type: item.itemType,
             document_id: item.itemType === "document" ? item.documentId : null,
@@ -172,7 +218,8 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
   }
 
   return (
-    <form onSubmit={submit} className="space-y-6">
+    <>
+      <form onSubmit={submit} className="space-y-6">
       {/* Thông tin chương */}
       <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-colors dark:border-slate-800/80 dark:bg-[#131b2e]">
         <h2 className="mb-4 text-lg font-bold dark:text-white">Thông tin chương học</h2>
@@ -243,20 +290,49 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
 
       {/* Nội dung chương */}
       <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-colors dark:border-slate-800/80 dark:bg-[#131b2e]">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold dark:text-white">📖 Danh sách nội dung ({items.length})</h2>
-          <button
-            type="button"
-            onClick={() => setPickerOpen(true)}
-            className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs font-bold text-indigo-600 transition-colors hover:bg-indigo-100 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-400 dark:hover:bg-indigo-950/60"
-          >
-            + Thêm nội dung
-          </button>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-bold dark:text-white">
+              📖 Danh sách nội dung ({items.length})
+            </h2>
+            <p className="text-xs text-slate-500">
+              Bạn có thể chọn tài liệu có sẵn hoặc tạo trực tiếp tài liệu ngay tại đây.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPickerOpen(true)}
+              className="rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-bold text-indigo-600 transition-colors hover:bg-indigo-100 dark:border-indigo-900/60 dark:bg-indigo-950/40 dark:text-indigo-400 dark:hover:bg-indigo-950/60"
+            >
+              🔍 Chọn có sẵn
+            </button>
+            <button
+              type="button"
+              onClick={() => setQuickDocOpen(true)}
+              className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2 text-xs font-bold text-emerald-700 transition-colors hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-950/60"
+            >
+              ⚡ Tạo nhanh tài liệu
+            </button>
+            <button
+              type="button"
+              onClick={() => setFullDocOpen(true)}
+              className="rounded-xl border border-violet-200 bg-violet-50 px-3.5 py-2 text-xs font-bold text-violet-700 transition-colors hover:bg-violet-100 dark:border-violet-900/60 dark:bg-violet-950/40 dark:text-violet-400 dark:hover:bg-violet-950/60"
+            >
+              📝 Soạn chi tiết (LaTeX)
+            </button>
+          </div>
         </div>
 
         {items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-slate-200 py-10 text-center dark:border-slate-800">
-            <p className="text-sm text-slate-500">Chưa có bài học hay bài kiểm tra nào trong chương này.</p>
+            <p className="text-sm text-slate-500">
+              Chưa có bài học hay bài kiểm tra nào trong chương này.
+            </p>
+            <p className="mt-1 text-xs text-slate-400">
+              Hãy bấm các nút phía trên để chọn hoặc thêm trực tiếp tài liệu vào chương.
+            </p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -277,12 +353,21 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
                   </span>
 
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                      {item.title}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                        {item.title}
+                      </p>
+                      {item.isNew && (
+                        <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[9px] font-bold text-amber-800 dark:bg-amber-950/70 dark:text-amber-300">
+                          Mới tạo (chờ lưu)
+                        </span>
+                      )}
+                    </div>
                     <div className="mt-0.5 flex items-center gap-1.5">
                       <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {item.itemType === "document" && item.documentType !== "test" ? "Tài liệu" : "Bài kiểm tra"}
+                        {item.itemType === "document" && item.documentType !== "test"
+                          ? "Tài liệu"
+                          : "Bài kiểm tra"}
                       </span>
                       {item.grade && (
                         <span className="rounded bg-indigo-50 px-1.5 py-0.5 text-[9px] font-semibold text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400">
@@ -300,6 +385,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
                     disabled={index === 0}
                     onClick={() => moveBlock(index, -1)}
                     className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-100 disabled:opacity-30 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
+                    title="Di chuyển lên"
                   >
                     ↑
                   </button>
@@ -308,6 +394,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
                     disabled={index === items.length - 1}
                     onClick={() => moveBlock(index, 1)}
                     className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-100 disabled:opacity-30 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
+                    title="Di chuyển xuống"
                   >
                     ↓
                   </button>
@@ -315,6 +402,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
                     type="button"
                     onClick={() => removeBlock(index)}
                     className="flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50 dark:border-red-900/60 dark:text-red-400 dark:hover:bg-red-950/40"
+                    title="Xóa khỏi chương"
                   >
                     ✕
                   </button>
@@ -326,7 +414,10 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
       </div>
 
       {error && (
-        <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">
+        <p
+          role="alert"
+          className="rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300"
+        >
           {error}
         </p>
       )}
@@ -347,6 +438,7 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
           {saving ? "Đang lưu..." : initialData ? "Lưu thay đổi" : "Tạo chương"}
         </button>
       </div>
+    </form>
 
       <ChapterItemPicker
         open={pickerOpen}
@@ -357,6 +449,20 @@ export default function ChapterEditor({ initialData, documents, quizzes, paths =
         documents={documents}
         quizzes={quizzes}
       />
-    </form>
+
+      <DocumentQuickCreateModal
+        open={quickDocOpen}
+        onClose={() => setQuickDocOpen(false)}
+        defaultGrade={grade}
+        onCreated={addStagedDoc}
+      />
+
+      <DocumentFullEditorModal
+        open={fullDocOpen}
+        onClose={() => setFullDocOpen(false)}
+        defaultGrade={grade}
+        onSaved={addStagedDoc}
+      />
+    </>
   );
 }
