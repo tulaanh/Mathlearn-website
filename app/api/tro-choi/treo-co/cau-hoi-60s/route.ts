@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { pickRandomQuestionsByMatrix } from "@/lib/question-bank";
 import { bankQuestionToTreocoCauHoi } from "@/lib/treoco-game";
 import { NGAN_HANG_CAU_HOI_GAME } from "@/lib/treoco-bank-questions";
 import type { QuestionDifficulty } from "@/lib/question-bank-types";
@@ -10,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * GET /api/tro-choi/treo-co/cau-hoi-60s
- * Lấy ngẫu nhiên 1 câu hỏi toán 60s TRỰC TIẾP từ bảng `question_bank` trên cơ sở dữ liệu Supabase.
+ * Lấy ngẫu nhiên 1 câu hỏi toán 60s tái sử dụng cách gọi có sẵn từ Ngân hàng câu hỏi (`pickRandomQuestionsByMatrix`).
  * - Mức độ: Nhận biết (Dễ) và Thông hiểu (Trung bình).
  * - Dạng câu: Trắc nghiệm khách quan 4 phương án (multiple_choice).
  * - Đã loại trừ câu Tích phân/Nguyên hàm để phù hợp với học kỳ 1.
@@ -25,31 +26,26 @@ export async function GET(request: Request) {
     );
   }
 
-  const { user, supabase } = await getCurrentUser();
-  if (!user || !supabase) {
+  const { user } = await getCurrentUser();
+  if (!user) {
     return NextResponse.json(
       { error: "Cần đăng nhập để tham gia Thử thách Giải Toán 60s." },
       { status: 401 },
     );
   }
 
-  // 1. Ưu tiên lấy trực tiếp từ CSDL question_bank trên Supabase
+  // 1. Tái sử dụng cách gọi có sẵn từ Ngân hàng câu hỏi (pickRandomQuestionsByMatrix)
   try {
-    const { data: rows, error } = await supabase
-      .from("question_bank")
-      .select("id, text, content, difficulty, type")
-      .in("difficulty", ["nhan_biet", "thong_hieu"])
-      .eq("type", "multiple_choice");
+    const diff: QuestionDifficulty = Math.random() < 0.5 ? "nhan_biet" : "thong_hieu";
+    const { picked } = await pickRandomQuestionsByMatrix(
+      { [diff]: 10 },
+      { type: "multiple_choice" },
+    );
 
-    if (error) {
-      console.warn("Lưu ý: Không truy vấn được bảng question_bank từ CSDL:", error.message);
-    } else if (rows && rows.length > 0) {
+    if (picked && picked.length > 0) {
       const validQuestions: TreocoCauHoi[] = [];
-      for (const r of rows) {
-        const q = bankQuestionToTreocoCauHoi(
-          { id: r.id, text: r.text, content: r.content, difficulty: r.difficulty },
-          r.difficulty as QuestionDifficulty,
-        );
+      for (const bq of picked) {
+        const q = bankQuestionToTreocoCauHoi(bq as any, bq.difficulty);
         if (q && Array.isArray(q.options) && q.options.length >= 2 && typeof q.correctIndex === "number") {
           // Bỏ qua các câu tích phân/nguyên hàm (kỳ 2)
           const allText = (q.text + " " + (q.explanation || "")).toLowerCase();
@@ -65,16 +61,16 @@ export async function GET(request: Request) {
         return NextResponse.json({
           success: true,
           question: selected,
-          source: "database",
+          source: "question_bank",
           totalInBank: validQuestions.length,
         });
       }
     }
   } catch (err) {
-    console.warn("Lỗi khi kết nối CSDL question_bank:", err);
+    console.warn("Lưu ý: Không kết nối được Ngân hàng câu hỏi qua pickRandomQuestionsByMatrix:", err);
   }
 
-  // 2. Dự phòng an toàn từ ngân hàng câu hỏi đề thi chuẩn (140 câu từ NganHang_HamSo_De01..04.json)
+  // 2. Dự phòng an toàn từ ngân hàng câu hỏi đề thi chuẩn (140 câu Nhận biết + Thông hiểu)
   const fallbackPool = NGAN_HANG_CAU_HOI_GAME.filter(
     (q) => q.difficulty === "nhan_biet" || q.difficulty === "thong_hieu",
   );

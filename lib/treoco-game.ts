@@ -15,6 +15,7 @@ import type { QuestionDifficulty } from "@/lib/question-bank-types";
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 import { TREOCO_CAU_HOI_MAC_DINH } from "@/lib/treoco-cau-hoi-mac-dinh";
 import { NGAN_HANG_CAU_HOI_GAME } from "@/lib/treoco-bank-questions";
+import { pickRandomQuestionsByMatrix, getBankQuestionById } from "@/lib/question-bank";
 
 /** 3 độ khó tương ứng 3 hũ (Dễ / Trung bình / Khó). */
 export const TREOCO_JAR_DIFFICULTIES: QuestionDifficulty[] = ["nhan_biet", "thong_hieu", "van_dung"];
@@ -238,7 +239,7 @@ export function bankQuestionToTreocoCauHoi(
 
 /**
  * Chọn ngẫu nhiên 1 câu trắc nghiệm của mức độ:
- * 1. Ưu tiên lấy trực tiếp từ bảng question_bank trên CSDL Supabase
+ * 1. Tái sử dụng cách gọi có sẵn từ Ngân hàng câu hỏi (pickRandomQuestionsByMatrix)
  * 2. Ngân hàng câu hỏi Toán học thực tế (170 câu chuẩn từ các bộ đề thi NganHang_HamSo_De01..04.json)
  * 3. Pool dự phòng cơ bản
  */
@@ -246,20 +247,16 @@ export async function pickTreocoQuestion(
   supabase: SupabaseClient,
   difficulty: QuestionDifficulty,
 ): Promise<TreocoCauHoi | null> {
-  // 1. Thử lấy từ bảng question_bank trên Supabase
+  // 1. Tái sử dụng trực tiếp hàm của Ngân hàng câu hỏi (pickRandomQuestionsByMatrix)
   try {
-    const { data: rows, error } = await supabase
-      .from("question_bank")
-      .select("id, text, content, difficulty, type")
-      .eq("difficulty", difficulty)
-      .eq("type", "multiple_choice");
-    if (!error && rows && rows.length > 0) {
+    const { picked } = await pickRandomQuestionsByMatrix(
+      { [difficulty]: 10 },
+      { type: "multiple_choice" },
+    );
+    if (picked && picked.length > 0) {
       const validQuestions: TreocoCauHoi[] = [];
-      for (const r of rows) {
-        const q = bankQuestionToTreocoCauHoi(
-          { id: r.id, text: r.text, content: r.content, difficulty: r.difficulty },
-          difficulty,
-        );
+      for (const bq of picked) {
+        const q = bankQuestionToTreocoCauHoi(bq as any, bq.difficulty);
         if (q && Array.isArray(q.options) && q.options.length >= 2 && typeof q.correctIndex === "number") {
           // Bỏ qua các câu tích phân/nguyên hàm (kỳ 2)
           const allText = (q.text + " " + (q.explanation || "")).toLowerCase();
@@ -273,7 +270,7 @@ export async function pickTreocoQuestion(
       }
     }
   } catch (err) {
-    console.warn("Lưu ý: Không kết nối được bảng question_bank từ CSDL:", err);
+    console.warn("Lưu ý: Không kết nối được Ngân hàng câu hỏi qua pickRandomQuestionsByMatrix:", err);
   }
 
   // 2. Ngân hàng câu hỏi Toán học thực tế trích xuất từ các bộ đề ngân hàng (170 câu chuẩn)
@@ -295,30 +292,24 @@ export async function findTreocoQuestionById(
   supabase: SupabaseClient,
   id: string,
 ): Promise<TreocoCauHoi | null> {
-  // 1. Tìm trong ngân hàng câu hỏi game (78 câu chuẩn)
+  // 1. Tìm trong ngân hàng câu hỏi game (170 câu chuẩn)
   const fromBank = NGAN_HANG_CAU_HOI_GAME.find((q) => q.id === id);
   if (fromBank) return fromBank;
 
-  // 2. Tìm trong pool dự phòng
-  const fromDefault = TREOCO_CAU_HOI_MAC_DINH.find((q) => q.id === id);
-  if (fromDefault) return fromDefault;
-
-  // 3. Tìm trong database Supabase
+  // 2. Tái sử dụng getBankQuestionById có sẵn từ Ngân hàng câu hỏi (lib/question-bank)
   try {
-    const { data: row } = await supabase
-      .from("question_bank")
-      .select("id, text, content, difficulty")
-      .eq("id", id)
-      .maybeSingle();
-    if (row) {
-      return bankQuestionToTreocoCauHoi(
-        { id: row.id, text: row.text, content: row.content, difficulty: row.difficulty },
-        row.difficulty as QuestionDifficulty,
-      );
+    const bankQ = await getBankQuestionById(id);
+    if (bankQ) {
+      const q = bankQuestionToTreocoCauHoi(bankQ as any, bankQ.difficulty);
+      if (q) return q;
     }
   } catch {
-    // Bỏ qua lỗi DB
+    // Bỏ qua lỗi
   }
+
+  // 3. Tìm trong pool dự phòng
+  const fromDefault = TREOCO_CAU_HOI_MAC_DINH.find((q) => q.id === id);
+  if (fromDefault) return fromDefault;
 
   return null;
 }
