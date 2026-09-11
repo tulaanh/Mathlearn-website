@@ -8,6 +8,7 @@ import type { BankQuestion, QuestionDifficulty } from "@/lib/question-bank-types
 import { DIFFICULTY_META, bankQuestionToPayload } from "@/lib/question-bank-types";
 import { topics } from "@/data/topics";
 import { resolveQuestionImageSrc, resolveExplanationImageSrc } from "@/lib/document-preview";
+import { getSafeImageContentType, validateImageFile } from "@/lib/storage-upload";
 
 const GRADE_OPTIONS = ["Lớp 6", "Lớp 7", "Lớp 8", "Lớp 9"];
 const OPTION_IDS = ["a", "b", "c", "d"];
@@ -72,6 +73,24 @@ export default function BankQuestionForm({ initial }: Props) {
       return setError("Câu Đúng/Sai cần ít nhất một mệnh đề không rỗng.");
     }
 
+    // Kiểm tra định dạng và kích thước ảnh trước khi tải lên
+    if (q.imageFile) {
+      const imgErr = validateImageFile(q.imageFile, 10);
+      if (imgErr) return setError(imgErr);
+    }
+    if (q.explanationImageFile) {
+      const expErr = validateImageFile(q.explanationImageFile, 10);
+      if (expErr) return setError(expErr);
+    }
+    if (Array.isArray(q.explanationImages)) {
+      for (const item of q.explanationImages) {
+        if (item.file) {
+          const itemErr = validateImageFile(item.file, 10);
+          if (itemErr) return setError(itemErr);
+        }
+      }
+    }
+
     setSaving(true);
     try {
       const supabase = createClient();
@@ -84,7 +103,7 @@ export default function BankQuestionForm({ initial }: Props) {
       if (q.imageFile) {
         const file = q.imageFile;
         const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
         if (upload.error) throw new Error(`Không thể tải ảnh đề bài lên: ${upload.error.message}`);
         payload = {
           ...payload,
@@ -94,7 +113,7 @@ export default function BankQuestionForm({ initial }: Props) {
       if (q.explanationImageFile) {
         const file = q.explanationImageFile;
         const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
         if (upload.error) throw new Error(`Không thể tải ảnh lời giải lên: ${upload.error.message}`);
         payload = {
           ...payload,
@@ -107,7 +126,7 @@ export default function BankQuestionForm({ initial }: Props) {
           if (item.file) {
             const file = item.file;
             const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
             if (upload.error) throw new Error(`Không thể tải ảnh lời giải lên: ${upload.error.message}`);
             updatedExpImages.push({
               ...(path ? { storagePath: path } : {}),
@@ -296,7 +315,7 @@ export default function BankQuestionForm({ initial }: Props) {
             <input placeholder="Chú thích ảnh lời giải" value={q.explanationImageCaption ?? ""} onChange={(e) => patch((d) => { d.explanationImageCaption = e.target.value; })} className="h-8 w-full rounded-md border border-slate-300 px-2 text-xs dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
           </div>
         ) : (
-          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => { const file = e.target.files?.[0]; if (file) patch((d) => { d.explanationImageFile = file; if (!d.explanationImageCaption) d.explanationImageCaption = "Hình ảnh lời giải"; }); }} className="mt-2 block w-full text-xs text-slate-500 file:mr-2 file:rounded-md file:border-0 file:bg-blue-50 file:px-2.5 file:py-1 file:text-xs file:font-semibold file:text-blue-700 dark:file:bg-blue-950 dark:file:text-blue-300" />
+          <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" onChange={(e) => { const file = e.target.files?.[0]; if (file) patch((d) => { d.explanationImageFile = file; if (!d.explanationImageCaption) d.explanationImageCaption = "Hình ảnh lời giải"; }); }} className="mt-2 block w-full text-xs text-slate-500 file:mr-2 file:rounded-md file:border-0 file:bg-blue-50 file:px-2.5 file:py-1 file:text-xs file:font-semibold file:text-blue-700 dark:file:bg-blue-950 dark:file:text-blue-300" />
         )}
       </div>
 
@@ -330,7 +349,7 @@ export default function BankQuestionForm({ initial }: Props) {
             <input placeholder="Chú thích ảnh" value={q.imageCaption ?? ""} onChange={(e) => patch((d) => { d.imageCaption = e.target.value; })} className="h-8 w-full rounded-md border border-slate-300 px-2 text-xs dark:border-slate-700 dark:bg-slate-950 dark:text-white" />
           </div>
         ) : (
-          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => { const file = e.target.files?.[0]; if (file) patch((d) => { d.imageFile = file; if (!d.imageCaption) d.imageCaption = "Hình ảnh câu hỏi"; }); }} className="mt-2 block w-full text-xs text-slate-500 file:mr-2 file:rounded-md file:border-0 file:bg-indigo-50 file:px-2.5 file:py-1 file:text-xs file:font-semibold file:text-indigo-700 dark:file:bg-indigo-950 dark:file:text-indigo-300" />
+          <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" onChange={(e) => { const file = e.target.files?.[0]; if (file) patch((d) => { d.imageFile = file; if (!d.imageCaption) d.imageCaption = "Hình ảnh câu hỏi"; }); }} className="mt-2 block w-full text-xs text-slate-500 file:mr-2 file:rounded-md file:border-0 file:bg-indigo-50 file:px-2.5 file:py-1 file:text-xs file:font-semibold file:text-indigo-700 dark:file:bg-indigo-950 dark:file:text-indigo-300" />
         )}
       </div>
 

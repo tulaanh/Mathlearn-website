@@ -8,6 +8,7 @@ import type { BankQuestion } from "@/lib/question-bank-types";
 import { DIFFICULTY_META, QUESTION_TYPE_LABELS, getDifficultyMeta } from "@/lib/question-bank-types";
 import type { Topic } from "@/lib/types";
 import { serializeBankJson } from "@/lib/question-bank-json";
+import { resolveQuestionImageSrc } from "@/lib/document-preview";
 import LazyMathText from "./LazyMathText";
 
 type Props = {
@@ -308,7 +309,24 @@ export default function BankQuestionList({ questions, grades, topics }: Props) {
                       {qType !== "essay" && <span className="text-xs text-slate-400">{q.points ?? 1} điểm</span>}
                     </div>
                     <LazyMathText text={q.text} className="text-sm leading-6 text-slate-800 dark:text-slate-100" />
-                    {q.imageStoragePath && <p className="mt-1 text-xs text-slate-400">🖼 Có ảnh minh họa</p>}
+                    {(() => {
+                      const imgSrc = resolveQuestionImageSrc(q);
+                      if (!imgSrc) return null;
+                      return (
+                        <div className="mt-2.5 flex items-center gap-2.5">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imgSrc}
+                            alt={q.imageCaption || "Hình minh họa câu hỏi"}
+                            className="h-16 w-24 rounded-lg border border-slate-200 bg-slate-50 object-contain p-1 shadow-xs dark:border-slate-700 dark:bg-slate-800"
+                            loading="lazy"
+                          />
+                          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                            🖼 {q.imageCaption || "Ảnh minh họa"}
+                          </span>
+                        </div>
+                      );
+                    })()}
                     <div className="mt-3 flex flex-wrap gap-2">
                       <Link href={`/quan-ly/ngan-hang-cau-hoi/${q.id}/sua`} className="rounded-lg border border-emerald-300 px-3 py-1.5 text-xs font-bold text-emerald-600 dark:border-emerald-800 dark:text-emerald-300">✏️ Sửa</Link>
                       <button disabled={busy} onClick={() => removeQuestion(q.id)} className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-bold text-red-600 disabled:opacity-50 dark:border-red-900">Xóa</button>

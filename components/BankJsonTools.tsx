@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { parseBankJson } from "@/lib/question-bank-json";
 import { normalizeImageName, isAcceptedImageFile } from "@/lib/tex-image-match";
+import { getSafeImageContentType } from "@/lib/storage-upload";
 import { topics } from "@/data/topics";
 import { QUESTION_TYPE_LABELS, getDifficultyMeta } from "@/lib/question-bank-types";
 import LazyMathText from "./LazyMathText";
@@ -141,7 +142,7 @@ export default function BankJsonTools() {
         const cacheKey = file.name + "_" + file.size;
         if (uploadCache.has(cacheKey)) return uploadCache.get(cacheKey)!;
         const path = `${user?.id || "anon"}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-        const res = await supabase!.storage.from("document-images").upload(path, file, { contentType: file.type });
+        const res = await supabase!.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
         if (res.error) throw new Error(`Lỗi tải ảnh "${file.name}": ${res.error.message}`);
         uploadCache.set(cacheKey, path);
         return path;

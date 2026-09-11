@@ -10,6 +10,7 @@ const baseNavItems: NavItem[] = [
   { href: "/quiz", label: "Bài kiểm tra", icon: "✓" },
   { href: "/ngan-hang-cau-hoi", label: "Ngân hàng câu hỏi", icon: "🏦" },
   { href: "/su-kien", label: "Sự kiện", icon: "🎮" },
+  { href: "/tro-choi/treo-co-trung-thu", label: "Trung Thu", icon: "🏮" },
 ];
 
 const teacherNavItems: NavItem[] = [

@@ -1,6 +1,7 @@
 import React from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
+import { getDocumentImageUrl } from "@/lib/document-url";
 
 // Cache kết quả render KaTeX: tránh parse lại cùng một công thức khi mount lại trang
 const katexCache = new Map<string, string>();
@@ -61,8 +62,8 @@ function renderKatex(latex: string, displayMode: boolean): string {
 
 function renderInline(text: string): React.ReactNode[] {
   const elements: React.ReactNode[] = [];
-  // Cho phép dữ liệu cũ thiếu dấu $ đóng ở cuối dòng; công thức vẫn được đưa qua KaTeX.
-  const pattern = /\$([^$\n]+?)(\$|$)|\*\*([^*]+?)\*\*/g;
+  // Hỗ trợ hình ảnh ![alt](url), inline math $...$, và bold **...**
+  const pattern = /!\[(.*?)\]\((.+?)\)|\$([^$\n]+?)(\$|$)|\*\*([^*]+?)\*\*/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   let key = 0;
@@ -71,18 +72,37 @@ function renderInline(text: string): React.ReactNode[] {
     if (match.index > lastIndex) {
       elements.push(<span key={key++}>{text.slice(lastIndex, match.index)}</span>);
     }
-    if (match[1] !== undefined) {
+    if (match[1] !== undefined && match[2] !== undefined) {
+      let src = match[2].trim();
+      if (!src.startsWith("http") && !src.startsWith("/") && !src.startsWith("data:")) {
+        src = getDocumentImageUrl(src) || src;
+      }
+      elements.push(
+        <span key={key++} className="my-2 inline-block text-center max-w-full align-middle">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={match[1] || "Hình vẽ"}
+            className="mx-auto max-h-72 w-auto max-w-full rounded-xl border border-slate-200/80 bg-white object-contain shadow-xs dark:border-slate-800 dark:bg-slate-900"
+            loading="lazy"
+          />
+          {match[1] && (
+            <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{match[1]}</span>
+          )}
+        </span>
+      );
+    } else if (match[3] !== undefined) {
       // Inline math $...$ (hoặc math span cũ bị thiếu dấu $ đóng).
       elements.push(
         <span
           key={key++}
           className="mx-0.5 inline-block"
-          dangerouslySetInnerHTML={{ __html: renderKatex(match[1], false) }}
+          dangerouslySetInnerHTML={{ __html: renderKatex(match[3], false) }}
         />
       );
-    } else if (match[3] !== undefined) {
+    } else if (match[5] !== undefined) {
       // Bold text **...**
-      elements.push(<strong key={key++} className="font-bold text-slate-900 dark:text-white">{match[3]}</strong>);
+      elements.push(<strong key={key++} className="font-bold text-slate-900 dark:text-white">{match[5]}</strong>);
     }
     lastIndex = pattern.lastIndex;
   }
@@ -126,7 +146,7 @@ function cleanLatexLineBreaks(text: string): string {
 
 const MathText = React.memo(function MathText({ text, className }: { text: string; className?: string }) {
   const cleanText = cleanLatexLineBreaks(text ?? "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-  const hasBlockElements = cleanText.includes("\n") || /^#|^[\*\-\+•]|\\item/m.test(cleanText) || cleanText.includes("$$");
+  const hasBlockElements = cleanText.includes("\n") || /^#|^[\*\-\+•]|\\item/m.test(cleanText) || cleanText.includes("$$") || cleanText.includes("![");
 
   if (!hasBlockElements) {
     return <span className={className}>{renderInline(cleanText)}</span>;
@@ -157,6 +177,31 @@ const MathText = React.memo(function MathText({ text, className }: { text: strin
 
           if (!trimmedLine) {
             return <div key={`empty-${currentLineIdx}`} className="h-3" />;
+          }
+
+          // Markdown Image block ![caption](url)
+          const imgBlockMatch = /^!\[(.*?)\]\((.+?)\)$/.exec(trimmedLine);
+          if (imgBlockMatch) {
+            let src = imgBlockMatch[2].trim();
+            if (!src.startsWith("http") && !src.startsWith("/") && !src.startsWith("data:")) {
+              src = getDocumentImageUrl(src) || src;
+            }
+            return (
+              <figure key={`img-${currentLineIdx}`} className="my-3 text-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={imgBlockMatch[1] || "Hình vẽ minh họa"}
+                  className="mx-auto max-h-80 w-full rounded-xl border border-slate-200/80 bg-white object-contain shadow-xs dark:border-slate-800 dark:bg-slate-900"
+                  loading="lazy"
+                />
+                {imgBlockMatch[1] && (
+                  <figcaption className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    {imgBlockMatch[1]}
+                  </figcaption>
+                )}
+              </figure>
+            );
           }
 
           // Heading 1

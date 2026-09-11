@@ -9,6 +9,7 @@ import DocumentEditorFields from "./DocumentEditorFields";
 import DocumentTemplatePicker from "./DocumentTemplatePicker";
 import DocumentJsonTools from "./DocumentJsonTools";
 import DocumentPreviewModal from "./DocumentPreviewModal";
+import { getSafeImageContentType, isImageFile } from "@/lib/storage-upload";
 
 /** Gán định danh ổn định cho khối để thu gọn/sắp xếp không bị lệch khi danh sách thay đổi */
 function withKey(block: DocumentFormBlock): DocumentFormBlock {
@@ -160,16 +161,16 @@ export default function DocumentEditor({
       );
       if (!hasValidQuiz) return setError("Bài kiểm tra cần ít nhất một khối 🧩 Câu hỏi hợp lệ (có tiêu đề khối, nội dung câu hỏi và đáp án).");
     }
-    // Khối ảnh hợp lệ khi: đã chọn file mới (đúng loại, ≤ 5MB) HOẶC tái dùng ảnh đã có trên Storage
+    // Khối ảnh hợp lệ khi: đã chọn file mới (đúng loại ảnh, ≤ 10MB) HOẶC tái dùng ảnh đã có trên Storage
     for (const [i, b] of blocks.entries()) {
       if (b.type !== "image" || b.storagePath) continue;
-      if (!b.file || !["image/jpeg", "image/png", "image/webp"].includes(b.file.type) || b.file.size > 5 * 1024 * 1024) {
+      if (!b.file || !isImageFile(b.file) || b.file.size > 10 * 1024 * 1024) {
         const tenAnh = b.sourceName ? ` ("${b.sourceName}"` : "";
         return setError(
           `Ảnh ở phần ${i + 1}${tenAnh ? tenAnh + ")" : ""} chưa có file hợp lệ.` +
             (b.sourceName
               ? ` Ảnh này được tham chiếu trong file LaTeX nhưng chưa được chọn kèm khi tải lên — hãy bấm "Chọn file" ở khối ảnh đó và chọn ${b.sourceName} từ thư mục chứa file .tex, hoặc xóa khối ảnh này đi.`
-              : " Ảnh phải là JPG, PNG hoặc WebP và không quá 5 MB."),
+              : " Ảnh phải là định dạng hình ảnh hợp lệ (JPG, PNG, WebP, GIF, SVG) và không quá 10 MB."),
         );
       }
     }
@@ -220,7 +221,7 @@ export default function DocumentEditor({
         }
         const file = b.file!;
         const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+        const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
         if (upload.error) { setError(`Không thể tải ảnh lên: ${upload.error.message}`); setSaving(false); return; }
         rows.push({ document_id, block_type: "image", storage_path: path, alt_text: b.altText.trim() || "Hình ảnh tài liệu Toán", caption: b.caption.trim() || null, position: i });
         continue;
@@ -244,7 +245,7 @@ export default function DocumentEditor({
           if (q.imageFile) {
             const file = q.imageFile;
             const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
             if (upload.error) {
               setError(`Không thể tải ảnh câu hỏi lên: ${upload.error.message}`);
               setSaving(false);
@@ -256,7 +257,7 @@ export default function DocumentEditor({
           if (q.explanationImageFile) {
             const file = q.explanationImageFile;
             const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+            const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
             if (upload.error) {
               setError(`Không thể tải ảnh lời giải lên: ${upload.error.message}`);
               setSaving(false);
@@ -270,7 +271,7 @@ export default function DocumentEditor({
               if (item.file) {
                 const file = item.file;
                 const path = `${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "-")}`;
-                const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: file.type });
+                const upload = await supabase.storage.from("document-images").upload(path, file, { contentType: getSafeImageContentType(file) });
                 if (upload.error) {
                   setError(`Không thể tải ảnh lời giải lên: ${upload.error.message}`);
                   setSaving(false);

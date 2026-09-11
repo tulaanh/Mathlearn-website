@@ -109,7 +109,10 @@ export function chapterPercent(
  */
 export function useProgress() {
   const { userId } = useProfile();
-  const [progress, setProgress] = useState<ProgressMap>(() => loadProgress(userId));
+  // KHÔNG đọc localStorage trong initializer: lần render đầu trên client phải
+  // khớp với server ({}), tránh lỗi hydration. Dữ liệu thật được nạp trong
+  // useEffect ngay sau mount (updateLocal bên dưới).
+  const [progress, setProgress] = useState<ProgressMap>({});
 
   // Khi userId đổi hoặc component mount: nạp cache local & đồng bộ từ Supabase
   useEffect(() => {
