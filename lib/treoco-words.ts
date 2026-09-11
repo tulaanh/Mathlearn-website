@@ -71,25 +71,79 @@ export function chuanHoaChu(chu: string): string {
   return BASE_MAP[noTone] ?? noTone;
 }
 
-/** Danh sách từ đoán chủ đề Trung Thu. */
+/** Danh sách 60 từ đoán chủ đề Trung Thu với gợi ý trừu tượng, thi vị và thử thách tư duy. */
 export const TREOCO_WORDS: TreocoWord[] = [
-  { key: "banh-trang-trang", text: "BÁNH TRÁNG TRĂNG", hint: "Bánh tròn dẹp nhân đậu xanh nướng trên bếp, đặc sản miền Nam." },
-  { key: "banh-nuong", text: "BÁNH NƯỚNG", hint: "Bánh trung thu vỏ nướng vàng ủ nâu, nhân mặn hoặc ngọt." },
-  { key: "banh-deo", text: "BÁNH DẺO", hint: "Bánh trung thu vỏ mềm dẻo, trắng trong như pha lê." },
-  { key: "den-ong-sao", text: "ĐÈN ÔNG SAO", hint: "Chiếc đèn giấy năm cánh sao lấp lánh trong đêm hội." },
-  { key: "den-long", text: "ĐÈN LỒNG", hint: "Đèn đỏ treo trước cửa nhà mỗi dịp lễ hội." },
-  { key: "chu-cuoi", text: "CHÚ CUỘI", hint: "Cậu bé ngồi trên cội cây đa dưới bóng trăng." },
-  { key: "cung-trang", text: "CUNG TRĂNG", hint: "Cung điện của nàng tiên trên bầu trời đêm." },
-  { key: "mat-trang", text: "MẶT TRĂNG", hint: "Vầng sáng tròn đầy nhất trên trời đêm rằm." },
-  { key: "mua-lan", text: "MÚA LÂN", hint: "Ông đầu lân nhảy nhót theo nhịp trống ngày hội." },
-  { key: "mua-rong", text: "MÚA RỒNG", hint: "Đoàn múa uốn lượn cây đèn như con rồng bay." },
-  { key: "trang-ram", text: "TRĂNG RẰM", hint: "Đêm 15 âm lịch, trăng tròn và sáng nhất tháng." },
-  { key: "le-hoi", text: "LỄ HỘI", hint: "Ngày vui rộn ràng đèn lồng, múa hát và bánh trái." },
-  { key: "cay-da", text: "CÂY ĐA", hint: "Loại cây cổ thụ gắn với tích chuyện chú Cuội." },
-  { key: "tho-ngoc", text: "THỎ NGỌC", hint: "Chú thỏ ngồi giã thuốc dưới ánh trăng." },
-  { key: "chi-hang", text: "CHỊ HẰNG", hint: "Nàng tiên sống trên cung trăng trong tích truyện xưa." },
-  { key: "pha-co", text: "PHÁ CỖ", hint: "Mâm bày đủ bánh trái, trái cây ngày rằm tháng tám." },
-  { key: "doan-vien", text: "ĐOÀN VIÊN", hint: "Hai tiếng chỉ sự sum vầy, quây quần của gia đình." },
+  // Nhóm 1: Bánh trái & Tinh hoa ẩm thực thu
+  { key: "banh-trang-trang", text: "BÁNH TRÁNG TRĂNG", hint: "Vầng sáng giòn tan ôm lấy lòng vàng bùi ngậy, nướng chín trên than hồng đất phương Nam." },
+  { key: "banh-nuong", text: "BÁNH NƯỚNG", hint: "Lớp áo gốm màu hổ phách ôm trọn trăm phong vị nhân gian sau ngọn lửa tôi luyện." },
+  { key: "banh-deo", text: "BÁNH DẺO", hint: "Ngọc mềm thuần khiết dệt từ giọt ngọc trời, ngậm hương hoa bưởi thoảng trong sương thu." },
+  { key: "banh-pia", text: "BÁNH PÍA", hint: "Vỏ ngàn lớp mỏng manh che chở cho hương vị nồng nàn và vầng dương đỏ béo ngậy." },
+  { key: "thap-cam", text: "THẬP CẨM", hint: "Bản giao hưởng hòa quyện mười phong vị trần thế: mặn, ngọt, bùi, ngậy trong một thể tròn đầy." },
+  { key: "dau-xanh", text: "ĐẬU XANH", hint: "Lòng vàng dịu mát được nghiền mịn thành chất nền thanh tịnh cho ngàn thức quà thu." },
+  { key: "trung-muoi", text: "TRỨNG MUỐI", hint: "Mặt trời đỏ thu nhỏ nằm ẩn mình nơi tâm điểm, tượng trưng cho phúc khí viên mãn." },
+  { key: "lap-xuong", text: "LẠP XƯỞNG", hint: "Dải lụa thắm đượm vị mặn ngọt hong khô qua sương gió, điểm xuyết giữa tầng hương cổ truyền." },
+  { key: "hat-sen", text: "HẠT SEN", hint: "Vị ngọt bùi ngủ say nơi đáy bùn lầy, bừng tỉnh thành ngọc quý thanh cao dâng đời." },
+  { key: "sen-hong", text: "SEN HỒNG", hint: "Hồn cốt thanh khiết vươn mình giữa sương mai, đọng lại hương sắc trang nhã bậc nhất." },
+  { key: "com-vong", text: "CỐM VÒNG", hint: "Hạt ngọc xanh gói trọn hương đồng gió nội và giọt sữa non dịu ngọt của mùa thu xứ Bắc." },
+  { key: "tra-sen", text: "TRÀ SEN", hint: "Thức hương đạo ướp giọt sương đêm trong búp ngọc, đánh thức sự tĩnh tại của tâm hồn." },
+  { key: "tra-cuc", text: "TRÀ CÚC", hint: "Dòng nước vàng óng mang dư vị đắng ngọt thanh tao, xoa dịu đi vị ngọt gắt của thế tục." },
+  { key: "khuon-banh", text: "KHUƠN BÁNH", hint: "Khối mộc khắc họa trăm nét hoa văn kỳ ảo, trao hình hài kiêu sa cho tinh hoa đất trời." },
+
+  // Nhóm 2: Lồng đèn & Ánh sáng dạ hội
+  { key: "den-ong-sao", text: "ĐÈN ÔNG SAO", hint: "Ánh tinh tú năm nhánh giáng trần, rực sáng lòng bàn tay dẫn lối trẻ thơ qua đêm huyền ảo." },
+  { key: "den-long", text: "ĐÈN LỒNG", hint: "Trái tim lửa ấm áp được nâng niu trong lụa mỏng, thắp sáng cả một góc trời hoài niệm." },
+  { key: "den-keo-quan", text: "ĐÈN KÉO QUÂN", hint: "Ngọn nến vô tình làm xoay chuyển cả một đoàn binh mã ảo ảnh nối đuôi nhau trong bóng tối." },
+  { key: "den-cu", text: "ĐÈN CÙ", hint: "Bánh xe sắc màu xoay tròn dưới gót chân rộn rã, càng vội vã lại càng bừng sáng rực rỡ." },
+  { key: "den-ca-chep", text: "ĐÈN CÁ CHÉP", hint: "Linh vật giấy mang khát vọng vượt ngọn sóng vũ môn, bơi lội giữa dòng sông ánh sáng trần gian." },
+  { key: "den-to-ong", text: "ĐÈN TỔ ONG", hint: "Tác phẩm giấy xếp kỳ diệu bung nở như tổ mật ngậm ngàn tia sáng khi được kéo dài đôi đầu." },
+  { key: "den-hoa-dang", text: "ĐÈN HOA ĐĂNG", hint: "Cánh sen lửa trôi lững lờ trên dòng nước biếc, chở theo ước nguyện bình an xuôi về cõi vô tận." },
+
+  // Nhóm 3: Thần thoại, Cung trăng & Cõi mơ
+  { key: "chu-cuoi", text: "CHÚ CUỘI", hint: "Kẻ lỡ nắm lấy rễ thiêng để rồi ngàn năm làm bạn cùng bóng tịch mịch nơi thăm thẳm trời cao." },
+  { key: "cung-trang", text: "CUNG TRĂNG", hint: "Lâu đài ngọc ngà lơ lửng giữa vô tận, nơi cất giữ những giấc mơ xa xôi chưa bao giờ chạm tới." },
+  { key: "quang-han-cung", text: "QUẢNG HÀN CUNG", hint: "Cung thất lạnh giá chìm trong màn sương khói của cõi tiên giới, vĩnh viễn cách biệt nhân gian." },
+  { key: "chi-hang", text: "CHỊ HẰNG", hint: "Bóng hồng vĩnh cửu mang nỗi u hoài nghìn thu, tỏa ánh sáng dịu mát chở che muôn loài." },
+  { key: "nguyet-nga", text: "NGUYỆT NGA", hint: "Mỹ danh thi vị của vị tiên nữ mang sắc đẹp băng thanh ngọc khiết ngự chốn tầng mây." },
+  { key: "tho-ngoc", text: "THỎ NGỌC", hint: "Sinh linh trắng muốt miệt mài giã thuốc trường sinh trong chiếc cối ngọc nơi cõi vắng." },
+  { key: "ngoc-tho", text: "NGỌC THỎ", hint: "Hiện thân của tuyết trắng thuần khiết trong thần thoại, biểu tượng bất tử ngự bên vầng dạ quang." },
+  { key: "cay-da", text: "CÂY ĐA", hint: "Cội rễ cổ xưa vươn giữa hai bờ thực ảo, chứng nhân nghìn năm của nỗi cô đơn giữa thiên hà." },
+  { key: "hau-nghe", text: "HẬU NGHỆ", hint: "Tay cung huyền thoại bắn rụng chín vầng dương nhưng bất lực nhìn người thương bay về chốn xa xăm." },
+  { key: "bong-que", text: "BÓNG QUẾ", hint: "Vết mờ ảo diệu thoang thoảng hương thơm huyền tích in sâu vào tâm khảm kẻ si tình." },
+
+  // Nhóm 4: Thiên văn, Mùa trăng & Thời khắc
+  { key: "mat-trang", text: "MẶT TRĂNG", hint: "Tấm gương khổng lồ của vũ trụ phản chiếu trọn vẹn những ước vọng viên mãn nơi trần thế." },
+  { key: "trang-ram", text: "TRĂNG RẰM", hint: "Thời khắc đỉnh cao của ánh sáng dạ hành, khi sự vẹn toàn đạt đến độ tuyệt đối giữa chu kỳ thời gian." },
+  { key: "trung-thu", text: "TRUNG THU", hint: "Thời điểm phân đôi mùa vàng rực rỡ, khi đất trời giao hòa và lòng người hướng về nguồn cội." },
+  { key: "thang-tam", text: "THÁNG TÁM", hint: "Khoảng thời gian giao mùa kỳ diệu mang số thứ tự tám, mở lối cho ngàn vì sao hội tụ trần gian." },
+  { key: "vong-nguyet", text: "VỌNG NGUYỆT", hint: "Tâm thế ngẩng đầu đối thoại cùng hư không, gởi gắm nỗi niềm tri kỷ vào vầng sáng vô ngôn." },
+  { key: "trang-thu", text: "TRĂNG THU", hint: "Bảo vật tuyệt mỹ nhất năm, vừa trong vắt không tì vết vừa u uẩn như giọt sương rơi chốn tiêu dao." },
+  { key: "nguyet-quang", text: "NGUYỆT QUANG", hint: "Thứ ánh sáng không thiêu đốt nhưng đủ sức xua tan bóng lạnh trong lòng kẻ viễn xứ." },
+  { key: "ngan-ha", text: "NGÂN HÀ", hint: "Dải lụa bạc lung linh vắt ngang bầu trời đêm, phân chia đôi bờ thương nhớ trong huyền tích." },
+  { key: "hac-nguyet", text: "HẠC NGUYỆT", hint: "Cánh chim thanh tao sải bóng dưới dạ quang, biểu tượng cho phong thái tiêu dao thoát tục." },
+
+  // Nhóm 5: Không khí lễ hội, Vũ điệu & Âm thanh
+  { key: "mua-lan", text: "MÚA LÂN", hint: "Linh thú giáng thế giữa hồi sấm giòn giã, mở ra vũ điệu trừ tà rước cát tường." },
+  { key: "mua-rong", text: "MÚA RỒNG", hint: "Thần thú uốn lượn như dòng chảy sinh khí cuồn cuộn, kết nối linh khí đất trời bằng uy vũ." },
+  { key: "su-tu", text: "SƯ TỬ", hint: "Dáng hình dũng mãnh khoác lớp giáp hoa rực rỡ, gieo rắc niềm vui và xua tan ám khí." },
+  { key: "song-lan", text: "SONG LÂN", hint: "Cặp linh vật hòa nhịp âm dương đối xứng, mang điềm lành và phước lộc nhân đôi tới muôn nhà." },
+  { key: "ong-dia", text: "ÔNG ĐỊA", hint: "Nụ cười tròn đầy phúc hậu phe phẩy quạt mo, hiện thân của đất mẹ bao dung hòa nhã." },
+  { key: "le-hoi", text: "LỄ HỘI", hint: "Khoảng không gian nhiệm màu xóa nhòa biên giới thời gian, nơi cộng đồng sẻ chia niềm hân hoan." },
+  { key: "tieng-trong", text: "TIẾNG TRỐNG", hint: "Nhịp tim rộn rã thúc giục bước chân trần gian, đánh thức bóng đêm bằng thanh âm hào sảng." },
+  { key: "trong-quan", text: "TRỐNG QUÂN", hint: "Sợi dây mây căng trên hố đất ngân vang câu đối đáp ân tình của lứa đôi dưới bóng trăng thanh." },
+  { key: "mat-na", text: "MẶT NẠ", hint: "Tấm màn biến ảo che chở thân phận thực, mở cánh cửa bước vào thế giới thần tiên diệu kỳ." },
+  { key: "dan-ong", text: "DÀN ỐNG", hint: "Chuỗi tiếng nổ tí tách rộn rã của đồ chơi dân gian, vang lên tiếng cười hồn nhiên một thời thơ ấu." },
+
+  // Nhóm 6: Phong tục, Ý nghĩa & Triết lý nhân sinh
+  { key: "pha-co", text: "PHÁ CỖ", hint: "Nghi lễ chia sẻ lộc trời khi vầng dạ quang lên tới đỉnh trời cao nhất, đánh dấu khoảnh khắc sum vầy." },
+  { key: "doan-vien", text: "ĐOÀN VIÊN", hint: "Vòng tròn vô hình khép lại muôn dặm cách trở, gom góp mọi bước chân phiêu bạt về chung một mái nhà." },
+  { key: "cho-buoi", text: "CHÓ BƯỞI", hint: "Linh vật hiền lành kết từ hàng trăm múi tép trắng muốt, lặng lẽ canh giữ mâm cỗ đêm rằm." },
+  { key: "mam-ngu-qua", text: "MÂM NGŨ QUẢ", hint: "Năm sắc thái hài hòa tượng trưng cho ngũ hành trời đất, dâng trọn lòng biết ơn và nguyện ước bình an." },
+  { key: "hoa-cuc", text: "HOA CÚC", hint: "Loài hoa gom trọn sắc vàng rực của nắng hạ để kiêu hãnh bừng nở giữa tiết sương hàn." },
+  { key: "da-yen", text: "DẠ YẾN", hint: "Bữa tiệc thanh nhã hội tụ tri âm dưới trời sao, nơi thi họa và tâm tình hòa vào chén trà thơm." },
+  { key: "phuc-loc", text: "PHÚC LỘC", hint: "Ước vọng nghìn đời về cuộc sống tròn đầy, được khắc trang trọng lên mỗi khuôn bánh dâng người." },
+  { key: "tu-quy", text: "TỨ QUÝ", hint: "Bốn giai điệu luân chuyển của đất trời, tượng trưng cho sự thịnh vượng vững bền cùng tuế nguyệt." },
+  { key: "vien-man", text: "VIÊN MÃN", hint: "Trạng thái trọn vẹn tuyệt đối khi trăng tròn, lòng người an yên và tình thân không còn khoảng cách." },
+  { key: "tich-xua", text: "TÍCH XƯA", hint: "Dòng chảy truyền kỳ ngàn năm được thì thầm bên bàn trà, nuôi dưỡng tâm hồn qua bao mùa trăng sáng." },
 ];
 
 /** Tìm từ theo key (undefined nếu key không còn trong danh sách). */
