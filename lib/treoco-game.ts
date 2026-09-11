@@ -15,7 +15,7 @@ import type { QuestionDifficulty } from "@/lib/question-bank-types";
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 import { TREOCO_CAU_HOI_MAC_DINH } from "@/lib/treoco-cau-hoi-mac-dinh";
 import { NGAN_HANG_CAU_HOI_GAME } from "@/lib/treoco-bank-questions";
-import { pickRandomQuestionsByMatrix, getBankQuestionById } from "@/lib/question-bank";
+import { getBankQuestions, pickRandomQuestionsByMatrix, getBankQuestionById } from "@/lib/question-bank";
 
 /** 3 độ khó tương ứng 3 hũ (Dễ / Trung bình / Khó). */
 export const TREOCO_JAR_DIFFICULTIES: QuestionDifficulty[] = ["nhan_biet", "thong_hieu", "van_dung"];
@@ -183,51 +183,104 @@ export async function saveTreocoActiveState(
   }
 }
 
-/** Chuyển câu trắc nghiệm ngân hàng (content jsonb) thành câu hỏi game. */
-export function bankQuestionToTreocoCauHoi(
-  row: { id: string; text: string; content: unknown; difficulty: string },
-  difficulty: QuestionDifficulty,
-): TreocoCauHoi | null {
-  let content: Record<string, unknown> = {};
-  try {
-    content = typeof row.content === "string" ? JSON.parse(row.content) : (row.content as Record<string, unknown>) ?? {};
-  } catch {
-    return null;
+/**
+ * Kiểm tra câu hỏi có đầy đủ hình ảnh minh họa nếu đề bài có đề cập đến hình vẽ.
+ * Tránh tuyệt đối trường hợp học sinh gặp câu hỏi "như hình vẽ bên" hay "bảng biến thiên"
+ * nhưng không có hình ảnh hiển thị.
+ */
+export function questionHasRequiredImage(q: TreocoCauHoi): boolean {
+  if (!q || !q.text) return false;
+  const qTextLower = q.text.toLowerCase();
+  const requiresFigure =
+    qTextLower.includes("hình vẽ") ||
+    qTextLower.includes("bảng biến thiên") ||
+    qTextLower.includes("bảng xét dấu") ||
+    qTextLower.includes("như hình") ||
+    qTextLower.includes("hình dưới") ||
+    qTextLower.includes("hình bên") ||
+    qTextLower.includes("đồ thị bên") ||
+    qTextLower.includes("đường cong trong hình");
+
+  if (requiresFigure) {
+    const hasImage = Boolean(
+      (q.imageStoragePath && q.imageStoragePath.trim()) ||
+      (q.imageUrl && q.imageUrl.trim())
+    );
+    return hasImage;
   }
-  const rawOptions = Array.isArray(content.options) ? (content.options as unknown[]) : [];
+  return true;
+}
+
+/** Chuyển câu trắc nghiệm ngân hàng (hỗ trợ cả BankQuestion đã map lẫn raw DB row) thành câu hỏi game. */
+export function bankQuestionToTreocoCauHoi(
+  row: any,
+  difficulty?: QuestionDifficulty,
+): TreocoCauHoi | null {
+  if (!row || typeof row !== "object") return null;
+
+  let content: Record<string, any> = {};
+  if (row.content) {
+    try {
+      content = typeof row.content === "string" ? JSON.parse(row.content) : (row.content ?? {});
+    } catch {
+      content = {};
+    }
+  }
+
+  // Lấy options từ content.options hoặc row.options
+  const rawOptions = Array.isArray(row.options)
+    ? row.options
+    : Array.isArray(content.options)
+    ? content.options
+    : [];
+
   if (rawOptions.length < 2) return null;
 
   let texts: string[] = [];
   let correctIndex = -1;
 
   if (typeof rawOptions[0] === "string") {
-    texts = rawOptions.map((o) => String(o).trim());
-    if (typeof content.correctIndex === "number") {
+    texts = rawOptions.map((o: any) => String(o).trim());
+    if (typeof row.correctIndex === "number") {
+      correctIndex = row.correctIndex;
+    } else if (typeof content.correctIndex === "number") {
       correctIndex = content.correctIndex;
     }
   } else {
+    // rawOptions là mảng các object { id, text, correctVal? }
     const optObjects = rawOptions as { id?: string; text?: string }[];
     texts = optObjects.map((o) => (o?.text ? o.text.trim() : ""));
-    const correctOptionId = content.correctOptionId;
-    correctIndex = optObjects.findIndex((o) => o?.id && o.id === correctOptionId);
+    const correctOptionId = row.correctOptionId || content.correctOptionId;
+    if (correctOptionId) {
+      correctIndex = optObjects.findIndex((o) => o?.id && o.id === correctOptionId);
+    }
+    if (correctIndex < 0 && typeof row.correctIndex === "number") {
+      correctIndex = row.correctIndex;
+    } else if (correctIndex < 0 && typeof content.correctIndex === "number") {
+      correctIndex = content.correctIndex;
+    }
   }
 
   if (correctIndex < 0 || correctIndex >= texts.length || !texts[correctIndex]) return null;
 
-  const imageStoragePath = (content.imageStoragePath || (content as any).storagePath) as string | undefined;
-  const imageUrl = content.imageUrl as string | undefined;
-  const imageCaption = content.imageCaption as string | undefined;
-  const explanationImageStoragePath = content.explanationImageStoragePath as string | undefined;
-  const explanationImageUrl = content.explanationImageUrl as string | undefined;
-  const explanationImages = content.explanationImages as any;
+  const imageStoragePath = (row.imageStoragePath || content.imageStoragePath || content.storagePath) as string | undefined;
+  const imageUrl = (row.imageUrl || content.imageUrl) as string | undefined;
+  const imageCaption = (row.imageCaption || content.imageCaption) as string | undefined;
+
+  const explanation = typeof row.explanation === "string" ? row.explanation : (typeof content.explanation === "string" ? content.explanation : "");
+  const explanationImageStoragePath = (row.explanationImageStoragePath || content.explanationImageStoragePath) as string | undefined;
+  const explanationImageUrl = (row.explanationImageUrl || content.explanationImageUrl) as string | undefined;
+  const explanationImages = row.explanationImages || content.explanationImages;
+
+  const diff: QuestionDifficulty = difficulty || row.difficulty || content.difficulty || "nhan_biet";
 
   return {
-    id: row.id,
-    text: row.text,
+    id: String(row.id || ""),
+    text: String(row.text || ""),
     options: texts,
     correctIndex,
-    explanation: typeof content.explanation === "string" ? content.explanation : "",
-    difficulty,
+    explanation,
+    difficulty: diff,
     imageStoragePath: imageStoragePath?.trim() || undefined,
     imageUrl: imageUrl?.trim() || undefined,
     imageCaption: imageCaption?.trim() || undefined,
@@ -239,29 +292,57 @@ export function bankQuestionToTreocoCauHoi(
 
 /**
  * Chọn ngẫu nhiên 1 câu trắc nghiệm của mức độ:
- * 1. Tái sử dụng cách gọi có sẵn từ Ngân hàng câu hỏi (pickRandomQuestionsByMatrix)
- * 2. Ngân hàng câu hỏi Toán học thực tế (170 câu chuẩn từ các bộ đề thi NganHang_HamSo_De01..04.json)
+ * 1. Tái sử dụng cách gọi từ Ngân hàng câu hỏi trên CSDL:
+ *    - getBankQuestions({ difficulty }, 1, 50)
+ *    - pickRandomQuestionsByMatrix({ [difficulty]: 15 })
+ * 2. Ngân hàng câu hỏi Toán học thực tế trích xuất từ các bộ đề ngân hàng (180 câu chuẩn kèm ảnh)
  * 3. Pool dự phòng cơ bản
  */
 export async function pickTreocoQuestion(
   supabase: SupabaseClient,
   difficulty: QuestionDifficulty,
 ): Promise<TreocoCauHoi | null> {
-  // 1. Tái sử dụng trực tiếp hàm của Ngân hàng câu hỏi (pickRandomQuestionsByMatrix)
+  // 1. Tải từ CSDL Ngân hàng câu hỏi (giống như trang /ngan-hang-cau-hoi)
+  try {
+    const { items } = await getBankQuestions({ difficulty }, 1, 50);
+    if (items && items.length > 0) {
+      const validQuestions: TreocoCauHoi[] = [];
+      for (const bq of items) {
+        const q = bankQuestionToTreocoCauHoi(bq, bq.difficulty);
+        if (q && Array.isArray(q.options) && q.options.length >= 2 && typeof q.correctIndex === "number") {
+          // Bỏ qua các câu tích phân/nguyên hàm (kỳ 2)
+          const allText = (q.text + " " + (q.explanation || "")).toLowerCase();
+          if (!allText.includes("tích phân") && !allText.includes("nguyên hàm") && !allText.includes("\\int")) {
+            if (questionHasRequiredImage(q)) {
+              validQuestions.push(q);
+            }
+          }
+        }
+      }
+      if (validQuestions.length > 0) {
+        return shuffle(validQuestions)[0];
+      }
+    }
+  } catch (err) {
+    console.warn("Lưu ý: Không kết nối được Ngân hàng câu hỏi qua getBankQuestions:", err);
+  }
+
+  // 1b. Thử tiếp qua pickRandomQuestionsByMatrix
   try {
     const { picked } = await pickRandomQuestionsByMatrix(
-      { [difficulty]: 10 },
+      { [difficulty]: 15 },
       { type: "multiple_choice" },
     );
     if (picked && picked.length > 0) {
       const validQuestions: TreocoCauHoi[] = [];
       for (const bq of picked) {
-        const q = bankQuestionToTreocoCauHoi(bq as any, bq.difficulty);
+        const q = bankQuestionToTreocoCauHoi(bq, bq.difficulty);
         if (q && Array.isArray(q.options) && q.options.length >= 2 && typeof q.correctIndex === "number") {
-          // Bỏ qua các câu tích phân/nguyên hàm (kỳ 2)
           const allText = (q.text + " " + (q.explanation || "")).toLowerCase();
           if (!allText.includes("tích phân") && !allText.includes("nguyên hàm") && !allText.includes("\\int")) {
-            validQuestions.push(q);
+            if (questionHasRequiredImage(q)) {
+              validQuestions.push(q);
+            }
           }
         }
       }
@@ -273,8 +354,10 @@ export async function pickTreocoQuestion(
     console.warn("Lưu ý: Không kết nối được Ngân hàng câu hỏi qua pickRandomQuestionsByMatrix:", err);
   }
 
-  // 2. Ngân hàng câu hỏi Toán học thực tế trích xuất từ các bộ đề ngân hàng (170 câu chuẩn)
-  const bankPool = NGAN_HANG_CAU_HOI_GAME.filter((q) => q.difficulty === difficulty);
+  // 2. Ngân hàng câu hỏi Toán học thực tế trích xuất từ các bộ đề ngân hàng (180 câu chuẩn kèm ảnh)
+  const bankPool = NGAN_HANG_CAU_HOI_GAME.filter(
+    (q) => q.difficulty === difficulty && questionHasRequiredImage(q),
+  );
   if (bankPool.length > 0) {
     return shuffle(bankPool)[0];
   }
@@ -292,20 +375,20 @@ export async function findTreocoQuestionById(
   supabase: SupabaseClient,
   id: string,
 ): Promise<TreocoCauHoi | null> {
-  // 1. Tìm trong ngân hàng câu hỏi game (170 câu chuẩn)
-  const fromBank = NGAN_HANG_CAU_HOI_GAME.find((q) => q.id === id);
-  if (fromBank) return fromBank;
-
-  // 2. Tái sử dụng getBankQuestionById có sẵn từ Ngân hàng câu hỏi (lib/question-bank)
+  // 1. Tái sử dụng getBankQuestionById có sẵn từ Ngân hàng câu hỏi (lib/question-bank)
   try {
     const bankQ = await getBankQuestionById(id);
     if (bankQ) {
-      const q = bankQuestionToTreocoCauHoi(bankQ as any, bankQ.difficulty);
+      const q = bankQuestionToTreocoCauHoi(bankQ, bankQ.difficulty);
       if (q) return q;
     }
   } catch {
     // Bỏ qua lỗi
   }
+
+  // 2. Tìm trong ngân hàng câu hỏi game
+  const fromBank = NGAN_HANG_CAU_HOI_GAME.find((q) => q.id === id);
+  if (fromBank) return fromBank;
 
   // 3. Tìm trong pool dự phòng
   const fromDefault = TREOCO_CAU_HOI_MAC_DINH.find((q) => q.id === id);

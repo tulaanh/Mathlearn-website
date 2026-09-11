@@ -32,13 +32,24 @@ export function resolvePreviewImageSrc(block: Extract<DocumentFormBlock, { type:
   return null;
 }
 
-export function resolveQuestionImageSrc(q: { imageFile?: File | null; imageStoragePath?: string; imageUrl?: string }): string | null {
+export function resolveQuestionImageSrc(q: {
+  imageFile?: File | null;
+  imageStoragePath?: string;
+  imageUrl?: string;
+  imageSourceName?: string;
+  imageFileName?: string;
+}): string | null {
   if (q.imageFile) return getLocalImageUrl(q.imageFile);
+  if (q.imageUrl) return getDocumentImageUrl(q.imageUrl);
   if (q.imageStoragePath) {
     const url = getDocumentImageUrl(q.imageStoragePath);
     return url || null;
   }
-  if (q.imageUrl) return q.imageUrl;
+  const fallback = q.imageFileName || q.imageSourceName;
+  if (fallback) {
+    const url = getDocumentImageUrl(fallback);
+    return url || null;
+  }
   return null;
 }
 

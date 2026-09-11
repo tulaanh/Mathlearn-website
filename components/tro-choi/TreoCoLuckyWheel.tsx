@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import MooncakeIcon, { getMooncakeSrc } from "./MooncakeIcon";
 import { LAM_THUY_MOONCAKES } from "@/lib/treoco-state";
 import LazyMathText from "@/components/LazyMathText";
-import { resolveQuestionImageSrc } from "@/lib/document-preview";
+import { resolveQuestionImageSrc, resolveAllExplanationImages } from "@/lib/document-preview";
 import { NGAN_HANG_CAU_HOI_GAME } from "@/lib/treoco-bank-questions";
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 import {
@@ -777,17 +777,14 @@ export default function TreoCoLuckyWheel({
 
               {/* Hình ảnh minh họa (nếu có trong CSDL) */}
               {(() => {
-                const imgUrl = resolveQuestionImageSrc({
-                  imageUrl: challengeQuestion.imageUrl,
-                  imageStoragePath: challengeQuestion.imageStoragePath,
-                });
+                const imgUrl = resolveQuestionImageSrc(challengeQuestion as any);
                 if (!imgUrl) return null;
                 return (
                   <div className="mt-3 flex justify-center">
                     <img
                       src={imgUrl}
                       alt={challengeQuestion.imageCaption || "Hình minh họa câu hỏi"}
-                      className="max-h-56 max-w-full rounded-xl border border-white/15 bg-white/5 object-contain p-1 shadow-md"
+                      className="max-h-72 max-w-full rounded-xl border border-white/15 bg-white/5 object-contain p-1 shadow-md"
                     />
                   </div>
                 );
@@ -864,15 +861,41 @@ export default function TreoCoLuckyWheel({
                   </div>
                 )}
 
-                {/* Lời giải chi tiết */}
-                {challengeQuestion.explanation && (
-                  <div className="mt-3 text-left rounded-xl border border-white/10 bg-slate-900/70 p-3.5 text-xs sm:text-sm">
-                    <span className="font-bold text-amber-300">💡 Lời giải chi tiết:</span>
-                    <div className="mt-1.5 leading-relaxed text-slate-200">
-                      <LazyMathText text={challengeQuestion.explanation} />
+                {/* Lời giải chi tiết (kèm hình ảnh minh họa lời giải nếu có) */}
+                {(() => {
+                  const expImages = resolveAllExplanationImages(challengeQuestion as any);
+                  const hasExp = Boolean(challengeQuestion.explanation?.trim() || expImages.length > 0);
+                  if (!hasExp) return null;
+                  return (
+                    <div className="mt-3 text-left rounded-xl border border-white/10 bg-slate-900/70 p-3.5 text-xs sm:text-sm">
+                      <span className="font-bold text-amber-300">💡 Lời giải chi tiết:</span>
+                      {challengeQuestion.explanation && (
+                        <div className="mt-1.5 leading-relaxed text-slate-200">
+                          <LazyMathText text={challengeQuestion.explanation} />
+                        </div>
+                      )}
+                      {expImages.length > 0 && (
+                        <div className="mt-2 space-y-2">
+                          {expImages.map((img, idx) => (
+                            <figure key={idx} className="text-center">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={img.src}
+                                alt={img.caption || `Hình vẽ lời giải ${idx + 1}`}
+                                className="mx-auto max-h-64 max-w-full rounded-xl border border-white/10 bg-white/5 object-contain p-1"
+                              />
+                              {img.caption && (
+                                <figcaption className="mt-1 text-xs text-slate-400">
+                                  {img.caption}
+                                </figcaption>
+                              )}
+                            </figure>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
 
                 {/* Nút đóng thử thách tiếp tục */}
                 <button
