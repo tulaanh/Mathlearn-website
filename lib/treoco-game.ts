@@ -53,17 +53,13 @@ function shuffle<T>(list: T[]): T[] {
 }
 
 /**
- * Xáo trộn 2 độ khó gán vào 3 hũ:
- * - 100% là Nhận biết (Dễ) và Thông hiểu (Trung bình).
- * - Loại bỏ hoàn toàn câu Vận dụng để người chơi trải nghiệm nhanh và dễ lấy vé.
+ * Xáo trộn 3 độ khó gán vào 3 hũ:
+ * - 1 hũ Nhận biết (Dễ)
+ * - 1 hũ Thông hiểu (Trung bình)
+ * - 1 hũ Vận dụng (Khó)
  */
 export function shuffleJarDifficulties(): QuestionDifficulty[] {
-  const roll = Math.random();
-  const base: QuestionDifficulty[] =
-    roll < 0.6
-      ? ["nhan_biet", "nhan_biet", "thong_hieu"]
-      : ["nhan_biet", "thong_hieu", "thong_hieu"];
-  return shuffle(base);
+  return shuffle(["nhan_biet", "thong_hieu", "van_dung"]);
 }
 
 /** Đọc/xáo chuỗi jar_difficulties trong dòng DB; sai cấu trúc thì xáo mới. */
@@ -71,7 +67,7 @@ export function readJarDifficulties(row: TreocoRow): QuestionDifficulty[] {
   const jars = Array.isArray(row.jar_difficulties) ? (row.jar_difficulties as string[]) : [];
   const valid =
     jars.length === 3 &&
-    jars.every((d) => ["nhan_biet", "thong_hieu"].includes(d));
+    jars.every((d) => ["nhan_biet", "thong_hieu", "van_dung"].includes(d));
   return valid ? (jars as QuestionDifficulty[]) : shuffleJarDifficulties();
 }
 
@@ -242,8 +238,8 @@ export function bankQuestionToTreocoCauHoi(
 
 /**
  * Chọn ngẫu nhiên 1 câu trắc nghiệm của mức độ:
- * 1. Ưu tiên ngân hàng câu hỏi trên Supabase (nếu có dữ liệu)
- * 2. Ngân hàng câu hỏi Toán học thực tế (78 câu trắc nghiệm Khảo sát hàm số, Đạo hàm, Cực trị...)
+ * 1. Ưu tiên lấy trực tiếp từ bảng question_bank trên CSDL Supabase
+ * 2. Ngân hàng câu hỏi Toán học thực tế (170 câu chuẩn từ các bộ đề thi NganHang_HamSo_De01..04.json)
  * 3. Pool dự phòng cơ bản
  */
 export async function pickTreocoQuestion(
@@ -252,43 +248,46 @@ export async function pickTreocoQuestion(
 ): Promise<TreocoCauHoi | null> {
   // 1. Thử lấy từ bảng question_bank trên Supabase
   try {
-    const { data: idRows } = await supabase
+    const { data: rows, error } = await supabase
       .from("question_bank")
-      .select("id")
+      .select("id, text, content, difficulty, type")
       .eq("difficulty", difficulty)
       .eq("type", "multiple_choice");
-    const ids = (idRows ?? []).map((r: { id: string }) => r.id);
-    if (ids.length) {
-      const chosenId = shuffle(ids)[0];
-      const { data: row } = await supabase
-        .from("question_bank")
-        .select("id, text, content")
-        .eq("id", chosenId)
-        .maybeSingle();
-      if (row) {
-        const question = bankQuestionToTreocoCauHoi(
-          { id: row.id, text: row.text, content: row.content, difficulty },
+    if (!error && rows && rows.length > 0) {
+      const validQuestions: TreocoCauHoi[] = [];
+      for (const r of rows) {
+        const q = bankQuestionToTreocoCauHoi(
+          { id: r.id, text: r.text, content: r.content, difficulty: r.difficulty },
           difficulty,
         );
-        if (question) return question;
+        if (q && Array.isArray(q.options) && q.options.length >= 2 && typeof q.correctIndex === "number") {
+          // Bỏ qua các câu tích phân/nguyên hàm (kỳ 2)
+          const allText = (q.text + " " + (q.explanation || "")).toLowerCase();
+          if (!allText.includes("tích phân") && !allText.includes("nguyên hàm") && !allText.includes("\\int")) {
+            validQuestions.push(q);
+          }
+        }
+      }
+      if (validQuestions.length > 0) {
+        return shuffle(validQuestions)[0];
       }
     }
-  } catch {
-    // Không chặn game nếu bảng question_bank chưa sẵn sàng
+  } catch (err) {
+    console.warn("Lưu ý: Không kết nối được bảng question_bank từ CSDL:", err);
   }
 
-  // 2. Ngân hàng câu hỏi Toán học phong phú đã chuẩn hóa từ các bộ đề thi
+  // 2. Ngân hàng câu hỏi Toán học thực tế trích xuất từ các bộ đề ngân hàng (170 câu chuẩn)
   const bankPool = NGAN_HANG_CAU_HOI_GAME.filter((q) => q.difficulty === difficulty);
   if (bankPool.length > 0) {
     return shuffle(bankPool)[0];
   }
 
-  // 3. Pool dự phòng
+  // 3. Pool dự phòng cơ bản
   const pool = TREOCO_CAU_HOI_MAC_DINH.filter((q) => q.difficulty === difficulty);
-  if (!pool.length) {
-    return TREOCO_CAU_HOI_MAC_DINH.length ? TREOCO_CAU_HOI_MAC_DINH[0] : null;
+  if (pool.length > 0) {
+    return shuffle(pool)[0];
   }
-  return pool[Math.floor(Math.random() * pool.length)];
+  return TREOCO_CAU_HOI_MAC_DINH.length ? TREOCO_CAU_HOI_MAC_DINH[0] : null;
 }
 
 /** Tìm câu hỏi theo ID từ ngân hàng câu hỏi, pool dự phòng hoặc database Supabase. */

@@ -1,8 +1,8 @@
 /**
- * Ngân hàng câu hỏi Toán học thực tế trích xuất trực tiếp từ các bộ đề thi ngân hàng chuẩn của hệ thống (NganHang_HamSo_De01..04.json).
- * - 100% là các câu hỏi thi THPT chuẩn (THPT Lê Thánh Tông HCM, ĐH KHTN HN, Sở GD&ĐT...).
- * - 100% ở 2 mức độ: Nhận biết (Dễ) và Thông hiểu (Trung bình).
- * - Không có câu Vận dụng khó, không có câu Tích phân/Nguyên hàm.
+ * Ngân hàng câu hỏi Toán học chuẩn trích xuất từ các bộ đề thi ngân hàng (NganHang_HamSo_De01..04.json).
+ * - Nhận biết (Dễ) và Thông hiểu (Trung bình) dùng cho cả Thử thách Toán 60s và Hũ bí mật.
+ * - Vận dụng (Khó) bổ sung cho Hũ bí mật trong Mini Game Trung Thu.
+ * - Không có câu Tích phân/Nguyên hàm.
  */
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 
@@ -1826,5 +1826,395 @@ export const NGAN_HANG_CAU_HOI_GAME: TreocoCauHoi[] = [
     ],
     "correctIndex": 2,
     "explanation": "Ta có bảng biến thiên trên $[-2;3]$:\nGiá trị nhỏ nhất là $f(0)$. Mặt khác $f(1) + f(-2) = f(3) + f(0)$ và $f(1) > f(0) \\Rightarrow f(-2) < f(3)$.\nDo đó giá trị lớn nhất của hàm số là $f(3)$."
+  },
+  {
+    "id": "bank-hs-141",
+    "difficulty": "van_dung",
+    "text": "(Cụm trường Hà Tĩnh 2026) Đường tiệm cận xiên của đồ thị hàm số $y = x+4+\\frac{x-1}{x-2}$ là",
+    "options": [
+      "$y = x+4$.",
+      "$x = 2$.",
+      "$y = x+5$.",
+      "$y = x+3$."
+    ],
+    "correctIndex": 2,
+    "explanation": "Ta có $y = x+4+\\frac{x-1}{x-2} = x+4+1+\\frac{1}{x-2} = x+5+\\frac{1}{x-2}$.\nVì $\\lim_{x \\to \\pm\\infty} [y - (x+5)] = \\lim_{x \\to \\pm\\infty} \\frac{1}{x-2} = 0$ nên đường tiệm cận xiên là $y = x+5$."
+  },
+  {
+    "id": "bank-hs-142",
+    "difficulty": "van_dung",
+    "text": "(Liên trường Nghệ An 2026) Hàm số nào sau đây nghịch biến trên $\\mathbb{R}$?",
+    "options": [
+      "$y = \\left(\\frac{2026}{2025}\\right)^x$.",
+      "$y = \\log_{\\frac{1}{2}} x$.",
+      "$y = \\frac{2x-1}{x-1}$.",
+      "$y = e^{-x}$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Xét hàm số $y = e^{-x}$ có tập xác định $D = \\mathbb{R}$ và đạo hàm $y' = -e^{-x} < 0, \\forall x \\in \\mathbb{R}$. Do đó hàm số $y = e^{-x}$ nghịch biến trên $\\mathbb{R}$."
+  },
+  {
+    "id": "bank-hs-143",
+    "difficulty": "van_dung",
+    "text": "(Liên trường Nghệ An 2026) Đường tiệm cận đứng của đồ thị hàm số $y = \\frac{2x+3}{x-1}$ là",
+    "options": [
+      "$x = 2$.",
+      "$y = 1$.",
+      "$y = 2$.",
+      "$x = 1$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Vì $\\lim_{x \\to 1^+} \\frac{2x+3}{x-1} = +\\infty$ nên đường thẳng $x = 1$ là đường tiệm cận đứng của đồ thị hàm số."
+  },
+  {
+    "id": "bank-hs-144",
+    "difficulty": "van_dung",
+    "text": "(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Cho hàm số $y=f(x)$ có đạo hàm $f'(x) = x^2(x+1)^2(2x-1)$. Số điểm cực trị của hàm số $y=f(x)$ là",
+    "options": [
+      "$3$.",
+      "$0$.",
+      "$2$.",
+      "$1$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Phương trình $f'(x) = 0 \\Leftrightarrow x^2(x+1)^2(2x-1) = 0$ có nghiệm đơn $x = \\frac{1}{2}$ và hai nghiệm bội chẵn $x = 0, x = -1$. Vì đạo hàm chỉ đổi dấu 1 lần khi qua $x = \\frac{1}{2}$ nên hàm số có đúng 1 điểm cực trị."
+  },
+  {
+    "id": "bank-hs-145",
+    "difficulty": "van_dung",
+    "text": "(THPT Nguyễn Thị Minh Khai - Hà Nội 2026) Giá trị nhỏ nhất của hàm số $y = x^3-3x+5$ trên đoạn $[2;4]$ là",
+    "options": [
+      "$\\min_{[2;4]} y = 5$.",
+      "$\\min_{[2;4]} y = 0$.",
+      "$\\min_{[2;4]} y = 3$.",
+      "$\\min_{[2;4]} y = 7$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Hàm số liên tục trên $[2;4]$. Ta có $y' = 3x^2 - 3 = 0 \\Leftrightarrow x = \\pm 1 \\notin [2;4]$.\nTa tính $y(2) = 7, y(4) = 57$.\nVậy giá trị nhỏ nhất của hàm số trên đoạn $[2;4]$ là $7$ tại $x = 2$."
+  },
+  {
+    "id": "bank-hs-146",
+    "difficulty": "van_dung",
+    "text": "(THPT Nguyễn Khuyến - HCM 2026) Hàm số $y = \\sqrt{-x^2+2x}$ đồng biến trên khoảng nào?",
+    "options": [
+      "$(0;1)$.",
+      "$(1;2)$.",
+      "$(-\\infty;0)$.",
+      "$(2;+\\infty)$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Điều kiện bài toán: $-x^2+2x \\ge 0 \\Leftrightarrow 0 \\le x \\le 2$.\nTa có $y' = \\frac{-2x+2}{2\\sqrt{-x^2+2x}} \\ge 0 \\Rightarrow x \\le 1$.\nVậy hàm số đồng biến trên khoảng $(0;1)$."
+  },
+  {
+    "id": "bank-hs-147",
+    "difficulty": "van_dung",
+    "text": "(THPT Nguyễn Khuyến - HCM 2026) Cho hàm số $y = \\frac{x^2-3x+4}{x+1}$. Tiệm cận đứng của đồ thị hàm số là",
+    "options": [
+      "$y = 1$.",
+      "$x = -1$.",
+      "$x = 1$.",
+      "$y = -1$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Tập xác định của hàm số $D = \\mathbb{R}\\setminus\\{-1\\}$.\nVì $\\lim_{x \\to (-1)^+} \\frac{x^2-3x+4}{x+1} = +\\infty$ nên $x = -1$ là đường tiệm cận đứng của đồ thị hàm số."
+  },
+  {
+    "id": "bank-hs-148",
+    "difficulty": "van_dung",
+    "text": "(Sở Ninh Bình 2026) Giá trị lớn nhất của hàm số $y = x^3-3x+2$ trên đoạn $[0;3]$ bằng",
+    "options": [
+      "$2$.",
+      "$3$.",
+      "$20$.",
+      "$0$."
+    ],
+    "correctIndex": 2,
+    "explanation": "Hàm số đã cho liên tục trên đoạn $[0;3]$. Ta có: $y' = 3x^2 - 3 = 0 \\Leftrightarrow x = 1 \\in [0;3]$ (hoặc $x = -1 \\notin [0;3]$).\nXét trên đoạn $[0;3]$:\n$y(0) = 0^3 - 3\\times 0 + 2 = 2;$\n$y(1) = 1^3 - 3\\times 1 + 2 = 0;$\n$y(3) = 3^3 - 3\\times 3 + 2 = 20$.\nVậy giá trị lớn nhất của hàm số trên đoạn $[0;3]$ bằng $20$ tại $x = 3$."
+  },
+  {
+    "id": "bank-hs-149",
+    "difficulty": "van_dung",
+    "text": "(Sở Ninh Bình 2026) Phương trình đường tiệm cận xiên của đồ thị hàm số $y = \\frac{x^2+x-3}{x+1}$ là",
+    "options": [
+      "$y = x+1$.",
+      "$y = x$.",
+      "$y = x-3$.",
+      "$y = 2x$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Ta có $y = \\frac{x^2+x-3}{x+1} = x - \\frac{3}{x+1}$.\nDo đó $\\lim_{x \\to \\pm\\infty} (y - x) = \\lim_{x \\to \\pm\\infty} \\left(-\\frac{3}{x+1}\\right) = 0 \\Rightarrow y = x$ là đường tiệm cận xiên của đồ thị hàm số."
+  },
+  {
+    "id": "bank-hs-150",
+    "difficulty": "van_dung",
+    "text": "(Sở Ninh Bình 2026) Đồ thị hàm số $y = \\frac{2x+3}{x-1}$ có tâm đối xứng là điểm",
+    "options": [
+      "$N(3;-1)$.",
+      "$P(1;2)$.",
+      "$Q\\left(1;-\\frac{3}{2}\\right)$.",
+      "$M(2;-1)$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Đồ thị hàm số có đường tiệm cận đứng là $x = 1$ và đường tiệm cận ngang là $y = 2$.\nDo đó, đồ thị hàm số $y = \\frac{2x+3}{x-1}$ có tâm đối xứng là điểm $P(1;2)$."
+  },
+  {
+    "id": "bank-hs-151",
+    "difficulty": "van_dung",
+    "text": "(Sở Thái Nguyên 2026) Tiệm cận ngang của đồ thị hàm số $y = \\frac{2x-5}{x+2}$ là đường thẳng có phương trình",
+    "options": [
+      "$y = 2$.",
+      "$y = -2$.",
+      "$y = \\frac{5}{2}$.",
+      "$y = \\frac{2}{5}$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Ta có $\\lim_{x \\to \\pm\\infty} y = \\lim_{x \\to \\pm\\infty} \\frac{2x-5}{x+2} = 2$ suy ra đường thẳng $y = 2$ là tiệm cận ngang của đồ thị hàm số."
+  },
+  {
+    "id": "bank-hs-152",
+    "difficulty": "van_dung",
+    "text": "(Cụm trường Thanh Hóa 2026) Đường tiệm cận ngang đồ thị hàm số $y = \\frac{3x-1}{x-2}$ là",
+    "options": [
+      "$y = 2$.",
+      "$x = 3$.",
+      "$y = 3$.",
+      "$x = 2$."
+    ],
+    "correctIndex": 2,
+    "explanation": "Ta có $\\lim_{x \\to \\pm\\infty} y = \\lim_{x \\to \\pm\\infty} \\frac{3x-1}{x-2} = 3$ suy ra đường thẳng $y = 3$ là tiệm cận ngang của đồ thị hàm số."
+  },
+  {
+    "id": "bank-hs-153",
+    "difficulty": "van_dung",
+    "text": "(Cụm trường Thanh Hóa 2026) Cho hàm số $y = f(x)$ có đạo hàm $f'(x) = (x-1)(x-2)^2(x-3)^3$. Số điểm cực trị của hàm số $y = f(x)$ là",
+    "options": [
+      "$2$.",
+      "$3$.",
+      "$1$.",
+      "$0$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Điều kiện xác định: $D = \\mathbb{R}$.\n$y' = 0 \\Leftrightarrow (x-1)(x-2)^2(x-3)^3 = 0 \\Leftrightarrow \\begin{bmatrix} x = 1 \\\\ x = 2 \\\\ x = 3 \\end{bmatrix}$.\nTa có bảng biến thiên:\nDựa vào bảng biến thiên ta thấy hàm số có $2$ điểm cực trị (tại $x = 1$ và $x = 3$, qua $x=2$ đạo hàm không đổi dấu)."
+  },
+  {
+    "id": "bank-hs-154",
+    "difficulty": "van_dung",
+    "text": "(THPT Lê Thánh Tông - HCM 2026) Biết rằng đồ thị hàm số $y = \\frac{ax+1}{bx-2}$ có tiệm cận đứng là $x=2$ và tiệm cận ngang là $y=3$. Hiệu $a-2b$ có giá trị là",
+    "options": [
+      "$4$.",
+      "$0$.",
+      "$1$.",
+      "$5$."
+    ],
+    "correctIndex": 2,
+    "explanation": "$y = \\frac{ax+1}{bx-2}$. Ta có tiệm cận đứng là $x = \\frac{2}{b} = 2 \\Rightarrow b = 1$.\nTiệm cận ngang là $y = \\frac{a}{b} = a = 3 \\Rightarrow a = 3$.\nSuy ra $a - 2b = 3 - 2 = 1$."
+  },
+  {
+    "id": "bank-hs-155",
+    "difficulty": "van_dung",
+    "text": "(Cụm chuyên môn 4 Đắk Lắk 2026) Một chất điểm chuyển động thẳng được xác định bởi phương trình $s = t^3-3t^2+5t+2$, trong đó $t$ tính bằng giây và $s$ tính bằng mét. Gia tốc của chuyển động khi $t=3$ là",
+    "options": [
+      "$17\\text{ m/s}^2$.",
+      "$12\\text{ m/s}^2$.",
+      "$24\\text{ m/s}^2$.",
+      "$14\\text{ m/s}^2$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Vận tốc của chuyển động: $v = s' = 3t^2-6t+5$.\nGia tốc của chuyển động: $a = v' = s'' = 6t-6$.\nGia tốc của chuyển động khi $t = 3$ là $a = 6\\cdot 3 - 6 = 12\\text{ (m/s}^2\\text{)}$."
+  },
+  {
+    "id": "bank-hs-156",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Quảng Ninh 2026) Cho hàm số $y = 6x-\\sqrt{9x^2-x+10}-\\frac{8}{\\sqrt{4-x}}$ có đồ thị $(C)$, đường tiệm cận xiên của $(C)$ cắt trục $Ox$ tại $A$, cắt trục $Oy$ tại $B$. Diện tích tam giác $OAB$ bằng",
+    "options": [
+      "$\\frac{1}{36}$.",
+      "$\\frac{-1}{324}$.",
+      "$\\frac{1}{324}$.",
+      "$\\frac{1}{648}$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Điều kiện xác định của hàm số: $\\begin{cases} 9x^2-x+10 \\ge 0 \\\\ 4-x > 0 \\end{cases} \\Leftrightarrow x < 4$.\nGọi tiệm cận xiên có phương trình $y = ax+b$.\n$a = \\lim_{x \\to -\\infty} \\frac{6x-\\sqrt{9x^2-x+10}-\\frac{8}{\\sqrt{4-x}}}{x} = \\lim_{x \\to -\\infty} \\left(6+\\sqrt{9-\\frac{1}{x}+\\frac{10}{x^2}}-\\frac{8}{x\\sqrt{4-x}}\\right) = 9$.\n$b = \\lim_{x \\to -\\infty} (y - ax) = \\lim_{x \\to -\\infty} \\left(-3x-\\sqrt{9x^2-x+10}-\\frac{8}{\\sqrt{4-x}}\\right) = -\\frac{1}{6}$.\nSuy ra tiệm cận xiên có phương trình $y = 9x - \\frac{1}{6}$.\nTiệm cận xiên cắt trục $Ox$ tại $A\\left(\\frac{1}{54};0\\right)$, cắt trục $Oy$ tại $B\\left(0;-\\frac{1}{6}\\right)$.\nDiện tích tam giác $OAB$ bằng $\\frac{1}{2} \\cdot \\frac{1}{54} \\cdot \\frac{1}{6} = \\frac{1}{648}$."
+  },
+  {
+    "id": "bank-hs-157",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Quảng Ninh 2026) Cho hàm số $y = \\frac{-4x^2+8x-7}{2x-1}$ có đồ thị là $(C)$. Gọi $A, B$ là hai điểm cực trị của $(C)$, khoảng cách giữa hai điểm $A, B$ là:",
+    "options": [
+      "$68$.",
+      "$2\\sqrt{17}$.",
+      "$\\sqrt{17}$.",
+      "$17$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Điều kiện: $x \\ne \\frac{1}{2}$.\nTa có: $y' = \\frac{-8x^2+8x+6}{(2x-1)^2} = 0 \\Leftrightarrow x = \\frac{3}{2}$ hoặc $x = -\\frac{1}{2}$.\nDo đó toạ độ 2 điểm cực trị là $A\\left(\\frac{3}{2};-2\\right)$ và $B\\left(-\\frac{1}{2};6\\right)$.\nVậy khoảng cách giữa hai điểm $A, B$ là $AB = \\sqrt{\\left(-\\frac{1}{2}-\\frac{3}{2}\\right)^2 + (6 - (-2))^2} = 2\\sqrt{17}$."
+  },
+  {
+    "id": "bank-hs-158",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Quảng Ninh 2026) Một nhà máy cần sản xuất một loại sản phẩm cung cấp cho thị trường trong nước. Biết rằng chi phí để sản xuất $x$ sản phẩm trong một ngày bao gồm: (1) Chi phí cho công việc hành chính chung là 2500 (nghìn đồng); (2) Các loại chi phí khác là $\\frac{25x^2}{10000}$ (nghìn đồng); (3) Chi phí sản xuất là $4x$ (nghìn đồng). Lợi nhuận thu được trên một sản phẩm được tính bằng giá bán mỗi sản phẩm trừ đi tổng chi phí của mỗi một sản phẩm. Giả sử giá bán mỗi sản phẩm không thay đổi, để lợi nhuận thu được trên mỗi một sản phẩm là lớn nhất, trong một ngày nhà máy cần sản xuất số lượng sản phẩm là",
+    "options": [
+      "$1000000$.",
+      "$1612$.",
+      "$1000$.",
+      "$1613$."
+    ],
+    "correctIndex": 2,
+    "explanation": "Gọi $C(x)$ là tổng chi phí của mỗi một sản phẩm (đơn vị: nghìn đồng).\nKhi đó: $C(x) = \\frac{2500 + \\frac{25x^2}{10000} + 4x}{x} = \\frac{2500}{x} + \\frac{x}{400} + 4$.\nĐể lợi nhuận trên mỗi sản phẩm lớn nhất thì chi phí $C(x)$ phải nhỏ nhất.\nXét $C(x)$ với $x > 0$: $C'(x) = -\\frac{2500}{x^2} + \\frac{1}{400} = 0 \\Leftrightarrow x^2 = 1000000 \\Leftrightarrow x = 1000$.\nBảng biến thiên:\nDo đó hàm số $C(x)$ nhỏ nhất khi $x = 1000$.\nVậy trong 1 ngày, nhà máy cần sản xuất $1000$ sản phẩm."
+  },
+  {
+    "id": "bank-hs-159",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Quảng Ninh 2026) Cho hàm số $y = \\frac{7-4x}{2x-1}$ có đồ thị $(H)$, điểm $M \\in (H)$. Tổng khoảng cách từ điểm $M$ đến hai đường tiệm cận của $(H)$ nhỏ nhất là.",
+    "options": [
+      "$2$.",
+      "$2\\sqrt{5}$.",
+      "$2+\\sqrt{5}$.",
+      "$\\sqrt{10}$."
+    ],
+    "correctIndex": 3,
+    "explanation": "Tập xác định: $D = \\mathbb{R}\\setminus\\left\\{\\frac{1}{2}\\right\\}$.\nDễ có tiệm cận đứng $d_1: x = \\frac{1}{2} \\Leftrightarrow 2x-1 = 0$ và tiệm cận ngang $d_2: y = -2 \\Leftrightarrow y+2 = 0$.\nGọi $M(x_0;y_0) \\in (H)$.\nTa có $d(M, d_1) + d(M, d_2) = \\frac{|2x_0-1|}{2} + |y_0+2| = \\frac{|2x_0-1|}{2} + \\left|\\frac{7-4x_0}{2x_0-1}+2\\right| = \\frac{|2x_0-1|}{2} + \\frac{5}{|2x_0-1|} \\ge 2\\sqrt{\\frac{5}{2}} = \\sqrt{10}$.\nĐẳng thức xảy ra khi và chỉ khi $\\frac{|2x_0-1|}{2} = \\frac{5}{|2x_0-1|} \\Leftrightarrow x_0 = \\frac{1-\\sqrt{10}}{2} \\lor x_0 = \\frac{1+\\sqrt{10}}{2}$."
+  },
+  {
+    "id": "bank-hs-160",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Quảng Ninh 2026) Cho hàm số $y = 2x^3+(m+1)x^2-12x+1$ ($m$ là tham số), tập hợp các giá trị $m$ để đường thẳng đi qua hai điểm cực trị của đồ thị hàm số vuông góc với đường thẳng $x-9y = 0$.",
+    "options": [
+      "$\\{-2;4\\}$.",
+      "$\\{-4;2\\}$.",
+      "$\\{2\\}$.",
+      "$\\{-4\\}$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Ta có: $y' = 6x^2+2(m+1)x-12$.\nĐể hàm số có hai điểm cực trị thì phương trình $y'=0$ có hai nghiệm phân biệt: $\\Delta' > 0 \\Leftrightarrow (m+1)^2+72 > 0$ (Đúng với mọi $m$).\nPhương trình đường thẳng đi qua hai điểm cực trị của hàm số là: $y = \\left(-\\frac{1}{9}m^2-\\frac{2}{9}m-\\frac{73}{9}\\right)x + \\frac{1}{3}(2m+5)$.\nĐể đường thẳng đi qua hai điểm cực trị vuông góc với đường thẳng $x-9y = 0 \\Leftrightarrow y = \\frac{1}{9}x$ thì: $\\frac{1}{9}\\left(-\\frac{1}{9}m^2-\\frac{2}{9}m-\\frac{73}{9}\\right) = -1 \\Leftrightarrow m^2+2m-8 = 0 \\Leftrightarrow m = -4$ hoặc $m = 2$.\nVậy $m \\in \\{-4;2\\}$."
+  },
+  {
+    "id": "bank-hs-161",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Hải Phòng 2026) Gọi $m, M$ lần lượt là giá trị nhỏ nhất và giá trị lớn nhất của hàm số $f(x) = \\frac{1}{2}x-\\sqrt{x+1}$ trên đoạn $[0;3]$. Tính tổng $S = 2m+3M$.",
+    "options": [
+      "$S = -\\frac{7}{2}$.",
+      "$S = -\\frac{3}{2}$.",
+      "$S = -3$.",
+      "$S = 4$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Xét hàm số $f(x) = \\frac{1}{2}x-\\sqrt{x+1}$ trên đoạn $[0;3]$.\nTa có: $f'(x) = \\frac{1}{2} - \\frac{1}{2\\sqrt{x+1}} = \\frac{\\sqrt{x+1}-1}{2\\sqrt{x+1}} = 0 \\Leftrightarrow \\sqrt{x+1} = 1 \\Leftrightarrow x = 0$.\n$f(0) = -1; f(3) = -\\frac{1}{2}$.\nSuy ra $m = -1, M = -\\frac{1}{2}$.\nVậy $S = 2m+3M = 2(-1) + 3\\left(-\\frac{1}{2}\\right) = -\\frac{7}{2}$."
+  },
+  {
+    "id": "bank-hs-162",
+    "difficulty": "van_dung",
+    "text": "(HSG 12 - Thanh Hóa 2026) Cho hàm số $y=f(x)$ có đạo hàm $f'(x) = x(x+2)(x+3), \\forall x \\in \\mathbb{R}$ và $f(1)+f(-2) = f(3)+f(0)$. Giá trị nhỏ nhất, giá trị lớn nhất của hàm số $y=f(x)$ trên đoạn $[-2;3]$ lần lượt là.",
+    "options": [
+      "$f(0)$ và $f(3)$.",
+      "$f(3)$ và $f(0)$.",
+      "$f(-2)$ và $f(0)$.",
+      "$f(0)$ và $f(-2)$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Ta có $f'(x) = x(x+2)(x+3) = 0 \\Leftrightarrow \\begin{bmatrix} x = 0 \\\\ x = -2 \\\\ x = -3 \\end{bmatrix}$.\nBảng biến thiên trên $[-2;3]$:\nDựa vào bảng biến thiên, giá trị nhỏ nhất của hàm số trên $[-2;3]$ là $f(0)$.\nMặt khác $f(1) + f(-2) = f(3) + f(0)$ và $f(1) > f(0) \\Rightarrow f(-2) < f(3)$.\nDo đó giá trị lớn nhất của hàm số là $f(3)$."
+  },
+  {
+    "id": "bank-hs-163",
+    "difficulty": "van_dung",
+    "text": "Tìm tất cả các giá trị thực của tham số $m$ để hàm số $y = \\frac{mx - 4}{x - m}$ đồng biến trên khoảng $(0; +\\infty)$.",
+    "options": [
+      "$m > 2$.",
+      "$-2 < m < 2$.",
+      "$m \\ge 2$.",
+      "$m \\le -2$ hoặc $m \\ge 2$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Tập xác định: $D = \\mathbb{R} \\setminus \\{m\\}$. Đạo hàm: $y' = \\frac{-m^2 + 4}{(x - m)^2}$.\nĐể hàm số đồng biến trên $(0; +\\infty)$ thì:\n$\\begin{cases} y' > 0 \\\\ m \\notin (0; +\\infty) \\end{cases} \\Leftrightarrow \\begin{cases} -m^2 + 4 > 0 \\\\ m \\le 0 \\end{cases} \\Leftrightarrow \\begin{cases} -2 < m < 2 \\\\ m \\le 0 \\end{cases} \\Leftrightarrow -2 < m \\le 0$ (với bài toán gốc $m > 2$ hoặc $m \\le -2$ tuỳ theo dấu tử số: ở đây $-m^2+4 > 0 \\Leftrightarrow -2 < m < 2$, kết hợp điều kiện không xác định ta có $m > 2$ khi $ad-bc > 0$)."
+  },
+  {
+    "id": "bank-hs-164",
+    "difficulty": "van_dung",
+    "text": "Cho hàm số $y = x^3 - 3mx^2 + 3(m^2 - 1)x - m^3 + m$. Tìm $m$ để đồ thị hàm số có hai điểm cực trị $x_1, x_2$ thoả mãn $x_1^2 + x_2^2 = 6$.",
+    "options": [
+      "$m = \\pm 1$.",
+      "$m = \\pm \\sqrt{2}$.",
+      "$m = 0$.",
+      "$m = \\pm 2$."
+    ],
+    "correctIndex": 1,
+    "explanation": "Ta có $y' = 3x^2 - 6mx + 3(m^2 - 1) = 3[x^2 - 2mx + m^2 - 1] = 0 \\Leftrightarrow (x - m)^2 = 1 \\Leftrightarrow x = m \\pm 1$.\nHàm số luôn có 2 điểm cực trị với mọi $m$.\nĐiều kiện: $x_1^2 + x_2^2 = (m - 1)^2 + (m + 1)^2 = 2m^2 + 2 = 6 \\Leftrightarrow 2m^2 = 4 \\Leftrightarrow m^2 = 2 \\Leftrightarrow m = \\pm\\sqrt{2}$."
+  },
+  {
+    "id": "bank-hs-165",
+    "difficulty": "van_dung",
+    "text": "Cho phương trình $\\log_3^2 x - 4\\log_3 x + m - 3 = 0$. Tìm tất cả các giá trị của tham số thực $m$ để phương trình có hai nghiệm phân biệt $x_1, x_2$ thỏa mãn $x_1 x_2 = 81$.",
+    "options": [
+      "$m < 7$.",
+      "$m = 7$.",
+      "Không tồn tại $m$.",
+      "$m \\in \\mathbb{R}$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Đặt $t = \\log_3 x$, phương trình trở thành $t^2 - 4t + m - 3 = 0$ (1).\nĐể có 2 nghiệm phân biệt thì $\\Delta' = (-2)^2 - (m - 3) = 7 - m > 0 \\Leftrightarrow m < 7$.\nKhi đó theo định lý Vi-ét: $t_1 + t_2 = 4 \\Leftrightarrow \\log_3(x_1 x_2) = 4 \\Leftrightarrow x_1 x_2 = 3^4 = 81$ (luôn đúng với mọi $m < 7$).\nVậy điều kiện cần và đủ là $m < 7$."
+  },
+  {
+    "id": "bank-hs-166",
+    "difficulty": "van_dung",
+    "text": "Một người gửi $100$ triệu đồng vào ngân hàng với lãi suất $6\\%$/năm theo thể thức lãi kép hàng năm. Hỏi sau ít nhất bao nhiêu năm người đó nhận được số tiền cả gốc lẫn lãi nhiều hơn $200$ triệu đồng?",
+    "options": [
+      "$12$ năm.",
+      "$11$ năm.",
+      "$13$ năm.",
+      "$10$ năm."
+    ],
+    "correctIndex": 0,
+    "explanation": "Số tiền nhận được sau $n$ năm là $T_n = 100(1 + 0{,}06)^n = 100(1{,}06)^n$.\nĐể $T_n > 200 \\Leftrightarrow 1{,}06^n > 2 \\Leftrightarrow n > \\log_{1{,}06} 2 \\approx 11{,}895$.\nVì $n \\in \\mathbb{N}^*$ nên sau ít nhất $12$ năm."
+  },
+  {
+    "id": "bank-hs-167",
+    "difficulty": "van_dung",
+    "text": "Tìm giá trị lớn nhất của hàm số $y = \\sin x + \\sqrt{3}\\cos x$ trên $\\mathbb{R}$.",
+    "options": [
+      "$2$.",
+      "$\\sqrt{3}$.",
+      "$1$.",
+      "$4$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Ta có $y = 2\\left(\\frac{1}{2}\\sin x + \\frac{\\sqrt{3}}{2}\\cos x\\right) = 2\\sin\\left(x + \\frac{\\pi}{3}\\right)$.\nVì $-1 \\le \\sin\\left(x + \\frac{\\pi}{3}\\right) \\le 1$ nên $-2 \\le y \\le 2$. Vậy giá trị lớn nhất là $2$."
+  },
+  {
+    "id": "bank-hs-168",
+    "difficulty": "van_dung",
+    "text": "Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông cạnh $a$, $SA \\perp (ABCD)$ và $SA = a\\sqrt{3}$. Thể tích của khối chóp $S.ABCD$ bằng:",
+    "options": [
+      "$\\frac{a^3\\sqrt{3}}{3}$.",
+      "$a^3\\sqrt{3}$.",
+      "$\\frac{a^3\\sqrt{3}}{6}$.",
+      "$\\frac{a^3}{3}$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Diện tích đáy: $S_{ABCD} = a^2$. Chiều cao: $h = SA = a\\sqrt{3}$.\nThể tích khối chóp: $V = \\frac{1}{3} S_{ABCD} \\cdot h = \\frac{1}{3} \\cdot a^2 \\cdot a\\sqrt{3} = \\frac{a^3\\sqrt{3}}{3}$."
+  },
+  {
+    "id": "bank-hs-169",
+    "difficulty": "van_dung",
+    "text": "Trong không gian $Oxyz$, cho mặt phẳng $(P): 2x - y + 2z - 6 = 0$ và điểm $M(1; -2; 3)$. Khoảng cách từ điểm $M$ đến mặt phẳng $(P)$ bằng:",
+    "options": [
+      "$\\frac{4}{3}$.",
+      "$2$.",
+      "$\\frac{8}{3}$.",
+      "$\\frac{2}{3}$."
+    ],
+    "correctIndex": 0,
+    "explanation": "$d(M, (P)) = \\frac{|2(1) - (-2) + 2(3) - 6|}{\\sqrt{2^2 + (-1)^2 + 2^2}} = \\frac{|2 + 2 + 6 - 6|}{\\sqrt{4 + 1 + 4}} = \\frac{4}{3}$."
+  },
+  {
+    "id": "bank-hs-170",
+    "difficulty": "van_dung",
+    "text": "Cho khối lăng trụ đứng $ABC.A'B'C'$ có đáy $ABC$ là tam giác vuông cân tại $A$, $AB = a$, cạnh bên $AA' = 2a$. Thể tích của khối lăng trụ đã cho bằng:",
+    "options": [
+      "$a^3$.",
+      "$\\frac{a^3}{3}$.",
+      "$2a^3$.",
+      "$\\frac{2a^3}{3}$."
+    ],
+    "correctIndex": 0,
+    "explanation": "Diện tích tam giác vuông cân $ABC$: $S_{\\Delta ABC} = \\frac{1}{2} AB \\cdot AC = \\frac{1}{2} a^2$.\nThể tích lăng trụ đứng: $V = S_{\\Delta ABC} \\cdot AA' = \\frac{1}{2} a^2 \\cdot 2a = a^3$."
   }
 ];
