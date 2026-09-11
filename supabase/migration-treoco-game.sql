@@ -58,3 +58,9 @@ create policy treoco_state_update on public.treoco_state
   for update to authenticated
   using (user_id = (select auth.uid()))
   with check (user_id = (select auth.uid()));
+
+-- Cập nhật tất cả tài khoản đang có 30 vé (từ bản test) về chuẩn 3 vé khởi đầu
+update public.treoco_state
+set turns = 3
+where turns = 30 or (turns >= 25 and wins = 0);
+

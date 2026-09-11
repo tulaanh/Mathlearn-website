@@ -96,6 +96,15 @@ export async function ensureTreocoRow(supabase: SupabaseClient, userId: string):
 
     if (!selectError && existing) {
       const row = existing as unknown as TreocoRow;
+      // Chuẩn hóa nếu tài khoản đang dính 30 vé từ bản test
+      if (row.turns === 30 || (row.turns !== null && row.turns >= 25 && (row.wins || 0) === 0)) {
+        row.turns = 3;
+        try {
+          await supabase.from("treoco_state").update({ turns: 3 }).eq("user_id", userId);
+        } catch {
+          // ignore error
+        }
+      }
       memoryTreocoState.set(userId, row);
       return row;
     }
@@ -104,7 +113,7 @@ export async function ensureTreocoRow(supabase: SupabaseClient, userId: string):
       // Chưa có dòng → tạo mới với default
       const { data: inserted, error: insertError } = await supabase
         .from("treoco_state")
-        .insert({ user_id: userId })
+        .insert({ user_id: userId, turns: 3 })
         .select(TREOCO_COLUMNS)
         .maybeSingle();
       if (!insertError && inserted) {
@@ -125,7 +134,7 @@ export async function ensureTreocoRow(supabase: SupabaseClient, userId: string):
       word_key: null,
       revealed_letters: [],
       wrong_letters: [],
-      turns: 30,
+      turns: 3,
       status: "playing",
       next_question_at: new Date().toISOString(),
       jar_difficulties: shuffleJarDifficulties(),
@@ -153,7 +162,7 @@ export async function saveTreocoActiveState(
       word_key: null,
       revealed_letters: [],
       wrong_letters: [],
-      turns: 30,
+      turns: 3,
       status: "playing",
       next_question_at: new Date().toISOString(),
       jar_difficulties: shuffleJarDifficulties(),

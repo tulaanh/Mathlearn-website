@@ -141,8 +141,8 @@ export type TreocoState = {
   completedCakes: Record<string, number>;
 };
 
-/** Số lượt khởi đầu cho mỗi từ mới (đang set 30 để test thoải mái). */
-export const TREOCO_START_TURNS = 30;
+/** Số lượt khởi đầu cho mỗi từ mới (chuẩn 3 vé). */
+export const TREOCO_START_TURNS = 3;
 /** Số lần đoán sai tối đa trước khi thua. */
 export const TREOCO_MAX_WRONG = 6;
 /** Hồi chiếu sau khi trả lời ĐÚNG (ms). */
@@ -164,7 +164,7 @@ export function getTreocoStorageKey(userId?: string | null): string {
   return userId ? `${STORAGE_KEY_PREFIX}-${userId}` : STORAGE_KEY_PREFIX;
 }
 
-/** Trạng thái mặc định: từ ngẫu nhiên, 30 lượt, 1 vé quay trải nghiệm, khay bánh trống. */
+/** Trạng thái mặc định: từ ngẫu nhiên, 3 lượt, 1 vé quay trải nghiệm, khay bánh trống. */
 export function defaultTreocoState(now = new Date()): TreocoState {
   return {
     wordKey: randomTreocoWordKey(),
@@ -203,11 +203,18 @@ export function normalizeTreocoState(raw: Partial<TreocoState> | null | undefine
     }
   }
 
+  const rawTurns = Math.max(0, Math.floor(Number(raw?.turns ?? TREOCO_START_TURNS)) || 0);
+  // Nếu dữ liệu cũ mang 30 lượt test (hoặc >= 25 do rơi rớt từ bản test 30 vé), tự động đưa về chuẩn 3 vé
+  const safeTurns =
+    rawTurns === 30 || (rawTurns >= 25 && Object.keys(completedCakes).length === 0 && (raw?.wins ?? 0) === 0)
+      ? TREOCO_START_TURNS
+      : rawTurns;
+
   return {
     wordKey,
     revealedLetters: Array.isArray(raw?.revealedLetters) ? raw.revealedLetters.filter((c) => typeof c === "string") : [],
     wrongLetters: Array.isArray(raw?.wrongLetters) ? raw.wrongLetters.filter((c) => typeof c === "string") : [],
-    turns: Math.max(0, Math.floor(Number(raw?.turns ?? TREOCO_START_TURNS)) || 0),
+    turns: safeTurns,
     status: raw?.status === "won" || raw?.status === "lost" ? raw.status : "playing",
     nextQuestionAt: raw?.nextQuestionAt || now,
     wins: Math.max(0, Math.floor(Number(raw?.wins ?? 0)) || 0),
