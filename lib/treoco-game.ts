@@ -187,7 +187,7 @@ export async function saveTreocoActiveState(
 }
 
 /** Chuyển câu trắc nghiệm ngân hàng (content jsonb) thành câu hỏi game. */
-function bankQuestionToTreocoCauHoi(
+export function bankQuestionToTreocoCauHoi(
   row: { id: string; text: string; content: unknown; difficulty: string },
   difficulty: QuestionDifficulty,
 ): TreocoCauHoi | null {

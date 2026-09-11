@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import MooncakeIcon, { getMooncakeSrc } from "./MooncakeIcon";
 import { LAM_THUY_MOONCAKES } from "@/lib/treoco-state";
 import LazyMathText from "@/components/LazyMathText";
+import { resolveQuestionImageSrc } from "@/lib/document-preview";
 import { NGAN_HANG_CAU_HOI_GAME } from "@/lib/treoco-bank-questions";
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 import {
@@ -224,13 +225,19 @@ export default function TreoCoLuckyWheel({
   const [challengeResult, setChallengeResult] = useState<"playing" | "correct" | "wrong" | "timeout">("playing");
   const [challengeSelectedIndex, setChallengeSelectedIndex] = useState<number | null>(null);
   const [currentChallengePrize, setCurrentChallengePrize] = useState<WheelPrize | null>(null);
+  const prefetchedQuestionRef = useRef<TreocoCauHoi | null>(null);
 
   const startMathChallenge = (prize: WheelPrize) => {
     setCurrentChallengePrize(prize);
-    const pool = NGAN_HANG_CAU_HOI_GAME.filter(
-      (q) => q.difficulty === "nhan_biet" || q.difficulty === "thong_hieu"
-    );
-    const selected = pool[Math.floor(Math.random() * pool.length)] || NGAN_HANG_CAU_HOI_GAME[0];
+
+    // Ưu tiên câu hỏi đã tải trực tiếp từ ngân hàng đề thi CSDL Supabase
+    let selected = prefetchedQuestionRef.current;
+    if (!selected) {
+      const pool = NGAN_HANG_CAU_HOI_GAME.filter(
+        (q) => q.difficulty === "nhan_biet" || q.difficulty === "thong_hieu",
+      );
+      selected = pool[Math.floor(Math.random() * pool.length)] || NGAN_HANG_CAU_HOI_GAME[0];
+    }
     setChallengeQuestion(selected);
     setChallengeSecondsLeft(60);
     setChallengeSelectedIndex(null);
@@ -311,6 +318,21 @@ export default function TreoCoLuckyWheel({
       rand -= WHEEL_PRIZES[i].weight;
     }
     const prize = WHEEL_PRIZES[prizeIndex];
+
+    // Nếu kết quả rơi vào Thử thách Toán 60s, tải câu hỏi trực tiếp từ CSDL Supabase trong lúc bánh xe đang quay
+    prefetchedQuestionRef.current = null;
+    if (prize.type === "math_challenge") {
+      fetch("/api/tro-choi/treo-co/cau-hoi-60s")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.question) {
+            prefetchedQuestionRef.current = data.question;
+          }
+        })
+        .catch((err) => {
+          console.warn("Không kết nối được API câu hỏi 60s:", err);
+        });
+    }
 
     // 10 ô: mỗi cung 36 độ
     const sliceDeg = 360 / WHEEL_PRIZES.length;
@@ -752,6 +774,24 @@ export default function TreoCoLuckyWheel({
               <div className="text-sm sm:text-base font-medium leading-relaxed text-slate-100">
                 <LazyMathText text={challengeQuestion.text} />
               </div>
+
+              {/* Hình ảnh minh họa (nếu có trong CSDL) */}
+              {(() => {
+                const imgUrl = resolveQuestionImageSrc({
+                  imageUrl: challengeQuestion.imageUrl,
+                  imageStoragePath: challengeQuestion.imageStoragePath,
+                });
+                if (!imgUrl) return null;
+                return (
+                  <div className="mt-3 flex justify-center">
+                    <img
+                      src={imgUrl}
+                      alt={challengeQuestion.imageCaption || "Hình minh họa câu hỏi"}
+                      className="max-h-56 max-w-full rounded-xl border border-white/15 bg-white/5 object-contain p-1 shadow-md"
+                    />
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Danh sách 4 đáp án A, B, C, D */}
