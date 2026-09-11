@@ -1,7 +1,7 @@
 /**
  * Ngân hàng câu hỏi Toán học phong phú cho Mini Game Trung Thu & Thử Thách 60s.
  * - 100% gồm câu Nhận biết (Dễ) và Thông hiểu (Trung bình).
- * - Loại bỏ hoàn toàn câu Vận dụng để người chơi trải nghiệm nhanh, bảo toàn vé quay và đổi bánh.
+ * - Loại bỏ hoàn toàn câu Vận dụng và các câu Tích phân/Nguyên hàm (do học sinh chưa học tới kỳ 2).
  */
 import type { TreocoCauHoi } from "@/lib/treoco-cau-hoi-mac-dinh";
 
@@ -1138,19 +1138,6 @@ export const NGAN_HANG_CAU_HOI_GAME: TreocoCauHoi[] = [
     "explanation": "Phương trình mặt cầu tâm $I(a; b; c)$ bán kính $R$: $(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2 \\Rightarrow (x - 1)^2 + (y + 2)^2 + (z - 3)^2 = 16$."
   },
   {
-    "id": "bank-th-88",
-    "difficulty": "thong_hieu",
-    "text": "Tính tích phân $I = \\int_0^1 (2x + 1)\\,dx$.",
-    "options": [
-      "$2$",
-      "$1$",
-      "$3$",
-      "$\\frac{3}{2}$"
-    ],
-    "correctIndex": 0,
-    "explanation": "$I = \\left[ x^2 + x \\right]_0^1 = (1^2 + 1) - 0 = 2$."
-  },
-  {
     "id": "bank-th-89",
     "difficulty": "thong_hieu",
     "text": "Số giao điểm của đồ thị hàm số $y = x^3 - 3x$ và trục hoành là:",
@@ -1331,97 +1318,6 @@ export const NGAN_HANG_CAU_HOI_GAME: TreocoCauHoi[] = [
     ],
     "correctIndex": 0,
     "explanation": "Ta có: $\\log_2 x = 4 \\Leftrightarrow x = 2^4 = 16$."
-  },
-  {
-    "id": "bank-ext-nb-109",
-    "difficulty": "nhan_biet",
-    "text": "Họ tất cả các nguyên hàm của hàm số $f(x) = 3x^2$ là:",
-    "options": [
-      "$x^3 + C$.",
-      "$6x + C$.",
-      "$\\frac{x^3}{3} + C$.",
-      "$3x^3 + C$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int 3x^2 dx = 3 \\cdot \\frac{x^3}{3} + C = x^3 + C$."
-  },
-  {
-    "id": "bank-ext-nb-110",
-    "difficulty": "nhan_biet",
-    "text": "Họ tất cả các nguyên hàm của hàm số $f(x) = \\cos x$ là:",
-    "options": [
-      "$\\sin x + C$.",
-      "$-\\sin x + C$.",
-      "$\\tan x + C$.",
-      "$-\\cos x + C$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Theo bảng nguyên hàm cơ bản: $\\int \\cos x dx = \\sin x + C$."
-  },
-  {
-    "id": "bank-ext-nb-111",
-    "difficulty": "nhan_biet",
-    "text": "Nếu $\\int_1^2 f(x)dx = 3$ và $\\int_1^2 g(x)dx = 2$ thì $\\int_1^2 [f(x) + g(x)]dx$ bằng:",
-    "options": [
-      "$5$.",
-      "$1$.",
-      "$6$.",
-      "$-1$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Tính chất tích phân: $\\int_1^2 [f(x) + g(x)]dx = \\int_1^2 f(x)dx + \\int_1^2 g(x)dx = 3 + 2 = 5$."
-  },
-  {
-    "id": "bank-ext-nb-112",
-    "difficulty": "nhan_biet",
-    "text": "Họ nguyên hàm của hàm số $f(x) = e^x + 1$ là:",
-    "options": [
-      "$e^x + x + C$.",
-      "$e^x + C$.",
-      "$\\frac{e^{x+1}}{x+1} + C$.",
-      "$e^x - x + C$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int (e^x + 1) dx = \\int e^x dx + \\int 1 dx = e^x + x + C$."
-  },
-  {
-    "id": "bank-ext-nb-113",
-    "difficulty": "nhan_biet",
-    "text": "Giá trị của tích phân $\\int_0^1 2x dx$ bằng:",
-    "options": [
-      "$1$.",
-      "$2$.",
-      "$0$.",
-      "$\\frac{1}{2}$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int_0^1 2x dx = \\left. x^2 \\right|_0^1 = 1^2 - 0^2 = 1$."
-  },
-  {
-    "id": "bank-ext-nb-114",
-    "difficulty": "nhan_biet",
-    "text": "Họ nguyên hàm của hàm số $f(x) = \\frac{1}{x}$ trên $(0; +\\infty)$ là:",
-    "options": [
-      "$\\ln x + C$.",
-      "$-\\frac{1}{x^2} + C$.",
-      "$\\ln|x| + C$.",
-      "$\\frac{1}{x^2} + C$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Với $x > 0$, họ nguyên hàm của $f(x) = \\frac{1}{x}$ là $\\ln x + C$."
-  },
-  {
-    "id": "bank-ext-nb-115",
-    "difficulty": "nhan_biet",
-    "text": "Cho hàm số $f(x)$ liên tục trên đoạn $[a; b]$. Công thức tính tích phân theo định nghĩa Newton-Leibniz là:",
-    "options": [
-      "$\\int_a^b f(x)dx = F(b) - F(a)$.",
-      "$\\int_a^b f(x)dx = F(a) - F(b)$.",
-      "$\\int_a^b f(x)dx = F'(b) - F'(a)$.",
-      "$\\int_a^b f(x)dx = F(b) + F(a)$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Công thức Newton-Leibniz: $\\int_a^b f(x)dx = \\left. F(x) \\right|_a^b = F(b) - F(a)$ với $F(x)$ là một nguyên hàm của $f(x)$."
   },
   {
     "id": "bank-ext-nb-116",
@@ -1760,71 +1656,6 @@ export const NGAN_HANG_CAU_HOI_GAME: TreocoCauHoi[] = [
     ],
     "correctIndex": 0,
     "explanation": "Đặt $t = 2^x (t > 0)$, phương trình trở thành $t^2 - 3t + 2 = 0 \\Leftrightarrow t = 1$ hoặc $t = 2$.\nVới $t = 1 \\Rightarrow 2^x = 1 \\Rightarrow x = 0$.\nVới $t = 2 \\Rightarrow 2^x = 2 \\Rightarrow x = 1$.\nVậy tập nghiệm là $\\{0; 1\\}$."
-  },
-  {
-    "id": "bank-ext-th-142",
-    "difficulty": "thong_hieu",
-    "text": "Cho $\\int_0^2 f(x)dx = 4$. Giá trị của $\\int_0^2 [2f(x) - 3]dx$ bằng:",
-    "options": [
-      "$2$.",
-      "$5$.",
-      "$8$.",
-      "$-2$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int_0^2 [2f(x) - 3]dx = 2\\int_0^2 f(x)dx - \\int_0^2 3dx = 2(4) - 3(2 - 0) = 8 - 6 = 2$."
-  },
-  {
-    "id": "bank-ext-th-143",
-    "difficulty": "thong_hieu",
-    "text": "Diện tích hình phẳng giới hạn bởi đồ thị hàm số $y = x^2 - 2x$ và trục hoành bằng:",
-    "options": [
-      "$\\frac{4}{3}$.",
-      "$\\frac{2}{3}$.",
-      "$2$.",
-      "$\\frac{5}{3}$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Phương trình hoành độ giao điểm: $x^2 - 2x = 0 \\Leftrightarrow x = 0$ hoặc $x = 2$.\nDiện tích: $S = \\int_0^2 |x^2 - 2x|dx = \\int_0^2 (2x - x^2)dx = \\left. \\left(x^2 - \\frac{x^3}{3}\\right) \\right|_0^2 = 4 - \\frac{8}{3} = \\frac{4}{3}$."
-  },
-  {
-    "id": "bank-ext-th-144",
-    "difficulty": "thong_hieu",
-    "text": "Biết $\\int_1^2 \\frac{1}{2x+1}dx = \\frac{1}{a}\\ln\\frac{b}{c}$ với $a, b, c \\in \\mathbb{N}^*$ và $\\frac{b}{c}$ tối giản. Giá trị $a + b + c$ bằng:",
-    "options": [
-      "$10$.",
-      "$8$.",
-      "$9$.",
-      "$11$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int_1^2 \\frac{1}{2x+1}dx = \\left. \\frac{1}{2}\\ln(2x+1) \\right|_1^2 = \\frac{1}{2}(\\ln 5 - \\ln 3) = \\frac{1}{2}\\ln\\frac{5}{3}$.\nDo đó $a = 2, b = 5, c = 3 \\Rightarrow a + b + c = 2 + 5 + 3 = 10$."
-  },
-  {
-    "id": "bank-ext-th-145",
-    "difficulty": "thong_hieu",
-    "text": "Biết $F(x) = x^2$ là một nguyên hàm của hàm số $f(x)$ trên $\\mathbb{R}$. Giá trị của $\\int_1^2 [2 + f(x)]dx$ bằng:",
-    "options": [
-      "$5$.",
-      "$3$.",
-      "$7$.",
-      "$4$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int_1^2 [2 + f(x)]dx = \\left. 2x \\right|_1^2 + \\int_1^2 f(x)dx = 2(2 - 1) + [F(2) - F(1)] = 2 + (2^2 - 1^2) = 2 + 3 = 5$."
-  },
-  {
-    "id": "bank-ext-th-146",
-    "difficulty": "thong_hieu",
-    "text": "Giá trị của tích phân $\\int_0^1 e^{2x} dx$ bằng:",
-    "options": [
-      "$\\frac{e^2 - 1}{2}$.",
-      "$e^2 - 1$.",
-      "$\\frac{e^2}{2}$.",
-      "$2(e^2 - 1)$."
-    ],
-    "correctIndex": 0,
-    "explanation": "Ta có: $\\int_0^1 e^{2x} dx = \\left. \\frac{1}{2}e^{2x} \\right|_0^1 = \\frac{1}{2}(e^2 - e^0) = \\frac{e^2 - 1}{2}$."
   },
   {
     "id": "bank-ext-th-147",
